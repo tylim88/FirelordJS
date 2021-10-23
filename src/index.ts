@@ -7,7 +7,7 @@ import {
 import { FirelordFirestore } from './firelordFirestore'
 
 export const firelord =
-	(firestore: FirelordFirestore.firestore) =>
+	(firestore: FirelordFirestore.Firestore) =>
 	<
 		T extends {
 			colPath: string

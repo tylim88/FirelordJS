@@ -4,7 +4,7 @@
 
 [![npm](https://img.shields.io/npm/v/firelordjs)](https://www.npmjs.com/package/firelordjs) [![GitHub](https://img.shields.io/github/license/tylim88/firelordjs)](https://github.com/tylim88/firelordjs/blob/master/LICENSE) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://github.com/tylim88/firelordjs/pulls)
 
-🐤 firestore wrapper with deeper typing solution.
+🐤 firestore js wrapper with deeper typing solution.
 
 🚀 All read and write operation are typed, field path, field value, collection path, document path, all typed!
 
@@ -30,11 +30,29 @@ finally you just need to change the import
 instead of
 
 ```ts
-import { firelord, Firelord } from 'firelord' // don't do this
+// don't do this
+import { firelord, Firelord } from 'firelord'
+import { firestore } from 'firebase-admin'
+
+// create wrapper
+const wrapper = firelord(firestore)
 ```
 
 do
 
 ```ts
-import { firelord, Firelord } from 'firelordjs' // do this
+// do this
+import { firelord, Firelord } from 'firelordjs'
+import firebase from 'firebase'
+
+firebase.initializeApp({
+	apiKey: '### FIREBASE API KEY ###',
+	authDomain: '### FIREBASE AUTH DOMAIN ###',
+	projectId: '### CLOUD FIRESTORE PROJECT ID ###',
+})
+
+const firestore = firebase.firestore
+
+// create wrapper
+const wrapper = firelord(firestore)
 ```

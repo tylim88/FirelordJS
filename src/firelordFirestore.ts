@@ -1,5 +1,5 @@
 export namespace FirelordFirestore {
-	export type firestore = typeof import('firebase').default.firestore
+	export type Firestore = typeof import('firebase').default.firestore
 
 	export type FieldValue = import('firebase').default.firestore.FieldValue
 

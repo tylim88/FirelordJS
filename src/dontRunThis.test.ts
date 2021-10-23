@@ -12,6 +12,9 @@ firebase.initializeApp({
 
 const firestore = firebase.firestore
 
+// create wrapper
+const wrapper = firelord(firestore)
+
 // use base type to generate read and write type
 type User = Firelord.ReadWriteCreator<
 	{
@@ -37,7 +40,7 @@ type UserCompare = User['compare'] // {name: string, age:number, birthday:Date |
 type colPath = User['colPath']
 
 // implement wrapper
-const userCreator = firelord<User>()
+const userCreator = wrapper<User>()
 // collection reference
 const users = userCreator.col('Users') // collection path type is "Users"
 // collection group reference
@@ -58,7 +61,7 @@ type Transaction = Firelord.ReadWriteCreator<
 >
 
 // implement the wrapper
-const transactions = firelord<
+const transactions = wrapper<
 	Firelord.ReadWriteCreator<
 		{
 			amount: number
