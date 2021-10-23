@@ -12,20 +12,29 @@
 
 ✨ Api closely resemble firestore api, low learning curve.
 
+🐉 Zero dependency.
+
 ⛲️ Out of box typescript support.
 
 ## 🦙 Usage
 
-work exactly like [firelord](https://github.com/tylim88/Firelord), you just need to change the import
+This is wrapper for [firestore](https://firebase.google.com/docs/firestore/quickstart), you must use firebase version v8.x.x
+
+work exactly like [firelord](https://github.com/tylim88/Firelord), except that:
+
+1. any kind of `create` operations is not available, you can only create document using `set` or `add`
+2. no `offset`
+
+finally you just need to change the import
 
 instead of
 
 ```ts
-import { firelord, Firelord } from 'firelord'
+import { firelord, Firelord } from 'firelord' // don't do this
 ```
 
 do
 
 ```ts
-import { firelord, Firelord } from 'firelordjs'
+import { firelord, Firelord } from 'firelordjs' // do this
 ```

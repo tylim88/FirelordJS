@@ -1,7 +1,16 @@
 import { firelord } from '.'
 
 import { Firelord } from './firelord'
-import { firestore } from 'firebase-admin'
+
+import firebase from 'firebase'
+
+firebase.initializeApp({
+	apiKey: '### FIREBASE API KEY ###',
+	authDomain: '### FIREBASE AUTH DOMAIN ###',
+	projectId: '### CLOUD FIRESTORE PROJECT ID ###',
+})
+
+const firestore = firebase.firestore
 
 // use base type to generate read and write type
 type User = Firelord.ReadWriteCreator<
@@ -73,17 +82,6 @@ user.onSnapshot(snapshot => {
 
 const serverTimestamp = firestore.FieldValue.serverTimestamp()
 
-// create if only exist, else fail
-// require all members in `write type` except `updatedAt` and `createdAt`
-// auto add `createdAt` and `updatedAt`
-user.create({
-	name: 'John',
-	age: 24,
-	birthday: new Date(1995, 11, 17),
-	joinDate: serverTimestamp,
-	beenTo: ['RUSSIA'],
-})
-
 // create if not exist, else overwrite
 // although it can overwrite, this is intended to use as create
 // require all members in `write type` except `updatedAt` and `createdAt`
@@ -127,17 +125,6 @@ user.runTransaction(async transaction => {
 	// get `read type` data
 	await transaction.get().then(snapshot => {
 		const data = snapshot.data()
-	})
-
-	// create if only exist, else fail
-	// require all members in `write type` except `updatedAt` and `createdAt`
-	// auto add `createdAt` and `updatedAt`
-	await transaction.create({
-		name: 'John',
-		age: 24,
-		birthday: new Date(1995, 11, 17),
-		joinDate: serverTimestamp,
-		beenTo: ['RUSSIA'],
 	})
 
 	// create if not exist, else overwrite
@@ -250,4 +237,4 @@ users
 	})
 	.get()
 
-users.orderBy('age', 'asc', { clause: 'startAt', fieldValue: 20 }).offset(5)
+users.orderBy('age', 'asc', { clause: 'startAt', fieldValue: 20 })
