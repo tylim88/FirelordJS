@@ -16,6 +16,11 @@
 
 ⛲️ Out of box typescript support.
 
+Variants:
+
+1. [react native](https://www.npmjs.com/package/firelordrn)
+2. [nodejs](https://www.npmjs.com/package/firelord)
+
 ## 🦙 Usage
 
 This is wrapper for [firestore](https://firebase.google.com/docs/firestore/quickstart), you must use firebase version v8.x.x
