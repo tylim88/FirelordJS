@@ -72,27 +72,41 @@ export const firelord =
 						? J
 						: Compare[P] extends unknown[]
 						? 'array-contains' | 'in' | 'array-contains-any'
-						: '<' | '<=' | '==' | '!=' | '>=' | '>' | 'not-in' | 'in',
+						: '<' | '<=' | '>=' | '>' | '==' | '!=' | 'not-in' | 'in',
 					value: J extends 'not-in' | 'in'
 						? Compare[P][]
 						: J extends 'array-contains'
 						? RemoveArray<Compare[P]>
 						: Compare[P],
-					orderBy?: J extends 'in' | '='
-						? never
-						: J extends '<' | '<=' | '>' | '>=' | 'not-in'
+					orderBy?: J extends
+						| '<'
+						| '<='
+						| '>='
+						| '>'
+						| '=='
+						| 'in'
+						| '!='
+						| 'not-in'
 						? P extends RemoveArrayTypeMember
 							? {
-									fieldPath?: Q extends never
+									fieldPath: Q extends never
 										? Q
-										: J extends 'not-in'
+										: J extends '<' | '<=' | '>=' | '>'
+										? Q extends P
+											? RemoveArrayTypeMember
+											: never
+										: J extends '==' | 'in'
+										? Q extends P
+											? never
+											: RemoveArrayTypeMember
+										: J extends 'not-in' | '!='
 										? RemoveArrayTypeMember
 										: never
 									directionStr?: FirelordFirestore.OrderByDirection
 									cursor?: {
 										clause: 'startAt' | 'startAfter' | 'endAt' | 'endBefore'
 										fieldValue:
-											| Compare[J extends 'not-in' ? Q : P]
+											| Compare[J extends 'not-in' | '!=' ? Q : P]
 											| FirelordFirestore.DocumentSnapshot
 									}
 							  }
@@ -105,8 +119,7 @@ export const firelord =
 
 					const { orderBy: orderBy1, ...rest } = orderBy
 						? orderByCreator(colRefRead, ref)(
-								orderBy.fieldPath ||
-									(fieldPath as unknown as string & RemoveArrayTypeMember),
+								orderBy.fieldPath,
 								orderBy.directionStr,
 								orderBy.cursor
 						  )
