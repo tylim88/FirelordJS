@@ -145,8 +145,8 @@ export const firelord =
 					)
 				},
 				orderBy: orderByCreator(colRefRead),
-				get: () => {
-					return (query || colRefRead).get()
+				get: (options?: FirelordFirestore.GetOptions) => {
+					return (query || colRefRead).get(options)
 				},
 			}
 		}
@@ -221,15 +221,23 @@ export const firelord =
 						)
 					},
 					onSnapshot: (
-						next?: (snapshot: FirelordFirestore.DocumentSnapshot<Read>) => void,
-						error?: (error: Error) => void
+						observer: {
+							next?: (
+								snapshot: FirelordFirestore.DocumentSnapshot<Read>
+							) => void
+							error?: (error: Error) => void
+						},
+						options?: FirelordFirestore.SnapshotListenOptions
 					) => {
 						return docRead.onSnapshot(
-							snapshot => {
-								return next && next(snapshot)
-							},
-							err => {
-								return error && error(err)
+							options || { includeMetadataChanges: false },
+							{
+								next: snapshot => {
+									return observer.next && observer.next(snapshot)
+								},
+								error: err => {
+									return observer.error && observer.error(err)
+								},
 							}
 						)
 					},
@@ -271,8 +279,8 @@ export const firelord =
 							...data,
 						})
 					},
-					get: () => {
-						return docRead.get()
+					get: (options?: FirelordFirestore.GetOptions) => {
+						return docRead.get(options)
 					},
 					delete: () => docWrite.delete(),
 					batch: (batch: FirelordFirestore.WriteBatch) => {

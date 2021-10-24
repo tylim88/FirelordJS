@@ -27,6 +27,11 @@ export namespace FirelordFirestore {
 
 	export type WhereFilterOp = import('firebase').default.firestore.WhereFilterOp
 
+	export type GetOptions = import('firebase').default.firestore.GetOptions
+
+	export type SnapshotListenOptions =
+		import('firebase').default.firestore.SnapshotListenOptions
+
 	export type CreatedUpdatedWrite = {
 		createdAt: FieldValue
 		updatedAt: FieldValue

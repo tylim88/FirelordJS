@@ -6,7 +6,7 @@
 
 🐤 firestore js wrapper with deeper typing solution.
 
-🚀 All read and write operation are typed, field path, field value, collection path, document path, all typed!
+🚀 All read and write operation are typed, field path, field value, collection path, document path, everything is typed!
 
 🔥 Automatically convert base type to corresponding read and write time(good at handling timestamp and field value).
 
@@ -23,18 +23,18 @@ Variants:
 
 ## 🦙 Usage
 
-This is wrapper for [firestore](https://firebase.google.com/docs/firestore/quickstart), you must use firebase version v8.x.x
+This is wrapper for [firestore](https://firebase.google.com/docs/firestore/quickstart)(doc), you must use firebase version v8.x.x
 
 work exactly like [firelord](https://github.com/tylim88/Firelord), except that:
 
 1. any kind of `create` operations is not available, you can only create document using `set` or `add`
 2. no `offset`
-
-finally you just need to change the import
+3. more parameter for `get` and `onSnapshot`
 
 instead of
 
 ```ts
+// from firelord doc
 // don't do this
 import { firelord, Firelord } from 'firelord'
 import { firestore } from 'firebase-admin'
@@ -61,3 +61,25 @@ const firestore = firebase.firestore
 // create wrapper
 const wrapper = firelord(firestore)
 ```
+
+get and onSnapshot
+
+```ts
+// import user
+
+// options?:{source: 'default' | 'server' | 'cache'}
+user.get(options)
+
+// observer: {
+// 	next?: (
+// 		snapshot: FirelordFirestore.DocumentSnapshot<Read>
+// 	) => void
+// 	error?: (error: Error) => void
+// },
+// options?: { includeMetadataChanges: boolean }
+user.onSnapshot(observer, options)
+```
+
+no surprise here, everything is similar to firestore api
+
+the rest is exactly the same as [firelord](https://github.com/tylim88/Firelord)
