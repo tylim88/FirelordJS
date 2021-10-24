@@ -1,6 +1,6 @@
 {
 	"name": "firelordjs",
-	"version": "0.0.4",
+	"version": "0.1.0",
 	"description": "🔥 firestore js wrapper with deeper typing solution.",
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",

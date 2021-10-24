@@ -6,7 +6,7 @@ Change log
 
 -released(beta)
 
-## 0.0.9 24-Oct-2021
+## 0.1.0 24-Oct-2021
 
 - fix orderBy clause not exist when order with different field name than where clause with "==" or "in" comparator
 - fix bug, replace type "=" with "=="
