@@ -2,6 +2,10 @@
 
 Change log
 
+## 0.3.0 24-Oct-2021
+
+- support object type
+
 ## 0.2.0 24-Oct-2021
 
 - add options parameter to `get` and `onSnapshot`

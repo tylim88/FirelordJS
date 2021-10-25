@@ -29,6 +29,8 @@ export namespace FirelordFirestore {
 
 	export type GetOptions = import('firebase').default.firestore.GetOptions
 
+	export type GeoPoint = Firestore['GeoPoint']
+
 	export type SnapshotListenOptions =
 		import('firebase').default.firestore.SnapshotListenOptions
 

@@ -30,27 +30,64 @@ import { FirelordFirestore } from './firelordFirestore'
 export namespace Firelord {
 	export type ServerTimestamp = 'ServerTimestamp'
 
+	// https://javascript.plainenglish.io/using-firestore-with-more-typescript-8058b6a88674
+	type DeepKey<T, K extends keyof T> = K extends string
+		? T[K] extends
+				| FirelordFirestore.Timestamp
+				| Date
+				| FirelordFirestore.GeoPoint
+			? K
+			: T[K] extends Record<string, unknown>
+			? `${K}.${DeepKey<T[K], keyof T[K]>}`
+			: K
+		: never
+
+	type DeepKeyS<T> = DeepKey<T, keyof T>
+
+	type DeepValue<
+		T,
+		P extends DeepKeyS<T>
+	> = P extends `${infer K}.${infer Rest}`
+		? K extends keyof T
+			? Rest extends DeepKeyS<T[K]>
+				? DeepValue<T[K], Rest>
+				: never
+			: never
+		: P extends keyof T
+		? T[P]
+		: never
+
+	type FlattenObject<T extends Record<string, unknown>> = {
+		[TKey in DeepKeyS<T>]: DeepValue<T, TKey>
+	}
+
 	// https://stackoverflow.com/questions/69628967/typescript-distribute-over-union-doesnt-work-in-index-signature
 
-	type ArrayWriteConverter<A> = A extends (infer T)[]
-		? ArrayWriteConverter<T>[]
-		: A extends ServerTimestamp
+	type ArrayWriteConverter<T> = T extends (infer A)[]
+		? ArrayWriteConverter<A>[]
+		: T extends ServerTimestamp
 		? FirelordFirestore.FieldValue
-		: A extends FirelordFirestore.Timestamp | Date
+		: T extends FirelordFirestore.Timestamp | Date
 		? FirelordFirestore.Timestamp | Date
-		: A
+		: T extends FirelordFirestore.GeoPoint
+		? FirelordFirestore.GeoPoint
+		: T
 
 	type ReadConverter<T> = T extends (infer A)[]
 		? ReadConverter<A>[]
 		: T extends ServerTimestamp | Date
 		? FirelordFirestore.Timestamp
+		: T extends FirelordFirestore.GeoPoint
+		? FirelordFirestore.GeoPoint
 		: T
 
-	type CompareConverter<A> = A extends (infer T)[]
-		? CompareConverter<T>[]
-		: A extends ServerTimestamp | Date | FirelordFirestore.Timestamp
+	type CompareConverter<T> = T extends (infer P)[]
+		? CompareConverter<P>[]
+		: T extends ServerTimestamp | Date | FirelordFirestore.Timestamp
 		? FirelordFirestore.Timestamp | Date
-		: A
+		: T extends FirelordFirestore.GeoPoint
+		? FirelordFirestore.GeoPoint
+		: T
 
 	type WriteConverter<T> = T extends (infer A)[]
 		? ArrayWriteConverter<A>[] | FirelordFirestore.FieldValue
@@ -60,6 +97,8 @@ export namespace Firelord {
 		? FirelordFirestore.Timestamp | Date
 		: T extends number
 		? FirelordFirestore.FieldValue | number
+		: T extends FirelordFirestore.GeoPoint
+		? FirelordFirestore.GeoPoint
 		: T
 
 	export type ReadWriteCreator<
@@ -73,17 +112,17 @@ export namespace Firelord {
 	> = {
 		base: B
 		read: {
-			[J in keyof B]: ReadConverter<B[J]>
+			[J in keyof FlattenObject<B>]: ReadConverter<FlattenObject<B>[J]>
 		} & {
 			[index in keyof FirelordFirestore.CreatedUpdatedRead]: FirelordFirestore.CreatedUpdatedRead[index]
 		} // so it looks more explicit in typescript hint
 		write: {
-			[J in keyof B]: WriteConverter<B[J]>
+			[J in keyof FlattenObject<B>]: WriteConverter<FlattenObject<B>[J]>
 		} & {
 			[index in keyof FirelordFirestore.CreatedUpdatedWrite]: FirelordFirestore.CreatedUpdatedWrite[index]
 		} // so it looks more explicit in typescript hint
 		compare: {
-			[J in keyof B]: CompareConverter<B[J]>
+			[J in keyof FlattenObject<B>]: CompareConverter<FlattenObject<B>[J]>
 		} & {
 			[index in keyof FirelordFirestore.CreatedUpdatedCompare]: FirelordFirestore.CreatedUpdatedCompare[index]
 		} // so it looks more explicit in typescript hint
@@ -115,5 +154,18 @@ export namespace Firelord {
 	// type c = a['read']
 	// type f = a['compare']
 
-	// type d = string[] & (string | number)[]
+	// type a1 = ReadWriteCreator<
+	// 	{
+	// 		a: string | Date
+	// 		b: { c: 1; d: 2 }
+	// 	},
+	// 	string,
+	// 	string
+	// >
+
+	// type b1 = a1['write']
+	// type c1 = a1['read']
+	// type f1 = a1['compare']
+
+	// type e1 = b1['b.c']
 }
