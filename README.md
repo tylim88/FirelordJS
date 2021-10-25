@@ -23,7 +23,7 @@ Variants:
 
 ## 🦙 Usage
 
-This is wrapper for [firestore](https://firebase.google.com/docs/firestore/quickstart)(doc), you must use firebase version v8.x.x
+This is wrapper for [firestore](https://firebase.google.com/docs/firestore/quickstart), you can use firebase v8 or v9
 
 work exactly like [firelord](https://github.com/tylim88/Firelord), except that:
 
@@ -48,7 +48,13 @@ do
 ```ts
 // do this
 import { firelord, Firelord } from 'firelordjs'
+// firebase 8
 import firebase from 'firebase'
+import 'firebase/firestore'
+
+// firebase 9
+// import firebase from 'firebase/compat/app'
+// import 'firebase/compat/firestore'
 
 firebase.initializeApp({
 	apiKey: '### FIREBASE API KEY ###',

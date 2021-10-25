@@ -2,7 +2,11 @@ import { firelord } from '.'
 
 import { Firelord } from './firelord'
 
-import firebase from 'firebase'
+// import firebase from 'firebase'
+// import 'firebase/firestore'
+
+import firebase from 'firebase/compat/app' // firebase 9
+import 'firebase/compat/firestore' // firebase 9
 
 firebase.initializeApp({
 	apiKey: '### FIREBASE API KEY ###',
@@ -79,8 +83,10 @@ user.get().then(snapshot => {
 	const data = snapshot.data()
 })
 
-user.onSnapshot(snapshot => {
-	const data = snapshot.data()
+user.onSnapshot({
+	next: snapshot => {
+		const data = snapshot.data()
+	},
 })
 
 const serverTimestamp = firestore.FieldValue.serverTimestamp()
@@ -174,13 +180,18 @@ user.runTransaction(async transaction => {
 	return Promise.resolve('')
 })
 
-// the field path is the keys of the `compare type`
-// if the member value is non array, type of opStr is '<' | '<=' | '==' | '!=' | '>=' | '>' | 'not-in' | 'in'
-// if type of opStr is '<' | '<=' | '==' | '!=' | '>=' | '>', the value type is same as the member's type in `compare type`
-users.where('name', '==', 'John').get()
-// if type of opStr is 'not-in' | 'in', the value type is array of member's type in `compare type`
-users.where('name', 'in', ['John', 'Michael']).get()
+// the field path is the keys of the `compare type`(basically keyof base type plus `createdAt` and `updatedAt`)
 
+// if the member value type is array, type of `opStr` is  'in' | 'array-contains'| 'array-contains-any'
+// if type of opStr is 'array-contains', the value type is the non-array version of member's type in `compare type`
+users.where('beenTo', 'array-contains', 'USA').get()
+// if type of opStr is 'array-contains-any', the value type is same as the member's type in `compare type`
+users.where('beenTo', 'array-contains-any', ['USA']).get()
+// if type of opStr is 'in', the value type is the array of member's type in `compare type`
+users.where('beenTo', 'in', [['CANADA', 'RUSSIA']]).get()
+
+// orderBy field path only include members that is NOT array type in `compare type`
+users.orderBy('name', 'desc').limit(3).get()
 // the field path is the keys of the `compare type`
 // if the member value type is array, type of `opStr` is  'in' | 'array-contains-any'
 // if type of opStr is 'array-contains', the value type is the non-array version of member's type in `compare type`
@@ -193,51 +204,109 @@ users.where('beenTo', 'in', [['CANADA', 'RUSSIA']]).get()
 // orderBy field path only include members that is NOT array type in `compare type`
 users.orderBy('name', 'desc').limit(3).get()
 
-// you can chain `orderBy` claus with SAME field path as `where` clause if the comparator is `!=`
-users.where('age', '!=', 20).orderBy('age', 'desc').get()
-// you can chain `orderBy` claus with DIFFERENT field path as `where` clause if the comparator is `array-contains` or `array-contains-any`
+// for `array-contains` and `array-contains-any` comparators, you can chain `orderBy` claus with DIFFERENT field path
 users.where('beenTo', 'array-contains', 'USA').orderBy('age', 'desc').get()
 users
 	.where('beenTo', 'array-contains-any', ['USA', 'CHINA'])
 	.orderBy('age', 'desc')
 	.get()
 
-// You cannot order your query by any field included in an equality `==` or `in` clause
-// https://firebase.google.com/docs/firestore/query-data/order-limit-data#limitations
-users.where('age', '==', 20).orderBy('age', 'desc').get() // ERROR: Property 'orderBy' does not exist
-users.where('age', 'in', [20, 30]).orderBy('age', 'desc').get() // ERROR: Property 'orderBy' does not exist
+// for '==' | 'in' comparators:
+// no order for '==' | 'in' comparator for SAME field name
+users.where('age', '==', 20).orderBy('age', 'desc').get()
+// '==' | 'in' is order-able with DIFFERENT field name but need to use SHORTHAND form to ensure type safety
+users.where('age', '==', 20).orderBy('name', 'desc').get()
+// shorthand ensure type safety, equivalent to where('age', '>', 20).orderBy('name','desc')
+users.where('age', '==', 20, { fieldPath: 'name', directionStr: 'desc' }).get()
+// again, no order for '==' | 'in' comparator for SAME field name
+users.where('age', '==', 20, { fieldPath: 'age', directionStr: 'desc' }).get()
 
-// the first orderBy must have the same field path as `where` clause with <, <=, >, >= comparators
-// https://firebase.google.com/docs/firestore/query-data/order-limit-data#limitations
-// whenever <, <=, >, >= comparators is used, they cannot chain the first orderBy, you need to use type safe shorthand shown in example below
-users.where('age', '>', 20).orderBy('name', 'desc').get() // ERROR: Property 'orderBy' does not exist
-// this is also invalid according to firestore nor it make any sense
+// for '<' | '<=]| '>'| '>=' comparator
+// no order for '<' | '<=]| '>'| '>=' comparator for DIFFERENT field name
+users.where('age', '>', 20).orderBy('name', 'desc').get()
+// '<' | '<=]| '>'| '>=' is oder-able with SAME field name but need to use SHORTHAND form to ensure type safety
+users.where('age', '>', 20).orderBy('age', 'desc').get()
+// equivalent to where('age', '>', 20).orderBy('age','desc')
+users.where('age', '>', 20, { fieldPath: 'age', directionStr: 'desc' }).get()
+// again, no order for '<' | '<=]| '>'| '>=' comparator for DIFFERENT field name
+users.where('age', '>', 20, { fieldPath: 'name', directionStr: 'desc' }).get()
 
-// we prepare type safe shorthand to handle <, <=, >, >= comparators
-// for <, <=, >, >= comparators, the optional 4th parameter(orderBy config object) is available, else the 4th parameter's type is `never`(should not exist)
-// field value type is the corresponding field path value type in `compare type`
-users.where('age', '>', 20, {}).get() // equivalent to where('age', '>', 20).orderBy('age') or where('age', '>', 20).orderBy('age','asc')
-users.where('age', '<=', 20, { directionStr: 'desc' }).get() // equivalent to where('age', '>', 20).orderBy('age','desc')
-users
-	.where('age', '>=', 20, {
-		directionStr: 'desc',
-		cursor: { clause: 'endAt', fieldValue: 50 },
-	})
-	.get() // equivalent to where('age', '>', 20).orderBy('age','desc').endAt(50)
-
-// you of course not able to use `==` and `in` comparator in shorthand as stated in limitation
-users.where('age', '==', 20, { directionStr: 'desc' }).get() // ERROR: Argument of type '{}' is not assignable to parameter of type 'undefined'
-users.where('age', 'in', [20], { directionStr: 'desc' }).get() // ERROR: Argument of type '{}' is not assignable to parameter of type 'undefined'
-
-// for `not-in` comparator, optional `fieldPath` config member is available in the 4th parameter, (else the config member's type is `never`)
-// if `fieldPath` is undefined, it will use the same `fieldPath` as where clause
-// field value type is the corresponding field path value type in `compare type`
+// for `not-in` and `!=` comparator, you can use normal and  shorthand form for both same and different name path
+// same field path
+users.where('name', 'not-in', ['John', 'Ozai']).orderBy('name', 'desc').get()
+// different field path
+users.where('name', 'not-in', ['John', 'Ozai']).orderBy('age', 'desc').get()
+// shorthand different field path:
 users
 	.where('name', 'not-in', ['John', 'Ozai'], {
 		fieldPath: 'age',
 		directionStr: 'desc',
+	})
+	.get() // equivalent to where('name', 'not-in', ['John', 'Ozai']).orderBy('age','desc')
+// shorthand same field path:
+users
+	.where('name', 'not-in', ['John', 'Ozai'], {
+		fieldPath: 'name',
+		directionStr: 'desc',
+	})
+	.get() // equivalent to where('name', 'not-in', ['John', 'Ozai']).orderBy('name','desc')
+
+// same field path
+users.where('name', '!=', 'John').orderBy('name', 'desc').get()
+// different field path
+users.where('name', '!=', 'John').orderBy('age', 'desc').get()
+// shorthand different field path:
+users
+	.where('name', '!=', 'John', {
+		fieldPath: 'age',
+		directionStr: 'desc',
+	})
+	.get() // equivalent to where('name', '!=', 'John').orderBy('age','desc')
+// shorthand same field path:
+users
+	.where('name', '!=', 'John', {
+		fieldPath: 'name',
+		directionStr: 'desc',
+	})
+	.get() // equivalent to where('name', '!=', 'John').orderBy('name','desc')
+
+//pagination
+// field path only include members that is NOT array type in `base type`
+// field value type is the corresponding field path value type in `compare type`
+// value of cursor clause is 'startAt' | 'startAfter' | 'endAt' | 'endBefore'
+users.orderBy('age', 'asc', { clause: 'startAt', fieldValue: 20 }) // equivalent to orderBy("age").startAt(20)
+// usage with where
+users
+	.where('name', '!=', 'John')
+	.orderBy('age', 'desc', { clause: 'endAt', fieldValue: 50 })
+// equivalent to shorthand
+users
+	.where('name', '!=', 'John', {
+		fieldPath: 'age',
+		directionStr: 'desc',
 		cursor: { clause: 'endAt', fieldValue: 50 },
 	})
-	.get()
+	.get() // equivalent to where('name', '!=', 'John').orderBy('age','desc').endAt(50)
 
-users.orderBy('age', 'asc', { clause: 'startAt', fieldValue: 20 })
+// quick doc
+users.where('age', '!=', 20).orderBy('age', 'desc').get() // ok
+users.where('age', 'not-in', [20]).orderBy('age', 'desc').get() // ok
+users.where('age', '!=', 20).orderBy('beenTo', 'desc').get() // no order for array
+
+// no order for '==' | 'in' comparator for SAME field name
+users.where('age', '==', 20).orderBy('age', 'desc').get()
+// '==' | 'in' is order-able with DIFFERENT field name but need to use SHORTHAND form to ensure type safety
+users.where('age', '==', 20).orderBy('name', 'desc').get()
+// shorthand ensure type safety, equivalent to where('age', '>', 20).orderBy('name','desc')
+users.where('age', '==', 20, { fieldPath: 'name', directionStr: 'desc' }).get()
+// again, no order for '==' | 'in' comparator for SAME field name
+users.where('age', '==', 20, { fieldPath: 'age', directionStr: 'desc' }).get()
+
+// no order for '<' | '<=]| '>'| '>=' comparator for DIFFERENT field name
+users.where('age', '>', 20).orderBy('name', 'desc').get()
+// '<' | '<=]| '>'| '>=' is oder-able with SAME field name but need to use SHORTHAND form to ensure type safety
+users.where('age', '>', 20).orderBy('age', 'desc').get()
+// equivalent to where('age', '>', 20).orderBy('age','desc')
+users.where('age', '>', 20, { fieldPath: 'age', directionStr: 'desc' }).get()
+// again, no order for '<' | '<=]| '>'| '>=' comparator for DIFFERENT field name
+users.where('age', '>', 20, { fieldPath: 'name', directionStr: 'desc' }).get()

@@ -1,38 +1,44 @@
 export namespace FirelordFirestore {
-	export type Firestore = typeof import('firebase').default.firestore
+	export type Firestore = typeof import('firebase/compat/app').default.firestore
 
-	export type FieldValue = import('firebase').default.firestore.FieldValue
+	export type FieldValue =
+		import('firebase/compat/app').default.firestore.FieldValue
 
-	export type DocumentData = import('firebase').default.firestore.DocumentData
+	export type DocumentData =
+		import('firebase/compat/app').default.firestore.DocumentData
 
 	export type DocumentReference<T extends DocumentData = DocumentData> =
-		import('firebase').default.firestore.DocumentReference<T>
+		import('firebase/compat/app').default.firestore.DocumentReference<T>
 
 	export type CollectionReference<T extends DocumentData = DocumentData> =
-		import('firebase').default.firestore.CollectionReference<T>
+		import('firebase/compat/app').default.firestore.CollectionReference<T>
 
 	export type CollectionGroup<T extends DocumentData = DocumentData> = Query<T>
 
 	export type Query<T extends DocumentData = DocumentData> =
-		import('firebase').default.firestore.Query<T>
+		import('firebase/compat/app').default.firestore.Query<T>
 
 	export type DocumentSnapshot<T extends DocumentData = DocumentData> =
-		import('firebase').default.firestore.DocumentSnapshot<T>
+		import('firebase/compat/app').default.firestore.DocumentSnapshot<T>
 
-	export type Transaction = import('firebase').default.firestore.Transaction
+	export type Transaction =
+		import('firebase/compat/app').default.firestore.Transaction
 
-	export type WriteBatch = import('firebase').default.firestore.WriteBatch
+	export type WriteBatch =
+		import('firebase/compat/app').default.firestore.WriteBatch
 
 	export type OrderByDirection = 'asc' | 'desc'
 
-	export type WhereFilterOp = import('firebase').default.firestore.WhereFilterOp
+	export type WhereFilterOp =
+		import('firebase/compat/app').default.firestore.WhereFilterOp
 
-	export type GetOptions = import('firebase').default.firestore.GetOptions
+	export type GetOptions =
+		import('firebase/compat/app').default.firestore.GetOptions
 
 	export type GeoPoint = Firestore['GeoPoint']
 
 	export type SnapshotListenOptions =
-		import('firebase').default.firestore.SnapshotListenOptions
+		import('firebase/compat/app').default.firestore.SnapshotListenOptions
 
 	export type CreatedUpdatedWrite = {
 		createdAt: FieldValue
@@ -47,5 +53,6 @@ export namespace FirelordFirestore {
 		updatedAt: Timestamp
 	}
 
-	export type Timestamp = import('firebase').default.firestore.Timestamp
+	export type Timestamp =
+		import('firebase/compat/app').default.firestore.Timestamp
 }
