@@ -1,6 +1,6 @@
 import {
 	OmitKeys,
-	PartialNoImplicitUndefined,
+	PartialNoImplicitUndefinedAndNoExtraMember,
 	ExcludePropertyKeys,
 	RemoveArray,
 } from './firelord'
@@ -175,7 +175,7 @@ export const firelord =
 								? J
 								: Z extends undefined
 								? Write
-								: PartialNoImplicitUndefined<Write, J>,
+								: PartialNoImplicitUndefinedAndNoExtraMember<Write, J>,
 							options?: Z
 						) => {
 							if (options) {
@@ -195,7 +195,9 @@ export const firelord =
 							}
 						},
 						update: <J extends Partial<Write>>(
-							data: J extends never ? J : PartialNoImplicitUndefined<Write, J>
+							data: J extends never
+								? J
+								: PartialNoImplicitUndefinedAndNoExtraMember<Write, J>
 						) => {
 							return transaction.update(docWrite, { updatedAt: time, ...data })
 						},
@@ -250,9 +252,9 @@ export const firelord =
 							: Z extends undefined
 							? Write
 							: Z['merge'] extends true
-							? PartialNoImplicitUndefined<Write, J>
+							? PartialNoImplicitUndefinedAndNoExtraMember<Write, J>
 							: Z['mergeField'] extends (keyof Write)[]
-							? PartialNoImplicitUndefined<Write, J>
+							? PartialNoImplicitUndefinedAndNoExtraMember<Write, J>
 							: Write,
 						options?: Z
 					) => {
@@ -272,7 +274,9 @@ export const firelord =
 						}
 					},
 					update: <J extends Partial<Write>>(
-						data: J extends never ? J : PartialNoImplicitUndefined<Write, J>
+						data: J extends never
+							? J
+							: PartialNoImplicitUndefinedAndNoExtraMember<Write, J>
 					) => {
 						return docWrite.update({
 							updatedAt: time,
@@ -292,7 +296,9 @@ export const firelord =
 								return batch.delete(docWrite)
 							},
 							update: <J extends Partial<Write>>(
-								data: J extends never ? J : PartialNoImplicitUndefined<Write, J>
+								data: J extends never
+									? J
+									: PartialNoImplicitUndefinedAndNoExtraMember<Write, J>
 							) => {
 								return batch.update(docWrite, { updatedAt: time, ...data })
 							},
@@ -336,3 +342,9 @@ export const firelord =
 
 		return { col, colGroup }
 	}
+
+export const ozai = firelord
+
+export { flatten } from './flat'
+
+export type { Firelord } from './firelord'

@@ -4,7 +4,10 @@ Change log
 
 ## 0.3.0 24-Oct-2021
 
-- support object type
+- now support object type(important upgrade, lot of thing added)
+- now all base type members are required, no more partial
+- update and set with merge now reject data with stranger member
+- fix forgot to export type
 
 ## 0.2.0 24-Oct-2021
 

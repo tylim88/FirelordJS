@@ -1,7 +1,7 @@
 import { firelord } from '.'
 
 import { Firelord } from './firelord'
-
+import { flatten } from './flat'
 // import firebase from 'firebase'
 // import 'firebase/firestore'
 
@@ -310,3 +310,112 @@ users.where('age', '>', 20).orderBy('age', 'desc').get()
 users.where('age', '>', 20, { fieldPath: 'age', directionStr: 'desc' }).get()
 // again, no order for '<' | '<=]| '>'| '>=' comparator for DIFFERENT field name
 users.where('age', '>', 20, { fieldPath: 'name', directionStr: 'desc' }).get()
+
+type a = Firelord.ReadWriteCreator<
+	{
+		a:
+			| string
+			| Date
+			| number[]
+			| (string | number)[]
+			| (string | Date)[][]
+			| (string | number)[][][]
+	},
+	string,
+	string
+>
+
+type b = a['write']
+type c = a['read']
+type f = a['compare']
+
+type a1 = Firelord.ReadWriteCreator<
+	{
+		a: string | Date
+		b: { c: 1; d: 2 }
+	},
+	string,
+	string
+>
+
+type b1 = a1['write']
+type c1 = a1['read']
+type f1 = a1['compare']
+
+type e1 = b1['b.c']
+
+type x = Nested['read']
+type y = Nested['write']
+type z = Nested['compare']
+
+type Nested = Firelord.ReadWriteCreator<
+	{
+		a: number
+		b: { c: string }
+		d: { e: { f: Date[]; g: { h: { a: number }[] } } }
+	},
+	'Nested',
+	string
+>
+const nested = wrapper<Nested>().col('Nested')
+
+// read type, does not flatten because no need to
+type NestedRead = Nested['read'] // {a: number, b: { c: string }, d: { e: { f: FirebaseFirestore.Timestamp[], g: { h: { a: number }[] } } }	}
+
+// write type
+type NestedWrite = Nested['write'] // {a: number | FirebaseFirestore.FieldValue, "b.c": string, "d.e.f": FirebaseFirestore.FieldValue | (FirebaseFirestore.Timestamp | Date)[], "d.e.g.h": FirebaseFirestore.FieldValue | { a: number }[], createdAt: FirebaseFirestore.FieldValue, updatedAt: FirebaseFirestore.FieldValue}
+
+// compare type
+type NestedCompare = Nested['compare'] // {a: number, "b.c": string, "d.e.f": (FirebaseFirestore.Timestamp | Date)[], "d.e.g.h": FirebaseFirestore.FieldValue | { a: number }[], createdAt: Date | firestore.Timestamp, updatedAt: Date | firestore.Timestamp}
+
+const data = {
+	a: 1,
+	b: { c: 'abc' },
+	d: { e: { f: [new Date(0)], g: { h: [{ a: 123 }] } } },
+}
+
+nested.doc('123456').set(data)
+nested.doc('123456').update(data)
+nested.doc('123456').set(flatten(data, {}))
+nested.doc('123456').update(flatten(data, {}))
+
+type HasPrimitiveObject = Firelord.ReadWriteCreator<
+	{
+		a: Date
+		b: { c: string }
+		d: { e: Date }
+	},
+	'Primitive',
+	string
+>
+
+const primitive = wrapper<HasPrimitiveObject>().col('Primitive')
+
+const data1 = { a: new Date(0), b: { c: '123' }, d: { e: new Date(0) } }
+
+const flattenData = flatten(
+	data1,
+	{ a: 'a', e: 'e' } // create a mirror object (name same as value) for any property that the value is `primitive object`, in this case, it is `a` and `e`
+)
+
+primitive.doc('12345').set(flattenData)
+
+type DuplicatePropsName = Firelord.ReadWriteCreator<
+	{
+		a: Date
+		b: { a: string }
+	},
+	'Duplicate',
+	string
+>
+type read = DuplicatePropsName['read'] // never
+type write = DuplicatePropsName['write'] // never
+type compare = DuplicatePropsName['compare'] // never
+
+const duplicate = wrapper<DuplicatePropsName>().col('Duplicate')
+
+const data2 = { a: new Date(0), b: { c: '123' }, d: { e: new Date(0) } }
+
+const flattenData2 = flatten(data2)
+
+duplicate.doc('12345').set(flattenData2)

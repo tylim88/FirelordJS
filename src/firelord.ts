@@ -1,3 +1,5 @@
+import { FirelordFirestore } from './firelordFirestore'
+import { CheckObjectHasDuplicateEndName } from 'flat'
 export type OmitKeys<T, K extends keyof T> = Omit<T, K>
 
 export type RemoveArray<T extends unknown[]> = T extends (infer A)[] ? A : never
@@ -15,17 +17,17 @@ type DistributeNoUndefined<T, K> = T extends undefined
 	? 'value cannot be undefined, if this is intentional, please union undefined in base type'
 	: K
 
-export type PartialNoImplicitUndefined<
+export type PartialNoImplicitUndefinedAndNoExtraMember<
 	L extends { [index: string]: unknown },
 	T extends Partial<L>
-> = IncludeKeys<
-	{
-		[K in keyof L]: DistributeNoUndefined<L[K], T[K]>
-	},
-	keyof L & keyof T
->
-
-import { FirelordFirestore } from './firelordFirestore'
+> = keyof T extends keyof L
+	? IncludeKeys<
+			{
+				[K in keyof L]: DistributeNoUndefined<L[K], T[K]>
+			},
+			keyof L & keyof T
+	  >
+	: never
 
 export namespace Firelord {
 	export type ServerTimestamp = 'ServerTimestamp'
@@ -80,6 +82,12 @@ export namespace Firelord {
 		: T extends FirelordFirestore.GeoPoint
 		? FirelordFirestore.GeoPoint
 		: T
+	// solve "Type instantiation is excessively deep and possibly infinite" error
+	type ReadDeepConvert<T extends Record<string, unknown>> = {
+		[K in keyof T]: ReadConverter<T[K]> extends Record<string, unknown>
+			? ReadDeepConvert<ReadConverter<T[K]>>
+			: ReadConverter<T[K]>
+	}
 
 	type CompareConverter<T> = T extends (infer P)[]
 		? CompareConverter<P>[]
@@ -111,21 +119,25 @@ export namespace Firelord {
 		}
 	> = {
 		base: B
-		read: {
-			[J in keyof FlattenObject<B>]: ReadConverter<FlattenObject<B>[J]>
-		} & {
-			[index in keyof FirelordFirestore.CreatedUpdatedRead]: FirelordFirestore.CreatedUpdatedRead[index]
-		} // so it looks more explicit in typescript hint
-		write: {
-			[J in keyof FlattenObject<B>]: WriteConverter<FlattenObject<B>[J]>
-		} & {
-			[index in keyof FirelordFirestore.CreatedUpdatedWrite]: FirelordFirestore.CreatedUpdatedWrite[index]
-		} // so it looks more explicit in typescript hint
-		compare: {
-			[J in keyof FlattenObject<B>]: CompareConverter<FlattenObject<B>[J]>
-		} & {
-			[index in keyof FirelordFirestore.CreatedUpdatedCompare]: FirelordFirestore.CreatedUpdatedCompare[index]
-		} // so it looks more explicit in typescript hint
+		read: CheckObjectHasDuplicateEndName<
+			ReadDeepConvert<B> & {
+				[index in keyof FirelordFirestore.CreatedUpdatedRead]: FirelordFirestore.CreatedUpdatedRead[index]
+			}
+		> // so it looks more explicit in typescript hint
+		write: CheckObjectHasDuplicateEndName<
+			{
+				[J in keyof FlattenObject<B>]: WriteConverter<FlattenObject<B>[J]>
+			} & {
+				[index in keyof FirelordFirestore.CreatedUpdatedWrite]: FirelordFirestore.CreatedUpdatedWrite[index]
+			}
+		> // so it looks more explicit in typescript hint
+		compare: CheckObjectHasDuplicateEndName<
+			{
+				[J in keyof FlattenObject<B>]: CompareConverter<FlattenObject<B>[J]>
+			} & {
+				[index in keyof FirelordFirestore.CreatedUpdatedCompare]: FirelordFirestore.CreatedUpdatedCompare[index]
+			}
+		> // so it looks more explicit in typescript hint
 
 		colPath: E extends {
 			colPath: never
@@ -135,37 +147,4 @@ export namespace Firelord {
 			: `${E['colPath']}/${E['docPath']}/${C}`
 		docPath: D
 	}
-
-	// type a = ReadWriteCreator<
-	// 	{
-	// 		a:
-	// 			| string
-	// 			| Date
-	// 			| number[]
-	// 			| (string | number)[]
-	// 			| (string | Date)[][]
-	// 			| (string | number)[][][]
-	// 	},
-	// 	string,
-	// 	string
-	// >
-
-	// type b = a['write']
-	// type c = a['read']
-	// type f = a['compare']
-
-	// type a1 = ReadWriteCreator<
-	// 	{
-	// 		a: string | Date
-	// 		b: { c: 1; d: 2 }
-	// 	},
-	// 	string,
-	// 	string
-	// >
-
-	// type b1 = a1['write']
-	// type c1 = a1['read']
-	// type f1 = a1['compare']
-
-	// type e1 = b1['b.c']
 }
