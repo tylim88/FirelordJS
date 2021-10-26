@@ -1,5 +1,5 @@
 import { FirelordFirestore } from './firelordFirestore'
-import { CheckObjectHasDuplicateEndName } from 'flat'
+import { CheckObjectHasDuplicateEndName } from './flat'
 export type OmitKeys<T, K extends keyof T> = Omit<T, K>
 
 export type RemoveArray<T extends unknown[]> = T extends (infer A)[] ? A : never

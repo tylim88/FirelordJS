@@ -2,7 +2,11 @@
 
 Change log
 
-## 0.3.0 24-Oct-2021
+## 0.3.2 26-Oct-2021
+
+fix `CheckObjectHasDuplicateEndName` not exported bug
+
+## 0.3.0 26-Oct-2021
 
 - now support object type(important upgrade, lot of thing added)
 - now all base type members are required, no more partial
