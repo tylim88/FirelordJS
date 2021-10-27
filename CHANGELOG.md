@@ -2,7 +2,7 @@
 
 Change log
 
-## 0.6.0 27-Oct-2021
+## 0.5.0 27-Oct-2021
 
 - field value is now member of wrapper instead, this remove admin-firebase as dependency
 - solved firestore field value type unsafe issue by using masked type
