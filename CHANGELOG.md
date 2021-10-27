@@ -2,6 +2,10 @@
 
 Change log
 
+## 0.3.13 27-Oct-2021
+
+- <`offset`> and <`limit` and `limit to last`> are now guarantee to chain once.
+
 ## 0.3.12 27-Oct-2021
 
 - simplify queryCreator code
