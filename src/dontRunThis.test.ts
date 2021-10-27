@@ -91,8 +91,6 @@ user.onSnapshot({
 	},
 })
 
-const serverTimestamp = firestore.FieldValue.serverTimestamp()
-
 // create if not exist, else overwrite
 // although it can overwrite, this is intended to use as create
 // require all members in `write type` except `updatedAt` and `createdAt`
@@ -101,7 +99,7 @@ user.set({
 	name: 'John',
 	age: 24,
 	birthday: new Date(1995, 11, 17),
-	joinDate: serverTimestamp,
+	joinDate: serverTimestamp(),
 	beenTo: ['RUSSIA'],
 })
 
@@ -146,7 +144,7 @@ user.runTransaction(async transaction => {
 		name: 'John',
 		age: 24,
 		birthday: new Date(1995, 11, 17),
-		joinDate: serverTimestamp,
+		joinDate: serverTimestamp(),
 		beenTo: ['RUSSIA'],
 	})
 

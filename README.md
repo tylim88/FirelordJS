@@ -6,9 +6,13 @@
 
 🐤 Write truly scalable firestore code with complete deep typing firestore wrapper, no more typing hell in your firestore code.
 
-🚀 All read and write operation are typed, field path, field value, collection path, document path, everything is typed!
+💪🏻 handle object, array, array object, object array...and all kinds of type, regardless of the nesting level!
 
-🔥 Automatically convert base type to corresponding read and write time(good at handling timestamp and field value).
+🚀 All read and write operation are typed, query field path, field value, collection path, document path, everything is typed!
+
+🔥 Automatically convert all value type to corresponding read type, write type and compare type(good at handling timestamp and field value).
+
+✋🏻 Not only it safeguards your types, but it also stops you from making any incorrect implementation(use the wrapper incorrectly).
 
 ✨ Api closely resemble firestore api, low learning curve.
 
