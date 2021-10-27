@@ -2,6 +2,10 @@
 
 Change log
 
+## 0.4.0 27-Oct-2021
+
+- simpler solution for caveat 1 and 2,flatten no longer need 2nd argument
+
 ## 0.3.13 27-Oct-2021
 
 - <`offset`> and <`limit` and `limit to last`> are now guarantee to chain once.
