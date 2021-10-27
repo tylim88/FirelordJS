@@ -14,6 +14,8 @@
 
 ✋🏻 Not only it safeguards your types, but it also stops you from making any incorrect implementation(use the wrapper incorrectly).
 
+💥 Even Firestore Field Value(serverTimestamp, arrayRemove, arrayUnion and increment) is typed, no more terror!
+
 ✨ Api closely resemble firestore api, low learning curve.
 
 🐉 Zero dependency.
