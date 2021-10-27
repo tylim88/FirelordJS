@@ -1,6 +1,10 @@
 export namespace FirelordFirestore {
 	export type Firestore = typeof import('firebase/compat/app').default.firestore
 
+	export type FirebaseFirestore = ReturnType<
+		typeof import('firebase/compat/app').default.firestore
+	>
+
 	export type FieldValue =
 		import('firebase/compat/app').default.firestore.FieldValue
 
@@ -40,6 +44,9 @@ export namespace FirelordFirestore {
 	export type SnapshotListenOptions =
 		import('firebase/compat/app').default.firestore.SnapshotListenOptions
 
+	export type Timestamp =
+		import('firebase/compat/app').default.firestore.Timestamp
+
 	export type CreatedUpdatedWrite = {
 		createdAt: FieldValue
 		updatedAt: FieldValue
@@ -52,7 +59,4 @@ export namespace FirelordFirestore {
 		createdAt: Timestamp
 		updatedAt: Timestamp
 	}
-
-	export type Timestamp =
-		import('firebase/compat/app').default.firestore.Timestamp
 }

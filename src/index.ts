@@ -2,11 +2,12 @@ import {
 	OmitKeys,
 	PartialNoImplicitUndefinedAndNoExtraMember,
 	ExcludePropertyKeys,
-	RemoveArray,
 } from './firelord'
 import { FirelordFirestore } from './firelordFirestore'
+import { queryCreator } from './queryCreator'
+import { firelord as fl } from './index_'
 
-export const firelord =
+export const firelord: fl =
 	(firestore: FirelordFirestore.Firestore) =>
 	<
 		T extends {
@@ -24,131 +25,12 @@ export const firelord =
 		type Write = OmitKeys<T['write'], 'updatedAt' | 'createdAt'>
 		type Read = T['read']
 		type Compare = T['compare']
-		type RemoveArrayTypeMember = ExcludePropertyKeys<Compare, unknown[]>
+		type WithoutArrayTypeMember = ExcludePropertyKeys<Compare, unknown[]>
 		const time = firestore.FieldValue.serverTimestamp()
 
 		const newTime = {
 			createdAt: time,
 			updatedAt: new Date(0),
-		}
-
-		const queryCreator = (
-			colRefRead:
-				| FirelordFirestore.CollectionReference<Read>
-				| FirelordFirestore.CollectionGroup<Read>,
-			query?: FirelordFirestore.Query<Read>
-		) => {
-			const orderByCreator =
-				(
-					colRefRead:
-						| FirelordFirestore.CollectionReference<Read>
-						| FirelordFirestore.CollectionGroup<Read>,
-					query?: FirelordFirestore.Query<Read>
-				) =>
-				<P extends RemoveArrayTypeMember>(
-					fieldPath: P,
-					directionStr: FirelordFirestore.OrderByDirection = 'asc',
-					cursor?: {
-						clause: 'startAt' | 'startAfter' | 'endAt' | 'endBefore'
-						fieldValue: Compare[P] | FirelordFirestore.DocumentSnapshot
-					}
-				) => {
-					const ref = (query || colRefRead).orderBy(fieldPath, directionStr)
-
-					return queryCreator(
-						colRefRead,
-						cursor ? ref[cursor.clause](cursor.fieldValue) : ref
-					)
-				}
-
-			return {
-				where: <
-					P extends string & keyof Read,
-					J extends FirelordFirestore.WhereFilterOp,
-					Q extends RemoveArrayTypeMember
-				>(
-					fieldPath: P,
-					opStr: J extends never
-						? J
-						: Compare[P] extends unknown[]
-						? 'array-contains' | 'in' | 'array-contains-any'
-						: '<' | '<=' | '>=' | '>' | '==' | '!=' | 'not-in' | 'in',
-					value: J extends 'not-in' | 'in'
-						? Compare[P][]
-						: J extends 'array-contains'
-						? RemoveArray<Compare[P]>
-						: Compare[P],
-					orderBy?: J extends
-						| '<'
-						| '<='
-						| '>='
-						| '>'
-						| '=='
-						| 'in'
-						| '!='
-						| 'not-in'
-						? P extends RemoveArrayTypeMember
-							? {
-									fieldPath: Q extends never
-										? Q
-										: J extends '<' | '<=' | '>=' | '>'
-										? Q extends P
-											? RemoveArrayTypeMember
-											: never
-										: J extends '==' | 'in'
-										? Q extends P
-											? never
-											: RemoveArrayTypeMember
-										: J extends 'not-in' | '!='
-										? RemoveArrayTypeMember
-										: never
-									directionStr?: FirelordFirestore.OrderByDirection
-									cursor?: {
-										clause: 'startAt' | 'startAfter' | 'endAt' | 'endBefore'
-										fieldValue:
-											| Compare[J extends 'not-in' | '!=' ? Q : P]
-											| FirelordFirestore.DocumentSnapshot
-									}
-							  }
-							: never
-						: never
-				) => {
-					const ref = (query || colRefRead).where(fieldPath, opStr, value)
-
-					const queryRef = queryCreator(colRefRead, ref)
-
-					const { orderBy: orderBy1, ...rest } = orderBy
-						? orderByCreator(colRefRead, ref)(
-								orderBy.fieldPath,
-								orderBy.directionStr,
-								orderBy.cursor
-						  )
-						: queryRef
-
-					return (orderBy ? rest : queryRef) as J extends
-						| '<'
-						| '<='
-						| '>'
-						| '>'
-						| '=='
-						| 'in'
-						? typeof rest
-						: typeof queryRef
-				},
-				limit: (limit: number) => {
-					return queryCreator(colRefRead, (query || colRefRead).limit(limit))
-				},
-				limitToLast: (limit: number) => {
-					return queryCreator(
-						colRefRead,
-						(query || colRefRead).limitToLast(limit)
-					)
-				},
-				orderBy: orderByCreator(colRefRead),
-				get: (options?: FirelordFirestore.GetOptions) => {
-					return (query || colRefRead).get(options)
-				},
-			}
 		}
 
 		const col = (collectionPath: T['colPath']) => {
@@ -329,7 +211,10 @@ export const firelord =
 						...data,
 					})
 				},
-				...queryCreator(colRefRead),
+				...queryCreator<Read, Compare, WithoutArrayTypeMember>(
+					colRefRead,
+					colRefRead
+				),
 			}
 		}
 
@@ -337,7 +222,10 @@ export const firelord =
 			const colRefRead = firestore().collectionGroup(
 				collectionPath
 			) as FirelordFirestore.CollectionGroup<Read>
-			return queryCreator(colRefRead)
+			return queryCreator<Read, Compare, WithoutArrayTypeMember>(
+				colRefRead,
+				colRefRead
+			)
 		}
 
 		return { col, colGroup }

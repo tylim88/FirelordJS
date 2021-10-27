@@ -1,6 +1,6 @@
 <!-- markdownlint-disable MD010 -->
 
-<!-- # firelordjs(BETA, js only)
+# firelordjs(BETA, js only)
 
 [![npm](https://img.shields.io/npm/v/firelordjs)](https://www.npmjs.com/package/firelordjs) [![GitHub](https://img.shields.io/github/license/tylim88/firelordjs)](https://github.com/tylim88/firelordjs/blob/master/LICENSE) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://github.com/tylim88/firelordjs/pulls)
 
@@ -88,6 +88,4 @@ user.onSnapshot(observer, options)
 
 no surprise here, everything is similar to firestore api
 
-the rest is exactly the same as [firelord](https://github.com/tylim88/Firelord) -->
-
-there is a typing bug in this package, can be fixed and will fix it tomorrow!
+the rest is exactly the same as [firelord](https://github.com/tylim88/Firelord)
