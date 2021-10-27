@@ -1,5 +1,3 @@
-import { FirelordFirestore } from './firelordFirestore'
-
 type DeepKey<T, K extends keyof T> = K extends string
 	? T[K] extends Record<string, unknown>
 		? `${K}.${DeepKey<T[K], keyof T[K]>}`

@@ -102,6 +102,10 @@ export namespace Firelord {
 		? CompareConverter<A>[]
 		: T extends ServerTimestamp | Date | FirelordFirestore.Timestamp
 		? FirelordFirestore.Timestamp | Date
+		: T extends Record<string, unknown>
+		? {
+				[K in keyof T]: CompareConverter<T[K]>
+		  }
 		: T
 
 	type WriteConverter<T> = T extends (infer A)[]
