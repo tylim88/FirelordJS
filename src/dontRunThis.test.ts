@@ -19,6 +19,8 @@ const firestore = firebase.firestore
 // create wrapper
 const wrapper = firelord(firestore)
 
+const { increment, arrayUnion, serverTimestamp } = wrapper().fieldValue
+
 // use base type to generate read and write type
 type User = Firelord.ReadWriteCreator<
 	{
@@ -378,3 +380,27 @@ nested.doc('123456').set(data)
 nested.doc('123456').update(data)
 nested.doc('123456').set(flatten(data))
 nested.doc('123456').update(flatten(data))
+
+type HandleFieldValue = Firelord.ReadWriteCreator<
+	{
+		a: number
+		b: Firelord.ServerTimestamp
+		d: string[]
+	},
+	'HandleFieldValue',
+	string
+>
+
+const handleFieldValue = wrapper<HandleFieldValue>().col('HandleFieldValue')
+
+handleFieldValue.doc('1234567').set({
+	a: increment(1),
+	b: serverTimestamp(),
+	d: arrayUnion('123', '456'),
+})
+
+handleFieldValue.doc('1234567').set({
+	a: increment(''),
+	b: arrayUnion('123', '456'),
+	d: arrayUnion(123, 456),
+})

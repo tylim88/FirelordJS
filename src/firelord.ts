@@ -30,6 +30,15 @@ export type PartialNoImplicitUndefinedAndNoExtraMember<
 
 export namespace Firelord {
 	export type ServerTimestamp = 'ServerTimestamp'
+	export type ServerTimestampMasked = {
+		'please import `serverTimestamp` from `firelord` and call it': ServerTimestamp
+	}
+	export type NumberMasked = {
+		'please import `increment` from `firelord` and call it': number
+	}
+	export type ArrayMasked<T> = {
+		'please import `arrayUnion` or `arrayRemove` from `firelord` and call it': T
+	}
 
 	// https://javascript.plainenglish.io/using-firestore-with-more-typescript-8058b6a88674
 	type DeepKey<T, K extends keyof T> = K extends string
@@ -70,47 +79,47 @@ export namespace Firelord {
 	type ArrayWriteConverter<T> = T extends (infer A)[]
 		? ArrayWriteConverter<A>[]
 		: T extends ServerTimestamp
-		? FirelordFirestore.FieldValue
+		? ServerTimestampMasked
 		: T extends FirelordFirestore.Timestamp | Date
 		? FirelordFirestore.Timestamp | Date
-		: T extends FirelordFirestore.GeoPoint
-		? FirelordFirestore.GeoPoint
+		: T extends Record<string, unknown>
+		? {
+				[K in keyof T]: ArrayWriteConverter<T[K]>
+		  }
 		: T
 
 	type ReadConverter<T> = T extends (infer A)[]
 		? ReadConverter<A>[]
 		: T extends ServerTimestamp | Date
 		? FirelordFirestore.Timestamp
-		: T extends FirelordFirestore.GeoPoint
-		? FirelordFirestore.GeoPoint
+		: T extends Record<string, unknown>
+		? {
+				[K in keyof T]: ReadConverter<T[K]>
+		  }
 		: T
 
 	type CompareConverter<T> = T extends (infer A)[]
 		? CompareConverter<A>[]
 		: T extends ServerTimestamp | Date | FirelordFirestore.Timestamp
 		? FirelordFirestore.Timestamp | Date
-		: T extends FirelordFirestore.GeoPoint
-		? FirelordFirestore.GeoPoint
 		: T
 
 	type WriteConverter<T> = T extends (infer A)[]
-		? ArrayWriteConverter<A>[] | FirelordFirestore.FieldValue
+		? ArrayWriteConverter<A>[] | ArrayMasked<ArrayWriteConverter<A>>
 		: T extends ServerTimestamp
-		? FirelordFirestore.FieldValue
+		? ServerTimestampMasked
+		: T extends number
+		? number | NumberMasked
 		: T extends FirelordFirestore.Timestamp | Date
 		? FirelordFirestore.Timestamp | Date
-		: T extends number
-		? FirelordFirestore.FieldValue | number
-		: T extends FirelordFirestore.GeoPoint
-		? FirelordFirestore.GeoPoint
 		: T
 
 	// solve "Type instantiation is excessively deep and possibly infinite" error
-	type ReadDeepConvert<T extends Record<string, unknown>> = {
-		[K in keyof T]: ReadConverter<T[K]> extends Record<string, unknown>
-			? ReadDeepConvert<ReadConverter<T[K]>>
-			: ReadConverter<T[K]>
-	}
+	// type ReadDeepConvert<T extends Record<string, unknown>> = {
+	// 	[K in keyof T]: ReadConverter<T[K]> extends Record<string, unknown>
+	// 		? ReadDeepConvert<ReadConverter<T[K]>>
+	// 		: ReadConverter<T[K]>
+	// }
 	// ! for some reason this does not work, WHY
 	// type WriteDeepConvert<T extends Record<string, unknown>> = {
 	// 	[K in keyof T]: WriteConverter<T[K]> extends Record<string, unknown>
@@ -135,7 +144,7 @@ export namespace Firelord {
 		}
 	> = {
 		base: B
-		read: ReadDeepConvert<B> & {
+		read: ReadConverter<B> & {
 			[index in keyof FirelordFirestore.CreatedUpdatedRead]: FirelordFirestore.CreatedUpdatedRead[index]
 		}
 		// so it looks more explicit in typescript hint

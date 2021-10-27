@@ -2,6 +2,7 @@ import {
 	OmitKeys,
 	PartialNoImplicitUndefinedAndNoExtraMember,
 	ExcludePropertyKeys,
+	Firelord,
 } from './firelord'
 import { FirelordFirestore } from './firelordFirestore'
 import { QueryCreator } from './queryCreator'
@@ -159,4 +160,10 @@ export type firelord = (firestore: FirelordFirestore.Firestore) => <
 			ExcludePropertyKeys<T['compare'], unknown[]>
 		>
 	>
+	fieldValue: {
+		increment: (value: number) => Firelord.NumberMasked
+		serverTimestamp: () => Firelord.ServerTimestampMasked
+		arrayUnion: <T>(...values: T[]) => Firelord.ArrayMasked<T>
+		arrayRemove: <T>(...values: T[]) => Firelord.ArrayMasked<T>
+	}
 }

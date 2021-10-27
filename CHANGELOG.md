@@ -2,6 +2,12 @@
 
 Change log
 
+## 0.6.0 27-Oct-2021
+
+- field value is now member of wrapper instead, this remove admin-firebase as dependency
+- solved firestore field value type unsafe issue by using masked type
+- the typescript hint of read and write now look more explicit
+
 ## 0.4.0 27-Oct-2021
 
 - simpler solution for caveat 1 and 2,flatten no longer need 2nd argument

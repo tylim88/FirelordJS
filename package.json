@@ -1,7 +1,7 @@
 {
 	"name": "firelordjs",
-	"version": "0.4.0",
-	"description": "🔥 firestore js wrapper with deeper typing solution.",
+	"version": "0.6.0",
+	"description": "🔥 Write truly scalable firestore code with complete deep typing firestore wrapper, no more typing hell in your firestore code.",
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",
 	"scripts": {
