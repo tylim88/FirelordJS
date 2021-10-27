@@ -2,6 +2,10 @@
 
 Change log
 
+## 0.3.12 27-Oct-2021
+
+- simplify queryCreator code
+
 ## 0.3.11 27-Oct-2021
 
 - fix orderBy chain-able but no real effect
