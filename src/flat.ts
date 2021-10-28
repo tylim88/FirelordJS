@@ -1,24 +1,4 @@
-type DeepKey<T, K extends keyof T> = K extends string
-	? T[K] extends Record<string, unknown>
-		? `${K}.${DeepKey<T[K], keyof T[K]>}`
-		: K
-	: never
-
-type DeepKeyS<T> = DeepKey<T, keyof T>
-
-type DeepValue<T, P extends DeepKeyS<T>> = P extends `${infer K}.${infer Rest}`
-	? K extends keyof T
-		? Rest extends DeepKeyS<T[K]>
-			? DeepValue<T[K], Rest>
-			: never
-		: never
-	: P extends keyof T
-	? T[P]
-	: never
-
-type ObjectFlatten<T extends Record<string, unknown>> = {
-	[TKey in DeepKeyS<T>]: DeepValue<T, TKey>
-}
+import { Firelord } from './firelord'
 
 // type GetEndName<T extends string | number | symbol> =
 // 	T extends `${infer Prop}.${infer Rest}` ? GetEndName<Rest> : T
@@ -101,5 +81,5 @@ export const flatten = <T extends Record<string, unknown>>(
 
 	flat(object, '')
 
-	return obj as ObjectFlatten<T>
+	return obj as Firelord.FlattenObject<T>
 }

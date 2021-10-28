@@ -19,12 +19,15 @@ export const firelord: fl =
 				FirelordFirestore.CreatedUpdatedRead
 			write: FirelordFirestore.DocumentData &
 				FirelordFirestore.CreatedUpdatedWrite
+			writeNested: FirelordFirestore.DocumentData &
+				FirelordFirestore.CreatedUpdatedWrite
 			compare: FirelordFirestore.DocumentData &
 				FirelordFirestore.CreatedUpdatedCompare
 			base: FirelordFirestore.DocumentData
 		} = never
 	>() => {
 		type Write = OmitKeys<T['write'], 'updatedAt' | 'createdAt'>
+		type WriteNested = OmitKeys<T['writeNested'], 'updatedAt' | 'createdAt'>
 		type Read = T['read']
 		type Compare = T['compare']
 		type WithoutArrayTypeMember = ExcludePropertyKeys<Compare, unknown[]>
@@ -52,14 +55,18 @@ export const firelord: fl =
 				) => {
 					return {
 						set: <
-							J extends Partial<Write>,
+							J extends Partial<WriteNested>,
 							Z extends { merge?: true; mergeField?: (keyof Write)[] }
 						>(
 							data: J extends never
 								? J
 								: Z extends undefined
-								? Write
-								: PartialNoImplicitUndefinedAndNoExtraMember<Write, J>,
+								? WriteNested
+								: Z['merge'] extends true
+								? PartialNoImplicitUndefinedAndNoExtraMember<WriteNested, J>
+								: Z['mergeField'] extends (keyof Write)[]
+								? PartialNoImplicitUndefinedAndNoExtraMember<WriteNested, J>
+								: WriteNested,
 							options?: Z
 						) => {
 							if (options) {
@@ -128,18 +135,18 @@ export const firelord: fl =
 						)
 					},
 					set: <
-						J extends Partial<Write>,
+						J extends Partial<WriteNested>,
 						Z extends { merge?: true; mergeField?: (keyof Write)[] }
 					>(
 						data: J extends never
 							? J
 							: Z extends undefined
-							? Write
+							? WriteNested
 							: Z['merge'] extends true
-							? PartialNoImplicitUndefinedAndNoExtraMember<Write, J>
+							? PartialNoImplicitUndefinedAndNoExtraMember<WriteNested, J>
 							: Z['mergeField'] extends (keyof Write)[]
-							? PartialNoImplicitUndefinedAndNoExtraMember<Write, J>
-							: Write,
+							? PartialNoImplicitUndefinedAndNoExtraMember<WriteNested, J>
+							: WriteNested,
 						options?: Z
 					) => {
 						if (options) {
@@ -207,7 +214,7 @@ export const firelord: fl =
 				path: colRefRead.path,
 				id: colRefRead.id,
 				doc,
-				add: (data: Write) => {
+				add: (data: WriteNested) => {
 					return colRefWrite.add({
 						...newTime,
 						...data,

@@ -352,7 +352,7 @@ type Nested = Firelord.ReadWriteCreator<
 	{
 		a: number
 		b: { c: string }
-		d: { e: { f: Date[]; g: { h: { a: number }[] } } }
+		d: { e: { f: Date[]; g: { h: { i: { j: Date }[] }[] } } }
 	},
 	'Nested',
 	string
@@ -360,45 +360,63 @@ type Nested = Firelord.ReadWriteCreator<
 const nested = wrapper<Nested>().col('Nested')
 
 // read type, does not flatten because no need to
-type NestedRead = Nested['read'] // {a: number, b: { c: string }, d: { e: { f: FirebaseFirestore.Timestamp[], g: { h: { a: number }[] } } }	}
-
+type NestedRead = Nested['read'] // {a: number, b: { c: string }, d: { e: { f: FirebaseFirestore.Timestamp[], g: { h: { i: {j: firestore.Timestamp}[] }[] } } }	}
 // write type
-type NestedWrite = Nested['write'] // {a: number | FirebaseFirestore.FieldValue, "b.c": string, "d.e.f": FirebaseFirestore.FieldValue | (FirebaseFirestore.Timestamp | Date)[], "d.e.g.h": FirebaseFirestore.FieldValue | { a: number }[], createdAt: FirebaseFirestore.FieldValue, updatedAt: FirebaseFirestore.FieldValue}
+type NestedWrite = Nested['write']['d.e.g.h'] // {a: number | FirebaseFirestore.FieldValue, "b.c": string, "d.e.f": FirebaseFirestore.FieldValue | (FirebaseFirestore.Timestamp | Date)[], "d.e.g.h": FirebaseFirestore.FieldValue | { i: {j: firestore.Timestamp | Date}[] }[], createdAt: FirebaseFirestore.FieldValue, updatedAt: FirebaseFirestore.FieldValue}
 
 // compare type
-type NestedCompare = Nested['compare'] // {a: number, "b.c": string, "d.e.f": (FirebaseFirestore.Timestamp | Date)[], "d.e.g.h": FirebaseFirestore.FieldValue | { a: number }[], createdAt: Date | firestore.Timestamp, updatedAt: Date | firestore.Timestamp}
+type NestedCompare = Nested['compare'] // {a: number, "b.c": string, "d.e.f": (FirebaseFirestore.Timestamp | Date)[], "d.e.g.h": FirebaseFirestore.FieldValue | { i: {j: firestore.Timestamp | Date}[] }[], createdAt: Date | firestore.Timestamp, updatedAt: Date | firestore.Timestamp}
 
 const data = {
 	a: 1,
-	b: { c: 'abc' },
-	d: { e: { f: [new Date(0)], g: { h: [{ a: 123 }] } } },
+	d: { e: { f: [new Date(0)], g: { h: [{ i: [{ j: new Date(0) }] }] } } },
+}
+const incorrectData = {
+	a: 1,
+	d: { e: { f: [new Date(0)], g: { h: [{ i: [{ j: true }] }] } } },
 }
 
-nested.doc('123456').set(data)
-nested.doc('123456').update(data)
-nested.doc('123456').set(flatten(data))
+const completeData = {
+	a: 1,
+	b: { c: 'abc' },
+	d: { e: { f: [new Date(0)], g: { h: [{ i: [{ j: new Date(0) }] }] } } },
+}
+
+const incorrectCompleteData = {
+	a: 1,
+	b: { c: 'abc' },
+	d: { e: { f: [new Date(0)], g: { h: [{ i: [{ j: true }] }] } } },
+}
+
+nested.doc('123456').set(data) // need complete data if no merge option
+nested.doc('123456').set(completeData)
+nested.doc('123456').set(data, { merge: true })
 nested.doc('123456').update(flatten(data))
+
+nested.doc('123456').set(incorrectCompleteData)
+nested.doc('123456').set(incorrectData, { merge: true })
+nested.doc('123456').update(flatten(incorrectData))
 
 type HandleFieldValue = Firelord.ReadWriteCreator<
 	{
-		a: number
-		b: Firelord.ServerTimestamp
-		d: string[]
+		aaa: number
+		bbb: Firelord.ServerTimestamp
+		ddd: string[]
 	},
 	'HandleFieldValue',
 	string
 >
 
-const handleFieldValue = wrapper<HandleFieldValue>().col('HandleFieldValue')
+const example = wrapper<HandleFieldValue>().col('HandleFieldValue')
 
-handleFieldValue.doc('1234567').set({
-	a: increment(1),
-	b: serverTimestamp(),
-	d: arrayUnion('123', '456'),
+example.doc('1234567').set({
+	aaa: serverTimestamp(), // ERROR
+	bbb: increment(11), // ERROR
+	ddd: arrayUnion(123, 456), // ERROR
 })
 
-handleFieldValue.doc('1234567').set({
-	a: increment(''),
-	b: arrayUnion('123', '456'),
-	d: arrayUnion(123, 456),
+example.doc('1234567').set({
+	aaa: increment(1), // ok
+	bbb: serverTimestamp(), // ok
+	ddd: arrayUnion('123', '456'), // ok
 })
