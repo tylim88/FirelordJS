@@ -8,17 +8,19 @@
 
 💪🏻 handle object, array, array object, object array...and all kinds of type, regardless of the nesting level!
 
-🚀 All read and write operation are typed, query field path, field value, collection path, document path, everything is typed!
+🚀 The wrapper type all read and write operations; query field path, field value, collection path, document path, type everything!
 
-🔥 Automatically convert all value type to corresponding read type, write type and compare type(good at handling timestamp and field value).
+🔥 Automatically convert all value types to corresponding read types, write types and compare types (good at handling timestamp and field values).
 
-✋🏻 Not only it safeguards your types, but it also stops you from making any incorrect implementation(use the wrapper incorrectly).
+✋🏻 Not only does it safeguard your types, but it also stops you from making any incorrect implementation(use the wrapper incorrectly).
 
-💥 Even Firestore Field Value(serverTimestamp, arrayRemove, arrayUnion and increment) is typed, no more terror!
+💥 Even the seemly untyped-able Firestore Field Value(serverTimestamp, arrayRemove, arrayUnion and increment) is taken care of, EVERYTHING is typed, NO TYPE IS LEFT BEHIND!!
 
-✨ Api closely resemble firestore api, low learning curve.
+✨ API closely resembles firestore API, low learning curve.
 
-🐉 Zero dependency.
+🌈 Strictly one-time setup per document. Once configured, you are ready. No more confusing setup in the future, simplicity at its finest.
+
+🐉 Zero dependencies.
 
 ⛲️ Out of box typescript support.
 
@@ -29,13 +31,13 @@ Variants:
 
 ## 🦙 Usage
 
-This is wrapper for [firestore](https://firebase.google.com/docs/firestore/quickstart), you can use firebase v8 or v9
+This is a wrapper for [react-native-firebase](https://www.npmjs.com/package/react-native-firebase)
 
-work exactly like [firelord](https://github.com/tylim88/Firelord), except that:
+work exactly like [firelord](https://github.com/tylim88/Firelord)(doc), except that:
 
-1. any kind of `create` operations is not available, you can only create document using `set` or `add`
+1. any kind of `create` operations is not available, you can only create a document using `set` or `add`
 2. no `offset`
-3. more parameter for `get` and `onSnapshot`
+3. more parameters for `get` and `onSnapshot`
 
 instead of
 
