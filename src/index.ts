@@ -14,6 +14,7 @@ export const firelord: fl =
 		T extends {
 			colPath: string
 			docPath: string
+			colGroupPath: string
 			read: FirelordFirestore.DocumentData &
 				FirelordFirestore.CreatedUpdatedRead
 			write: FirelordFirestore.DocumentData &
@@ -216,7 +217,7 @@ export const firelord: fl =
 			}
 		}
 
-		const colGroup = (collectionPath: T['colPath']) => {
+		const colGroup = (collectionPath: T['colGroupPath']) => {
 			const colRefRead = firestore().collectionGroup(
 				collectionPath
 			) as FirelordFirestore.CollectionGroup<Read>

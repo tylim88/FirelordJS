@@ -11,6 +11,7 @@ export type firelord = (firestore: FirelordFirestore.Firestore) => <
 	T extends {
 		colPath: string
 		docPath: string
+		colGroupPath: string
 		read: FirelordFirestore.DocumentData & FirelordFirestore.CreatedUpdatedRead
 		write: FirelordFirestore.DocumentData &
 			FirelordFirestore.CreatedUpdatedWrite
@@ -152,7 +153,7 @@ export type firelord = (firestore: FirelordFirestore.Firestore) => <
 		>
 	>
 	colGroup: (
-		collectionPath: T['colPath']
+		collectionPath: T['colGroupPath']
 	) => ReturnType<
 		QueryCreator<
 			T['read'],

@@ -172,5 +172,6 @@ export namespace Firelord {
 			? C
 			: `${E['colPath']}/${E['docPath']}/${C}`
 		docPath: D
+		colGroupPath: C
 	}
 }
