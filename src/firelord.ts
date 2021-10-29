@@ -60,6 +60,19 @@ export namespace Firelord {
 		'please import `arrayUnion` or `arrayRemove` from `firelord` and call it': T
 	}
 
+	export type CreatedUpdatedWrite = {
+		createdAt: FirelordFirestore.FieldValue
+		updatedAt: FirelordFirestore.FieldValue
+	}
+	export type CreatedUpdatedRead = {
+		createdAt: FirelordFirestore.Timestamp
+		updatedAt: FirelordFirestore.Timestamp | null
+	}
+	export type CreatedUpdatedCompare = {
+		createdAt: Date | FirelordFirestore.Timestamp
+		updatedAt: Date | FirelordFirestore.Timestamp | null
+	}
+
 	// https://javascript.plainenglish.io/using-firestore-with-more-typescript-8058b6a88674
 	type DeepKey<T, K extends keyof T> = K extends string
 		? // Date, timestamp and geo point will never extends Record<string, unknown>, so we dont need these lines
@@ -150,7 +163,7 @@ export namespace Firelord {
 		base: B
 		read: DeepRequired<
 			ReadConverter<B> & {
-				[index in keyof FirelordFirestore.CreatedUpdatedRead]: FirelordFirestore.CreatedUpdatedRead[index]
+				[index in keyof CreatedUpdatedRead]: CreatedUpdatedRead[index]
 			}
 		>
 		// so it looks more explicit in typescript hint
@@ -158,19 +171,19 @@ export namespace Firelord {
 			{
 				[J in keyof B]: WriteConverter<B[J]>
 			} & {
-				[index in keyof FirelordFirestore.CreatedUpdatedWrite]: FirelordFirestore.CreatedUpdatedWrite[index]
+				[index in keyof CreatedUpdatedWrite]: CreatedUpdatedWrite[index]
 			}
 		>
 		write: {
 			[J in keyof FlattenObject<B>]: WriteConverter<FlattenObject<B>[J]>
 		} & {
-			[index in keyof FirelordFirestore.CreatedUpdatedWrite]: FirelordFirestore.CreatedUpdatedWrite[index]
+			[index in keyof CreatedUpdatedWrite]: CreatedUpdatedWrite[index]
 		}
 		// so it looks more explicit in typescript hint
 		compare: {
 			[J in keyof FlattenObject<B>]: CompareConverter<FlattenObject<B>[J]>
 		} & {
-			[index in keyof FirelordFirestore.CreatedUpdatedCompare]: FirelordFirestore.CreatedUpdatedCompare[index]
+			[index in keyof CreatedUpdatedCompare]: CreatedUpdatedCompare[index]
 		}
 		// so it looks more explicit in typescript hint
 

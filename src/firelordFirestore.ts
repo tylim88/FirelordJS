@@ -46,17 +46,4 @@ export namespace FirelordFirestore {
 
 	export type Timestamp =
 		import('firebase/compat/app').default.firestore.Timestamp
-
-	export type CreatedUpdatedWrite = {
-		createdAt: FieldValue
-		updatedAt: FieldValue
-	}
-	export type CreatedUpdatedCompare = {
-		createdAt: Date | Timestamp
-		updatedAt: Date | Timestamp
-	}
-	export type CreatedUpdatedRead = {
-		createdAt: Timestamp
-		updatedAt: Timestamp
-	}
 }

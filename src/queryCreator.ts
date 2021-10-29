@@ -1,13 +1,17 @@
-import { OmitKeys, ExcludePropertyKeys, RemoveArray } from './firelord'
+import {
+	OmitKeys,
+	ExcludePropertyKeys,
+	RemoveArray,
+	Firelord,
+} from './firelord'
 import { FirelordFirestore } from './firelordFirestore'
 
 // https://stackoverflow.com/questions/69724861/recursive-type-become-any-after-emit-declaration-need-implicit-solution
 
 export type QueryCreator<
-	Read extends FirelordFirestore.DocumentData &
-		FirelordFirestore.CreatedUpdatedRead,
+	Read extends FirelordFirestore.DocumentData & Firelord.CreatedUpdatedRead,
 	Compare extends FirelordFirestore.DocumentData &
-		FirelordFirestore.CreatedUpdatedCompare,
+		Firelord.CreatedUpdatedCompare,
 	WithoutArrayTypeMember extends ExcludePropertyKeys<Compare, unknown[]>,
 	PermanentlyOmittedKeys extends keyof ReturnType<
 		QueryCreator<Read, Compare, WithoutArrayTypeMember, PermanentlyOmittedKeys>
@@ -130,10 +134,9 @@ export type QueryCreator<
 // however due to this is a recursive function, it is not possible
 // luckily this is only used in 2 places and is explicitly typed, so everything is good
 export const queryCreator = <
-	Read extends FirelordFirestore.DocumentData &
-		FirelordFirestore.CreatedUpdatedRead,
+	Read extends FirelordFirestore.DocumentData & Firelord.CreatedUpdatedRead,
 	Compare extends FirelordFirestore.DocumentData &
-		FirelordFirestore.CreatedUpdatedCompare,
+		Firelord.CreatedUpdatedCompare,
 	WithoutArrayTypeMember extends ExcludePropertyKeys<Compare, unknown[]>,
 	PermanentlyOmittedKeys extends keyof ReturnType<
 		QueryCreator<Read, Compare, WithoutArrayTypeMember, PermanentlyOmittedKeys>

@@ -15,14 +15,10 @@ export const firelord: fl =
 			colPath: string
 			docPath: string
 			colGroupPath: string
-			read: FirelordFirestore.DocumentData &
-				FirelordFirestore.CreatedUpdatedRead
-			write: FirelordFirestore.DocumentData &
-				FirelordFirestore.CreatedUpdatedWrite
-			writeNested: FirelordFirestore.DocumentData &
-				FirelordFirestore.CreatedUpdatedWrite
-			compare: FirelordFirestore.DocumentData &
-				FirelordFirestore.CreatedUpdatedCompare
+			read: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedRead
+			write: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedWrite
+			writeNested: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedWrite
+			compare: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedCompare
 			base: FirelordFirestore.DocumentData
 		} = never
 	>() => {
@@ -35,7 +31,7 @@ export const firelord: fl =
 
 		const newTime = {
 			createdAt: time,
-			updatedAt: new Date(0),
+			updatedAt: null,
 		}
 
 		const col = (collectionPath: T['colPath']) => {
