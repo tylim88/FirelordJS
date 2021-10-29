@@ -69,7 +69,8 @@ export type PartialNoImplicitUndefinedAndNoExtraMember<
 	: never
 
 export namespace Firelord {
-	export type ServerTimestamp = 'ServerTimestamp'
+	export type ServerTimestamp =
+		'This type represents Firestore ServerTimestamp type'
 	export type ServerTimestampMasked = {
 		'please import `serverTimestamp` from `firelord` and call it': ServerTimestamp
 	}
@@ -135,7 +136,7 @@ export namespace Firelord {
 
 	type ArrayWriteConverter<T> = T extends (infer A)[]
 		? ArrayWriteConverter<A>[]
-		: T extends ServerTimestamp
+		: T extends ServerTimestamp | Masks
 		? never
 		: T extends FirelordFirestore.Timestamp | Date
 		? FirelordFirestore.Timestamp | Date
@@ -149,6 +150,8 @@ export namespace Firelord {
 		? ReadConverter<A>[]
 		: T extends ServerTimestamp | Date | FirelordFirestore.Timestamp
 		? FirelordFirestore.Timestamp
+		: T extends Masks
+		? never
 		: T extends Record<string, unknown>
 		? {
 				[K in keyof T]: ReadConverter<T[K]>
@@ -159,6 +162,8 @@ export namespace Firelord {
 		? CompareConverter<A>[]
 		: T extends ServerTimestamp | Date | FirelordFirestore.Timestamp
 		? FirelordFirestore.Timestamp | Date
+		: T extends Masks
+		? never
 		: T extends Record<string, unknown>
 		? {
 				[K in keyof T]: CompareConverter<T[K]>
@@ -171,6 +176,8 @@ export namespace Firelord {
 		? ServerTimestampMasked
 		: T extends number
 		? number | NumberMasked
+		: T extends Masks
+		? never
 		: T extends FirelordFirestore.Timestamp | Date
 		? FirelordFirestore.Timestamp | Date
 		: T
