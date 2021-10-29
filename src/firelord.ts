@@ -25,6 +25,28 @@ type DistributeNoUndefined<T, K> = T extends undefined
 	? 'value cannot be undefined, if this is intentional, please union undefined in base type'
 	: K
 
+type PartialNoImplicitUndefinedAndNoExtraMemberForArray<
+	A,
+	B extends A
+> = A extends Record<string, unknown>
+	? keyof B extends keyof A
+		? keyof A extends keyof B
+			? {
+					[K in keyof A]: PartialNoImplicitUndefinedAndNoExtraMemberForArray<
+						A[K],
+						B[K]
+					>
+			  }
+			: never
+		: never
+	: A extends (infer T)[]
+	? B extends (infer U)[]
+		? U extends T
+			? PartialNoImplicitUndefinedAndNoExtraMemberForArray<T, U>[]
+			: never[]
+		: never[]
+	: DistributeNoUndefined<A, B>
+
 export type PartialNoImplicitUndefinedAndNoExtraMember<
 	L extends { [index: string]: unknown },
 	T extends Partial<L>
@@ -34,15 +56,13 @@ export type PartialNoImplicitUndefinedAndNoExtraMember<
 				? T[K] extends Partial<L[K]>
 					? PartialNoImplicitUndefinedAndNoExtraMember<L[K], T[K]>
 					: never
-				: L[K] extends (infer A)[]
+				: L[K] extends (infer A)[] | Firelord.ArrayMasked
 				? T[K] extends (infer B)[]
-					? A extends Record<string, unknown>
-						? B extends Partial<A>
-							? PartialNoImplicitUndefinedAndNoExtraMember<A, B>[]
-							: never
-						: B extends A
-						? DistributeNoUndefined<A, B>[]
+					? B extends A
+						? PartialNoImplicitUndefinedAndNoExtraMemberForArray<A, B>[]
 						: never[]
+					: T[K] extends Firelord.ArrayMasked<A>
+					? DistributeNoUndefined<L[K], T[K]>
 					: never
 				: DistributeNoUndefined<L[K], T[K]>
 	  }
@@ -56,9 +76,11 @@ export namespace Firelord {
 	export type NumberMasked = {
 		'please import `increment` from `firelord` and call it': number
 	}
-	export type ArrayMasked<T> = {
+	export type ArrayMasked<T = unknown> = {
 		'please import `arrayUnion` or `arrayRemove` from `firelord` and call it': T
 	}
+
+	type Masks = ServerTimestampMasked | NumberMasked | ArrayMasked
 
 	export type CreatedUpdatedWrite = {
 		createdAt: FirelordFirestore.FieldValue
@@ -83,7 +105,9 @@ export namespace Firelord {
 		  // 		| FirelordFirestore.GeoPoint
 		  // 	? K
 		  // 	:
-		  T[K] extends Record<string, unknown>
+		  T[K] extends Masks
+			? K
+			: T[K] extends Record<string, unknown>
 			? `${K}.${DeepKey<T[K], keyof T[K]>}`
 			: K
 		: never
