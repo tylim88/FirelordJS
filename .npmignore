@@ -10,7 +10,11 @@
 
 # config file
 jest.config.js
-tsconfig.json    
+tsconfig.json
+.opensource
+.eslintrc.js    
+.prettierrc.js
+babel.config.js
 
 # types
 /types/**/*
