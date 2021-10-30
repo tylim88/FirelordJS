@@ -91,6 +91,37 @@ type doc<
 						J_3
 				  >
 		) => FirelordFirestore.WriteBatch
+		set: <
+			J_7 extends Partial<
+				OmitKeys<T['writeNested'], 'createdAt' | 'updatedAt'>
+			>,
+			Z_2 extends {
+				merge?: true | undefined
+				mergeField?:
+					| Exclude<keyof T['write'], 'createdAt' | 'updatedAt'>[]
+					| undefined
+			}
+		>(
+			data: J_7 extends never
+				? J_7
+				: Z_2 extends undefined
+				? OmitKeys<T['writeNested'], 'createdAt' | 'updatedAt'>
+				: Z_2['merge'] extends true
+				? PartialNoImplicitUndefinedAndNoExtraMember<
+						OmitKeys<T['writeNested'], 'createdAt' | 'updatedAt'>,
+						J_7
+				  >
+				: Z_2['mergeField'] extends Exclude<
+						keyof T['write'],
+						'createdAt' | 'updatedAt'
+				  >[]
+				? PartialNoImplicitUndefinedAndNoExtraMember<
+						OmitKeys<T['writeNested'], 'createdAt' | 'updatedAt'>,
+						J_7
+				  >
+				: OmitKeys<T['writeNested'], 'createdAt' | 'updatedAt'>,
+			options?: Z_2 | undefined
+		) => FirelordFirestore.WriteBatch
 	}
 	runTransaction: (
 		callback: (transaction: {
