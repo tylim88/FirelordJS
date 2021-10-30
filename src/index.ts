@@ -41,10 +41,17 @@ export const firelord: fl =
 			const colRefRead =
 				colRefWrite as FirelordFirestore.CollectionReference<Read>
 
-			const doc = (documentPath: T['docPath']) => {
-				const docWrite = colRefWrite.doc(documentPath)
+			const doc = (
+				documentPath: T['docPath'],
+				docRef?: FirelordFirestore.DocumentReference
+			) => {
+				const docWrite =
+					(docRef as FirelordFirestore.DocumentReference<Write>) ||
+					colRefWrite.doc(documentPath)
 
-				const docRead = colRefRead.doc(documentPath)
+				const docRead =
+					(docRef as FirelordFirestore.DocumentReference<Read>) ||
+					colRefRead.doc(documentPath)
 
 				const transactionCreator = (
 					transaction: FirelordFirestore.Transaction
@@ -211,10 +218,14 @@ export const firelord: fl =
 				id: colRefRead.id,
 				doc,
 				add: (data: WriteNested) => {
-					return colRefWrite.add({
-						...newTime,
-						...data,
-					})
+					return colRefWrite
+						.add({
+							...newTime,
+							...data,
+						})
+						.then(docRef => {
+							return doc(docRef.id, docRef)
+						})
 				},
 				...queryCreator<Read, Compare, WithoutArrayTypeMember>(colRefRead),
 			}
