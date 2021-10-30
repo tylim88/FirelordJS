@@ -1,7 +1,7 @@
 {
 	"name": "Firelord",
 
-	"platforms": ["Admin"],
+	"platforms": ["Web"],
 
 	"content": "README.md",
 
