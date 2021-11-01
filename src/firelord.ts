@@ -186,9 +186,9 @@ export namespace Firelord {
 		B extends { [index: string]: unknown },
 		C extends string,
 		D extends string,
-		E extends { colPath: string; docPath: string } = {
+		E extends { colPath: string; docID: string } = {
 			colPath: never
-			docPath: never
+			docID: never
 		}
 	> = {
 		base: B
@@ -218,13 +218,38 @@ export namespace Firelord {
 		}
 		// so it looks more explicit in typescript hint
 
+		colName: C
 		colPath: E extends {
 			colPath: never
-			docPath: never
+			docID: never
 		}
 			? C
-			: `${E['colPath']}/${E['docPath']}/${C}`
-		docPath: D
-		colGroupPath: C
+			: `${E['colPath']}/${E['docID']}/${C}`
+		docID: D
+		docPath: E extends {
+			colPath: never
+			docID: never
+		}
+			? `${C}/${D}`
+			: `${E['colPath']}/${E['docID']}/${C}/${D}`
+	}
+
+	export type InternalReadWriteConverter<
+		T extends {
+			colPath: string
+			docID: string
+			colName: string
+			read: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedRead
+			write: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedWrite
+			writeNested: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedWrite
+			compare: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedCompare
+			base: FirelordFirestore.DocumentData
+		} = never
+	> = {
+		write: OmitKeys<T['write'], 'updatedAt' | 'createdAt'>
+		writeNested: OmitKeys<T['writeNested'], 'updatedAt' | 'createdAt'>
+		read: T['read']
+		compare: T['compare']
+		withoutArrayTypeMember: ExcludePropertyKeys<T['compare'], unknown[]>
 	}
 }

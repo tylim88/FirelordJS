@@ -1,7 +1,7 @@
 import { firelord } from '.'
 
 import { Firelord } from './firelord'
-import { flatten } from './flat'
+import { flatten } from './utils'
 // import firebase from 'firebase'
 // import 'firebase/firestore'
 
@@ -27,23 +27,46 @@ type User = Firelord.ReadWriteCreator<
 		name: string
 		age: number
 		birthday: Date
-		joinDate: 'ServerTimestamp'
+		joinDate: Firelord.ServerTimestamp
 		beenTo: ('USA' | 'CANADA' | 'RUSSIA' | 'CHINA')[]
 	}, // base type
 	'Users', // collection path type
 	string // document path type
 >
+type aaa<
+	E extends { colPath: string; docID: string } = {
+		colPath: '1234567890'
+		docID: '1234567890'
+	}
+> = E extends {
+	colName: '1234567890'
+	docID: '1234567890'
+}
+	? '123'
+	: `${E['colPath']}/${E['docID']}/${'123'}`
+
+type ccc = aaa
 
 // read type
 type UserRead = User['read'] // {name: string, age:number, birthday:firestore.Timestamp, joinDate: firestore.Timestamp, beenTo:('USA' | 'CANADA' | 'RUSSIA' | 'CHINA')[], createdAt: Date | firestore.Timestamp, updatedAt: Date | firestore.Timestamp}
 
 // write type
-type UserWrite = User['write'] // {name: string, age:number|FirebaseFirestore.FieldValue, birthday:firestore.Timestamp | Date, joinDate:FirebaseFirestore.FieldValue, beenTo:('USA' | 'CANADA' | 'RUSSIA' | 'CHINA')[] | FirebaseFirestore.FieldValue, createdAt:'ServerTimestamp', updatedAt:'ServerTimestamp'}
+type UserWrite = User['write'] // {name: string, age:number|FirebaseFirestore.FieldValue, birthday:firestore.Timestamp | Date, joinDate:FirebaseFirestore.FieldValue, beenTo:('USA' | 'CANADA' | 'RUSSIA' | 'CHINA')[] | FirebaseFirestore.FieldValue, createdAt:Firelord.ServerTimestamp, updatedAt:Firelord.ServerTimestamp}
 
 // compare type
 type UserCompare = User['compare'] // {name: string, age:number, birthday:Date | firestore.Timestamp, joinDate: Date | firestore.Timestamp, beenTo:('USA' | 'CANADA' | 'RUSSIA' | 'CHINA')[], createdAt: Date | firestore.Timestamp, updatedAt: Date | firestore.Timestamp}
 
-type colPath = User['colPath']
+// collection name
+type UserColName = User['colName'] //"Users"
+
+// collection path
+type UserColPath = User['colPath'] // "Users"
+
+// document ID
+type UserDocId = User['docID'] // string
+
+// documentPath
+type UserDocPath = User['docPath']
 
 // implement wrapper
 const userCreator = wrapper<User>()
@@ -58,7 +81,7 @@ const user = users.doc('1234567890') // document path is string
 type Transaction = Firelord.ReadWriteCreator<
 	{
 		amount: number
-		date: 'ServerTimestamp'
+		date: Firelord.ServerTimestamp
 		status: 'Fail' | 'Success'
 	}, // base type
 	'Transactions', // collection path type
@@ -71,7 +94,7 @@ const transactions = wrapper<
 	Firelord.ReadWriteCreator<
 		{
 			amount: number
-			date: 'ServerTimestamp'
+			date: Firelord.ServerTimestamp
 			status: 'Fail' | 'Success'
 		}, // base type
 		'Transactions', // collection path type
@@ -79,16 +102,15 @@ const transactions = wrapper<
 		User // insert parent collection, it will auto construct the collection path for you
 	>
 >().col('Users/283277782/Transactions') // the type for col is `User/${string}/Transactions`
+const transactionGroup = wrapper<Transaction>().colGroup('Transactions') // the type for collection group is `Transactions`
 const transaction = users.doc('1234567890') // document path is string
 
 user.get().then(snapshot => {
 	const data = snapshot.data()
 })
 
-user.onSnapshot({
-	next: snapshot => {
-		const data = snapshot.data()
-	},
+user.onSnapshot(snapshot => {
+	const data = snapshot.data()
 })
 
 // create if not exist, else overwrite
@@ -274,7 +296,7 @@ users
 // field path only include members that is NOT array type in `base type`
 // field value type is the corresponding field path value type in `compare type`
 // value of cursor clause is 'startAt' | 'startAfter' | 'endAt' | 'endBefore'
-users.orderBy('age', 'asc', { clause: 'startAt', fieldValue: 20 }) // equivalent to orderBy("age").startAt(20)
+users.orderBy('age', 'asc', { clause: 'startAt', fieldValue: 20 }).offset(5) // equivalent to orderBy("age").startAt(20).offset(5)
 // usage with where
 users
 	.where('name', '!=', 'John')
@@ -310,6 +332,12 @@ users.where('age', '>', 20).orderBy('age', 'desc').get()
 users.where('age', '>', 20, { fieldPath: 'age', directionStr: 'desc' }).get()
 // again, no order for '<' | '<=]| '>'| '>=' comparator for DIFFERENT field name
 users.where('age', '>', 20, { fieldPath: 'name', directionStr: 'desc' }).get()
+
+// only 1 limit or limitToLast and 1 offset
+users.limit(1).where('age', '!=', 20).limitToLast(2)
+users.limit(1).where('age', '!=', 20).limit(2)
+users.offset(1).where('age', '!=', 20).offset(2)
+users.where('age', '!=', 20).limitToLast(2).offset(3).limit(1)
 
 type a = Firelord.ReadWriteCreator<
 	{
@@ -388,34 +416,164 @@ const incorrectCompleteData = {
 	d: { e: { f: [new Date(0)], g: { h: [{ i: [{ j: true }] }] } } },
 }
 
-nested.doc('123456').set(data) // need complete data if no merge option
 nested.doc('123456').set(completeData)
 nested.doc('123456').set(data, { merge: true })
 nested.doc('123456').update(flatten(data))
 
+nested.doc('123456').set(data) // not ok, need complete data if no merge option
 nested.doc('123456').set(incorrectCompleteData)
 nested.doc('123456').set(incorrectData, { merge: true })
 nested.doc('123456').update(flatten(incorrectData))
 
-type HandleFieldValue = Firelord.ReadWriteCreator<
+type Example = Firelord.ReadWriteCreator<
 	{
-		aaa: number
+		aaa: number | undefined
 		bbb: Firelord.ServerTimestamp
 		ddd: string[]
+		eee: {
+			fff: {
+				ggg: boolean
+				jjj: number
+				kkk: { lll: Date | undefined; mmm: boolean }[]
+			}[]
+		}
 	},
-	'HandleFieldValue',
+	'Example',
 	string
 >
 
-const example = wrapper<HandleFieldValue>().col('HandleFieldValue')
+const example = wrapper<Example>().col('Example')
 
+example.doc('1234567').update({
+	aaa: 1,
+}) // ok
+
+example.doc('1234567').update({
+	aaa: 1,
+	zzz: 'stranger member',
+}) // reject stranger member
+
+example.doc('1234567').update(
+	flatten({
+		aaa: 1,
+		eee: {
+			fff: [{ ggg: true, jjj: 1, kkk: [{ lll: new Date(0), mmm: true }] }],
+		},
+	})
+) // ok, complex data
+
+example.doc('1234567').update(
+	flatten({
+		aaa: 1,
+		bbb: serverTimestamp(),
+		eee: {
+			fff: [
+				{
+					ggg: true,
+					jjj: 1,
+					kkk: [{ lll: new Date(0), mmm: true, zzz: 'stranger member' }],
+				},
+			],
+		},
+	})
+) // reject stranger member in complex data regardless of depth
+
+// set ok
 example.doc('1234567').set({
+	aaa: 1,
+	bbb: serverTimestamp(),
+	ddd: [],
+	eee: {
+		fff: [
+			{
+				ggg: true,
+				jjj: 1,
+				kkk: [{ lll: new Date(0), mmm: true }],
+			},
+		],
+	},
+})
+// set merge ok
+example.doc('1234567').set(
+	{
+		aaa: 1,
+		bbb: serverTimestamp(),
+		eee: {
+			fff: [
+				{
+					ggg: true,
+					jjj: 1,
+					kkk: [{ lll: new Date(0), mmm: true }],
+				},
+			],
+		},
+	},
+	{ merge: true }
+)
+
+// set not ok
+example.doc('1234567').set({
+	aaa: 1,
+	bbb: serverTimestamp(),
+	ddd: [],
+	eee: {
+		fff: [
+			{
+				ggg: true,
+				jjj: !1,
+				kkk: [{ lll: new Date(0), mmm: true }],
+			},
+		],
+	},
+})
+// set merge not ok
+example.doc('1234567').set(
+	{
+		aaa: 1,
+		bbb: serverTimestamp(),
+		eee: {
+			fff: [
+				{
+					ggg: true,
+					jjj: !1,
+					kkk: [{ lll: new Date(0), mmm: true }],
+				},
+			],
+		},
+	},
+	{ merge: true }
+)
+
+example.doc('1234567').update({
+	aaa: undefined, // ok, a: number | undefined
+	ddd: undefined, // Error, d: string[]
+}) // reject undefined
+
+example.doc('1234567').update(
+	flatten({
+		aaa: 1,
+		eee: {
+			fff: [{ ggg: true, jjj: 1, kkk: [{ lll: undefined, mmm: true }] }],
+		}, // ok, because lll: undefined | Date
+	})
+)
+
+example.doc('1234567').update(
+	flatten({
+		aaa: 1,
+		eee: {
+			fff: [{ ggg: true, jjj: 1, kkk: [{ lll: new Date(0), mmm: undefined }] }],
+		}, // not ok because mmm: boolean
+	})
+) // complex data reject undefined regardless of depth
+
+example.doc('1234567').update({
 	aaa: serverTimestamp(), // ERROR
 	bbb: increment(11), // ERROR
 	ddd: arrayUnion(123, 456), // ERROR
 })
 
-example.doc('1234567').set({
+example.doc('1234567').update({
 	aaa: increment(1), // ok
 	bbb: serverTimestamp(), // ok
 	ddd: arrayUnion('123', '456'), // ok

@@ -83,6 +83,7 @@ get and onSnapshot
 
 // options?:{source: 'default' | 'server' | 'cache'}
 user.get(options)
+user.where('age', '==', 20).get(options)
 
 // observer: {
 // 	next?: (

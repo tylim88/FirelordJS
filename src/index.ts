@@ -1,20 +1,17 @@
-import {
-	OmitKeys,
-	PartialNoImplicitUndefinedAndNoExtraMember,
-	ExcludePropertyKeys,
-	Firelord,
-} from './firelord'
+import { Firelord } from './firelord'
 import { FirelordFirestore } from './firelordFirestore'
 import { queryCreator } from './queryCreator'
-import { firelord as fl } from './index_'
+import { firelord as FirelordWrapper } from './index_'
+import { docCreator } from './doc'
+import { createTime } from './utils'
 
-export const firelord: fl =
+export const firelord: FirelordWrapper =
 	(firestore: FirelordFirestore.Firestore) =>
 	<
 		T extends {
 			colPath: string
-			docPath: string
-			colGroupPath: string
+			docID: string
+			colName: string
 			read: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedRead
 			write: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedWrite
 			writeNested: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedWrite
@@ -22,17 +19,11 @@ export const firelord: fl =
 			base: FirelordFirestore.DocumentData
 		} = never
 	>() => {
-		type Write = OmitKeys<T['write'], 'updatedAt' | 'createdAt'>
-		type WriteNested = OmitKeys<T['writeNested'], 'updatedAt' | 'createdAt'>
-		type Read = T['read']
-		type Compare = T['compare']
-		type WithoutArrayTypeMember = ExcludePropertyKeys<Compare, unknown[]>
-		const time = firestore.FieldValue.serverTimestamp()
+		type Write = Firelord.InternalReadWriteConverter<T>['write']
+		type WriteNested = Firelord.InternalReadWriteConverter<T>['writeNested']
+		type Read = Firelord.InternalReadWriteConverter<T>['read']
 
-		const newTime = {
-			createdAt: time,
-			updatedAt: null,
-		}
+		const { createdAt } = createTime(firestore)
 
 		const col = (collectionPath: T['colPath']) => {
 			const colRefWrite = firestore().collection(
@@ -41,232 +32,44 @@ export const firelord: fl =
 			const colRefRead =
 				colRefWrite as FirelordFirestore.CollectionReference<Read>
 
-			const doc = (
-				documentPath: T['docPath'],
-				docRef?: FirelordFirestore.DocumentReference
-			) => {
-				const docWrite =
-					(docRef as FirelordFirestore.DocumentReference<Write>) ||
-					colRefWrite.doc(documentPath)
-
-				const docRead =
-					(docRef as FirelordFirestore.DocumentReference<Read>) ||
-					colRefRead.doc(documentPath)
-
-				const transactionCreator = (
-					transaction: FirelordFirestore.Transaction
-				) => {
-					return {
-						set: <
-							J extends Partial<WriteNested>,
-							Z extends { merge?: true; mergeField?: (keyof Write)[] }
-						>(
-							data: J extends never
-								? J
-								: Z extends undefined
-								? WriteNested
-								: Z['merge'] extends true
-								? PartialNoImplicitUndefinedAndNoExtraMember<WriteNested, J>
-								: Z['mergeField'] extends (keyof Write)[]
-								? PartialNoImplicitUndefinedAndNoExtraMember<WriteNested, J>
-								: WriteNested,
-							options?: Z
-						) => {
-							if (options) {
-								return transaction.set(
-									docWrite,
-									{
-										updatedAt: time,
-										...data,
-									},
-									options
-								)
-							} else {
-								return transaction.set(docWrite, {
-									...newTime,
-									...data,
-								})
-							}
-						},
-						update: <J extends Partial<Write>>(
-							data: J extends never
-								? J
-								: PartialNoImplicitUndefinedAndNoExtraMember<Write, J>
-						) => {
-							return transaction.update(docWrite, { updatedAt: time, ...data })
-						},
-						delete: () => {
-							return transaction.delete(docWrite)
-						},
-						get: () => {
-							return transaction.get(docRead)
-						},
-					}
-				}
-
-				return {
-					firestore: docRead.firestore,
-					id: docRead.id,
-					parent: docRead.parent,
-					path: docRead.path,
-					isEqual: (
-						other: FirelordFirestore.DocumentReference<FirelordFirestore.DocumentData>
-					) => {
-						return docRead.isEqual(
-							other as FirelordFirestore.DocumentReference<Read>
-						)
-					},
-					onSnapshot: (
-						observer: {
-							next?: (
-								snapshot: FirelordFirestore.DocumentSnapshot<Read>
-							) => void
-							error?: (error: Error) => void
-						},
-						options?: FirelordFirestore.SnapshotListenOptions
-					) => {
-						return docRead.onSnapshot(
-							options || { includeMetadataChanges: false },
-							{
-								next: snapshot => {
-									return observer.next && observer.next(snapshot)
-								},
-								error: err => {
-									return observer.error && observer.error(err)
-								},
-							}
-						)
-					},
-					set: <
-						J extends Partial<WriteNested>,
-						Z extends { merge?: true; mergeField?: (keyof Write)[] }
-					>(
-						data: J extends never
-							? J
-							: Z extends undefined
-							? WriteNested
-							: Z['merge'] extends true
-							? PartialNoImplicitUndefinedAndNoExtraMember<WriteNested, J>
-							: Z['mergeField'] extends (keyof Write)[]
-							? PartialNoImplicitUndefinedAndNoExtraMember<WriteNested, J>
-							: WriteNested,
-						options?: Z
-					) => {
-						if (options) {
-							return docWrite.set(
-								{
-									updatedAt: time,
-									...data,
-								},
-								options
-							)
-						} else {
-							return docWrite.set({
-								...newTime,
-								...data,
-							})
-						}
-					},
-					update: <J extends Partial<Write>>(
-						data: J extends never
-							? J
-							: PartialNoImplicitUndefinedAndNoExtraMember<Write, J>
-					) => {
-						return docWrite.update({
-							updatedAt: time,
-							...data,
-						})
-					},
-					get: (options?: FirelordFirestore.GetOptions) => {
-						return docRead.get(options)
-					},
-					delete: () => docWrite.delete(),
-					batch: (batch: FirelordFirestore.WriteBatch) => {
-						return {
-							commit: () => {
-								return batch.commit()
-							},
-							delete: () => {
-								return batch.delete(docWrite)
-							},
-							update: <J extends Partial<Write>>(
-								data: J extends never
-									? J
-									: PartialNoImplicitUndefinedAndNoExtraMember<Write, J>
-							) => {
-								return batch.update(docWrite, { updatedAt: time, ...data })
-							},
-							set: <
-								J extends Partial<WriteNested>,
-								Z extends { merge?: true; mergeField?: (keyof Write)[] }
-							>(
-								data: J extends never
-									? J
-									: Z extends undefined
-									? WriteNested
-									: Z['merge'] extends true
-									? PartialNoImplicitUndefinedAndNoExtraMember<WriteNested, J>
-									: Z['mergeField'] extends (keyof Write)[]
-									? PartialNoImplicitUndefinedAndNoExtraMember<WriteNested, J>
-									: WriteNested,
-								options?: Z
-							) => {
-								if (options) {
-									return batch.set(
-										docWrite,
-										{
-											updatedAt: time,
-											...data,
-										},
-										options
-									)
-								} else {
-									return batch.set(docWrite, {
-										...newTime,
-										...data,
-									})
-								}
-							},
-						}
-					},
-					runTransaction: (
-						callback: (
-							transaction: ReturnType<typeof transactionCreator>
-						) => Promise<unknown>
-					) => {
-						firestore().runTransaction(async transaction => {
-							return callback(transactionCreator(transaction))
-						})
-					},
-				}
-			}
-
 			// https://github.com/microsoft/TypeScript/issues/32022
 			// https://stackoverflow.com/questions/51591335/typescript-spead-operator-on-object-with-method
+			// conclusion: do not spread
 			return {
 				parent: colRefRead.parent,
 				path: colRefRead.path,
 				id: colRefRead.id,
-				doc,
+				listDocuments: () => {
+					return colRefRead.listDocuments()
+				},
+				doc: docCreator<T>(firestore, colRefWrite, undefined),
 				add: (data: WriteNested) => {
 					return colRefWrite
 						.add({
-							...newTime,
+							...createdAt,
 							...data,
 						})
-						.then(docRef => {
-							return doc(docRef.id, docRef)
+						.then(documentReference => {
+							return docCreator<T>(
+								firestore,
+								colRefWrite,
+								documentReference
+							)(documentReference.id)
 						})
 				},
-				...queryCreator<Read, Compare, WithoutArrayTypeMember>(colRefRead),
+				...queryCreator<T>(firestore, colRefRead, colRefRead),
 			}
 		}
 
-		const colGroup = (collectionPath: T['colGroupPath']) => {
+		const colGroup = (collectionPath: T['colName']) => {
 			const colRefRead = firestore().collectionGroup(
 				collectionPath
 			) as FirelordFirestore.CollectionGroup<Read>
-			return queryCreator<Read, Compare, WithoutArrayTypeMember>(colRefRead)
+			return queryCreator<T, never, 'colGroup'>(
+				firestore,
+				undefined,
+				colRefRead
+			)
 		}
 
 		return {
@@ -282,6 +85,7 @@ export const firelord: fl =
 				serverTimestamp: () => {
 					return firestore.FieldValue.serverTimestamp() as unknown as Firelord.ServerTimestampMasked
 				},
+
 				arrayUnion: <T>(...values: T[]) => {
 					return firestore.FieldValue.arrayUnion(
 						...values
@@ -298,6 +102,6 @@ export const firelord: fl =
 
 export const ozai = firelord
 
-export { flatten } from './flat'
+export { flatten } from './utils'
 
 export type { Firelord } from './firelord'
