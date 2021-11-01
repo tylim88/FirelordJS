@@ -39,9 +39,6 @@ export const firelord: FirelordWrapper =
 				parent: colRefRead.parent,
 				path: colRefRead.path,
 				id: colRefRead.id,
-				listDocuments: () => {
-					return colRefRead.listDocuments()
-				},
 				doc: docCreator<T>(firestore, colRefWrite, undefined),
 				add: (data: WriteNested) => {
 					return colRefWrite

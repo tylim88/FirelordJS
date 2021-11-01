@@ -20,9 +20,6 @@ export type firelord = (firestore: FirelordFirestore.Firestore) => <
 		parent: FirelordFirestore.DocumentReference<FirelordFirestore.DocumentData> | null
 		path: string
 		id: string
-		listDocuments: () => Promise<
-			FirelordFirestore.DocumentReference<T['read']>[]
-		>
 		doc: ReturnType<DocCreator<T>>
 		add: (
 			data: OmitKeys<T['writeNested'], 'createdAt' | 'updatedAt'>
