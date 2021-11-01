@@ -111,10 +111,7 @@ export const docCreator =
 
 		const { createdAt, updatedAt } = createTime(firestore)
 
-		const docRef_ =
-			docRef ||
-			((colRef as FirelordFirestore.CollectionReference).add &&
-				(colRef as FirelordFirestore.CollectionReference).doc(documentID))
+		const docRef_ = docRef || (colRef && colRef.doc(documentID))
 
 		const docWrite = docRef_ as FirelordFirestore.DocumentReference<Write>
 
