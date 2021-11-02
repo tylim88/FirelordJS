@@ -338,7 +338,7 @@ export type DocCreator<
 	docRef:
 		| FirelordFirestore.DocumentReference
 		| (M extends 'col' ? undefined : M extends 'colGroup' ? never : never)
-) => (documentID: T['docID']) => {
+) => (documentID?: T['docID']) => {
 	firestore: FirelordFirestore.FirebaseFirestore
 	id: string
 	parent: FirelordFirestore.CollectionReference<T['read']>
