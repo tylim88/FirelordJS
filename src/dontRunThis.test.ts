@@ -109,8 +109,10 @@ user.get().then(snapshot => {
 	const data = snapshot.data()
 })
 
-user.onSnapshot(snapshot => {
-	const data = snapshot.data()
+user.onSnapshot({
+	next: snapshot => {
+		const data = snapshot.data()
+	},
 })
 
 // create if not exist, else overwrite
@@ -154,15 +156,18 @@ user.delete()
 
 user.runTransaction(async transaction => {
 	// get `read type` data
-	await transaction.get().then(snapshot => {
-		const data = snapshot.data()
-	})
+	await user
+		.transaction(transaction)
+		.get()
+		.then(snapshot => {
+			const data = snapshot.data()
+		})
 
 	// create if not exist, else overwrite
 	// although it can overwrite, this is intended to use as create
 	// require all members in `write type` except `updatedAt` and `createdAt`
 	// auto add `createdAt` and `updatedAt`
-	user.set({
+	await user.transaction(transaction).set({
 		name: 'John',
 		age: 24,
 		birthday: new Date(1995, 11, 17),
@@ -176,7 +181,7 @@ user.runTransaction(async transaction => {
 	// auto update `updatedAt`
 	// the only value for `merge` is `true`
 	// NOTE: there will be typescript missing property error if all member is not present, to fix this just fill in `{ merge:true }` in option as shown below.
-	await transaction.set({ name: 'Michael' }, { merge: true })
+	await user.transaction(transaction).set({ name: 'Michael' }, { merge: true })
 
 	// create if not exist, else update
 	// although it can create if not exist, this is intended to use as update
@@ -184,7 +189,7 @@ user.runTransaction(async transaction => {
 	// auto update `updatedAt`
 	// the merge keys are keys of `base type`
 	// NOTE: there will be typescript missing property error if all member is not present, to fix this just fill in `mergeField: [<keys>]` in option as shown below.
-	await transaction.set(
+	await user.transaction(transaction).set(
 		{ name: 'Michael', age: 32, birthday: new Date(1987, 8, 9) },
 		{ mergeField: ['name', 'age'] } // update only `name` and `age` fields
 	)
@@ -192,9 +197,9 @@ user.runTransaction(async transaction => {
 	// update if exist, else fail
 	// all member are partial members, you can leave any of the member out, however typescript will stop you from explicitly assign `undefined` value to any of the member unless you union it in `base type`
 	// auto update `updatedAt`
-	await transaction.update({ name: 'Michael' })
+	await user.transaction(transaction).update({ name: 'Michael' })
 	// delete document
-	await transaction.delete()
+	await user.transaction(transaction).delete()
 
 	// keep in mind you need to return promise in transaction
 	// example code here is just example to show api, this is not the correct way to do it
