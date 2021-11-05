@@ -1,8 +1,7 @@
 import { OmitKeys, Firelord } from './firelord'
 import { FirelordFirestore } from './firelordFirestore'
-import { QueryCreator } from './queryCreator'
+import { QueryCreator, QuerySnapshotCreator } from './queryCreator'
 import { DocCreator } from './doc'
-export type { queryCreator } from './queryCreator'
 
 export type firelord = (firestore: FirelordFirestore.Firestore) => <
 	T extends {
@@ -20,6 +19,14 @@ export type firelord = (firestore: FirelordFirestore.Firestore) => <
 		parent: FirelordFirestore.DocumentReference<FirelordFirestore.DocumentData> | null
 		path: string
 		id: string
+		onSnapshot: (
+			callbacks: {
+				onNext: (snapshot: ReturnType<QuerySnapshotCreator<T, 'col'>>) => void
+				onError?: (error: Error) => void
+				onCompletion?: () => void
+			},
+			options?: FirelordFirestore.SnapshotListenOptions
+		) => () => void
 		doc: ReturnType<DocCreator<T>>
 		add: (
 			data: OmitKeys<T['writeNested'], 'createdAt' | 'updatedAt'>
@@ -32,4 +39,7 @@ export type firelord = (firestore: FirelordFirestore.Firestore) => <
 		arrayUnion: <T>(...values: T[]) => Firelord.ArrayMasked<T>
 		arrayRemove: <T>(...values: T[]) => Firelord.ArrayMasked<T>
 	}
+	runTransaction: <Y>(
+		updateFunction: (transaction: FirelordFirestore.Transaction) => Promise<Y>
+	) => Promise<Y>
 }

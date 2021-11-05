@@ -306,13 +306,6 @@ export const docCreator =
 					},
 				}
 			},
-			runTransaction: <Y>(
-				updateFunction: (
-					transaction: FirelordFirestore.Transaction
-				) => Promise<Y>
-			) => {
-				return firestore().runTransaction<Y>(updateFunction)
-			},
 		}
 	}
 
@@ -486,7 +479,4 @@ export type DocCreator<
 		delete: () => FirelordFirestore.Transaction
 		get: () => Promise<ReturnType<DocSnapshotCreator<T>>>
 	}
-	runTransaction: <Y>(
-		updateFunction: (transaction: FirelordFirestore.Transaction) => Promise<Y>
-	) => Promise<Y>
 }
