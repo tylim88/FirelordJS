@@ -1,10 +1,6 @@
 import { Firelord } from './firelord'
 import { FirelordFirestore } from './firelordFirestore'
-import {
-	queryCreator,
-	querySnapshotCreator,
-	QuerySnapshotCreator,
-} from './queryCreator'
+import { queryCreator } from './queryCreator'
 import { firelord as FirelordWrapper } from './index_'
 import { docCreator } from './doc'
 import { createTime } from './utils'
@@ -43,27 +39,6 @@ export const firelord: FirelordWrapper =
 				parent: colRefRead.parent,
 				path: colRefRead.path,
 				id: colRefRead.id,
-				onSnapshot: (
-					callbacks: {
-						onNext: (
-							snapshot: ReturnType<QuerySnapshotCreator<T, 'col'>>
-						) => void
-						onError?: (error: Error) => void
-						onCompletion?: () => void
-					},
-					options?: FirelordFirestore.SnapshotListenOptions
-				) => {
-					return colRefRead.onSnapshot(
-						options || { includeMetadataChanges: false },
-						snapshot => {
-							return callbacks.onNext(
-								querySnapshotCreator<T, 'col'>(firestore, colRefRead, snapshot)
-							)
-						},
-						callbacks.onError,
-						callbacks.onCompletion
-					)
-				},
 				doc: docCreator<T>(firestore, colRefWrite, undefined),
 				add: (data: WriteNested) => {
 					return colRefWrite

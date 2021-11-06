@@ -112,6 +112,14 @@ export type QueryCreator<
 		ReturnType<QueryCreator<T, PermanentlyOmittedKeys, M>>,
 		PermanentlyOmittedKeys
 	>
+	onSnapshot: (
+		callbacks: {
+			onNext: (snapshot: ReturnType<QuerySnapshotCreator<T, M>>) => void
+			onError?: (error: Error) => void
+			onCompletion?: () => void
+		},
+		options?: FirelordFirestore.SnapshotListenOptions
+	) => () => void
 	get: (
 		options?: FirelordFirestore.GetOptions
 	) => Promise<ReturnType<QuerySnapshotCreator<T>>>
@@ -251,6 +259,25 @@ export const queryCreator = <
 			)
 		},
 		orderBy: orderByCreator(query),
+		onSnapshot: (
+			callbacks: {
+				onNext: (snapshot: ReturnType<QuerySnapshotCreator<T, 'col'>>) => void
+				onError?: (error: Error) => void
+				onCompletion?: () => void
+			},
+			options?: FirelordFirestore.SnapshotListenOptions
+		) => {
+			return query.onSnapshot(
+				options || { includeMetadataChanges: false },
+				snapshot => {
+					return callbacks.onNext(
+						querySnapshotCreator<T, M>(firestore, colRef, snapshot)
+					)
+				},
+				callbacks.onError,
+				callbacks.onCompletion
+			)
+		},
 		get: (options?: FirelordFirestore.GetOptions) => {
 			return query.get(options).then(querySnapshot => {
 				return querySnapshotCreator<T, M>(firestore, colRef, querySnapshot)
