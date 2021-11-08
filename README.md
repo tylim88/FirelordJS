@@ -10,15 +10,17 @@
 
 🚀 The wrapper type all read and write operations; query field path, field value, collection path, document path, type everything!
 
-🔥 Automatically convert all value types to corresponding read types, write types and compare types (good at handling timestamp and field values).
-
-✋🏻 Not only does it safeguard your types, but it also stops you from making any incorrect implementation(use the wrapper incorrectly).
+🔥 Automatically convert all value types to corresponding `read` types, `write` types and `compare` types (good at handling timestamp and field values).
 
 💥 Even the seemly un-type-able Firestore Field Value(serverTimestamp, arrayRemove, arrayUnion and increment) is taken care of, EVERYTHING is typed, NO TYPE IS LEFT BEHIND!!
 
 ✨ API closely resembles firestore API, low learning curve.
 
 🌈 Strictly one-time setup per document. Once configured, you are ready. No more confusing setup in the future, simplicity at its finest.
+
+🍡 Automatic handle empty array error for `in`, `not-in`, `array-contains-any`, `arrayUnion` and `arrayRemove`, no longer need to check for empty array!
+
+🍧 Use `in` and `array-contains-any` with more than 10 elements array!
 
 🐉 Zero dependencies.
 
