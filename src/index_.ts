@@ -4,16 +4,7 @@ import { QueryCreator } from './queryCreator'
 import { DocCreator } from './doc'
 
 export type firelord = (firestore: FirelordFirestore.Firestore) => <
-	T extends {
-		colPath: string
-		docID: string
-		colName: string
-		read: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedRead
-		write: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedWrite
-		writeNested: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedWrite
-		compare: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedCompare
-		base: FirelordFirestore.DocumentData
-	} = never
+	T extends Firelord.MetaType = never
 >() => {
 	col: (collectionPath: T['colPath']) => {
 		parent: FirelordFirestore.DocumentReference<FirelordFirestore.DocumentData> | null
@@ -28,8 +19,14 @@ export type firelord = (firestore: FirelordFirestore.Firestore) => <
 	fieldValue: {
 		increment: (value: number) => Firelord.NumberMasked
 		serverTimestamp: () => Firelord.ServerTimestampMasked
-		arrayUnion: <T>(...values: T[]) => Firelord.ArrayMasked<T>
-		arrayRemove: <T>(...values: T[]) => Firelord.ArrayMasked<T>
+		arrayUnion: <T extends string, Y>(
+			key: T,
+			...values: Y[]
+		) => { [key in T]: Firelord.ArrayMasked<Y> }
+		arrayRemove: <T extends string, Y>(
+			key: T,
+			...values: Y[]
+		) => { [key in T]: Firelord.ArrayMasked<Y> }
 	}
 	runTransaction: <Y>(
 		updateFunction: (transaction: FirelordFirestore.Transaction) => Promise<Y>

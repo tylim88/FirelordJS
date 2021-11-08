@@ -7,16 +7,7 @@ import { FirelordFirestore } from './firelordFirestore'
 import { createTime } from './utils'
 
 export const docSnapshotCreator = <
-	T extends {
-		colPath: string
-		docID: string
-		colName: string
-		read: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedRead
-		write: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedWrite
-		writeNested: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedWrite
-		compare: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedCompare
-		base: FirelordFirestore.DocumentData
-	},
+	T extends Firelord.MetaType,
 	M extends 'col' | 'colGroup' = 'col'
 >(
 	firestore: FirelordFirestore.Firestore,
@@ -52,16 +43,7 @@ export const docSnapshotCreator = <
 }
 
 export type DocSnapshotCreator<
-	T extends {
-		colPath: string
-		docID: string
-		colName: string
-		read: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedRead
-		write: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedWrite
-		writeNested: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedWrite
-		compare: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedCompare
-		base: FirelordFirestore.DocumentData
-	},
+	T extends Firelord.MetaType,
 	M extends 'col' | 'colGroup' = 'col'
 > = (
 	firestore: FirelordFirestore.Firestore,
@@ -310,16 +292,7 @@ export const docCreator =
 	}
 
 export type DocCreator<
-	T extends {
-		colPath: string
-		docID: string
-		colName: string
-		read: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedRead
-		write: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedWrite
-		writeNested: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedWrite
-		compare: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedCompare
-		base: FirelordFirestore.DocumentData
-	},
+	T extends Firelord.MetaType,
 	M extends 'col' | 'colGroup' = 'col'
 > = (
 	firestore: FirelordFirestore.Firestore,

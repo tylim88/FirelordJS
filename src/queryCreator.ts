@@ -6,20 +6,12 @@ import {
 } from './firelord'
 import { FirelordFirestore } from './firelordFirestore'
 import { docSnapshotCreator, DocSnapshotCreator } from './doc'
+import { arrayChunk } from './utils'
 
 // https://stackoverflow.com/questions/69724861/recursive-type-become-any-after-emit-declaration-need-implicit-solution
 
 export type QueryCreator<
-	T extends {
-		colPath: string
-		docID: string
-		colName: string
-		read: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedRead
-		write: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedWrite
-		writeNested: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedWrite
-		compare: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedCompare
-		base: FirelordFirestore.DocumentData
-	},
+	T extends Firelord.MetaType,
 	PermanentlyOmittedKeys extends keyof ReturnType<
 		QueryCreator<T, PermanentlyOmittedKeys, M>
 	> = never,
@@ -76,14 +68,18 @@ export type QueryCreator<
 				  }
 				: never
 			: never
-	) => J extends '<' | '<=' | '>' | '>' | '==' | 'in'
+	) => J extends 'in' | 'array-contains-any'
 		? OmitKeys<
 				ReturnType<QueryCreator<T, PermanentlyOmittedKeys, M>>,
-				'orderBy' | PermanentlyOmittedKeys
-		  >
+				J extends '<' | '<=' | '>' | '>' | '==' | 'in'
+					? 'orderBy' | PermanentlyOmittedKeys
+					: PermanentlyOmittedKeys
+		  >[]
 		: OmitKeys<
 				ReturnType<QueryCreator<T, PermanentlyOmittedKeys, M>>,
-				PermanentlyOmittedKeys
+				J extends '<' | '<=' | '>' | '>' | '==' | 'in'
+					? 'orderBy' | PermanentlyOmittedKeys
+					: PermanentlyOmittedKeys
 		  >
 	limit: (
 		limit: number
@@ -129,16 +125,7 @@ export type QueryCreator<
 // however due to this is a recursive function, it is not possible
 // luckily this is only used in 2 places and is explicitly typed, so everything is good
 export const queryCreator = <
-	T extends {
-		colPath: string
-		docID: string
-		colName: string
-		read: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedRead
-		write: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedWrite
-		writeNested: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedWrite
-		compare: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedCompare
-		base: FirelordFirestore.DocumentData
-	},
+	T extends Firelord.MetaType,
 	PermanentlyOmittedKeys extends keyof ReturnType<
 		QueryCreator<T, PermanentlyOmittedKeys, M>
 	> = never,
@@ -224,25 +211,61 @@ export const queryCreator = <
 					: never
 				: never
 		) => {
-			const ref = query.where(fieldPath, opStr, value)
+			const whereInnerCreator = (innerValue: typeof value) => {
+				let adjustedValue: typeof innerValue = innerValue
 
-			const queryRef = queryCreator<T, PermanentlyOmittedKeys, M>(
-				firestore,
-				colRef,
-				ref
-			)
+				if (
+					opStr === 'in' ||
+					opStr === 'array-contains-any' ||
+					opStr === 'any'
+				) {
+					if (value.length === 0) {
+						adjustedValue = [
+							'This is a very long string to prevent collision: %$GE&^G^*(N Y(&*T^VR&%R&^TN&*^RMN$BEDF^R%TFG%I%TFDH%(UI<)(UKJ^HGFEC#DR^T*&#$%(<RGFESAXSCVBGNHM(&%T^BTNRV%ITB^TJNTN^T^*T',
+						] as typeof value
+					}
+				}
 
-			const finalRef = orderBy
-				? orderByCreator(ref)(
-						orderBy.fieldPath,
-						orderBy.directionStr,
-						orderBy.cursor
-				  )
-				: queryRef
+				const ref = query.where(fieldPath, opStr, adjustedValue)
 
-			return finalRef as J extends '<' | '<=' | '>' | '>' | '==' | 'in'
-				? OmitKeys<typeof finalRef, 'orderBy'>
-				: typeof finalRef
+				const queryRef = queryCreator<T, PermanentlyOmittedKeys, M>(
+					firestore,
+					colRef,
+					ref
+				)
+
+				const finalRef = orderBy
+					? orderByCreator(ref)(
+							orderBy.fieldPath,
+							orderBy.directionStr,
+							orderBy.cursor
+					  )
+					: queryRef
+
+				return finalRef as OmitKeys<
+					typeof finalRef,
+					J extends '<' | '<=' | '>' | '>' | '==' | 'in' ? 'orderBy' : never
+				>
+			}
+			if (opStr === 'in' || opStr === 'array-contains-any') {
+				let adjustedValue: typeof value = value
+				if (value.length === 0) {
+					adjustedValue = [
+						'This is a very long string to prevent collision: %$GE&^G^*(N Y(&*T^VR&%R&^TN&*^RMN$BEDF^R%TFG%I%TFDH%(UI<)(UKJ^HGFEC#DR^T*&#$%(<RGFESAXSCVBGNHM(&%T^BTNRV%ITB^TJNTN^T^*T',
+					] as typeof value
+				}
+				const valueChunks = arrayChunk(
+					adjustedValue as unknown[],
+					10
+				) as typeof value[]
+				return valueChunks.map(arr => {
+					return whereInnerCreator(arr)
+				})
+			} else {
+				// TODO remove any, is it possible
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
+				return whereInnerCreator(value) as any
+			}
 		},
 		limit: (limit: number) => {
 			return queryCreator<T, PermanentlyOmittedKeys, M>(
@@ -287,16 +310,7 @@ export const queryCreator = <
 }
 
 export type QuerySnapshotCreator<
-	T extends {
-		colPath: string
-		docID: string
-		colName: string
-		read: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedRead
-		write: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedWrite
-		writeNested: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedWrite
-		compare: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedCompare
-		base: FirelordFirestore.DocumentData
-	},
+	T extends Firelord.MetaType,
 	M extends 'col' | 'colGroup' = 'col'
 > = (
 	firestore: FirelordFirestore.Firestore,
@@ -318,16 +332,7 @@ export type QuerySnapshotCreator<
 }
 
 export const querySnapshotCreator = <
-	T extends {
-		colPath: string
-		docID: string
-		colName: string
-		read: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedRead
-		write: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedWrite
-		writeNested: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedWrite
-		compare: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedCompare
-		base: FirelordFirestore.DocumentData
-	},
+	T extends Firelord.MetaType,
 	M extends 'col' | 'colGroup' = 'col'
 >(
 	firestore: FirelordFirestore.Firestore,

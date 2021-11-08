@@ -7,18 +7,7 @@ import { createTime } from './utils'
 
 export const firelord: FirelordWrapper =
 	(firestore: FirelordFirestore.Firestore) =>
-	<
-		T extends {
-			colPath: string
-			docID: string
-			colName: string
-			read: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedRead
-			write: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedWrite
-			writeNested: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedWrite
-			compare: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedCompare
-			base: FirelordFirestore.DocumentData
-		} = never
-	>() => {
+	<T extends Firelord.MetaType = never>() => {
 		type Write = Firelord.InternalReadWriteConverter<T>['write']
 		type WriteNested = Firelord.InternalReadWriteConverter<T>['writeNested']
 		type Read = Firelord.InternalReadWriteConverter<T>['read']
@@ -82,16 +71,23 @@ export const firelord: FirelordWrapper =
 				serverTimestamp: () => {
 					return firestore.FieldValue.serverTimestamp() as unknown as Firelord.ServerTimestampMasked
 				},
-
-				arrayUnion: <T>(...values: T[]) => {
-					return firestore.FieldValue.arrayUnion(
-						...values
-					) as unknown as Firelord.ArrayMasked<T>
+				arrayUnion: <T extends string, Y>(key: T, ...values: Y[]) => {
+					return (values.length > 0
+						? {
+								[key]: firestore.FieldValue.arrayUnion(...values),
+						  }
+						: {}) as unknown as {
+						[key in T]: Firelord.ArrayMasked<Y>
+					}
 				},
-				arrayRemove: <T>(...values: T[]) => {
-					return firestore.FieldValue.arrayRemove(
-						...values
-					) as unknown as Firelord.ArrayMasked<T>
+				arrayRemove: <T extends string, Y>(key: T, ...values: Y[]) => {
+					return (values.length > 0
+						? {
+								[key]: firestore.FieldValue.arrayRemove(...values),
+						  }
+						: {}) as unknown as {
+						[key in T]: Firelord.ArrayMasked<Y>
+					}
 				},
 			},
 			runTransaction: <Y>(

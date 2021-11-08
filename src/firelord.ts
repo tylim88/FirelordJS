@@ -234,18 +234,18 @@ export namespace Firelord {
 			: `${E['colPath']}/${E['docID']}/${C}/${D}`
 	}
 
-	export type InternalReadWriteConverter<
-		T extends {
-			colPath: string
-			docID: string
-			colName: string
-			read: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedRead
-			write: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedWrite
-			writeNested: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedWrite
-			compare: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedCompare
-			base: FirelordFirestore.DocumentData
-		} = never
-	> = {
+	export type MetaType = {
+		colPath: string
+		docID: string
+		colName: string
+		read: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedRead
+		write: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedWrite
+		writeNested: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedWrite
+		compare: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedCompare
+		base: FirelordFirestore.DocumentData
+	}
+
+	export type InternalReadWriteConverter<T extends MetaType = never> = {
 		write: OmitKeys<T['write'], 'updatedAt' | 'createdAt'>
 		writeNested: OmitKeys<T['writeNested'], 'updatedAt' | 'createdAt'>
 		read: T['read']
