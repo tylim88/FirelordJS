@@ -236,8 +236,9 @@ export namespace Firelord {
 
 	export type MetaType = {
 		colPath: string
-		docID: string
 		colName: string
+		docID: string
+		docPath: string
 		read: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedRead
 		write: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedWrite
 		writeNested: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedWrite

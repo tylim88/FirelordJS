@@ -63,19 +63,7 @@ export type DocSnapshotCreator<
 }
 
 export const docCreator =
-	<
-		T extends {
-			colPath: string
-			docID: string
-			colName: string
-			read: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedRead
-			write: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedWrite
-			writeNested: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedWrite
-			compare: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedCompare
-			base: FirelordFirestore.DocumentData
-		},
-		M extends 'col' | 'colGroup' = 'col'
-	>(
+	<T extends Firelord.MetaType, M extends 'col' | 'colGroup' = 'col'>(
 		firestore: FirelordFirestore.Firestore,
 		colRef: M extends 'col'
 			? FirelordFirestore.CollectionReference
