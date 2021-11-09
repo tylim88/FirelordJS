@@ -10,12 +10,14 @@ export type firelord = (firestore: FirelordFirestore.Firestore) => <
 		parent: FirelordFirestore.DocumentReference<FirelordFirestore.DocumentData> | null
 		path: string
 		id: string
-		doc: ReturnType<DocCreator<T>>
+		doc: ReturnType<DocCreator<T, 'col'>>
 		add: (
 			data: Firelord.InternalReadWriteConverter<T>['writeNestedCreate']
-		) => Promise<ReturnType<ReturnType<DocCreator<T>>>>
-	} & ReturnType<QueryCreator<T>>
-	colGroup: (collectionPath: T['colName']) => ReturnType<QueryCreator<T>>
+		) => Promise<ReturnType<ReturnType<DocCreator<T, 'col'>>>>
+	} & ReturnType<QueryCreator<T, never, 'col'>>
+	colGroup: (
+		collectionPath: T['colName']
+	) => ReturnType<QueryCreator<T, never, 'colGroup'>>
 	fieldValue: {
 		increment: (value: number) => Firelord.NumberMasked
 		serverTimestamp: () => Firelord.ServerTimestampMasked

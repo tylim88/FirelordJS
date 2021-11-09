@@ -29,7 +29,7 @@ export const firelord: FirelordWrapper =
 				parent: colRefRead.parent,
 				path: colRefRead.path,
 				id: colRefRead.id,
-				doc: docCreator<T>(firestore, colRefWrite, undefined),
+				doc: docCreator<T, M>(firestore, colRefWrite, undefined),
 				add: (data: WriteNestedCreate) => {
 					return colRefWrite
 						.add({
@@ -37,7 +37,7 @@ export const firelord: FirelordWrapper =
 							...data,
 						})
 						.then(documentReference => {
-							return docCreator<T>(
+							return docCreator<T, M>(
 								firestore,
 								colRefWrite,
 								documentReference

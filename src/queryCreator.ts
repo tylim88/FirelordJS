@@ -121,7 +121,7 @@ export type QueryCreator<
 	) => () => void
 	get: (
 		options?: FirelordFirestore.GetOptions
-	) => Promise<ReturnType<QuerySnapshotCreator<T>>>
+	) => Promise<ReturnType<QuerySnapshotCreator<T, M>>>
 }
 
 // need to make generic mandatory https://stackoverflow.com/questions/55610260/how-to-make-generics-mandatory
