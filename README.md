@@ -35,7 +35,9 @@ Variants:
 
 This is a wrapper for [react-native-firebase](https://www.npmjs.com/package/react-native-firebase)
 
-work exactly like [firelord](https://github.com/tylim88/Firelord)(doc), except that:
+work exactly like [firelord](https://github.com/tylim88/Firelord)<-- read the doc here
+
+there are few differences:
 
 1. any kind of `create` operations is not available, you can only create a document using `set` or `add`
 2. no `offset`

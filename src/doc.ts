@@ -16,7 +16,7 @@ export const docSnapshotCreator = <
 		? undefined
 		: never,
 	documentSnapshot: FirelordFirestore.DocumentSnapshot
-): ReturnType<DocSnapshotCreator<T>> => {
+): ReturnType<DocSnapshotCreator<T, M>> => {
 	type Read = Firelord.InternalReadWriteConverter<T>['read']
 
 	return {
@@ -105,7 +105,7 @@ export const docCreator =
 			},
 			onSnapshot: (
 				observer: {
-					next?: (snapshot: ReturnType<DocSnapshotCreator<T>>) => void
+					next?: (snapshot: ReturnType<DocSnapshotCreator<T, M>>) => void
 					error?: (error: Error) => void
 				},
 				options?: FirelordFirestore.SnapshotListenOptions
@@ -260,7 +260,7 @@ export type DocCreator<
 	) => boolean
 	onSnapshot: (
 		observer: {
-			next?: (snapshot: ReturnType<DocSnapshotCreator<T>>) => void
+			next?: (snapshot: ReturnType<DocSnapshotCreator<T, M>>) => void
 			error?: (error: Error) => void
 		},
 		options?: FirelordFirestore.SnapshotListenOptions
@@ -306,7 +306,7 @@ export type DocCreator<
 	) => Promise<void>
 	get: (
 		options?: FirelordFirestore.GetOptions
-	) => Promise<ReturnType<DocSnapshotCreator<T>>>
+	) => Promise<ReturnType<DocSnapshotCreator<T, M>>>
 	delete: () => Promise<void>
 	batch: (batch: FirelordFirestore.WriteBatch) => {
 		commit: () => Promise<void>
@@ -396,6 +396,6 @@ export type DocCreator<
 				  >
 		) => FirelordFirestore.Transaction
 		delete: () => FirelordFirestore.Transaction
-		get: () => Promise<ReturnType<DocSnapshotCreator<T>>>
+		get: () => Promise<ReturnType<DocSnapshotCreator<T, M>>>
 	}
 }

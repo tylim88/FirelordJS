@@ -11,9 +11,6 @@ export namespace FirelordFirestore {
 	export type DocumentData =
 		import('firebase/compat/app').default.firestore.DocumentData
 
-	export type DocumentChange<T = DocumentData> =
-		import('firebase/compat/app').default.firestore.DocumentChange<T>
-
 	export type DocumentReference<T extends DocumentData = DocumentData> =
 		import('firebase/compat/app').default.firestore.DocumentReference<T>
 
@@ -33,6 +30,12 @@ export namespace FirelordFirestore {
 
 	export type DocumentSnapshot<T extends DocumentData = DocumentData> =
 		import('firebase/compat/app').default.firestore.DocumentSnapshot<T>
+
+	export type DocumentChange<T = DocumentData> =
+		import('firebase/compat/app').default.firestore.DocumentChange<T>
+
+	export type DocumentChangeType =
+		import('firebase/compat/app').default.firestore.DocumentChangeType
 
 	export type Transaction =
 		import('firebase/compat/app').default.firestore.Transaction
