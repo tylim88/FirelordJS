@@ -6,7 +6,7 @@
 
 🐤 Write truly scalable firestore code with complete deep typing firestore wrapper, no more typing hell in your firestore code.
 
-💪🏻 handle object, array, array object, object array...and all kinds of type, regardless of the nesting level!
+💪🏻 handle object, array, any combination of array and object, regardless of the nesting level!
 
 🚀 The wrapper type all read and write operations; query field path, field value, collection path, document path, type everything!
 
@@ -20,7 +20,9 @@
 
 🍡 Automatic handle empty array error for `in`, `not-in`, `array-contains-any`, `arrayUnion` and `arrayRemove`, no longer need to check for empty array!
 
-🍧 Use `in` and `array-contains-any` with more than 10 elements array!
+🍧 Use `in`, `not-in` and `array-contains-any` with more than 10 elements array! (`not-in` has a caveat)
+
+🍹 Take care of `orderBy` limitation.
 
 🐉 Zero dependencies.
 
