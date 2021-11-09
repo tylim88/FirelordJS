@@ -248,7 +248,8 @@ export namespace Firelord {
 
 	export type InternalReadWriteConverter<T extends MetaType = never> = {
 		write: OmitKeys<T['write'], 'updatedAt' | 'createdAt'>
-		writeNested: T['writeNested']
+		writeNested: OmitKeys<T['writeNested'], 'updatedAt' | 'createdAt'> &
+			Partial<Firelord.CreatedUpdatedRead>
 		writeNestedCreate: OmitKeys<T['writeNested'], 'updatedAt' | 'createdAt'>
 		read: T['read']
 		compare: T['compare']

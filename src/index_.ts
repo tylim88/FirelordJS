@@ -1,4 +1,4 @@
-import { OmitKeys, Firelord } from './firelord'
+import { Firelord } from './firelord'
 import { FirelordFirestore } from './firelordFirestore'
 import { QueryCreator } from './queryCreator'
 import { DocCreator } from './doc'
@@ -12,7 +12,7 @@ export type firelord = (firestore: FirelordFirestore.Firestore) => <
 		id: string
 		doc: ReturnType<DocCreator<T>>
 		add: (
-			data: OmitKeys<T['writeNested'], 'createdAt' | 'updatedAt'>
+			data: Firelord.InternalReadWriteConverter<T>['writeNestedCreate']
 		) => Promise<ReturnType<ReturnType<DocCreator<T>>>>
 	} & ReturnType<QueryCreator<T>>
 	colGroup: (collectionPath: T['colName']) => ReturnType<QueryCreator<T>>
