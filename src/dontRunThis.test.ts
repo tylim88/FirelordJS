@@ -336,6 +336,54 @@ users.limit(1).where('age', '!=', 20).limit(2)
 users.offset(1).where('age', '!=', 20).offset(2)
 users.where('age', '!=', 20).limitToLast(2).offset(3).limit(1)
 
+// all should be ok
+users.where('age', '==', 20).limit(2).where('name', '!=', 'Sam')
+users.where('age', 'not-in', [20]).limit(2).where('name', '==', 'Taylor')
+users.where('age', '>', 20).limit(2).where('name', 'in', ['Brown'])
+users.where('age', '!=', 20).limit(2).where('age', 'not-in', [30])
+Promise.all(
+	users.where('beenTo', 'array-contains-any', ['CHINA']).map(query => {
+		return query.limit(2).where('age', '>', 20)
+	})
+)
+users
+	.where('age', 'not-in', [20])
+	.limit(2)
+	.where('beenTo', 'array-contains', 'USA')
+
+// In a compound query, range (<, <=, >, >=) and not equals (!=, not-in) comparisons must all filter on the same field.
+// all should error
+users.where('age', '!=', 20).limit(2).where('name', 'not-in', ['John'])
+users.where('age', '>', 20).limit(2).where('name', '<', 'Michael')
+users.where('age', 'not-in', [20]).limit(2).where('name', '<', 'Ozai')
+
+// You can use at most one array-contains clause per query. You can't combine array-contains with array-contains-any
+// all should error
+users
+	.where('beenTo', 'array-contains', 'USA')
+	.limit(1)
+	.where('beenTo', 'array-contains', 'CHINA')
+users
+	.where('beenTo', 'array-contains', 'CHINA')
+	.limit(1)
+	.where('beenTo', 'array-contains-any', ['USA'])
+
+// You can use at most one in, not-in, or array-contains-any clause per query. You can't combine in , not-in, and array-contains-any in the same query.
+// all should error
+Promise.all(
+	users.where('beenTo', 'array-contains-any', ['USA']).map(query => {
+		return query.limit(1).where('age', 'in', [20])
+	})
+)
+users
+	.where('name', 'not-in', ['ozai'])
+	.limit(1)
+	.where('beenTo', 'array-contains-any', ['USA'])
+users
+	.where('name', 'not-in', ['ozai'])
+	.limit(1)
+	.where('beenTo', 'in', [['USA']])
+
 type a = Firelord.ReadWriteCreator<
 	{
 		a:

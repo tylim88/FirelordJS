@@ -22,7 +22,11 @@
 
 🍧 Use `in`, `not-in` and `array-contains-any` with more than 10 elements array! (`not-in` has a caveat)
 
-🍹 Take care of `orderBy` limitation.
+🥙 All `Snapshot` are typed, chain your operations without type casting anymore!
+
+🍹 Avoid `orderBy` and `query` limitations for you.
+
+🍁 `write` operations reject unknown member and enforce partial but no undefined.
 
 🐉 Zero dependencies.
 
