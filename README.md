@@ -1,7 +1,7 @@
 <!-- markdownlint-disable MD010 -->
 <!-- markdownlint-disable MD033 -->
 
-# firelordjs(BETA, js)
+# firelordjs(BETA, JS)
 
 <p align="center">
  <a href="https://github.com/tylim88/Firelord/blob/main/img/ozai.png" rel="nofollow"><img src="https://raw.githubusercontent.com/tylim88/Firelord/main/img/ozai.png" width="200px" align="center" /></a>
