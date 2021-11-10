@@ -1,26 +1,36 @@
 <!-- markdownlint-disable MD010 -->
+<!-- markdownlint-disable MD033 -->
 
-# firelordjs(BETA, js only)
+# firelordjs(BETA, js)
 
-[![npm](https://img.shields.io/npm/v/firelordjs)](https://www.npmjs.com/package/firelordjs) [![GitHub](https://img.shields.io/github/license/tylim88/firelordjs)](https://github.com/tylim88/firelordjs/blob/master/LICENSE) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://github.com/tylim88/firelordjs/pulls)
+<center>
+ <a href="https://github.com/tylim88/Firelord/blob/main/img/ozai.png" rel="nofollow"><img src="https://raw.githubusercontent.com/tylim88/Firelord/main/img/ozai.png" width="200px" align="center" /></a>
+  <h1 align="center">Firelordrn</h1>
+</center>
 
-🐤 Write truly scalable firestore code with complete deep typing firestore wrapper, no more typing hell in your firestore code.
+<center>
+<a href="https://www.npmjs.com/package/firelordjs" rel="nofollow"><img src="https://img.shields.io/npm/v/firelordjs" alt="Created by tylim88">
+<a href="https://github.com/tylim88/firelordjs/blob/main/LICENSE" rel="nofollow"><img src="https://img.shields.io/github/license/tylim88/firelordjs" alt="License"></a>
+<a href="https://github.com/tylim88/firelordjs/pulls" rel="nofollow"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square"></a>
+</center>
 
-💪🏻 handle object, array, any combination of array and object, regardless of the nesting level!
+🐤 Write truly scalable Firestore code with complete deep typing Firestore wrapper.
+
+💪🏻 Type object, array, any combination of array and object, regardless of the nesting level.
 
 🚀 The wrapper type all read and write operations; query field path, field value, collection path, document path, type everything!
 
-🔥 Automatically convert all value types to corresponding `read` types, `write` types and `compare` types (good at handling timestamp and field values).
+🔥 Convert all value types to corresponding `read` types, `write` types and `compare` types (good at handling timestamp and field values).
 
-💥 Even the seemly un-type-able Firestore Field Value(serverTimestamp, arrayRemove, arrayUnion and increment) is taken care of, EVERYTHING is typed, NO TYPE IS LEFT BEHIND!!
+💥 Typed the seemly un-type-able Firestore Field Value(serverTimestamp, arrayRemove, arrayUnion and increment).
 
-✨ API closely resembles firestore API, low learning curve.
+✨ API closely resembles Firestore API, low learning curve.
 
 🌈 Strictly one-time setup per document. Once configured, you are ready. No more confusing setup in the future, simplicity at its finest.
 
-🍡 Automatic handle empty array error for `in`, `not-in`, `array-contains-any`, `arrayUnion` and `arrayRemove`, no longer need to check for empty array!
+🍡 Prevent empty array from hitting `in`, `not-in`, `array-contains-any`, `arrayUnion` and `arrayRemove`, peace in mind.
 
-🍧 Use `in`, `not-in` and `array-contains-any` with more than 10 elements array! (`not-in` has a caveat)
+🍧 Use `in`, `not-in` and `array-contains-any` with more than 10 elements array. (`not-in` has a caveat)
 
 🥙 All `Snapshot` are typed, chain your operations without type casting anymore!
 
@@ -28,7 +38,7 @@
 
 🍁 `write` operations reject unknown member and enforce partial but no undefined.
 
-🐉 Zero dependencies.
+🦊 Zero dependencies.
 
 ⛲️ Out of box typescript support.
 
