@@ -5,7 +5,7 @@ import {
 import { FirelordFirestore } from './firelordFirestore'
 import { createTime } from './utils'
 
-export const docSnapshotCreator = <
+export const docSnapshotCreator: <
 	T extends Firelord.MetaType,
 	M extends 'col' | 'colGroup' = 'col'
 >(
@@ -16,7 +16,18 @@ export const docSnapshotCreator = <
 		? undefined
 		: never,
 	documentSnapshot: FirelordFirestore.DocumentSnapshot
-): ReturnType<DocSnapshotCreator<T, M>> => {
+) => ReturnType<DocSnapshotCreator<T, M>> = <
+	T extends Firelord.MetaType,
+	M extends 'col' | 'colGroup' = 'col'
+>(
+	firestore: FirelordFirestore.Firestore,
+	colRef: M extends 'col'
+		? FirelordFirestore.CollectionReference
+		: M extends 'colGroup'
+		? undefined
+		: never,
+	documentSnapshot: FirelordFirestore.DocumentSnapshot
+) => {
 	type Read = Firelord.InternalReadWriteConverter<T>['read']
 
 	return {
@@ -61,7 +72,20 @@ export type DocSnapshotCreator<
 	isEqual: (other: FirelordFirestore.DocumentSnapshot) => boolean
 }
 
-export const docCreator =
+export const docCreator: <
+	T extends Firelord.MetaType,
+	M extends 'col' | 'colGroup' = 'col'
+>(
+	firestore: FirelordFirestore.Firestore,
+	colRef: M extends 'col'
+		? FirelordFirestore.CollectionReference
+		: M extends 'colGroup'
+		? undefined
+		: never,
+	docRef:
+		| FirelordFirestore.DocumentReference
+		| (M extends 'col' ? undefined : M extends 'colGroup' ? never : never)
+) => ReturnType<DocCreator<T, M>> =
 	<T extends Firelord.MetaType, M extends 'col' | 'colGroup' = 'col'>(
 		firestore: FirelordFirestore.Firestore,
 		colRef: M extends 'col'

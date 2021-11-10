@@ -68,7 +68,10 @@ import { firelord, Firelord } from 'firelord'
 import { firestore } from 'firebase-admin'
 
 // create wrapper
-const wrapper = firelord(firestore)
+const {
+	fieldValue: { increment, arrayUnion, arrayRemove, serverTimestamp },
+	wrapper,
+} = firelord(firestore)
 ```
 
 do
@@ -93,7 +96,10 @@ firebase.initializeApp({
 const firestore = firebase.firestore
 
 // create wrapper
-const wrapper = firelord(firestore)
+const {
+	fieldValue: { increment, arrayUnion, arrayRemove, serverTimestamp },
+	wrapper,
+} = firelord(firestore)
 ```
 
 get and onSnapshot

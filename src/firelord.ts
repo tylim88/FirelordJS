@@ -239,17 +239,17 @@ export namespace Firelord {
 		colName: string
 		docID: string
 		docPath: string
-		read: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedRead
-		write: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedWrite
-		writeNested: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedWrite
-		compare: FirelordFirestore.DocumentData & Firelord.CreatedUpdatedCompare
+		read: FirelordFirestore.DocumentData & CreatedUpdatedRead
+		write: FirelordFirestore.DocumentData & CreatedUpdatedWrite
+		writeNested: FirelordFirestore.DocumentData & CreatedUpdatedWrite
+		compare: FirelordFirestore.DocumentData & CreatedUpdatedCompare
 		base: FirelordFirestore.DocumentData
 	}
 
 	export type InternalReadWriteConverter<T extends MetaType = never> = {
 		write: OmitKeys<T['write'], 'updatedAt' | 'createdAt'>
 		writeNested: OmitKeys<T['writeNested'], 'updatedAt' | 'createdAt'> &
-			Partial<Firelord.CreatedUpdatedRead>
+			Partial<CreatedUpdatedRead>
 		writeNestedCreate: OmitKeys<T['writeNested'], 'updatedAt' | 'createdAt'>
 		read: T['read']
 		compare: T['compare']

@@ -2,7 +2,7 @@ import { Firelord } from './firelord'
 import { FirelordFirestore } from './firelordFirestore'
 import { docSnapshotCreator, DocSnapshotCreator } from './doc'
 
-const docChangesCreator = <
+const docChangesCreator: <
 	T extends Firelord.MetaType,
 	M extends 'col' | 'colGroup' = 'col'
 >(
@@ -13,7 +13,18 @@ const docChangesCreator = <
 		? undefined
 		: never,
 	docChange: FirelordFirestore.DocumentChange<T['read']>
-): ReturnType<DocChangesCreator<T, M>> => {
+) => ReturnType<DocChangesCreator<T, M>> = <
+	T extends Firelord.MetaType,
+	M extends 'col' | 'colGroup' = 'col'
+>(
+	firestore: FirelordFirestore.Firestore,
+	colRef: M extends 'col'
+		? FirelordFirestore.CollectionReference<T['read']>
+		: M extends 'colGroup'
+		? undefined
+		: never,
+	docChange: FirelordFirestore.DocumentChange<T['read']>
+) => {
 	return {
 		doc: docSnapshotCreator<T, M>(firestore, colRef, docChange.doc),
 		newIndex: docChange.newIndex,
@@ -63,7 +74,19 @@ export type QuerySnapshotCreator<
 	size: number
 }
 
-export const querySnapshotCreator = <
+export const querySnapshotCreator: <
+	T extends Firelord.MetaType,
+	M extends 'col' | 'colGroup' = 'col'
+>(
+	firestore: FirelordFirestore.Firestore,
+	colRef: M extends 'col'
+		? FirelordFirestore.CollectionReference<T['read']>
+		: M extends 'colGroup'
+		? undefined
+		: never,
+	querySnapshot: FirelordFirestore.QuerySnapshot<T['read']>,
+	not_In_Extra: { key: string; elements: unknown[] }
+) => ReturnType<QuerySnapshotCreator<T, M>> = <
 	T extends Firelord.MetaType,
 	M extends 'col' | 'colGroup' = 'col'
 >(
@@ -78,7 +101,7 @@ export const querySnapshotCreator = <
 		key: '',
 		elements: [],
 	}
-): ReturnType<QuerySnapshotCreator<T, M>> => {
+) => {
 	const { key, elements } = not_In_Extra
 
 	const docs = querySnapshot.docs.reduce<
