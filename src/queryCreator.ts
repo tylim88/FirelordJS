@@ -211,7 +211,7 @@ export const queryCreator = <
 	> = never,
 	M extends 'col' | 'colGroup' = 'col',
 	PermanentlyOmittedComparators extends FirelordFirestore.WhereFilterOp = never,
-	CompoundSameField extends string | false = never
+	CompoundSameField extends string | false = false
 >(
 	firestore: FirelordFirestore.Firestore,
 	colRef: M extends 'col'
@@ -317,7 +317,7 @@ export const queryCreator = <
 							T['compare'][P] extends unknown[]
 								? 'array-contains' | 'in' | 'array-contains-any'
 								: '<' | '<=' | '>=' | '>' | '==' | '!=' | 'not-in' | 'in',
-							never
+							PermanentlyOmittedComparators
 					  >,
 				value: J extends 'not-in' | 'in'
 					? T['compare'][P][]
