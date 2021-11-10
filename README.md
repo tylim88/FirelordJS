@@ -3,22 +3,22 @@
 
 # firelordjs(BETA, js)
 
-<center>
+<p align="center">
  <a href="https://github.com/tylim88/Firelord/blob/main/img/ozai.png" rel="nofollow"><img src="https://raw.githubusercontent.com/tylim88/Firelord/main/img/ozai.png" width="200px" align="center" /></a>
   <h1 align="center">Firelordrn</h1>
-</center>
+</p>
 
-<center>
-<a href="https://www.npmjs.com/package/firelordjs" rel="nofollow"><img src="https://img.shields.io/npm/v/firelordjs" alt="Created by tylim88">
-<a href="https://github.com/tylim88/firelordjs/blob/main/LICENSE" rel="nofollow"><img src="https://img.shields.io/github/license/tylim88/firelordjs" alt="License"></a>
-<a href="https://github.com/tylim88/firelordjs/pulls" rel="nofollow"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square"></a>
+<p align="center">
+ <a href="https://www.npmjs.com/package/firelordjs" rel="nofollow"><img src="https://img.shields.io/npm/v/firelordjs" alt="Created by tylim88"></a>
+ <a href="https://github.com/tylim88/firelordjs/blob/main/LICENSE" rel="nofollow"><img src="https://img.shields.io/github/license/tylim88/firelordjs" alt="License"></a>
+ <a href="https://github.com/tylim88/firelordjs/pulls" rel="nofollow"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square"></a>
 </center>
 
 🐤 Write truly scalable Firestore code with complete deep typing Firestore wrapper.
 
 💪🏻 Type object, array, any combination of array and object, regardless of the nesting level.
 
-🚀 The wrapper type all read and write operations; query field path, field value, collection path, document path, type everything!
+🚀 The wrapper type all read and write operations; query field path, field value, collection path, document path.
 
 🔥 Convert all value types to corresponding `read` types, `write` types and `compare` types (good at handling timestamp and field values).
 
