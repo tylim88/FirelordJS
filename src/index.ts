@@ -1,7 +1,7 @@
 import { FirelordUtils } from './firelordUtils'
 import { FirelordFirestore } from './firelordFirestore'
 import { queryCreator } from './queryCreator'
-import { Firelord, Wrapper } from './index_'
+import { Firelord } from './index_'
 import { docCreator } from './docCreator'
 import { createTime } from './utils'
 
@@ -103,5 +103,3 @@ export const ozai: typeof firelord = firelord
 export { flatten } from './utils'
 
 export type { FirelordUtils } from './firelordUtils'
-
-export type { Wrapper }
