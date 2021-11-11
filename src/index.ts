@@ -1,21 +1,19 @@
-import { Firelord } from './firelord'
+import { FirelordUtils } from './firelordUtils'
 import { FirelordFirestore } from './firelordFirestore'
 import { queryCreator } from './queryCreator'
-import { FirelordWrapper, Wrapper } from './index_'
+import { Firelord, Wrapper } from './index_'
 import { docCreator } from './docCreator'
 import { createTime } from './utils'
 
-export const firelord: FirelordWrapper = (
-	firestore: FirelordFirestore.Firestore
-) => {
+export const firelord: Firelord = (firestore: FirelordFirestore.Firestore) => {
 	const { createdAt } = createTime(firestore)
 
 	return {
-		wrapper: <T extends Firelord.MetaType = never>() => {
-			type Write = Firelord.InternalReadWriteConverter<T>['write']
+		wrapper: <T extends FirelordUtils.MetaType = never>() => {
+			type Write = FirelordUtils.InternalReadWriteConverter<T>['write']
 			type WriteNestedCreate =
-				Firelord.InternalReadWriteConverter<T>['writeNestedCreate']
-			type Read = Firelord.InternalReadWriteConverter<T>['read']
+				FirelordUtils.InternalReadWriteConverter<T>['writeNestedCreate']
+			type Read = FirelordUtils.InternalReadWriteConverter<T>['read']
 			const col = (collectionPath: T['colPath']) => {
 				const colRefWrite = firestore().collection(
 					collectionPath
@@ -65,10 +63,10 @@ export const firelord: FirelordWrapper = (
 			increment: (value: number) => {
 				return firestore.FieldValue.increment(
 					value
-				) as unknown as Firelord.NumberMasked
+				) as unknown as FirelordUtils.NumberMasked
 			},
 			serverTimestamp: () => {
-				return firestore.FieldValue.serverTimestamp() as unknown as Firelord.ServerTimestampMasked
+				return firestore.FieldValue.serverTimestamp() as unknown as FirelordUtils.ServerTimestampMasked
 			},
 			arrayUnion: <T extends string, Y>(key: T, ...values: Y[]) => {
 				return (values.length > 0
@@ -76,7 +74,7 @@ export const firelord: FirelordWrapper = (
 							[key]: firestore.FieldValue.arrayUnion(...values),
 					  }
 					: {}) as unknown as {
-					[key in T]: Firelord.ArrayMasked<Y>
+					[key in T]: FirelordUtils.ArrayMasked<Y>
 				}
 			},
 			arrayRemove: <T extends string, Y>(key: T, ...values: Y[]) => {
@@ -85,7 +83,7 @@ export const firelord: FirelordWrapper = (
 							[key]: firestore.FieldValue.arrayRemove(...values),
 					  }
 					: {}) as unknown as {
-					[key in T]: Firelord.ArrayMasked<Y>
+					[key in T]: FirelordUtils.ArrayMasked<Y>
 				}
 			},
 		},
@@ -104,6 +102,6 @@ export const ozai: typeof firelord = firelord
 
 export { flatten } from './utils'
 
-export type { Firelord } from './firelord'
+export type { FirelordUtils } from './firelordUtils'
 
 export type { Wrapper }

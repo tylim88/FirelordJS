@@ -64,7 +64,7 @@ instead of
 ```ts
 // from firelord doc
 // don't do this
-import { firelord, Firelord } from 'firelord'
+import { firelord } from 'firelord'
 import { firestore } from 'firebase-admin'
 
 // create wrapper
@@ -78,7 +78,7 @@ do
 
 ```ts
 // do this
-import { firelord, Firelord } from 'firelordjs'
+import { firelord } from 'firelordjs'
 // firebase 8
 import firebase from 'firebase'
 import 'firebase/firestore'

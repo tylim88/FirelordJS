@@ -1,4 +1,4 @@
-import { Firelord } from './firelord'
+import { FirelordUtils } from './firelordUtils'
 import { FirelordFirestore } from './firelordFirestore'
 
 export const flatten = <T extends Record<string, unknown>>(object: T) => {
@@ -25,7 +25,7 @@ export const flatten = <T extends Record<string, unknown>>(object: T) => {
 
 	flat(object, '')
 
-	return obj as Firelord.FlattenObject<T>
+	return obj as FirelordUtils.FlattenObject<T>
 }
 
 export const createTime = (firestore: FirelordFirestore.Firestore) => {

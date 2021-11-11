@@ -1,6 +1,6 @@
 import { firelord } from '.'
 
-import { Firelord } from './firelord'
+import { FirelordUtils } from './firelordUtils'
 import { flatten } from './utils'
 // import firebase from 'firebase'
 // import 'firebase/firestore'
@@ -25,12 +25,12 @@ const {
 } = firelord(firestore)
 
 // use base type to generate read and write type
-type User = Firelord.ReadWriteCreator<
+type User = FirelordUtils.ReadWriteCreator<
 	{
 		name: string
 		age: number
 		birthday: Date
-		joinDate: Firelord.ServerTimestamp
+		joinDate: FirelordUtils.ServerTimestamp
 		beenTo: ('USA' | 'CANADA' | 'RUSSIA' | 'CHINA')[]
 	}, // base type
 	'Users', // collection path type
@@ -81,10 +81,10 @@ const userGroup = userCreator.colGroup('Users') // collection path type is "User
 const user = users.doc('1234567890') // document path is string
 
 // subCollection of User
-type Transaction = Firelord.ReadWriteCreator<
+type Transaction = FirelordUtils.ReadWriteCreator<
 	{
 		amount: number
-		date: Firelord.ServerTimestamp
+		date: FirelordUtils.ServerTimestamp
 		status: 'Fail' | 'Success'
 	}, // base type
 	'Transactions', // collection path type
@@ -372,7 +372,7 @@ users
 	.limit(1)
 	.where('beenTo', 'in', [['USA']])
 
-type a = Firelord.ReadWriteCreator<
+type a = FirelordUtils.ReadWriteCreator<
 	{
 		a:
 			| string
@@ -390,7 +390,7 @@ type b = a['write']
 type c = a['read']
 type f = a['compare']
 
-type a1 = Firelord.ReadWriteCreator<
+type a1 = FirelordUtils.ReadWriteCreator<
 	{
 		a: string | Date
 		b: { c: 1; d: 2 }
@@ -409,7 +409,7 @@ type x = Nested['read']
 type y = Nested['write']
 type z = Nested['compare']
 
-type Nested = Firelord.ReadWriteCreator<
+type Nested = FirelordUtils.ReadWriteCreator<
 	{
 		a: number
 		b: { c: string }
@@ -461,10 +461,10 @@ nestedCol.doc('123456').set(incorrectCompleteData)
 nestedCol.doc('123456').set(incorrectData, { merge: true })
 nestedCol.doc('123456').update(flatten(incorrectData))
 
-type Example = Firelord.ReadWriteCreator<
+type Example = FirelordUtils.ReadWriteCreator<
 	{
 		aaa: number | undefined
-		bbb: Firelord.ServerTimestamp
+		bbb: FirelordUtils.ServerTimestamp
 		ddd: string[]
 		eee: {
 			fff: {

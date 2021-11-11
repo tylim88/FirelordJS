@@ -56,19 +56,19 @@ export type PartialNoImplicitUndefinedAndNoExtraMember<
 				? T[K] extends Partial<L[K]>
 					? PartialNoImplicitUndefinedAndNoExtraMember<L[K], T[K]>
 					: never
-				: L[K] extends (infer A)[] | Firelord.ArrayMasked
+				: L[K] extends (infer A)[] | FirelordUtils.ArrayMasked
 				? T[K] extends (infer B)[]
 					? B extends A
 						? PartialNoImplicitUndefinedAndNoExtraMemberForArray<A, B>[]
 						: never[]
-					: T[K] extends Firelord.ArrayMasked<A>
+					: T[K] extends FirelordUtils.ArrayMasked<A>
 					? DistributeNoUndefined<L[K], T[K]>
 					: never
 				: DistributeNoUndefined<L[K], T[K]>
 	  }
 	: never
 
-export namespace Firelord {
+export namespace FirelordUtils {
 	export type ServerTimestamp =
 		'This type represents Firestore ServerTimestamp type'
 	export type ServerTimestampMasked = {
