@@ -18,13 +18,13 @@
 
 💪🏻 Type object, array, any combination of array and object, regardless of the nesting level.
 
-🚀 The wrapper type all read and write operations; query field path, field value, collection path, document path.
+🚀 The wrapper type all read and write operations, query field path, field value, collection path, document path.
+
+🥙 All `Snapshot`(response) are recursively typed, no more type casting.
 
 🔥 Convert all value types to corresponding `read` types, `write` types and `compare` types (good at handling timestamp and field values).
 
-💥 Typed the seemly un-type-able Firestore Field Value(serverTimestamp, arrayRemove, arrayUnion and increment).
-
-✨ API closely resembles Firestore API, low learning curve.
+💥 Safe typing with masked Firestore Field Value(serverTimestamp, arrayRemove, arrayUnion and increment) types.
 
 🌈 Strictly one-time setup per document. Once configured, you are ready. No more confusing setup in the future, simplicity at its finest.
 
@@ -32,11 +32,11 @@
 
 🍧 Use `in`, `not-in` and `array-contains-any` with more than 10 elements array. (`not-in` has a caveat)
 
-🥙 All `Snapshot` are typed, chain your operations without type casting anymore!
-
-🍹 Avoid `orderBy` and `query` limitations for you.
-
 🍁 `write` operations reject unknown member and enforce partial but no undefined.
+
+🍹 Avoid `order` and `query` limitations for you, stopping potential run-time errors before they happen.
+
+✨ API closely resembles Firestore API, low learning curve.
 
 🦊 Zero dependencies.
 

@@ -2,7 +2,7 @@ import { Firelord } from './firelord'
 import { FirelordFirestore } from './firelordFirestore'
 import { queryCreator } from './queryCreator'
 import { FirelordWrapper, Wrapper } from './index_'
-import { docCreator } from './doc'
+import { docCreator } from './docCreator'
 import { createTime } from './utils'
 
 export const firelord: FirelordWrapper = (

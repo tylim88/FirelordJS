@@ -1,7 +1,7 @@
 import { Firelord } from './firelord'
 import { FirelordFirestore } from './firelordFirestore'
 import { QueryCreator } from './queryCreator'
-import { DocCreator } from './doc'
+import { DocCreator } from './docCreator'
 
 export type FirelordWrapper = (firestore: FirelordFirestore.Firestore) => {
 	fieldValue: {

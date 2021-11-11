@@ -1,6 +1,6 @@
 import { Firelord } from './firelord'
 import { FirelordFirestore } from './firelordFirestore'
-import { docSnapshotCreator, DocSnapshotCreator } from './doc'
+import { docSnapshotCreator, DocSnapshotCreator } from './docSnapshotCreator'
 
 const docChangesCreator: <
 	T extends Firelord.MetaType,
