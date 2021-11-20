@@ -2,10 +2,6 @@ import { firelord } from '.'
 
 import { FirelordUtils } from './firelordUtils'
 import { flatten } from './utils'
-// import firebase from 'firebase'
-// import 'firebase/firestore'
-import { Wrapper } from './index_'
-
 import firebase from 'firebase/compat/app' // firebase 9
 import 'firebase/compat/firestore' // firebase 9
 
@@ -72,7 +68,7 @@ type UserDocId = User['docID'] // string
 type UserDocPath = User['docPath']
 
 // implement wrapper
-const userCreator: Wrapper<User> = wrapper<User>()
+const userCreator = wrapper<User>()
 // collection reference
 const users = userCreator.col('Users') // collection path type is "Users"
 // collection group reference
@@ -93,7 +89,7 @@ type Transaction = FirelordUtils.ReadWriteCreator<
 >
 
 // implement the wrapper
-const transactionCreator: Wrapper<Transaction> = wrapper<Transaction>()
+const transactionCreator = wrapper<Transaction>()
 const transactionsCol = transactionCreator.col('Users/283277782/Transactions') // the type for col is `User/${string}/Transactions`
 const transactionGroup = transactionCreator.colGroup('Transactions') // the type for collection group is `Transactions`
 const transaction = transactionsCol.doc('1234567890') // document path is string
@@ -227,21 +223,17 @@ users.where('beenTo', 'array-contains-any', ['USA', 'CHINA']).map(query => {
 // for '==' | 'in' comparators:
 // no order for '==' | 'in' comparator for SAME field name, read https://stackoverflow.com/a/56620325/5338829 before proceed
 users.where('age', '==', 20).orderBy('age', 'desc').get() // ERROR
-// '==' | 'in' is order-able with DIFFERENT field name but need to use SHORTHAND form to ensure type safety
-users.where('age', '==', 20).orderBy('name', 'desc').get() // ERROR
-// shorthand ensure type safety, equivalent to where('age', '>', 20).orderBy('name','desc')
-users.where('age', '==', 20, { fieldPath: 'name', directionStr: 'desc' }).get() // OK
-// again, no order for '==' | 'in' comparator for SAME field name
-users.where('age', '==', 20, { fieldPath: 'age', directionStr: 'desc' }).get() // ERROR
+// '==' | 'in' is order-able with DIFFERENT field name
+users.where('age', '==', 20).orderBy('name', 'desc').get() // OK
 
-// for '<' | '<=]| '>'| '>=' comparator
+// for '<' | '<=' | '>'| '>=' comparator
 // no order for '<' | '<=]| '>'| '>=' comparator for DIFFERENT field name
 users.where('age', '>', 20).orderBy('name', 'desc').get() // ERROR
-// '<' | '<=]| '>'| '>=' is oder-able with SAME field name but need to use SHORTHAND form to ensure type safety
+// '<' | '<=' | '>'| '>=' is oder-able with SAME field name but need to use SHORTHAND form to ensure type safety
 users.where('age', '>', 20).orderBy('age', 'desc').get() // ERROR
 // equivalent to where('age', '>', 20).orderBy('age','desc')
 users.where('age', '>', 20, { fieldPath: 'age', directionStr: 'desc' }).get() // OK
-// again, no order for '<' | '<=]| '>'| '>=' comparator for DIFFERENT field name
+// again, no order for '<' | '<=' | '>'| '>=' comparator for DIFFERENT field name
 users.where('age', '>', 20, { fieldPath: 'name', directionStr: 'desc' }).get() // ERROR
 
 // for `not-in` and `!=` comparator, you can use normal and  shorthand form for both same and different name path
@@ -249,33 +241,11 @@ users.where('age', '>', 20, { fieldPath: 'name', directionStr: 'desc' }).get() /
 users.where('name', 'not-in', ['John', 'Ozai']).orderBy('name', 'desc').get()
 // different field path
 users.where('name', 'not-in', ['John', 'Ozai']).orderBy('age', 'desc').get()
-// shorthand different field path:
-users
-	.where('name', 'not-in', ['John', 'Ozai'], {
-		fieldPath: 'age',
-		directionStr: 'desc',
-	})
-	.get() // equivalent to where('name', 'not-in', ['John', 'Ozai']).orderBy('age','desc')
-// shorthand same field path:
-users
-	.where('name', 'not-in', ['John', 'Ozai'], {
-		fieldPath: 'name',
-		directionStr: 'desc',
-	})
-	.get() // equivalent to where('name', 'not-in', ['John', 'Ozai']).orderBy('name','desc')
 
 // same field path
 users.where('name', '!=', 'John').orderBy('name', 'desc').get()
 // different field path
 users.where('name', '!=', 'John').orderBy('age', 'desc').get()
-// shorthand different field path:
-users
-	.where('name', '!=', 'John', { fieldPath: 'age', directionStr: 'desc' })
-	.get() // equivalent to where('name', '!=', 'John').orderBy('age','desc')
-// shorthand same field path:
-users
-	.where('name', '!=', 'John', { fieldPath: 'name', directionStr: 'desc' })
-	.get() // equivalent to where('name', '!=', 'John').orderBy('name','desc')
 
 //pagination
 // field path only include members that is NOT array type in `base type`
@@ -286,36 +256,24 @@ users.orderBy('age', 'asc', { clause: 'startAt', fieldValue: 20 }).limit(5) // e
 users
 	.where('name', '!=', 'John')
 	.orderBy('age', 'desc', { clause: 'endAt', fieldValue: 50 })
-// equivalent to shorthand
-users
-	.where('name', '!=', 'John', {
-		fieldPath: 'age',
-		directionStr: 'desc',
-		cursor: { clause: 'endAt', fieldValue: 50 },
-	})
-	.get() // equivalent to where('name', '!=', 'John').orderBy('age','desc').endAt(50)
 
 // quick doc
 users.where('age', '!=', 20).orderBy('age', 'desc').get() // ok
 users.where('age', 'not-in', [20]).orderBy('age', 'desc').get() // ok
-users.where('age', '!=', 20).orderBy('beenTo', 'desc').get() // ERROR no order for array
+users.where('age', '!=', 20).orderBy('beenTo', 'desc').get() // ERROR: you cant order array
 
 // no order for '==' | 'in' comparator for SAME field name
 users.where('age', '==', 20).orderBy('age', 'desc').get() // ERROR
-// '==' | 'in' is order-able with DIFFERENT field name but need to use SHORTHAND form to ensure type safety
-users.where('age', '==', 20).orderBy('name', 'desc').get() // ERROR
-// shorthand ensure type safety, equivalent to where('age', '>', 20).orderBy('name','desc')
-users.where('age', '==', 20, { fieldPath: 'name', directionStr: 'desc' }).get() // OK
-// again, no order for '==' | 'in' comparator for SAME field name
-users.where('age', '==', 20, { fieldPath: 'age', directionStr: 'desc' }).get() // ERROR
+// '==' | 'in' is order-able with DIFFERENT field name
+users.where('age', '==', 20).orderBy('name', 'desc').get() // OK
 
-// no order for '<' | '<=]| '>'| '>=' comparator for DIFFERENT field name
+// no order for '<' | '<=' | '>'| '>=' comparator for DIFFERENT field name
 users.where('age', '>', 20).orderBy('name', 'desc').get() // ERROR
-// '<' | '<=]| '>'| '>=' is oder-able with SAME field name but need to use SHORTHAND form to ensure type safety
+// '<' | '<=' | '>'| '>=' is oder-able with SAME field name but need to use SHORTHAND form to ensure type safety
 users.where('age', '>', 20).orderBy('age', 'desc').get() // ERROR
 // equivalent to where('age', '>', 20).orderBy('age','desc')
 users.where('age', '>', 20, { fieldPath: 'age', directionStr: 'desc' }).get() // OK
-// again, no order for '<' | '<=]| '>'| '>=' comparator for DIFFERENT field name
+// again, no order for '<' | '<=' | '>'| '>=' comparator for DIFFERENT field name
 users.where('age', '>', 20, { fieldPath: 'name', directionStr: 'desc' }).get() // ERROR
 
 // only 1 limit or limitToLast and 1 offset, all should error
@@ -323,6 +281,9 @@ users.limit(1).where('age', '!=', 20).limitToLast(2)
 users.limit(1).where('age', '!=', 20).limit(2)
 users.offset(1).where('age', '!=', 20).offset(2)
 users.where('age', '!=', 20).limitToLast(2).offset(3).limit(1)
+
+// avoid order same field twice
+users.orderBy('age', 'desc').limit(2).orderBy('age', 'desc') // Error
 
 // all should be ok
 users.where('age', '==', 20).limit(2).where('name', '!=', 'Sam')
@@ -372,43 +333,6 @@ users
 	.limit(1)
 	.where('beenTo', 'in', [['USA']])
 
-type a = FirelordUtils.ReadWriteCreator<
-	{
-		a:
-			| string
-			| Date
-			| number[]
-			| (string | number)[]
-			| (string | Date)[][]
-			| (string | number)[][][]
-	},
-	string,
-	string
->
-
-type b = a['write']
-type c = a['read']
-type f = a['compare']
-
-type a1 = FirelordUtils.ReadWriteCreator<
-	{
-		a: string | Date
-		b: { c: 1; d: 2 }
-	},
-	string,
-	string
->
-
-type b1 = a1['write']
-type c1 = a1['read']
-type f1 = a1['compare']
-
-type e1 = b1['b.c']
-
-type x = Nested['read']
-type y = Nested['write']
-type z = Nested['compare']
-
 type Nested = FirelordUtils.ReadWriteCreator<
 	{
 		a: number
@@ -418,7 +342,7 @@ type Nested = FirelordUtils.ReadWriteCreator<
 	'Nested',
 	string
 >
-const nestedCreator: Wrapper<Nested> = wrapper<Nested>()
+const nestedCreator = wrapper<Nested>()
 
 const nestedCol = nestedCreator.col('Nested')
 
@@ -478,7 +402,7 @@ type Example = FirelordUtils.ReadWriteCreator<
 	string
 >
 
-const exampleCreator: Wrapper<Example> = wrapper<Example>()
+const exampleCreator = wrapper<Example>()
 
 const exampleCol = exampleCreator.col('Example')
 

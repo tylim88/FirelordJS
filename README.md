@@ -14,7 +14,7 @@
  <a href="https://github.com/tylim88/firelordjs/pulls" rel="nofollow"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square"></a>
 </center>
 
-🐤 Write truly scalable Firestore code with complete deep typing Firestore wrapper.
+🐤 Write truly type safe and scalable Firestore code with complete deep typing Firestore wrapper.
 
 💪🏻 Type object, array, any combination of array and object, regardless of the nesting level.
 
@@ -34,9 +34,11 @@
 
 🍧 Use `in`, `not-in` and `array-contains-any` with more than 10 elements array. (`not-in` has a caveat)
 
-🍁 `write` operations reject unknown member; `update` enforce partial but no undefined and skips operation if empty object.
+🍁 `write` operations reject unknown member; `update` enforce partial but no undefined and skips operation if data is an empty object.
 
 🍹 Avoid `order` and `query` limitations for you, stopping potential run-time errors before they happen.
+
+🎄 Stop your from order the same field twice.
 
 ✨ API closely resembles Firestore API, low learning curve.
 
