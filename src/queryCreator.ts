@@ -191,10 +191,16 @@ export type QueryCreator<
 		PermanentlyOmittedKeys | 'where'
 	>
 	onSnapshot: (
-		onNext: (snapshot: QuerySnapshotCreator<T, M>) => void,
-		onError?: (error: Error) => void
+		callbacks: {
+			onNext: (snapshot: QuerySnapshotCreator<T, M>) => void
+			onError?: (error: Error) => void
+			onCompletion?: () => void
+		},
+		options?: FirelordFirestore.SnapshotListenOptions
 	) => () => void
-	get: () => Promise<QuerySnapshotCreator<T, M>>
+	get: (
+		options?: FirelordFirestore.GetOptions
+	) => Promise<QuerySnapshotCreator<T, M>>
 }
 
 // https://github.com/microsoft/TypeScript/issues/43817#issuecomment-827746462
@@ -279,22 +285,31 @@ export const queryCreator: <
 	) => {
 		return {
 			onSnapshot: (
-				onNext: (snapshot: QuerySnapshotCreator<T, M>) => void,
-				onError?: (error: Error) => void
+				callbacks: {
+					onNext: (snapshot: QuerySnapshotCreator<T, M>) => void
+					onError?: (error: Error) => void
+					onCompletion?: () => void
+				},
+				options?: FirelordFirestore.SnapshotListenOptions
 			) => {
-				return query.onSnapshot(snapshot => {
-					return onNext(
-						querySnapshotCreator<T, M>(
-							firestore,
-							colRef,
-							snapshot,
-							not_In_Extra
+				return query.onSnapshot(
+					options || { includeMetadataChanges: false },
+					snapshot => {
+						return callbacks.onNext(
+							querySnapshotCreator<T, M>(
+								firestore,
+								colRef,
+								snapshot,
+								not_In_Extra
+							)
 						)
-					)
-				}, onError)
+					},
+					callbacks.onError,
+					callbacks.onCompletion
+				)
 			},
-			get: () => {
-				return query.get().then(querySnapshot => {
+			get: (options?: FirelordFirestore.GetOptions) => {
+				return query.get(options).then(querySnapshot => {
 					return querySnapshotCreator<T, M>(
 						firestore,
 						colRef,
