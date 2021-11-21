@@ -108,7 +108,7 @@ export const docCreator: <
 					? J
 					: PartialNoImplicitUndefinedAndNoExtraMember<Write, J>
 			) => {
-				return Object.keys(data).length === 0
+				return Object.keys(data).length > 0
 					? docWrite.update({
 							...updatedAt,
 							...data,
@@ -135,7 +135,7 @@ export const docCreator: <
 							: PartialNoImplicitUndefinedAndNoExtraMember<Write, J>
 					) => {
 						return (
-							Object.keys(data).length === 0
+							Object.keys(data).length > 0
 								? batch.update(docWrite, { ...updatedAt, ...data })
 								: undefined
 						) as J extends Record<string, never>
@@ -186,7 +186,7 @@ export const docCreator: <
 							: PartialNoImplicitUndefinedAndNoExtraMember<Write, J>
 					) => {
 						return (
-							Object.keys(data).length === 0
+							Object.keys(data).length > 0
 								? transaction.update(docWrite, { ...updatedAt, ...data })
 								: undefined
 						) as J extends Record<string, never>
