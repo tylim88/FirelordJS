@@ -48,8 +48,8 @@
 
 Variants:
 
-1. [react native](https://www.npmjs.com/package/firelordrn)
-2. [nodejs](https://www.npmjs.com/package/firelord)
+1. [React Native](https://www.npmjs.com/package/firelordrn)
+2. [NodeJS](https://www.npmjs.com/package/firelord)
 
 ## 🦙 Usage
 
