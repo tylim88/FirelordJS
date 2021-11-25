@@ -102,4 +102,6 @@ export const ozai: typeof firelord = firelord
 
 export { flatten } from './utils'
 
-export type { FirelordUtils } from './firelordUtils'
+export type { FirelordUtils }
+
+export type { FirelordFirestore }
