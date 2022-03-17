@@ -1,9 +1,6 @@
 import { getFirelord } from '.'
 import { getFirestore } from 'firebase/firestore'
-
-import { initializeApp, User } from './utilForTests'
-
-initializeApp()
+import { User } from './utilForTests'
 
 describe('test', () => {
 	it('test no error', () => {

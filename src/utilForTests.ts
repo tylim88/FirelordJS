@@ -15,7 +15,7 @@ import { getDoc } from './operations'
 import { flatten } from './utils'
 
 export const initializeApp = () => {
-	initializeApp_(process.env as FirebaseOptions)
+	return initializeApp_(process.env as FirebaseOptions)
 }
 import { arrayUnion, increment, serverTimestamp } from './fieldValue'
 

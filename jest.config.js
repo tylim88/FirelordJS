@@ -12,5 +12,5 @@ module.exports = {
 	collectCoverage: true,
 	collectCoverageFrom: ['**/*.{js,jsx,ts,tsx}', '!**/*.d.ts'],
 	setupFiles: ['dotenv/config'],
-	forceExit: true,
+	globalTeardown: './src/globalJestTeardown.ts',
 }
