@@ -12,4 +12,5 @@ module.exports = {
 	collectCoverage: true,
 	collectCoverageFrom: ['**/*.{js,jsx,ts,tsx}', '!**/*.d.ts'],
 	setupFiles: ['dotenv/config'],
+	watchAll: false,
 }
