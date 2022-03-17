@@ -3,6 +3,10 @@
 /.github
 /node_modules
 /src
+/coverage
+/.husky
+/.config
+/.parcel-cache
 
 # ignore file
 .gitignore
@@ -11,16 +15,16 @@
 # config file
 jest.config.js
 tsconfig.json
-.opensource
-.eslintrc.js    
+.eslintrc.js
 .prettierrc.js
-babel.config.js
+babel.config.js    
 
 # types
 /types/**/*
 !/types/**/*.ts
 **/*.test.d.ts
 **/*.test.js
+**/*.tgz
 
 # misc
 CHANGELOG.md

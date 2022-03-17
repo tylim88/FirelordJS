@@ -1,0 +1,19 @@
+{
+	"compilerOptions": {
+		"isolatedModules": true,
+		"module": "CommonJS",
+		"declaration": true,
+		"esModuleInterop": true,
+		"sourceMap": true,
+		"noImplicitAny": true,
+		"forceConsistentCasingInFileNames": true,
+		"strict": true,
+		"target": "esNext",
+		"allowJs": true,
+		"noEmit": true,
+		"outDir": "dist",
+		"noUncheckedIndexedAccess": true,
+		"removeComments": false
+	},
+	"include": ["codeForDoc/**/*"]
+}

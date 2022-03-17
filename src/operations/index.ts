@@ -1,0 +1,6 @@
+export * from './addDoc'
+export * from './getDoc'
+export * from './setDoc'
+export * from './updateDoc'
+export * from './getDocs'
+export * from './deleteDoc'
