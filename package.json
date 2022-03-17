@@ -16,7 +16,7 @@
 		"lint": "eslint . --ext .ts --fix",
 		"watch": "jest --watch",
 		"tsc": "npm run tsc",
-		"test": "rm -rf coverage && jest",
+		"test": "rm -rf coverage && jest --forceExit",
 		"pub": "npm run build && npm publish",
 		"pretty-quick": "pretty-quick --stage",
 		"pre-commit": "tsc && npm run lint --fix && npm run pretty-quick",
