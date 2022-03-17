@@ -3,4 +3,6 @@ import { initializeApp } from './utilForTests'
 
 module.exports = async () => {
 	deleteApp(initializeApp())
+	console.log('exit')
+	process.exit()
 }
