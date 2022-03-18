@@ -20,3 +20,5 @@ jobs:
     - run: npm run link
     - run: npm run e-tsc
       name: check endToEnd type
+    - uses: codecov/codecov-action@v2
+    
