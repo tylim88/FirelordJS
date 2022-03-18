@@ -2,7 +2,7 @@ import { example, db } from './init'
 import { writeBatch, serverTimestamp } from 'firelordjs'
 
 const batch = writeBatch(db)
-const dummy = async () => {
+;async () => {
 	batch.set(example.doc('hij'), {
 		a: 6,
 		b: { c: false, d: [{ e: 'xyz' }] },
