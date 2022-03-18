@@ -18,7 +18,7 @@ jobs:
         PROJECT_ID: ${{ secrets.PROJECT_ID }}
     - run: npm run build
     - run: npm run link
-    - run: npm run e-tsc
-      name: check endToEnd type
+    # - run: npm run e-tsc
+      name: check codeForDoc type
     - uses: codecov/codecov-action@v2
     
