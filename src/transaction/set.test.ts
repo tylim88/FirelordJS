@@ -3,6 +3,7 @@ import {
 	readThenCompareWithWriteData,
 	generateRandomData,
 	initializeApp,
+	compareReadAndWriteData,
 } from '../utilForTests'
 import { getFirestore } from 'firebase/firestore'
 import { runTransaction } from '.'
@@ -39,7 +40,8 @@ describe('test set transaction', () => {
 		const data = generateRandomData()
 		await setDoc(docRef, data)
 		await runTransaction(getFirestore(), async transaction => {
-			await readThenCompareWithWriteData(data, docRef, transaction)
+			const docSnap = await transaction.get(docRef)
+			compareReadAndWriteData(data, docSnap)
 		})
 	})
 	it('test delete functionality', async () => {

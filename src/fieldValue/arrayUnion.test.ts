@@ -1,15 +1,13 @@
 import { getFirelord } from '..'
 import { setDoc, getDoc, updateDoc } from '../operations'
-import { getFirestore } from 'firebase/firestore'
 import { initializeApp } from '../utilForTests'
 import { Creator } from '../types'
 import { arrayUnion } from './arrayUnion'
 
 initializeApp()
 describe('test arrayUnion', () => {
-	const ref = getFirelord(getFirestore())<
-		Creator<{ a: number[] }, 'arrayUnion', string>
-	>('arrayUnion')
+	const ref =
+		getFirelord()<Creator<{ a: number[] }, 'arrayUnion', string>>('arrayUnion')
 	const docRef = ref.doc('arrayUnion')
 	it('test with set', async () => {
 		await setDoc(docRef, { a: [-100] })

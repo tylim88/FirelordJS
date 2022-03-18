@@ -4,8 +4,9 @@ import {
 	collectionGroup as collectionGroup_,
 	getFirestore,
 } from 'firebase/firestore'
-import { MetaTypes, FirelordFirestore } from './types'
+import { MetaTypes } from './types'
 import { docCreator, collectionCreator, collectionGroupCreator } from './refs'
+import { FirebaseApp } from 'firebase/app'
 
 /**
  Gets a FirelordReference instance that refers to the doc, collection, and collectionGroup at the specified absolute path.
@@ -17,18 +18,18 @@ import { docCreator, collectionCreator, collectionGroupCreator } from './refs'
  @returns — DocumentReference, CollectionReference and CollectionGroupReference instance.
  */
 export const getFirelord =
-	(firestore?: FirelordFirestore.Firestore) =>
+	(app?: FirebaseApp) =>
 	<T extends MetaTypes>(collectionPath: T['collectionPath']) => {
-		const fire_store = firestore || getFirestore()
-		const doc = docCreator<T>(doc_, fire_store, collectionPath)
+		const firestore = getFirestore(app)
+		const doc = docCreator<T>(doc_, firestore, collectionPath)
 		const collection = collectionCreator<T>(
 			collection_,
-			fire_store,
+			firestore,
 			collectionPath
 		)
 		const collectionGroup = collectionGroupCreator<T>(
 			collectionGroup_,
-			fire_store,
+			firestore,
 			collectionPath.split('/').pop() as string
 		)
 		return Object.freeze({
@@ -38,7 +39,7 @@ export const getFirelord =
 		})
 	}
 
-export { Timestamp, GeoPoint } from 'firebase/firestore'
+export { Timestamp, GeoPoint, getFirestore } from 'firebase/firestore'
 export { writeBatch } from './batch'
 export * from './fieldValue'
 export * from './onSnapshot'

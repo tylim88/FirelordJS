@@ -27,8 +27,10 @@
 		"dev": "---------------------dev------------------------",
 		"d-link": "npm run build && npm run link",
 		"d-test": "tsc && npm test",
+		"d-e-test": "npm run e-tsc && npm run e-test",
 		"endToEnd": "-------------endToEnd-----------------------",
-		"e-tsc": "tsc -p tsconfig.doc.json"
+		"e-tsc": "tsc -p tsconfig.doc.json",
+		"e-test": "jest --forceExit -c=jest.config.doc.js"
 	},
 	"repository": {
 		"type": "git",

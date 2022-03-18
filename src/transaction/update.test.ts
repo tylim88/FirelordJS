@@ -6,10 +6,10 @@ import {
 	generateRandomData,
 	readThenCompareWithWriteData,
 } from '../utilForTests'
-import { setDoc } from '../operations'
-import { deleteField } from '../fieldValue'
 import { getFirestore } from 'firebase/firestore'
 import { IsTrue, IsSame, TransactionUpdate } from '../types'
+import { setDoc, getDoc } from '../operations'
+import { deleteField } from '../fieldValue'
 import { updateCreator } from './update'
 
 initializeApp()

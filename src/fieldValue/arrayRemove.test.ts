@@ -1,15 +1,15 @@
 import { getFirelord } from '..'
 import { setDoc, getDoc, updateDoc } from '../operations'
-import { getFirestore } from 'firebase/firestore'
 import { initializeApp } from '../utilForTests'
 import { Creator } from '../types'
 import { arrayRemove } from './arrayRemove'
 
 initializeApp()
 describe('test arrayRemove', () => {
-	const ref = getFirelord(getFirestore())<
-		Creator<{ a: number[] }, 'arrayRemove', string>
-	>('arrayRemove')
+	const ref =
+		getFirelord()<Creator<{ a: number[] }, 'arrayRemove', string>>(
+			'arrayRemove'
+		)
 	const docRef = ref.doc('arrayRemove')
 	it('test with set', async () => {
 		await setDoc(docRef, { a: [-100, 100, 0] })
