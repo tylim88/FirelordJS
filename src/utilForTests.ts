@@ -16,15 +16,17 @@ import { flatten } from './utils'
 
 export const initializeApp = () => {
 	const env = process.env
-	return initializeApp_({
-		apiKey: env.APIKEY,
-		authDomain: env.AUTHDOMAIN,
-		projectId: env.PROJECTID,
-		storageBucket: env.STORAGEBUCKET,
-		messagingSenderId: env.MESSAGINGSENDERID,
-		appId: env.APPID,
-		measurementId: env.MEASUREMENTID,
-	})
+	const config = {
+		apiKey: env.apiKey,
+		authDomain: env.authDomain,
+		projectId: env.projectId,
+		storageBucket: env.storageBucket,
+		messagingSenderId: env.messagingSenderId,
+		appId: env.appId,
+		measurementId: env.measurementId,
+	}
+	console.log({ config })
+	return initializeApp_(config)
 }
 import { arrayUnion, increment, serverTimestamp } from './fieldValue'
 

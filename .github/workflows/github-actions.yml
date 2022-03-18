@@ -1,7 +1,7 @@
-name: GitHub Actions Demo
+name: GitHub Actions
 on: [push]
 jobs:
-  Explore-GitHub-Actions:
+  Build_Test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -13,5 +13,13 @@ jobs:
     - run: npm i
     - run: npm run pre-commit
     - run: npm test
+      env:
+        apiKey: ${{ secrets.apiKey }}
+        authDomain: ${{ secrets.authDomain }}
+        projectId: ${{ secrets.projectId }}
+        storageBucket: ${{ secrets.storageBucket }}
+        messagingSenderId: ${{ secrets.messagingSenderId }}
+        appId: ${{ secrets.appId }}
+        measurementId: ${{ secrets.measurementId }}
     - run: npm run build
     - run: npm run e-tsc
