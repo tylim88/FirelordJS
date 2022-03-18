@@ -57,6 +57,6 @@
 
 # Note
 
-1. Documentation is still under development but viable to read
+1. Documentation is still under development but is viable to read
 2. not yet release to NPM, do not install from NPM!
 3. V1 rewrite from scratch using Firestore V9 API.
