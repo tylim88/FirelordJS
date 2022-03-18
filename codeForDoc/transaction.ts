@@ -1,4 +1,4 @@
-import { example, db } from './init'
+import { example } from './init'
 import {
 	runTransaction,
 	serverTimestamp,
@@ -7,7 +7,7 @@ import {
 } from 'firelordjs'
 ;async () => {
 	try {
-		await runTransaction(db, async transaction => {
+		await runTransaction(async transaction => {
 			await transaction.get(example.doc('lmn'))
 
 			transaction.set(example.doc('lmn'), {

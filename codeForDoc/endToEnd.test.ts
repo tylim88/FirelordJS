@@ -23,7 +23,7 @@ import {
 	DeleteAbleFieldValue,
 	ServerTimestampFieldValue,
 	writeBatch,
-} from 'firelordJS'
+} from 'firelordjs'
 
 initializeApp()
 export type User = Firelord<
@@ -131,7 +131,7 @@ describe('end to end test', () => {
 		const date = new Date()
 		const arr = [{ g: false, h: date, m: 9 }]
 		const num = Math.random()
-		await runTransaction(getFirestore(), async transaction => {
+		await runTransaction(async transaction => {
 			await transaction.update(ref, {
 				a: { 'i.j': deleteField() },
 				'a.b': { f: arr },
@@ -147,7 +147,7 @@ describe('end to end test', () => {
 		const docRef = userRef.doc('setTransactionTestCaseRead')
 		const data = generateRandomData()
 		await setDoc(docRef, data)
-		await runTransaction(getFirestore(), async transaction => {
+		await runTransaction(async transaction => {
 			transaction.delete(docRef)
 		})
 		const docSnap = await getDoc(docRef)
@@ -157,7 +157,7 @@ describe('end to end test', () => {
 		const docRef = userRef.doc('setTransactionTestCaseRead')
 		const data = generateRandomData()
 		await setDoc(docRef, data)
-		await runTransaction(getFirestore(), async transaction => {
+		await runTransaction(async transaction => {
 			const docSnap = await transaction.get(docRef)
 			compareReadAndWriteData(data, docSnap)
 		})

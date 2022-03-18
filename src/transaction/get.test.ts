@@ -2,7 +2,6 @@ import { getCreator } from './get'
 import { Get, IsTrue, IsSame } from '../types'
 import { userRefCreator } from '../utilForTests'
 import { runTransaction } from '.'
-import { getFirestore } from 'firebase/firestore'
 
 // delete functionality test is tested in other integration test
 describe('test get transaction', () => {
@@ -14,7 +13,7 @@ describe('test get transaction', () => {
 	it('test return data type and functionality', () => {
 		;() => {
 			const userRef = userRefCreator()
-			runTransaction(getFirestore(), transaction => {
+			runTransaction(transaction => {
 				return transaction.get(userRef.doc('123')).then(docSnap => {
 					const data = docSnap.data()
 					if (data) {
