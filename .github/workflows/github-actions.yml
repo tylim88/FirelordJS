@@ -12,8 +12,11 @@ jobs:
         cache-dependency-path: '**/package-lock.json'
     - run: npm i
     - run: npm run pre-commit
+      name: check type, run lint --fix and prettier
     - run: npm test
       env:
         PROJECT_ID: ${{ secrets.PROJECT_ID }}
     - run: npm run build
+    - run: npm run link
     - run: npm run e-tsc
+      name: check endToEnd type
