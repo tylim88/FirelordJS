@@ -19,6 +19,8 @@ jobs:
     - run: npm run link
     - run: npm run e-tsc
     - run: npm run e-test
+      env:
+        PROJECT_ID: ${{ secrets.PROJECT_ID }}
     - uses: codecov/codecov-action@v2
   publish:
     runs-on: ubuntu-latest
