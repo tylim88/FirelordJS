@@ -14,12 +14,12 @@ jobs:
     - run: npm run pre-commit
     - run: npm test
       env:
-        apiKey: ${{ secrets.apiKey }}
-        authDomain: ${{ secrets.authDomain }}
-        projectId: ${{ secrets.projectId }}
-        storageBucket: ${{ secrets.storageBucket }}
-        messagingSenderId: ${{ secrets.messagingSenderId }}
-        appId: ${{ secrets.appId }}
-        measurementId: ${{ secrets.measurementId }}
+        API_KEY: ${{ secrets.API_KEY }}
+        AUTH_DOMAIN: ${{ secrets.AUTH_DOMAIN }}
+        PROJECT_ID: ${{ secrets.PROJECT_ID }}
+        STORAGE_BUCKET: ${{ secrets.STORAGE_BUCKET }}
+        MESSAGING_SENDER_ID: ${{ secrets.MESSAGING_SENDER_ID }}
+        APP_ID: ${{ secrets.APP_ID }}
+        MEASUREMENT_ID: ${{ secrets.MEASUREMENT_ID }}
     - run: npm run build
     - run: npm run e-tsc
