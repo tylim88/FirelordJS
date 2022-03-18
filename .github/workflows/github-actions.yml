@@ -1,0 +1,17 @@
+name: GitHub Actions Demo
+on: [push]
+jobs:
+  Explore-GitHub-Actions:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '16.14'
+        cache: 'npm'
+        cache-dependency-path: subdir/package-lock.json
+    - run: npm i
+    - run: npm run pre-commit
+    - run: npm test
+    - run: npm run build
+    - run: npm run e-tsc
