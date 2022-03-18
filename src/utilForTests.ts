@@ -8,14 +8,23 @@ import {
 	DocumentSnapshot,
 	Transaction,
 } from './types'
-import { initializeApp as initializeApp_, FirebaseOptions } from 'firebase/app'
+import { initializeApp as initializeApp_ } from 'firebase/app'
 import pick from 'pick-random'
 import betwin from 'betwin'
 import { getDoc } from './operations'
 import { flatten } from './utils'
 
 export const initializeApp = () => {
-	return initializeApp_(process.env as FirebaseOptions)
+	const env = process.env
+	return initializeApp_({
+		apiKey: env.apiKey,
+		authDomain: env.authDomain,
+		projectId: env.projectId,
+		storageBucket: env.storageBucket,
+		messagingSenderId: env.messagingSenderId,
+		appId: env.appId,
+		measurementId: env.measurementId,
+	})
 }
 import { arrayUnion, increment, serverTimestamp } from './fieldValue'
 
