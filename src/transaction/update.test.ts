@@ -6,10 +6,9 @@ import {
 	generateRandomData,
 	readThenCompareWithWriteData,
 } from '../utilForTests'
-import { setDoc } from '../operations'
-import { deleteField } from '../fieldValue'
-import { getFirestore } from 'firebase/firestore'
 import { IsTrue, IsSame, TransactionUpdate } from '../types'
+import { setDoc, getDoc } from '../operations'
+import { deleteField } from '../fieldValue'
 import { updateCreator } from './update'
 
 initializeApp()
@@ -32,7 +31,7 @@ describe('test update transaction', () => {
 		await setDoc(docRef, generateRandomData())
 		await setDoc(docRef2, generateRandomData())
 		await setDoc(docRef3, generateRandomData())
-		await runTransaction(getFirestore(), async transaction => {
+		await runTransaction(async transaction => {
 			transaction.update(docRef, data)
 			transaction.update(docRef2, data2)
 			transaction.update(docRef3, data3)
@@ -48,7 +47,7 @@ describe('test update transaction', () => {
 		const date = new Date()
 		const arr = [{ g: false, h: date, m: 9 }]
 		const num = Math.random()
-		await runTransaction(getFirestore(), async transaction => {
+		await runTransaction(async transaction => {
 			await transaction.update(ref, {
 				a: { 'i.j': deleteField() },
 				'a.b': { f: arr },

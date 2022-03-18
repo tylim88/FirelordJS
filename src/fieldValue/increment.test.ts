@@ -1,15 +1,13 @@
 import { getFirelord } from '..'
 import { setDoc, getDoc, updateDoc } from '../operations'
-import { getFirestore } from 'firebase/firestore'
 import { initializeApp } from '../utilForTests'
 import { Creator } from '../types'
 import { increment } from './increment'
 
 initializeApp()
 describe('test increment', () => {
-	const ref = getFirelord(getFirestore())<
-		Creator<{ a: number }, 'increment', string>
-	>('increment')
+	const ref =
+		getFirelord()<Creator<{ a: number }, 'increment', string>>('increment')
 	const docRef = ref.doc('increment')
 	it('test with set', async () => {
 		await setDoc(docRef, { a: -100 })

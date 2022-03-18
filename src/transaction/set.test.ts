@@ -3,8 +3,8 @@ import {
 	readThenCompareWithWriteData,
 	generateRandomData,
 	initializeApp,
+	compareReadAndWriteData,
 } from '../utilForTests'
-import { getFirestore } from 'firebase/firestore'
 import { runTransaction } from '.'
 import { setDoc, getDoc } from '../operations'
 import { TransactionSet, IsTrue, IsSame } from '../types'
@@ -25,7 +25,7 @@ describe('test set transaction', () => {
 		const data = generateRandomData()
 		const data2 = generateRandomData()
 		const data3 = generateRandomData()
-		await runTransaction(getFirestore(), async transaction => {
+		await runTransaction(async transaction => {
 			transaction.set(docRef, data)
 			transaction.set(docRef2, data2)
 			transaction.set(docRef3, data3)
@@ -38,15 +38,16 @@ describe('test set transaction', () => {
 		const docRef = userRef.doc('setTransactionTestCaseRead')
 		const data = generateRandomData()
 		await setDoc(docRef, data)
-		await runTransaction(getFirestore(), async transaction => {
-			await readThenCompareWithWriteData(data, docRef, transaction)
+		await runTransaction(async transaction => {
+			const docSnap = await transaction.get(docRef)
+			compareReadAndWriteData(data, docSnap)
 		})
 	})
 	it('test delete functionality', async () => {
 		const docRef = userRef.doc('setTransactionTestCaseRead')
 		const data = generateRandomData()
 		await setDoc(docRef, data)
-		await runTransaction(getFirestore(), async transaction => {
+		await runTransaction(async transaction => {
 			transaction.delete(docRef)
 		})
 		const docSnap = await getDoc(docRef)
@@ -56,7 +57,7 @@ describe('test set transaction', () => {
 		const ref = userRef.doc('setTransactionTestMergeCase')
 		const data = generateRandomData()
 		await setDoc(ref, data)
-		await runTransaction(getFirestore(), async transaction => {
+		await runTransaction(async transaction => {
 			transaction.set(ref, { a: { b: { f: [] } } }, { merge: true })
 		})
 		data.a.b.f = []
@@ -66,7 +67,7 @@ describe('test set transaction', () => {
 		const ref = userRef.doc('setTransactionTestMergeCase')
 		const data = generateRandomData()
 		await setDoc(ref, data)
-		await runTransaction(getFirestore(), async transaction => {
+		await runTransaction(async transaction => {
 			transaction.set(ref, { a: { b: { f: [] } } }, { mergeFields: ['a.b.f'] })
 		})
 		data.a.b.f = []
@@ -76,7 +77,7 @@ describe('test set transaction', () => {
 		const ref = userRef.doc('setTransactionTestMergeCase')
 		const data = generateRandomData()
 		await setDoc(ref, data)
-		await runTransaction(getFirestore(), async transaction => {
+		await runTransaction(async transaction => {
 			transaction.set(ref, { a: { b: { f: [] } } }, { mergeFields: [] })
 		})
 		await readThenCompareWithWriteData(data, ref)

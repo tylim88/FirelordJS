@@ -1,5 +1,4 @@
 import { getFirelord } from '.'
-import { getFirestore } from 'firebase/firestore'
 import { initializeApp, User } from './utilForTests'
 
 initializeApp()
@@ -7,21 +6,31 @@ initializeApp()
 describe('test', () => {
 	it('test no error', () => {
 		expect(() =>
-			getFirelord(getFirestore())<User>(`topLevel/FirelordTest/Users`)
+			getFirelord()<User>(`topLevel/FirelordTest/Users`)
 		).not.toThrow()
 	})
 	it('test type', () => {
 		;() => {
-			// @ts-expect-error
-			getFirelord(getFirestore())<User>(`topLevel/FirelordTest1/Users`)
-			// @ts-expect-error
-			const userRef = getFirelord(getFirestore())<User>('User1s')
-			// @ts-expect-error
-			userRef.doc(123)
-			// @ts-expect-error
-			userRef.collection(false)
-			// @ts-expect-error
-			userRef.collectionGroup({})
+			getFirelord()<User>(
+				// @ts-expect-error
+				`topLevel/FirelordTest1/Users`
+			)
+			const userRef = getFirelord()<User>(
+				// @ts-expect-error
+				'User1s'
+			)
+			userRef.doc(
+				// @ts-expect-error
+				123
+			)
+			userRef.collection(
+				// @ts-expect-error
+				false
+			)
+			userRef.collectionGroup(
+				// @ts-expect-error
+				{}
+			)
 		}
 	})
 })

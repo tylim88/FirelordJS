@@ -2,7 +2,6 @@ import { getFirelord } from '..'
 import { setDoc, getDoc, updateDoc } from '../operations'
 import { deleteField } from './deleteField'
 import { initializeApp } from '../utilForTests'
-import { getFirestore } from 'firebase/firestore'
 import {
 	DeleteAbleFieldValue,
 	IsTrue,
@@ -31,7 +30,7 @@ type A = Creator<
 >
 
 describe('test deleteField', () => {
-	const A = getFirelord(getFirestore())<A>('A')
+	const A = getFirelord()<A>('A')
 	const docRef = A.doc('deleteFieldTest')
 
 	it('test read type', () => {

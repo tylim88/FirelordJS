@@ -1,12 +1,11 @@
 import { getFirelord } from '.'
-import { getFirestore, Timestamp } from 'firebase/firestore'
+import { Timestamp } from 'firebase/firestore'
 import {
 	Creator,
 	ServerTimestampFieldValue,
 	DocumentReference,
 	DeleteAbleFieldValue,
 	DocumentSnapshot,
-	Transaction,
 } from './types'
 import { initializeApp as initializeApp_ } from 'firebase/app'
 import pick from 'pick-random'
@@ -24,7 +23,7 @@ export const initializeApp = () => {
 import { arrayUnion, increment, serverTimestamp } from './fieldValue'
 
 export const userRefCreator = () =>
-	getFirelord(getFirestore())<User>(`topLevel/FirelordTest/Users`)
+	getFirelord()<User>(`topLevel/FirelordTest/Users`)
 
 export type Parent = Creator<
 	{
@@ -93,10 +92,9 @@ export const generateRandomData = (): User['write'] => {
 
 export const readThenCompareWithWriteData = async (
 	writeData: User['write'],
-	ref: DocumentReference<User>,
-	transaction?: Transaction
+	ref: DocumentReference<User>
 ) => {
-	const docSnap = await (transaction ? transaction.get(ref) : getDoc(ref))
+	const docSnap = await getDoc(ref)
 	compareReadAndWriteData(writeData, docSnap)
 }
 
