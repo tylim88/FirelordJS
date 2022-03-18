@@ -39,6 +39,8 @@ jobs:
 
       - run: npm run build
 
+      - run: npm run link
+
       - run: npm run e-tsc
 
       - coveralls/upload
