@@ -19,7 +19,7 @@ export const initializeApp = () => {
 	const config = {
 		projectId: env.PROJECT_ID,
 	}
-	// console.log({ config })
+	console.log({ config })
 	return initializeApp_(config)
 }
 import { arrayUnion, increment, serverTimestamp } from './fieldValue'
