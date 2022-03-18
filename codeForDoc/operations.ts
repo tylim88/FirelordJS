@@ -16,7 +16,8 @@ import {
 	startAfter,
 	limit,
 } from 'firelordjs'
-;async () => {
+
+export const dummy = async () => {
 	await setDoc(example.doc('abc'), {
 		a: 100,
 		b: { c: true, d: [{ e: 'abc' }] },

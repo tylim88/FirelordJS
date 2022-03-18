@@ -5,7 +5,8 @@ import {
 	increment,
 	arrayRemove,
 } from 'firelordjs'
-;async () => {
+
+export const dummy = async () => {
 	try {
 		await runTransaction(async transaction => {
 			await transaction.get(example.doc('lmn'))
