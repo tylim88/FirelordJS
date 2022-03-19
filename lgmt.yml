@@ -1,4 +1,7 @@
 extraction:
   javascript:
     index:
-      exclude: "./codeForDoc"
+      exclude: 
+      - codeForDoc
+      filters:
+        - exclude: "**/*"

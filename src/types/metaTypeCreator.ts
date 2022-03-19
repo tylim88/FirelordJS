@@ -75,7 +75,7 @@ export type IsValidID<
 export type MetaTypeCreator<
 	Base extends Record<string, unknown>,
 	CollectionID extends string,
-	DocID extends string,
+	DocID extends string = string,
 	Parent extends {
 		collectionPath: string
 		docID: string
