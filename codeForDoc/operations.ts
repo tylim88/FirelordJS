@@ -38,7 +38,9 @@ export const dummy = async () => {
 
 	await deleteDoc(example.doc('abc'))
 
-	await getDoc(example.doc('abc'))
+	await getDoc(example.doc('abc')).then(docSnapshot => {
+		const data = docSnapshot.data()
+	})
 
 	await getDocs(
 		query(
@@ -49,7 +51,7 @@ export const dummy = async () => {
 		)
 	)
 
-	onSnapshot(
+	const unsub = onSnapshot(
 		query(
 			example.collection(),
 			where('b.d', 'array-contains', { e: 'hello' }),
@@ -57,7 +59,10 @@ export const dummy = async () => {
 			startAfter(new Date())
 		),
 		querySnapshot => {
-			// onNext
-		}
+			querySnapshot.forEach(docSnapshot => {
+				const data = docSnapshot.data()
+			})
+		},
+		{ includeMetadataChanges: false } // optional
 	)
 }
