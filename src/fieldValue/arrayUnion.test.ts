@@ -1,13 +1,15 @@
 import { getFirelord } from '..'
 import { setDoc, getDoc, updateDoc } from '../operations'
 import { initializeApp } from '../utilForTests'
-import { Creator } from '../types'
+import { MetaTypeCreator } from '../types'
 import { arrayUnion } from './arrayUnion'
 
 initializeApp()
 describe('test arrayUnion', () => {
 	const ref =
-		getFirelord()<Creator<{ a: number[] }, 'arrayUnion', string>>('arrayUnion')
+		getFirelord()<MetaTypeCreator<{ a: number[] }, 'arrayUnion', string>>(
+			'arrayUnion'
+		)
 	const docRef = ref.doc('arrayUnion')
 	it('test with set', async () => {
 		await setDoc(docRef, { a: [-100] })

@@ -1,7 +1,7 @@
 import { IsTrue } from './utils'
-import { MetaTypes } from './creator'
+import { MetaTypes } from './metaTypeCreator'
 import { FirelordFirestore } from './firelordFirestore'
-import { ServerTimestampFieldValue, FieldValues } from './fieldValue'
+import { ServerTimestamp, FieldValues } from './fieldValue'
 import { ObjectFlattenRead } from './objectFlatten'
 import { NotTreatedAsObjectType } from './ref'
 
@@ -16,7 +16,7 @@ IsTrue<
 >()
 
 export type RecursiveUnionReadServerTimestampWithNull<T, Read> =
-	T extends ServerTimestampFieldValue
+	T extends ServerTimestamp
 		? Read | null
 		: T extends FieldValues | NotTreatedAsObjectType
 		? Read

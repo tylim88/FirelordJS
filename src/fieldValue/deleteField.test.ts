@@ -3,27 +3,27 @@ import { setDoc, getDoc, updateDoc } from '../operations'
 import { deleteField } from './deleteField'
 import { initializeApp } from '../utilForTests'
 import {
-	DeleteAbleFieldValue,
+	DeleteField,
 	IsTrue,
 	IsSame,
 	ErrorFieldValueInArray,
-	Creator,
+	MetaTypeCreator,
 } from '../types'
 
 initializeApp()
 
-type A = Creator<
+type A = MetaTypeCreator<
 	{
 		a: string
 		b: {
 			c:
 				| {
-						d: boolean | DeleteAbleFieldValue // array should not be able to use field value
+						d: boolean | DeleteField // array should not be able to use field value
 				  }[]
-				| DeleteAbleFieldValue
-			e: number | DeleteAbleFieldValue
+				| DeleteField
+			e: number | DeleteField
 		}
-		f: boolean | DeleteAbleFieldValue
+		f: boolean | DeleteField
 	},
 	'A',
 	string

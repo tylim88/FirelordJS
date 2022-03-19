@@ -13,11 +13,11 @@ import {
 import {
 	FieldValues,
 	UnassignedAbleFieldValue,
-	ArrayFieldValue,
-	NumberFieldValue,
-	DeleteAbleFieldValue,
-	ServerTimestampFieldValue,
-	PossiblyReadAsUndefinedFieldValue,
+	ArrayUnionOrRemove,
+	Increment,
+	DeleteField,
+	ServerTimestamp,
+	PossiblyReadAsUndefined,
 } from './fieldValue'
 import { ObjectFlattenHybrid } from './objectFlatten'
 import {
@@ -72,7 +72,7 @@ export type IsValidID<
 		: ID
 	: NoUndefinedAndBannedTypes<ID, never>
 
-export type Creator<
+export type MetaTypeCreator<
 	Base extends Record<string, unknown>,
 	CollectionID extends string,
 	DocID extends string,
@@ -178,7 +178,7 @@ type ReadConverterArray<
 		?
 				| FirelordFirestore.Timestamp
 				| (InArray extends true ? never : AllFieldsPossiblyUndefined)
-		: T extends PossiblyReadAsUndefinedFieldValue
+		: T extends PossiblyReadAsUndefined
 		? InArray extends true
 			? ErrorPossiblyUndefinedAsArrayElement
 			: undefined
@@ -209,9 +209,9 @@ type ReadConverter<T, AllFieldsPossiblyUndefined, BannedTypes> =
 							true
 					  >[]
 					| AllFieldsPossiblyUndefined
-			: T extends ServerTimestampFieldValue | Date | FirelordFirestore.Timestamp
+			: T extends ServerTimestamp | Date | FirelordFirestore.Timestamp
 			? FirelordFirestore.Timestamp | AllFieldsPossiblyUndefined
-			: T extends DeleteAbleFieldValue | PossiblyReadAsUndefinedFieldValue
+			: T extends DeleteField | PossiblyReadAsUndefined
 			? undefined
 			: T extends UnassignedAbleFieldValue
 			? ErrorUnassignedAbleFieldValue
@@ -237,7 +237,7 @@ type CompareConverterArray<T, BannedTypes> = NoDirectNestedArray<T> extends T
 		? ErrorFieldValueInArray
 		: T extends Date | FirelordFirestore.Timestamp
 		? FirelordFirestore.Timestamp | Date
-		: T extends PossiblyReadAsUndefinedFieldValue
+		: T extends PossiblyReadAsUndefined
 		? never
 		: T extends NotTreatedAsObjectType
 		? T
@@ -251,11 +251,11 @@ type CompareConverterArray<T, BannedTypes> = NoDirectNestedArray<T> extends T
 type CompareConverter<T, BannedTypes> = NoDirectNestedArray<T> extends T
 	? T extends (infer A)[]
 		? CompareConverterArray<A, BannedTypes>[]
-		: T extends ServerTimestampFieldValue | Date | FirelordFirestore.Timestamp
+		: T extends ServerTimestamp | Date | FirelordFirestore.Timestamp
 		? FirelordFirestore.Timestamp | Date
 		: T extends UnassignedAbleFieldValue
 		? ErrorUnassignedAbleFieldValue
-		: T extends PossiblyReadAsUndefinedFieldValue | DeleteAbleFieldValue
+		: T extends PossiblyReadAsUndefined | DeleteField
 		? never
 		: T extends NotTreatedAsObjectType
 		? T
@@ -273,7 +273,7 @@ type ArrayWriteConverter<T, BannedTypes> = NoDirectNestedArray<T> extends T
 		? ErrorFieldValueInArray
 		: T extends FirelordFirestore.Timestamp | Date
 		? FirelordFirestore.Timestamp | Date
-		: T extends PossiblyReadAsUndefinedFieldValue
+		: T extends PossiblyReadAsUndefined
 		? never
 		: T extends NotTreatedAsObjectType
 		? T
@@ -288,20 +288,20 @@ type WriteConverter<T, BannedTypes> = NoDirectNestedArray<T> extends T
 	? T extends (infer A)[]
 		?
 				| ArrayWriteConverter<A, BannedTypes>[]
-				| ArrayFieldValue<ArrayWriteConverter<A, BannedTypes>>
-		: T extends ServerTimestampFieldValue
-		? ServerTimestampFieldValue
+				| ArrayUnionOrRemove<ArrayWriteConverter<A, BannedTypes>>
+		: T extends ServerTimestamp
+		? ServerTimestamp
 		: T extends number
 		? number extends T
-			? T | NumberFieldValue
+			? T | Increment
 			: T
-		: T extends DeleteAbleFieldValue
-		? DeleteAbleFieldValue
+		: T extends DeleteField
+		? DeleteField
 		: T extends UnassignedAbleFieldValue
 		? ErrorUnassignedAbleFieldValue
 		: T extends FirelordFirestore.Timestamp | Date
 		? FirelordFirestore.Timestamp | Date
-		: T extends PossiblyReadAsUndefinedFieldValue
+		: T extends PossiblyReadAsUndefined
 		? never
 		: T extends NotTreatedAsObjectType
 		? T

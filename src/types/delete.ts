@@ -1,4 +1,4 @@
-import { MetaTypes } from './creator'
+import { MetaTypes } from './metaTypeCreator'
 import { DocumentReference, Transaction, WriteBatch } from './ref'
 /**
 Deletes the document referred to by the specified DocumentReference.

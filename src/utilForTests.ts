@@ -1,10 +1,10 @@
 import { getFirelord } from '.'
 import { Timestamp } from 'firebase/firestore'
 import {
-	Creator,
-	ServerTimestampFieldValue,
+	MetaTypeCreator,
+	ServerTimestamp,
 	DocumentReference,
-	DeleteAbleFieldValue,
+	DeleteField,
 	DocumentSnapshot,
 } from './types'
 import { initializeApp as initializeApp_ } from 'firebase/app'
@@ -25,7 +25,7 @@ import { arrayUnion, increment, serverTimestamp } from './fieldValue'
 export const userRefCreator = () =>
 	getFirelord()<User>(`topLevel/FirelordTest/Users`)
 
-export type Parent = Creator<
+export type Parent = MetaTypeCreator<
 	{
 		a: 1
 	},
@@ -33,7 +33,7 @@ export type Parent = Creator<
 	'FirelordTest'
 >
 
-export type User = Creator<
+export type User = MetaTypeCreator<
 	{
 		age: number
 		beenTo: (
@@ -44,9 +44,9 @@ export type User = Creator<
 		role: 'admin' | 'editor' | 'visitor'
 		a: {
 			b: { c: number; f: { g: boolean; h: Date; m: number }[] }
-			i: { j: number | DeleteAbleFieldValue; l: Date }
+			i: { j: number | DeleteField; l: Date }
 			e: string[]
-			k: ServerTimestampFieldValue | DeleteAbleFieldValue
+			k: ServerTimestamp | DeleteField
 		}
 	},
 	'Users',
@@ -122,7 +122,7 @@ export const compareReadAndWriteData = (
 		writeData.a.i.l = Timestamp.fromDate(writeData.a.i.l as Date)
 		writeData.a.e = docSnap.get('a.e') as string[]
 		writeData.a.i.j = docSnap.get('a.i.j') as number
-		writeData.a.k = docSnap.get('a.k') as unknown as ServerTimestampFieldValue
+		writeData.a.k = docSnap.get('a.k') as unknown as ServerTimestamp
 
 		expect(readData).toEqual(writeData)
 

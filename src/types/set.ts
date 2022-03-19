@@ -1,4 +1,4 @@
-import { MetaTypes } from './creator'
+import { MetaTypes } from './metaTypeCreator'
 import { DocumentReference, Transaction, WriteBatch } from './ref'
 import {
 	PartialNoUndefinedAndNoUnknownMember,

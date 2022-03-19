@@ -1,4 +1,4 @@
-import { MetaTypes } from './creator'
+import { MetaTypes } from './metaTypeCreator'
 import { ErrorMoreThanOnceDocSnapshotInCursor } from './error'
 import { IsUnion } from './utils'
 import { CursorConstraint } from './queryConstraints'

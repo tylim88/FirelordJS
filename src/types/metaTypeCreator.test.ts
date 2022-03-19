@@ -1,4 +1,4 @@
-import { Creator } from './creator'
+import { MetaTypeCreator } from './metaTypeCreator'
 import { FirelordFirestore } from './firelordFirestore'
 import {
 	ErrorNullBanned,
@@ -7,32 +7,32 @@ import {
 	ErrorUnionInvolveObjectType,
 } from './error'
 import {
-	ArrayFieldValue,
-	NumberFieldValue,
-	ServerTimestampFieldValue,
-	PossiblyReadAsUndefinedFieldValue,
-	DeleteAbleFieldValue,
+	ArrayUnionOrRemove,
+	Increment,
+	ServerTimestamp,
+	PossiblyReadAsUndefined,
+	DeleteField,
 } from './fieldValue'
 import { NotTreatedAsObjectType } from './ref'
 import { IsTrue, IsSame, IsEqual } from './utils'
 
 describe('test Firelord type', () => {
 	it('test ID name', () => {
-		type A = Creator<
+		type A = MetaTypeCreator<
 			{
-				a: 1 | PossiblyReadAsUndefinedFieldValue
+				a: 1 | PossiblyReadAsUndefined
 				b:
 					| {
-							c: 'a' | PossiblyReadAsUndefinedFieldValue
-							d: { e: false } | PossiblyReadAsUndefinedFieldValue
+							c: 'a' | PossiblyReadAsUndefined
+							d: { e: false } | PossiblyReadAsUndefined
 							f:
 								| {
-										g: Date | null | PossiblyReadAsUndefinedFieldValue
-										h: 2 | PossiblyReadAsUndefinedFieldValue
+										g: Date | null | PossiblyReadAsUndefined
+										h: 2 | PossiblyReadAsUndefined
 								  }[]
-								| PossiblyReadAsUndefinedFieldValue
+								| PossiblyReadAsUndefined
 					  }
-					| PossiblyReadAsUndefinedFieldValue
+					| PossiblyReadAsUndefined
 			},
 			'/' | 'A/' | '~!@#$%^&*()_+-=' | '.',
 			'/' | '/A/' | 'A/A' | '.'
@@ -69,14 +69,14 @@ describe('test Firelord type', () => {
 		IsTrue<DocumentIDTypeCheck<docID>>()
 	})
 	it('test read all as undefined', () => {
-		type A = Creator<
+		type A = MetaTypeCreator<
 			{
 				a: 1 | null
 				b: {
 					c: 'a'
 					d: { e: false }
 					f: { g: Date | null; h: 2 }[]
-					j: ServerTimestampFieldValue | null | Date
+					j: ServerTimestamp | null | Date
 					k: NotTreatedAsObjectType | null
 				}
 				h: string
@@ -119,15 +119,15 @@ describe('test Firelord type', () => {
 							g: Date | FirelordFirestore.Timestamp | null
 							h: 2
 					  }[]
-					| ArrayFieldValue<{
+					| ArrayUnionOrRemove<{
 							g: Date | FirelordFirestore.Timestamp | null
 							h: 2
 					  }>
-				j: ServerTimestampFieldValue | null | Date | FirelordFirestore.Timestamp
+				j: ServerTimestamp | null | Date | FirelordFirestore.Timestamp
 				k: NotTreatedAsObjectType | null
 			}
 			h: string
-			i: number | null | NumberFieldValue
+			i: number | null | Increment
 		}
 
 		type ExpectedWriteFlatten = {
@@ -142,16 +142,16 @@ describe('test Firelord type', () => {
 							g: FirelordFirestore.Timestamp | Date | null
 							h: 2
 					  }[]
-					| ArrayFieldValue<{
+					| ArrayUnionOrRemove<{
 							g: FirelordFirestore.Timestamp | Date | null
 							h: 2
 					  }>
-				j: ServerTimestampFieldValue | null | Date | FirelordFirestore.Timestamp
+				j: ServerTimestamp | null | Date | FirelordFirestore.Timestamp
 				k: NotTreatedAsObjectType | null
 				'd.e': false
 			}
 			h: string
-			i: number | null | NumberFieldValue
+			i: number | null | Increment
 			'b.c': 'a'
 			'b.d': {
 				e: false
@@ -161,15 +161,11 @@ describe('test Firelord type', () => {
 						g: FirelordFirestore.Timestamp | Date | null
 						h: 2
 				  }[]
-				| ArrayFieldValue<{
+				| ArrayUnionOrRemove<{
 						g: FirelordFirestore.Timestamp | Date | null
 						h: 2
 				  }>
-			'b.j':
-				| ServerTimestampFieldValue
-				| null
-				| Date
-				| FirelordFirestore.Timestamp
+			'b.j': ServerTimestamp | null | Date | FirelordFirestore.Timestamp
 			'b.k': NotTreatedAsObjectType | null
 			'b.d.e': false
 		}
@@ -218,26 +214,23 @@ describe('test Firelord type', () => {
 	})
 
 	it('test possibly read undefined', () => {
-		type A = Creator<
+		type A = MetaTypeCreator<
 			{
-				a: 1 | PossiblyReadAsUndefinedFieldValue | null
+				a: 1 | PossiblyReadAsUndefined | null
 				b: {
-					c: 'a' | PossiblyReadAsUndefinedFieldValue
-					d: { e: false } | PossiblyReadAsUndefinedFieldValue
+					c: 'a' | PossiblyReadAsUndefined
+					d: { e: false } | PossiblyReadAsUndefined
 					f:
 						| {
-								g: Date | null | PossiblyReadAsUndefinedFieldValue
-								h: 2 | PossiblyReadAsUndefinedFieldValue
+								g: Date | null | PossiblyReadAsUndefined
+								h: 2 | PossiblyReadAsUndefined
 						  }[]
-						| PossiblyReadAsUndefinedFieldValue
-					j:
-						| ServerTimestampFieldValue
-						| null
-						| PossiblyReadAsUndefinedFieldValue
-					k: NotTreatedAsObjectType | null | PossiblyReadAsUndefinedFieldValue
+						| PossiblyReadAsUndefined
+					j: ServerTimestamp | null | PossiblyReadAsUndefined
+					k: NotTreatedAsObjectType | null | PossiblyReadAsUndefined
 				}
-				h: string | PossiblyReadAsUndefinedFieldValue | null
-				i: number | PossiblyReadAsUndefinedFieldValue
+				h: string | PossiblyReadAsUndefined | null
+				i: number | PossiblyReadAsUndefined
 			},
 			'A',
 			string
@@ -273,15 +266,15 @@ describe('test Firelord type', () => {
 							g: Date | FirelordFirestore.Timestamp | null
 							h: 2
 					  }[]
-					| ArrayFieldValue<{
+					| ArrayUnionOrRemove<{
 							g: Date | FirelordFirestore.Timestamp | null
 							h: 2
 					  }>
-				j: ServerTimestampFieldValue | null
+				j: ServerTimestamp | null
 				k: NotTreatedAsObjectType | null
 			}
 			h: string | null
-			i: number | NumberFieldValue
+			i: number | Increment
 		}
 
 		type ExpectedWriteFlatten = {
@@ -297,21 +290,21 @@ describe('test Firelord type', () => {
 							g: FirelordFirestore.Timestamp | Date | null
 							h: 2
 					  }[]
-					| ArrayFieldValue<{
+					| ArrayUnionOrRemove<{
 							g: FirelordFirestore.Timestamp | Date | null
 							h: 2
 					  }>
-				j: ServerTimestampFieldValue | null
+				j: ServerTimestamp | null
 				k: NotTreatedAsObjectType | null
 			}
 			h: string | null
-			i: number | NumberFieldValue
+			i: number | Increment
 			'b.f':
 				| {
 						g: FirelordFirestore.Timestamp | Date | null
 						h: 2
 				  }[]
-				| ArrayFieldValue<{
+				| ArrayUnionOrRemove<{
 						g: FirelordFirestore.Timestamp | Date | null
 						h: 2
 				  }>
@@ -319,7 +312,7 @@ describe('test Firelord type', () => {
 			'b.d': {
 				e: false
 			}
-			'b.j': ServerTimestampFieldValue | null
+			'b.j': ServerTimestamp | null
 			'b.d.e': false
 			'b.k': NotTreatedAsObjectType | null
 		}
@@ -368,7 +361,7 @@ describe('test Firelord type', () => {
 	})
 
 	it('test ban null', () => {
-		type A = Creator<
+		type A = MetaTypeCreator<
 			{
 				a: 1 | null
 				b: {
@@ -380,7 +373,7 @@ describe('test Firelord type', () => {
 								h: 2 | null
 						  }[]
 						| null
-					j: ServerTimestampFieldValue | null
+					j: ServerTimestamp | null
 					k: NotTreatedAsObjectType | null
 				}
 				h: string | null
@@ -420,15 +413,15 @@ describe('test Firelord type', () => {
 							h: 2 | ErrorNullBanned
 					  }[]
 					| ErrorNullBanned
-					| ArrayFieldValue<{
+					| ArrayUnionOrRemove<{
 							g: FirelordFirestore.Timestamp | Date | ErrorNullBanned
 							h: ErrorNullBanned | 2
 					  }>
-				j: ServerTimestampFieldValue | ErrorNullBanned
+				j: ServerTimestamp | ErrorNullBanned
 				k: NotTreatedAsObjectType | ErrorNullBanned
 			}
 			h: string | ErrorNullBanned
-			i: number | ErrorNullBanned | NumberFieldValue
+			i: number | ErrorNullBanned | Increment
 		}
 		type ExpectedWriteFlatten = {
 			a: 1 | ErrorNullBanned
@@ -444,14 +437,14 @@ describe('test Firelord type', () => {
 							g: FirelordFirestore.Timestamp | Date | ErrorNullBanned
 							h: 2 | ErrorNullBanned
 					  }[]
-					| ArrayFieldValue<{
+					| ArrayUnionOrRemove<{
 							g: FirelordFirestore.Timestamp | Date | ErrorNullBanned
 							h: 2 | ErrorNullBanned
 					  }>
-				j: ServerTimestampFieldValue | ErrorNullBanned
+				j: ServerTimestamp | ErrorNullBanned
 				k: NotTreatedAsObjectType | ErrorNullBanned
 			}
-			'b.j': ServerTimestampFieldValue | ErrorNullBanned
+			'b.j': ServerTimestamp | ErrorNullBanned
 			'b.c': 'a' | ErrorNullBanned
 			'b.d': {
 				e: false | ErrorNullBanned
@@ -463,12 +456,12 @@ describe('test Firelord type', () => {
 						g: FirelordFirestore.Timestamp | Date | ErrorNullBanned
 						h: 2 | ErrorNullBanned
 				  }[]
-				| ArrayFieldValue<{
+				| ArrayUnionOrRemove<{
 						g: FirelordFirestore.Timestamp | Date | ErrorNullBanned
 						h: 2 | ErrorNullBanned
 				  }>
 			h: string | ErrorNullBanned
-			i: number | ErrorNullBanned | NumberFieldValue
+			i: number | ErrorNullBanned | Increment
 			'b.k': NotTreatedAsObjectType | ErrorNullBanned
 		}
 
@@ -518,18 +511,18 @@ describe('test Firelord type', () => {
 	})
 
 	it('test union involve object type & DeleteAbleFieldValue', () => {
-		type A = Creator<
+		type A = MetaTypeCreator<
 			{
-				a: 1 | null | DeleteAbleFieldValue
+				a: 1 | null | DeleteField
 				b: {
-					c: 'a' | DeleteAbleFieldValue
-					d: { e: false } | DeleteAbleFieldValue
-					f: { g: Date | null; h: 2 }[] | DeleteAbleFieldValue
-					j: ServerTimestampFieldValue | null | Date | DeleteAbleFieldValue
-					k: NotTreatedAsObjectType | null | DeleteAbleFieldValue
+					c: 'a' | DeleteField
+					d: { e: false } | DeleteField
+					f: { g: Date | null; h: 2 }[] | DeleteField
+					j: ServerTimestamp | null | Date | DeleteField
+					k: NotTreatedAsObjectType | null | DeleteField
 				}
-				h: string | DeleteAbleFieldValue
-				i: number | null | DeleteAbleFieldValue
+				h: string | DeleteField
+				i: number | null | DeleteField
 			},
 			'A',
 			string,
@@ -555,76 +548,76 @@ describe('test Firelord type', () => {
 		}
 
 		type ExpectedWrite = {
-			a: 1 | null | DeleteAbleFieldValue
+			a: 1 | null | DeleteField
 			b: {
-				c: 'a' | DeleteAbleFieldValue
+				c: 'a' | DeleteField
 				d: ErrorUnionInvolveObjectType
 				f:
 					| {
 							g: Date | FirelordFirestore.Timestamp | null
 							h: 2
 					  }[]
-					| ArrayFieldValue<{
+					| ArrayUnionOrRemove<{
 							g: Date | FirelordFirestore.Timestamp | null
 							h: 2
 					  }>
-					| DeleteAbleFieldValue
+					| DeleteField
 				j:
-					| ServerTimestampFieldValue
+					| ServerTimestamp
 					| null
 					| Date
 					| FirelordFirestore.Timestamp
-					| DeleteAbleFieldValue
-				k: NotTreatedAsObjectType | null | DeleteAbleFieldValue
+					| DeleteField
+				k: NotTreatedAsObjectType | null | DeleteField
 			}
-			h: string | DeleteAbleFieldValue
-			i: number | null | NumberFieldValue | DeleteAbleFieldValue
+			h: string | DeleteField
+			i: number | null | Increment | DeleteField
 		}
 
 		type ExpectedWriteFlatten = {
-			a: 1 | null | DeleteAbleFieldValue
+			a: 1 | null | DeleteField
 			b: {
-				c: 'a' | DeleteAbleFieldValue
+				c: 'a' | DeleteField
 				d: ErrorUnionInvolveObjectType
 				f:
 					| {
 							g: FirelordFirestore.Timestamp | Date | null
 							h: 2
 					  }[]
-					| ArrayFieldValue<{
+					| ArrayUnionOrRemove<{
 							g: FirelordFirestore.Timestamp | Date | null
 							h: 2
 					  }>
-					| DeleteAbleFieldValue
+					| DeleteField
 				j:
-					| ServerTimestampFieldValue
+					| ServerTimestamp
 					| null
 					| Date
 					| FirelordFirestore.Timestamp
-					| DeleteAbleFieldValue
-				k: NotTreatedAsObjectType | null | DeleteAbleFieldValue
+					| DeleteField
+				k: NotTreatedAsObjectType | null | DeleteField
 			}
-			h: string | DeleteAbleFieldValue
-			i: number | null | NumberFieldValue | DeleteAbleFieldValue
+			h: string | DeleteField
+			i: number | null | Increment | DeleteField
 			'b.f':
 				| {
 						g: FirelordFirestore.Timestamp | Date | null
 						h: 2
 				  }[]
-				| ArrayFieldValue<{
+				| ArrayUnionOrRemove<{
 						g: FirelordFirestore.Timestamp | Date | null
 						h: 2
 				  }>
-				| DeleteAbleFieldValue
-			'b.c': 'a' | DeleteAbleFieldValue
+				| DeleteField
+			'b.c': 'a' | DeleteField
 			'b.d': ErrorUnionInvolveObjectType
 			'b.j':
-				| ServerTimestampFieldValue
+				| ServerTimestamp
 				| null
 				| Date
 				| FirelordFirestore.Timestamp
-				| DeleteAbleFieldValue
-			'b.k': NotTreatedAsObjectType | null | DeleteAbleFieldValue
+				| DeleteField
+			'b.k': NotTreatedAsObjectType | null | DeleteField
 		}
 
 		type ExpectedCompare = {

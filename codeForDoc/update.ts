@@ -30,12 +30,14 @@ updateDoc(
 // Accept `undefined` but `undefined` is not a valid Firestore value.
 updateDoc(docRef, { a: undefined, b: undefined }) // bad: does not reject 'undefined', runtime exception!
 
+type abc2 = DocumentReference<{
+	a: number
+	b: { c: number; d: number }
+	e: { f: number; g: number }
+}>
+
 updateDoc(
-	doc(getFirestore(), 'abc/efg') as DocumentReference<{
-		a: number
-		b: { c: number; d: number }
-		e: { f: number; g: number }
-	}>,
+	doc(getFirestore(), 'abc/efg') as abc2,
 	{
 		a: 1,
 		b: { c: 1 }, // nested form

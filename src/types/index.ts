@@ -1,4 +1,4 @@
-export * from './creator'
+export * from './metaTypeCreator'
 export * from './firelordFirestore'
 export * from './set'
 export * from './error'

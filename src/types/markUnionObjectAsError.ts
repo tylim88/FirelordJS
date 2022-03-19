@@ -1,6 +1,6 @@
 import { IsUnion } from './utils'
 import { ErrorUnionInvolveObjectType } from './error'
-import { FieldValues, PossiblyReadAsUndefinedFieldValue } from './fieldValue'
+import { FieldValues, PossiblyReadAsUndefined } from './fieldValue'
 import { NotTreatedAsObjectType } from './ref'
 
 // non map type union with or without field value or non map type will result in never, indicating this is not a map type union
@@ -12,10 +12,10 @@ type FilterInNonFieldValueObject<T> = Exclude<
 >
 
 type ReplaceUnionInvolveObjectTypeWithErrorMsg<T> = IsUnion<
-	Exclude<T, PossiblyReadAsUndefinedFieldValue>
+	Exclude<T, PossiblyReadAsUndefined>
 > extends true
 	? FilterInNonFieldValueObject<
-			Exclude<T, PossiblyReadAsUndefinedFieldValue>
+			Exclude<T, PossiblyReadAsUndefined>
 	  > extends never
 		? T
 		: ErrorUnionInvolveObjectType
@@ -31,10 +31,7 @@ export type RecursiveReplaceUnionInvolveObjectTypeWithErrorMsg<
 	[K in keyof T]: ReplaceUnionInvolveObjectTypeWithErrorMsg<T[K]>
 }
 
-type ExcludePossiblyUndefinedFieldValue<T> = Exclude<
-	T,
-	PossiblyReadAsUndefinedFieldValue
->
+type ExcludePossiblyUndefinedFieldValue<T> = Exclude<T, PossiblyReadAsUndefined>
 // flatten need this because they need to exclude PossiblyUndefined for real in order to build correct path
 export type RecursiveExcludePossiblyUndefinedFieldValue<T> = T extends
 	| FieldValues

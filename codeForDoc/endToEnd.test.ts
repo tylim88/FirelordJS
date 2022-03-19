@@ -19,14 +19,14 @@ import {
 	onSnapshot,
 	runTransaction,
 	getFirestore,
-	Firelord,
-	DeleteAbleFieldValue,
-	ServerTimestampFieldValue,
+	MetaTypeCreator,
+	DeleteField,
+	ServerTimestamp,
 	writeBatch,
 } from 'firelordjs'
 
 initializeApp()
-export type User = Firelord<
+export type User = MetaTypeCreator<
 	{
 		age: number
 		beenTo: (
@@ -37,9 +37,9 @@ export type User = Firelord<
 		role: 'admin' | 'editor' | 'visitor'
 		a: {
 			b: { c: number; f: { g: boolean; h: Date; m: number }[] }
-			i: { j: number | DeleteAbleFieldValue; l: Date }
+			i: { j: number | DeleteField; l: Date }
 			e: string[]
-			k: ServerTimestampFieldValue | DeleteAbleFieldValue
+			k: ServerTimestamp | DeleteField
 		}
 	},
 	'FirelordJSEndToEnd',

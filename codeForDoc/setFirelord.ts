@@ -1,4 +1,4 @@
-import { updateDoc, MetaTypeCreator, getFirelord } from 'firelordjs'
+import { setDoc, MetaTypeCreator, getFirelord } from 'firelordjs'
 
 type abc = MetaTypeCreator<
 	{
@@ -16,31 +16,15 @@ const docRef = firelord<abc>('abc').doc('efg')
 
 const abcd = { a: 1, b: 2, c: 3, d: 4 }
 
-updateDoc(
-	docRef,
-	// @ts-expect-error
+setDoc(
+	docRef, // @ts-expect-error
 	{ a: 1, b: 2, c: 3, d: 4 } // good: type error!
 )
-//
-//
-//
-//
-//
-//
-//
-//
-//
-updateDoc(
+
+setDoc(
 	docRef, // @ts-expect-error
 	abcd // good: type error!
 )
-
-updateDoc(docRef, {
-	// @ts-expect-error
-	a: undefined,
-	// @ts-expect-error
-	b: undefined,
-}) // good: reject undefined!
 
 type abc2 = MetaTypeCreator<
 	{
@@ -54,11 +38,36 @@ type abc2 = MetaTypeCreator<
 
 const docRef2 = getFirelord()<abc2>('abc').doc('efg')
 
-updateDoc(
+setDoc(
 	docRef2,
 	{
 		a: 1,
-		b: { c: 1 }, // nested form
-		'e.f': 1,
-	} // dot notation form
-) // type pass, seem reasonable
+		b: { c: 1 },
+		// @ts-expect-error
+		e: undefined, // good, reject undefined!
+	},
+	{ merge: true }
+)
+
+setDoc(
+	docRef2,
+	{
+		a: 1,
+		b: { c: 1 },
+	},
+	{
+		mergeFields: [
+			// @ts-expect-error
+			'j.k',
+		],
+	} // good, reject unknown path
+)
+
+setDoc(
+	docRef2, // @ts-expect-error
+	{
+		a: 1,
+		'b.c': 1,
+	}, // reject unknown member
+	{ merge: true }
+)

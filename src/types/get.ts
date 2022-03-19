@@ -1,4 +1,4 @@
-import { MetaTypes } from './creator'
+import { MetaTypes } from './metaTypeCreator'
 import { DocumentReference } from './ref'
 import { DocumentSnapshot } from './snapshot'
 /**

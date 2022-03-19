@@ -1,4 +1,4 @@
-import { MetaTypes } from './creator'
+import { MetaTypes } from './metaTypeCreator'
 import { FirelordFirestore } from './firelordFirestore'
 
 export type WhereConstraint<

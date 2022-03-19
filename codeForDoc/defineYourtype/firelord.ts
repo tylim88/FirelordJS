@@ -1,6 +1,6 @@
-import { Firelord } from 'firelordjs'
+import { MetaTypeCreator } from 'firelordjs'
 
-export type Parent = Firelord<
+export type Parent = MetaTypeCreator<
 	{
 		a: number
 	},
@@ -8,7 +8,7 @@ export type Parent = Firelord<
 	string
 >
 
-export type Child = Firelord<
+export type Child = MetaTypeCreator<
 	{
 		b: string
 	},

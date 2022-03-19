@@ -5,7 +5,7 @@ import {
 	ErrorSetDeleteFieldMustAtTopLevel,
 	ErrorUnknownMember,
 } from './error'
-import { ArrayFieldValue, DeleteAbleFieldValue } from './fieldValue'
+import { ArrayUnionOrRemove, DeleteField } from './fieldValue'
 
 // check unknown member in stale value for set
 export type FindUnknownMemberInStaleValue<T, Data> = T extends Record<
@@ -61,7 +61,7 @@ export type PartialNoUndefinedAndNoUnknownMember<
 				? Data[K] extends Record<string, unknown>
 					? PartialNoUndefinedAndNoUnknownMember<T[K], Data[K], Merge, false>
 					: T[K]
-				: T[K] extends (infer BaseKeyElement)[] | ArrayFieldValue
+				: T[K] extends (infer BaseKeyElement)[] | ArrayUnionOrRemove
 				? Data[K] extends (infer DataKeyElement)[]
 					? Data[K] extends never[] // https://stackoverflow.com/questions/71193522/typescript-inferred-never-is-not-never
 						? T[K]
@@ -101,14 +101,9 @@ export type RecursivelyReplaceDeleteFieldWithErrorMsg<T, Data> =
 									? Data[K] extends Record<string, unknown>
 										? RecursivelyReplaceDeleteFieldWithErrorMsg<T[K], Data[K]>
 										: T[K]
-									: Data[K] extends DeleteAbleFieldValue
-									? DeleteAbleFieldValue extends Extract<
-											T[K],
-											DeleteAbleFieldValue
-									  >
-										?
-												| Exclude<T[K], DeleteAbleFieldValue>
-												| ErrorDeleteFieldMerge<K>
+									: Data[K] extends DeleteField
+									? DeleteField extends Extract<T[K], DeleteField>
+										? Exclude<T[K], DeleteField> | ErrorDeleteFieldMerge<K>
 										: T[K]
 									: T[K]
 								: T[K]
@@ -126,16 +121,16 @@ type IsSetDeleteAbleFieldValueValid<
 	IsSetDeleteFieldAtTopLevel extends boolean
 > = Merge extends false
 	? T
-	: Data extends DeleteAbleFieldValue
+	: Data extends DeleteField
 	? IsSetDeleteFieldAtTopLevel extends false
-		? ErrorSetDeleteFieldMustAtTopLevel | Exclude<T, DeleteAbleFieldValue>
+		? ErrorSetDeleteFieldMustAtTopLevel | Exclude<T, DeleteField>
 		: Merge extends true
 		? T
 		: Merge extends false
-		? ErrorDeleteFieldMerge<Key> | Exclude<T, DeleteAbleFieldValue> // only show error when condition failed
+		? ErrorDeleteFieldMerge<Key> | Exclude<T, DeleteField> // only show error when condition failed
 		: Merge extends (infer P)[]
 		? Key extends P
 			? T
-			: ErrorDeleteFieldMergeField<Key> | Exclude<T, DeleteAbleFieldValue> // only show error when condition failed
+			: ErrorDeleteFieldMergeField<Key> | Exclude<T, DeleteField> // only show error when condition failed
 		: T
 	: T

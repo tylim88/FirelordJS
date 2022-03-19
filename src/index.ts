@@ -4,9 +4,8 @@ import {
 	collectionGroup as collectionGroup_,
 	getFirestore,
 } from 'firebase/firestore'
-import { MetaTypes } from './types'
+import { MetaTypes, FirelordFirestore } from './types'
 import { docCreator, collectionCreator, collectionGroupCreator } from './refs'
-import { FirebaseApp } from 'firebase/app'
 
 /**
  Gets a FirelordReference instance that refers to the doc, collection, and collectionGroup at the specified absolute path.
@@ -18,18 +17,14 @@ import { FirebaseApp } from 'firebase/app'
  @returns — DocumentReference, CollectionReference and CollectionGroupReference instance.
  */
 export const getFirelord =
-	(app?: FirebaseApp) =>
+	(firestore?: FirelordFirestore.Firestore) =>
 	<T extends MetaTypes>(collectionPath: T['collectionPath']) => {
-		const firestore = getFirestore(app)
-		const doc = docCreator<T>(doc_, firestore, collectionPath)
-		const collection = collectionCreator<T>(
-			collection_,
-			firestore,
-			collectionPath
-		)
+		const fstore = firestore || getFirestore()
+		const doc = docCreator<T>(doc_, fstore, collectionPath)
+		const collection = collectionCreator<T>(collection_, fstore, collectionPath)
 		const collectionGroup = collectionGroupCreator<T>(
 			collectionGroup_,
-			firestore,
+			fstore,
 			collectionPath.split('/').pop() as string
 		)
 		return Object.freeze({
@@ -48,9 +43,9 @@ export * from './queryConstraints'
 export { runTransaction } from './transaction'
 export { query } from './refs'
 export type {
-	Creator as Firelord,
-	ServerTimestampFieldValue,
-	DeleteAbleFieldValue,
-	PossiblyReadAsUndefinedFieldValue,
+	MetaTypeCreator,
+	ServerTimestamp,
+	DeleteField,
+	PossiblyReadAsUndefined,
 	DocumentReference,
 } from './types'
