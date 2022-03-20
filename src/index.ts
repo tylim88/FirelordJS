@@ -10,11 +10,14 @@ import { docCreator, collectionCreator, collectionGroupCreator } from './refs'
 /**
  Gets a FirelordReference instance that refers to the doc, collection, and collectionGroup at the specified absolute path.
  
- @param firestore — A reference to the root Firestore instance.
+ @param firestore 
+ Optional. A reference to the Firestore database to run this transaction against. If this argument is skipped, it will use default Firestore.
  
- @param path — A slash-separated full path to a collection.
+ @param path 
+ A slash-separated full path to a collection.
  
- @returns — DocumentReference, CollectionReference and CollectionGroupReference instance.
+ @returns 
+ DocumentReference, CollectionReference and CollectionGroupReference instance.
  */
 export const getFirelord =
 	(firestore?: FirelordFirestore.Firestore) =>
@@ -35,12 +38,12 @@ export const getFirelord =
 	}
 
 export { Timestamp, GeoPoint, getFirestore } from 'firebase/firestore'
-export { writeBatch } from './batch'
+export * from './batch'
+export * from './transaction'
 export * from './fieldValue'
 export * from './onSnapshot'
 export * from './operations'
 export * from './queryConstraints'
-export { runTransaction } from './transaction'
 export { query } from './refs'
 export type {
 	MetaTypeCreator,

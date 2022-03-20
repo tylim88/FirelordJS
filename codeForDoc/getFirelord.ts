@@ -24,6 +24,36 @@ const docRef = firelord<abc>('abc').doc('efg')
 getDoc(docRef).then(docSnapshot => {
 	const data = docSnapshot.data({ serverTimestamps: 'none' })
 	if (data) {
-		const timestamp = data.b.d // bad: should be null | FieldValue
+		//
+		//
+		const timestamp = data.b.d // good: null | Timestamp
 	}
+})
+
+getDoc(docRef).then(docSnapshot => {
+	const data = docSnapshot.data({ serverTimestamps: 'estimate' })
+	if (data) {
+		//
+		//
+		const timestamp = data.b.d // good: Timestamp
+	}
+})
+
+//
+//
+//
+//
+//
+getDoc(docRef).then(docSnapshot => {
+	// @ts-expect-error
+	docSnapshot.get('n.j', { serverTimestamps: 'none' })
+	// good: reject unknown path!
+	//
+	//
+	//
+	//
+	//
+	//
+	const data = docSnapshot.get('b.d', { serverTimestamps: 'none' })
+	// good: return correct type!
 })

@@ -34,10 +34,6 @@
 			<img src="https://snyk.io/test/github/tylim88/FirelordJS/badge.svg" alt="code coverage"/>
 		</a>
 		&nbsp;
-		<a href="https://lgtm.com/projects/g/tylim88/Firelordjs/alerts/" target="_blank">
-			<img alt="Total alerts" src="https://img.shields.io/lgtm/alerts/g/tylim88/Firelordjs.svg?logo=lgtm&logoWidth=18"/>
-		</a>
-		&nbsp;
 		<a href="https://lgtm.com/projects/g/tylim88/Firelordjs/context:javascript" target="_blank">
 			<img alt="Language grade: JavaScript" src="https://img.shields.io/lgtm/grade/javascript/g/tylim88/Firelordjs.svg?logo=lgtm&logoWidth=18"/>
 		</a>
@@ -48,7 +44,7 @@
 </div>
 <br/>
 <div align="center">
-		<i>Modular, Minuscule, Intuitive, Craftsmanship, Peaceful, Deep</i>
+		<i>Modular, Minuscule, Intuitive, Unopinionated, Craftsmanship, Peaceful, Deep</i>
 </div>
 <br/>
 <div align="center">
@@ -61,7 +57,7 @@
 
 # Note
 
-1. Documentation is still under development
-2. not yet released, DO NOT INSTALL
-3. V1 rewrite from scratch using Firestore V9 API.
-4. Documentation before v1.0 can be found here
+1. Documentation is still under development, but is viable to read.
+2. V1 rewrite from scratch using Firestore V9 API.
+3. V1 is totally different than V0 and is 10x better than.
+4. Documentation before v1.0 can be found [here](https://github.com/tylim88/Firelordjs/beforev1.0.md).
