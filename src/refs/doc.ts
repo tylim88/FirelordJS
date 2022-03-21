@@ -22,9 +22,9 @@ export const doc = <
 >(
 	path: Path extends never
 		? Path
-		: Path extends IsValidID<Path, 'Document'>
+		: Path extends IsValidID<Path, 'Document', '/'>
 		? T['docPath']
-		: IsValidID<Path, 'Document'>,
+		: IsValidID<Path, 'Document', '/'>,
 	firestore?: FirelordFirestore.Firestore
 ) => {
 	return doc_(firestore || getFirestore(), path) as DocumentReference<T>

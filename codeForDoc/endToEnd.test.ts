@@ -3,7 +3,7 @@ import {
 	generateRandomData,
 	readThenCompareWithWriteData,
 	writeThenReadTest,
-	compareReadAndWriteData,
+	compareWriteDataWithDocSnapData,
 } from '../src/utilForTests'
 import {
 	setDoc,
@@ -96,7 +96,7 @@ describe('end to end test', () => {
 		expect(querySnapshot.docs.length).toBe(1)
 		expect(queryDocumentSnapshot).not.toBe(undefined)
 		if (queryDocumentSnapshot) {
-			await compareReadAndWriteData(data, queryDocumentSnapshot)
+			await compareWriteDataWithDocSnapData(data, queryDocumentSnapshot)
 		}
 	})
 	it('test onSnapshot', done => {
@@ -114,7 +114,7 @@ describe('end to end test', () => {
 					expect(querySnapshot.docs.length).toBe(1)
 					expect(queryDocumentSnapshot).not.toBe(undefined)
 					if (queryDocumentSnapshot) {
-						await compareReadAndWriteData(data, queryDocumentSnapshot)
+						await compareWriteDataWithDocSnapData(data, queryDocumentSnapshot)
 					}
 					unsub()
 					done()
@@ -159,7 +159,7 @@ describe('end to end test', () => {
 		await setDoc(docRef, data)
 		await runTransaction(async transaction => {
 			const docSnap = await transaction.get(docRef)
-			compareReadAndWriteData(data, docSnap)
+			compareWriteDataWithDocSnapData(data, docSnap)
 		})
 	})
 	it('test batch update, delete field', async () => {

@@ -1,9 +1,4 @@
-import {
-	doc as doc_,
-	collection as collection_,
-	collectionGroup as collectionGroup_,
-	getFirestore,
-} from 'firebase/firestore'
+import { getFirestore } from 'firebase/firestore'
 import { MetaTypes, FirelordFirestore } from './types'
 import { docCreator, collectionCreator, collectionGroupCreator } from './refs'
 
@@ -60,7 +55,7 @@ export * from './onSnapshot/onSnapshot'
 export * from './operations'
 export * from './queryConstraints'
 export { query, doc, collection, collectionGroup } from './refs'
-export * from './utils'
+export * from './equal'
 export type {
 	MetaTypeCreator,
 	ServerTimestamp,

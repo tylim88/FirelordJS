@@ -9,12 +9,15 @@ import { DocumentSnapshot, QuerySnapshot, MetaTypes } from '../types'
  * @returns true if the snapshots are equal.
  */
 export const snapshotEqual = (
-	left: DocumentSnapshot<MetaTypes> | QuerySnapshot<MetaTypes>,
-	right: DocumentSnapshot<MetaTypes> | QuerySnapshot<MetaTypes>
+	// ! DocumentSnapshot<User> does not extends DocumentSnapshot<MetaTypes>...why? same case with QuerySnapshot
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	left: DocumentSnapshot<any> | QuerySnapshot<any>,
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	right: DocumentSnapshot<any> | QuerySnapshot<any>
 ) => {
 	return snapshotEqual_(
 		// @ts-expect-error
-		left,
-		right
+		left as DocumentSnapshot<MetaTypes>,
+		right as DocumentSnapshot<MetaTypes>
 	)
 }

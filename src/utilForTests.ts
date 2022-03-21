@@ -6,6 +6,8 @@ import {
 	DocumentReference,
 	DeleteField,
 	DocumentSnapshot,
+	MetaTypes,
+	QuerySnapshot,
 } from './types'
 import { initializeApp as initializeApp_ } from 'firebase/app'
 import pick from 'pick-random'
@@ -13,6 +15,7 @@ import betwin from 'betwin'
 import { getDoc, getDocFromCache, getDocFromServer } from './operations'
 import { flatten } from './utils'
 import { cloneDeep } from 'lodash'
+import { snapshotEqual } from './equal'
 
 export const initializeApp = () => {
 	const env = process.env
@@ -91,24 +94,6 @@ export const generateRandomData = (): User['write'] => {
 	return { beenTo, name, role, age, a }
 }
 
-export const readThenCompareWithWriteData = async (
-	writeData: User['write'],
-	ref: DocumentReference<User>
-) => {
-	const docSnap = await getDoc(ref)
-	const docSnapServer = await getDocFromServer(ref)
-	const arr = [docSnap, docSnapServer]
-	arr.forEach(dSnap =>
-		compareWriteDataWithDocSnapData(cloneDeep(writeData), dSnap)
-	)
-	// https://stackoverflow.com/questions/70315073/firestore-web-version-9-modular-getdocsfromcache-seems-not-working
-	// persistence are disable by default for web
-	// cannot enable persistence without browser indexedDB
-	// unable to test with cache, will error for getDoc
-	// expect async throw https://stackoverflow.com/a/54585620/5338829
-	await expect(getDocFromCache(ref)).rejects.toThrow()
-}
-
 export const compareWriteDataWithDocSnapData = (
 	writeData: User['write'],
 	docSnap: DocumentSnapshot<User>
@@ -158,6 +143,29 @@ export const compareWriteDataWithDocSnapData = (
 			})
 		})
 	}
+}
+
+export const readThenCompareWithWriteData = async (
+	writeData: User['write'],
+	ref: DocumentReference<User>
+) => {
+	const docSnap = await getDoc(ref)
+	const docSnapServer = await getDocFromServer(ref)
+
+	type a = QuerySnapshot<User> extends QuerySnapshot<MetaTypes> ? true : false
+
+	expect(snapshotEqual(docSnapServer, docSnap)).toBe(true)
+
+	const arr = [docSnap, docSnapServer]
+	arr.forEach(dSnap =>
+		compareWriteDataWithDocSnapData(cloneDeep(writeData), dSnap)
+	)
+	// https://stackoverflow.com/questions/70315073/firestore-web-version-9-modular-getdocsfromcache-seems-not-working
+	// persistence are disable by default for web
+	// cannot enable persistence without browser indexedDB
+	// unable to test with cache, will error for getDoc
+	// expect async throw https://stackoverflow.com/a/54585620/5338829
+	await expect(getDocFromCache(ref)).rejects.toThrow()
 }
 
 export const writeThenReadTest = async (

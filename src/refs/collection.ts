@@ -23,9 +23,9 @@ export const collection = <
 >(
 	path: Path extends never
 		? Path
-		: Path extends IsValidID<Path, 'Collection'>
+		: Path extends IsValidID<Path, 'Collection', '/'>
 		? T['collectionPath']
-		: IsValidID<Path, 'Collection'>,
+		: IsValidID<Path, 'Collection', '/'>,
 	firestore?: FirelordFirestore.Firestore
 ) => {
 	return collection_(

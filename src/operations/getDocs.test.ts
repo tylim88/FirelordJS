@@ -17,6 +17,7 @@ import {
 } from '../types'
 import { query } from '../refs'
 import { where } from '../queryConstraints'
+import { snapshotEqual } from '../equal'
 
 initializeApp()
 const userRef = userRefCreator()
@@ -70,6 +71,15 @@ const queryTest = async (
 		IsTrue<IsSame<X, Y>>()
 		await compareWriteDataWithDocSnapData(data, queryDocumentSnapshotServer)
 	}
+	expect(snapshotEqual(querySnapshotCache, querySnapshotCache)).toBe(true)
+	expect(snapshotEqual(querySnapshotServer, querySnapshotServer)).toBe(true)
+	expect(snapshotEqual(querySnapshot, querySnapshot)).toBe(true)
+
+	expect(snapshotEqual(querySnapshotCache, querySnapshotServer)).toBe(false)
+	expect(snapshotEqual(querySnapshotCache, querySnapshotServer)).toBe(false)
+
+	// ! false with filter, true without filter, why?
+	// expect(snapshotEqual(querySnapshot, querySnapshotServer)).toBe(true)
 }
 describe('test getDocs', () => {
 	it('test naked query functionality and type', async () => {
