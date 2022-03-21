@@ -1,7 +1,7 @@
 import { getDocs, getDocsFromCache, getDocsFromServer } from './getDocs'
 import {
 	generateRandomData,
-	compareReadAndWriteData,
+	compareWriteDataWithDocSnapData,
 	initializeApp,
 	userRefCreator,
 	User,
@@ -40,7 +40,7 @@ const queryTest = async (
 		type X = typeof queryDocumentSnapshot
 		type Y = QueryDocumentSnapshot<User>
 		IsTrue<IsSame<X, Y>>()
-		await compareReadAndWriteData(data, queryDocumentSnapshot)
+		await compareWriteDataWithDocSnapData(data, queryDocumentSnapshot)
 	}
 	// cache =========================
 	// https://stackoverflow.com/questions/70315073/firestore-web-version-9-modular-getdocsfromcache-seems-not-working
@@ -68,7 +68,7 @@ const queryTest = async (
 		type X = typeof queryDocumentSnapshotServer
 		type Y = QueryDocumentSnapshot<User>
 		IsTrue<IsSame<X, Y>>()
-		await compareReadAndWriteData(data, queryDocumentSnapshotServer)
+		await compareWriteDataWithDocSnapData(data, queryDocumentSnapshotServer)
 	}
 }
 describe('test getDocs', () => {

@@ -50,6 +50,7 @@ export {
 	enableMultiTabIndexedDbPersistence,
 	enableNetwork,
 	onSnapshotsInSync,
+	namedQuery,
 } from 'firebase/firestore'
 export * from './batch'
 export * from './transaction'

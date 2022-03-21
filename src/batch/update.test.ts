@@ -40,7 +40,7 @@ describe('test update batch', () => {
 		await readThenCompareWithWriteData(data3, docRef3)
 	})
 	it('test same path, delete field, in hybrid', async () => {
-		const batch = writeBatch(getFirestore())
+		const batch = writeBatch()
 		const data = generateRandomData()
 		const ref = userRef.doc('updateBatchSpecificFieldTestCase')
 		await setDoc(ref, data)

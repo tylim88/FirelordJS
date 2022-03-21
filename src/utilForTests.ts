@@ -10,7 +10,7 @@ import {
 import { initializeApp as initializeApp_ } from 'firebase/app'
 import pick from 'pick-random'
 import betwin from 'betwin'
-import { getDoc } from './operations'
+import { getDoc, getDocFromCache, getDocFromServer } from './operations'
 import { flatten } from './utils'
 import { cloneDeep } from 'lodash'
 
@@ -96,10 +96,20 @@ export const readThenCompareWithWriteData = async (
 	ref: DocumentReference<User>
 ) => {
 	const docSnap = await getDoc(ref)
-	compareReadAndWriteData(writeData, docSnap)
+	const docSnapServer = await getDocFromServer(ref)
+	const arr = [docSnap, docSnapServer]
+	arr.forEach(dSnap =>
+		compareWriteDataWithDocSnapData(cloneDeep(writeData), dSnap)
+	)
+	// https://stackoverflow.com/questions/70315073/firestore-web-version-9-modular-getdocsfromcache-seems-not-working
+	// persistence are disable by default for web
+	// cannot enable persistence without browser indexedDB
+	// unable to test with cache, will error for getDoc
+	// expect async throw https://stackoverflow.com/a/54585620/5338829
+	await expect(getDocFromCache(ref)).rejects.toThrow()
 }
 
-export const compareReadAndWriteData = (
+export const compareWriteDataWithDocSnapData = (
 	writeData: User['write'],
 	docSnap: DocumentSnapshot<User>
 ) => {

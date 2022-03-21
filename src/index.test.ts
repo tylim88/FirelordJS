@@ -1,5 +1,6 @@
 import { getFirelord } from '.'
 import { initializeApp, User } from './utilForTests'
+import { getFirestore } from 'firebase/firestore'
 
 initializeApp()
 
@@ -11,7 +12,7 @@ describe('test', () => {
 	})
 	it('test type', () => {
 		;() => {
-			getFirelord()<User>(
+			getFirelord(getFirestore())<User>(
 				// @ts-expect-error
 				`topLevel/FirelordTest1/Users`
 			)

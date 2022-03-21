@@ -19,7 +19,7 @@ limitation
 1. update and merge set operation break type, use it with care, there is nothing we can do other than using possibly undefined
 2. unable to union object type with other type except possibly undefined
 
-anything that has nothing to do with document data type is directly exported by FirelordJS without any change, they are:
+anything where the input has nothing to do with document data type, is directly exported by FirelordJS without any change, they are:
 - loadBundle
 - clearIndexedDbPersistence
 - connectFirestoreEmulator
@@ -28,3 +28,4 @@ anything that has nothing to do with document data type is directly exported by 
 - enableMultiTabIndexedDbPersistence
 - enableNetwork
 - onSnapshotsInSync
+- namedQuery

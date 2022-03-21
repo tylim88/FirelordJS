@@ -1,7 +1,7 @@
 import { onSnapshot } from './onSnapshot'
 import {
 	generateRandomData,
-	compareReadAndWriteData,
+	compareWriteDataWithDocSnapData,
 	initializeApp,
 	userRefCreator,
 	User,
@@ -29,7 +29,7 @@ describe('test onSnapshot', () => {
 				type A = typeof documentSnapshot
 				type B = DocumentSnapshot<User>
 				IsTrue<IsSame<B, A>>()
-				await compareReadAndWriteData(data, documentSnapshot)
+				await compareWriteDataWithDocSnapData(data, documentSnapshot)
 				unsub()
 				done()
 			})
@@ -46,11 +46,12 @@ describe('test onSnapshot', () => {
 					type A = typeof documentSnapshot
 					type B = DocumentSnapshot<User>
 					IsTrue<IsSame<B, A>>()
-					await compareReadAndWriteData(data, documentSnapshot)
+					await compareWriteDataWithDocSnapData(data, documentSnapshot)
 					unsub()
 					done()
 				},
-				{ includeMetadataChanges: true }
+				{ includeMetadataChanges: true },
+				() => {}
 			)
 		})
 	})
@@ -74,7 +75,7 @@ describe('test onSnapshot', () => {
 						type C = typeof queryDocumentSnapshot
 						type D = QueryDocumentSnapshot<User>
 						IsTrue<IsSame<C, D>>()
-						await compareReadAndWriteData(data, queryDocumentSnapshot)
+						await compareWriteDataWithDocSnapData(data, queryDocumentSnapshot)
 					}
 					unsub()
 					done()
@@ -103,12 +104,12 @@ describe('test onSnapshot', () => {
 						type C = typeof queryDocumentSnapshot
 						type D = QueryDocumentSnapshot<User>
 						IsTrue<IsSame<C, D>>()
-						await compareReadAndWriteData(data, queryDocumentSnapshot)
+						await compareWriteDataWithDocSnapData(data, queryDocumentSnapshot)
 					}
 					unsub()
 					done()
 				},
-				{ includeMetadataChanges: false },
+				() => {},
 				{ includeMetadataChanges: true }
 			)
 		})
