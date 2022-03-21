@@ -35,16 +35,10 @@ export type ErrorMoreThanOnceDocSnapshotInCursor =
 	'Error: If Document Snapshot exist in cursor, there can be only one and only Document Snapshot in the argument'
 export type ErrorLimitInvalidNumber =
 	'Error: do not use negative, 0 or decimal value'
-export type ErrorInvalidWhereCompareValue =
-	`Error: Incorrect value to compare type, make sure the value to compare type is correct`
 export type ErrorLimitToLastOrderBy =
 	'Error: You must specify at least one orderBy clause for limitToLast queries'
-export type ErrorInvalidWhereCompareValueArrayVersion =
-	`Error: ( not-in ) and ( in ) require the value to compare to be array version of that value, eg if the data type is ( string ), then the value to compare type must be ( string[] )`
 export type ErrorInvalidWhereCompareValueMustBeArray =
 	`Error: You can only use ( array-contains ) and ( array-contains-any ) on array data type`
-export type ErrorInvalidWhereFieldValueMustBeElementOfArray =
-	`Error: the value to compare for ( array-contains ) comparator must be element of an array data type, eg if the data type is ( string[] ), then the value to compare type must be ( string )`
 export type ErrorOrderByAndInEqualityWhere<
 	OrderByField extends string,
 	WhereField extends string
@@ -68,6 +62,8 @@ export type ErrorCursorTooManyArguments =
 	`Error: Too many arguments provided to startAt/startAfter/endAt/endBefore(). The number of arguments must be less than or equal to the number of orderBy() clauses than come before it`
 export type ErrorUnknownMember<T> =
 	`Error: Please remove the unknown member ( ${T & string} )`
+export type ErrorWhereDocumentFieldPath =
+	'If field path is document ID, then value must be string'
 export type ErrorMsgs =
 	| ErrorUndefined
 	| ErrorNullBanned
@@ -87,7 +83,6 @@ export type ErrorMsgs =
 	| ErrorMoreThanOnceDocSnapshotInCursor
 	| ErrorLimitInvalidNumber
 	| ErrorLimitToLastOrderBy
-	| ErrorInvalidWhereCompareValue
 	| ErrorOrderByAndInEqualityWhere<string, string>
 	| ErrorInvalidWhereCompareValueMustBeArray
 	| ErrorOrderByEqualityWhere
@@ -96,8 +91,8 @@ export type ErrorMsgs =
 	| ErrorWhereInequalityOpStrSameField
 	| ErrorWhereOnlyOneNotEqual
 	| ErrorCursorTooManyArguments
-	| ErrorInvalidWhereCompareValueArrayVersion
 	| ErrorUnknownMember<string>
+	| ErrorWhereDocumentFieldPath
 
 export type NoUndefinedAndBannedTypes<Data, BannedTypes> =
 	Data extends undefined

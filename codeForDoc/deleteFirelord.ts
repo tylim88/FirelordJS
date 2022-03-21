@@ -19,4 +19,8 @@ const firelord = getFirelord()
 
 const docRef = firelord<abc>('abc').doc('efg')
 
-updateDoc(docRef, { a: deleteField(), b: deleteField() })
+updateDoc(docRef, {
+	a: deleteField(),
+	// @ts-expect-error
+	b: deleteField(),
+})

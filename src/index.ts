@@ -42,6 +42,14 @@ export {
 	getFirestore,
 	terminate,
 	initializeFirestore,
+	loadBundle,
+	clearIndexedDbPersistence,
+	connectFirestoreEmulator,
+	disableNetwork,
+	enableIndexedDbPersistence,
+	enableMultiTabIndexedDbPersistence,
+	enableNetwork,
+	onSnapshotsInSync,
 } from 'firebase/firestore'
 export * from './batch'
 export * from './transaction'

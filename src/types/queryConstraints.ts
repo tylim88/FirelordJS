@@ -1,8 +1,8 @@
 import { MetaTypes } from './metaTypeCreator'
 import { FirelordFirestore } from './firelordFirestore'
-
+import { DocumentId } from './fieldPath'
 export type WhereConstraint<
-	FieldPath extends string,
+	FieldPath extends string | DocumentId,
 	OpStr extends FirelordFirestore.WhereFilterOp,
 	Value
 > = {

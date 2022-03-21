@@ -1,5 +1,11 @@
 import { where as where_ } from 'firebase/firestore'
-import { WhereConstraint, FirelordFirestore } from '../types'
+import {
+	WhereConstraint,
+	FirelordFirestore,
+	DocumentId,
+	IsValidID,
+	ErrorWhereDocumentFieldPath,
+} from '../types'
 
 /**
  * Creates a {@link QueryConstraint} that enforces that documents must contain the
@@ -13,13 +19,17 @@ import { WhereConstraint, FirelordFirestore } from '../types'
  * @returns The created {@link Query}.
  */
 export const where = <
-	FieldPath extends string,
+	FieldPath extends string | DocumentId,
 	OpStr extends FirelordFirestore.WhereFilterOp,
 	Value
 >(
 	fieldPath: FieldPath,
 	opStr: OpStr,
-	value: Value
+	value: FieldPath extends DocumentId
+		? Value extends string
+			? IsValidID<Value, 'Document'>
+			: ErrorWhereDocumentFieldPath
+		: Value
 ) => {
 	let newValue = value
 	if (
@@ -31,9 +41,10 @@ export const where = <
 			'This is a very long string to prevent collision: %$GE&^G^*(N Y(&*T^VR&%R&^TN&*^RMN$BEDF^R%TFG%I%TFDH%(UI<)(UKJ^HGFEC#DR^T*&#$%(<RGFESAXSCVBGNHM(&%T^BTNRV%ITB^TJNTN^T^*T',
 		] as typeof newValue
 	}
-	return where_(fieldPath, opStr, newValue) as WhereConstraint<
-		FieldPath,
-		OpStr,
-		Value
-	>
+	return where_(
+		// @ts-expect-error
+		fieldPath,
+		opStr,
+		newValue
+	) as WhereConstraint<FieldPath, OpStr, Value>
 }
