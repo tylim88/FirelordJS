@@ -12,6 +12,7 @@ import pick from 'pick-random'
 import betwin from 'betwin'
 import { getDoc } from './operations'
 import { flatten } from './utils'
+import { cloneDeep } from 'lodash'
 
 export const initializeApp = () => {
 	const env = process.env
@@ -102,14 +103,15 @@ export const compareReadAndWriteData = (
 	writeData: User['write'],
 	docSnap: DocumentSnapshot<User>
 ) => {
+	const data = cloneDeep(writeData)
 	const readData = docSnap.data()
 	const exists = docSnap.exists()
 	expect(exists).toBe(true)
 	expect(readData).not.toBe(undefined)
 	if (readData) {
 		// convert date
-		writeData.a.b.f = (
-			writeData.a.b.f as {
+		data.a.b.f = (
+			data.a.b.f as {
 				g: boolean
 				h: Date | Timestamp
 				m: number
@@ -119,12 +121,12 @@ export const compareReadAndWriteData = (
 			return item
 		})
 		// convert field value
-		writeData.a.i.l = Timestamp.fromDate(writeData.a.i.l as Date)
-		writeData.a.e = docSnap.get('a.e') as string[]
-		writeData.a.i.j = docSnap.get('a.i.j') as number
-		writeData.a.k = docSnap.get('a.k') as unknown as ServerTimestamp
+		data.a.i.l = Timestamp.fromDate(data.a.i.l as Date)
+		data.a.e = docSnap.get('a.e') as string[]
+		data.a.i.j = docSnap.get('a.i.j') as number
+		data.a.k = docSnap.get('a.k') as unknown as ServerTimestamp
 
-		expect(readData).toEqual(writeData)
+		expect(readData).toEqual(data)
 
 		const fieldPaths: Parameters<typeof docSnap.get>[0][] = [
 			'age',

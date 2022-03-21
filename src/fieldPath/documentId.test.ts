@@ -1,10 +1,10 @@
-import { documentId as documentId_ } from 'firebase/firestore'
-import { DocumentId } from '../types'
-
-/**
- * Returns a special sentinel `FieldPath` to refer to the ID of a document.
- * It can be used in queries to sort or filter by the document ID.
- */
-export const documentId = () => {
-	return documentId_() as unknown as DocumentId
-}
+import { documentId } from './documentId'
+import { DocumentId, IsTrue, IsSame } from '../types'
+// document id is further tested with query, here we test return type only
+describe('test document id type', () => {
+	it('test return type', () => {
+		type A = ReturnType<typeof documentId>
+		type B = DocumentId
+		IsTrue<IsSame<A, B>>()
+	})
+})
