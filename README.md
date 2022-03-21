@@ -20,7 +20,7 @@
 			<img src="https://img.shields.io/badge/dynamic/json?url=https://api.npmutil.com/package/firelordjs&label=dependencies&query=$.dependencies.count" alt="dependency count"/>
 		</a>
 		&nbsp;
-		<img src="https://img.shields.io/badge/minified%2Bgzipped-1KB-brightgreen" alt="package size"/>
+		<img src="https://img.shields.io/badge/minified%2Bgzipped-2KB-brightgreen" alt="package size"/>
 		&nbsp;
 		<a href="https://github.com/tylim88/Firelordjs/actions" target="_blank">
 			<img src="https://github.com/tylim88/Firelordjs/actions/workflows/github-actions.yml/badge.svg" alt="github action"/>

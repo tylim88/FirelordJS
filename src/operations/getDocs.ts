@@ -1,4 +1,8 @@
-import { getDocs as getDocs_ } from 'firebase/firestore'
+import {
+	getDocs as getDocs_,
+	getDocsFromCache as getDocsFromCache_,
+	getDocsFromServer as getDocsFromServer_,
+} from 'firebase/firestore'
 import { MetaTypes, Query, QuerySnapshot } from '../types'
 
 /**
@@ -13,6 +17,32 @@ import { MetaTypes, Query, QuerySnapshot } from '../types'
  */
 export const getDocs = <T extends MetaTypes>(query: Query<T>) => {
 	return getDocs_(
+		// @ts-expect-error
+		query
+	) as Promise<QuerySnapshot<T>>
+}
+
+/**
+ * Executes the query and returns the results as a `QuerySnapshot` from cache.
+ * Returns an error if the document is not currently cached.
+ *
+ * @returns A `Promise` that will be resolved with the results of the query.
+ */
+export const getDocsFromCache = <T extends MetaTypes>(query: Query<T>) => {
+	return getDocsFromCache_(
+		// @ts-expect-error
+		query
+	) as Promise<QuerySnapshot<T>>
+}
+
+/**
+ * Executes the query and returns the results as a `QuerySnapshot` from the
+ * server. Returns an error if the network is not available.
+ *
+ * @returns A `Promise` that will be resolved with the results of the query.
+ */
+export const getDocsFromServer = <T extends MetaTypes>(query: Query<T>) => {
+	return getDocsFromServer_(
 		// @ts-expect-error
 		query
 	) as Promise<QuerySnapshot<T>>

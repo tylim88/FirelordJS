@@ -17,7 +17,7 @@ The maximum number of writes allowed in a single transaction is 500.
 The function to execute within the transaction context.
 
 @param firestore
-Optional. A reference to the Firestore database to run this transaction against. If this argument is skipped, it will use default Firestore.
+Optional. A reference to the Firestore database to run this transaction against. If no value is provided, default Firestore instance is used.
 
 @returns
 If the transaction completed successfully or was explicitly aborted (the updateFunction returned a failed promise), the promise returned by the updateFunction is returned here. Otherwise, if the transaction failed, a rejected promise with the corresponding failure error is returned.

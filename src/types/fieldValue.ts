@@ -2,7 +2,7 @@
 export interface PossiblyReadAsUndefined {
 	'Firelord.FieldValue': 'PossiblyUndefined'
 }
-export type ServerTimestamp = {
+export interface ServerTimestamp {
 	'Firelord.FieldValue': 'ServerTimestamp'
 }
 // deleteField must appear at the top level of the data, however dot notation(update) is also considered as top level

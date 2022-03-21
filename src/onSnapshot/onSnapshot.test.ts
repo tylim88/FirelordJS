@@ -1,4 +1,4 @@
-import { onSnapshot } from './index'
+import { onSnapshot } from './onSnapshot'
 import {
 	generateRandomData,
 	compareReadAndWriteData,

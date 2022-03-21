@@ -11,7 +11,7 @@ import { docCreator, collectionCreator, collectionGroupCreator } from './refs'
  Gets a FirelordReference instance that refers to the doc, collection, and collectionGroup at the specified absolute path.
  
  @param firestore 
- Optional. A reference to the Firestore database to run this transaction against. If this argument is skipped, it will use default Firestore.
+ Optional. A reference to the Firestore database. If no value is provided, default Firestore instance is used.
  
  @param path 
  A slash-separated full path to a collection.
@@ -23,10 +23,9 @@ export const getFirelord =
 	(firestore?: FirelordFirestore.Firestore) =>
 	<T extends MetaTypes>(collectionPath: T['collectionPath']) => {
 		const fstore = firestore || getFirestore()
-		const doc = docCreator<T>(doc_, fstore, collectionPath)
-		const collection = collectionCreator<T>(collection_, fstore, collectionPath)
+		const doc = docCreator<T>(fstore, collectionPath)
+		const collection = collectionCreator<T>(fstore, collectionPath)
 		const collectionGroup = collectionGroupCreator<T>(
-			collectionGroup_,
 			fstore,
 			collectionPath.split('/').pop() as string
 		)
@@ -37,14 +36,22 @@ export const getFirelord =
 		})
 	}
 
-export { Timestamp, GeoPoint, getFirestore } from 'firebase/firestore'
+export {
+	Timestamp,
+	GeoPoint,
+	getFirestore,
+	terminate,
+	initializeFirestore,
+} from 'firebase/firestore'
 export * from './batch'
 export * from './transaction'
 export * from './fieldValue'
-export * from './onSnapshot'
+export * from './fieldPath'
+export * from './onSnapshot/onSnapshot'
 export * from './operations'
 export * from './queryConstraints'
-export { query } from './refs'
+export { query, doc, collection, collectionGroup } from './refs'
+export * from './utils'
 export type {
 	MetaTypeCreator,
 	ServerTimestamp,
