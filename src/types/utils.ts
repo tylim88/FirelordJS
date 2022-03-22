@@ -1,5 +1,7 @@
 export type StrictOmit<T, Key extends keyof T> = Omit<T, Key>
 
+export type StrictExclude<T, U extends T> = Exclude<T, U>
+
 export type ElementOf<T extends unknown[]> = T extends (infer Element)[]
 	? Element
 	: never
@@ -22,3 +24,11 @@ export type IsSame<T, U> = (<G>() => G extends T ? 1 : 2) extends <
 	: false
 
 export type IsEqual<T, U> = T extends U ? (U extends T ? true : false) : false
+
+export type OddNumber<
+	X extends number,
+	Y extends unknown[] = [1],
+	Z extends number = never
+> = Y['length'] extends X
+	? Z | Y['length']
+	: OddNumber<X, [1, 1, ...Y], Z | Y['length']>

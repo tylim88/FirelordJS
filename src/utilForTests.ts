@@ -6,8 +6,6 @@ import {
 	DocumentReference,
 	DeleteField,
 	DocumentSnapshot,
-	MetaTypes,
-	QuerySnapshot,
 } from './types'
 import { initializeApp as initializeApp_ } from 'firebase/app'
 import pick from 'pick-random'
@@ -151,8 +149,6 @@ export const readThenCompareWithWriteData = async (
 ) => {
 	const docSnap = await getDoc(ref)
 	const docSnapServer = await getDocFromServer(ref)
-
-	type a = QuerySnapshot<User> extends QuerySnapshot<MetaTypes> ? true : false
 
 	expect(snapshotEqual(docSnapServer, docSnap)).toBe(true)
 

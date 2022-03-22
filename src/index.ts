@@ -54,7 +54,7 @@ export * from './fieldPath'
 export * from './onSnapshot/onSnapshot'
 export * from './operations'
 export * from './queryConstraints'
-export { query, doc, collection, collectionGroup } from './refs'
+export { query } from './refs'
 export * from './equal'
 export type {
 	MetaTypeCreator,

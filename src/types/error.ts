@@ -21,13 +21,17 @@ export type ErrorCollectionIDString =
 	'Error: Collection ID type cannot be string'
 export type ErrorInvalidDocumentOrCollectionID<
 	T extends 'Document' | 'Collection'
-> = `Error: ${T} ID cannot contains forward slash \`/\` and double dots \`..\` `
+> = `Error: ${T} ID cannot contains forward slash ( / ), double dots ( .. ) ans double underscore ( __ )`
 export type ErrorInvalidDocumentOrCollectionIDStart<
 	T extends 'Document' | 'Collection'
-> = `Error: ${T} ID cannot start with a dot \`.\``
+> = `Error: ${T} ID cannot start with a dot ( . )`
 export type ErrorEmptyDocumentOrCollectionID<
 	T extends 'Document' | 'Collection'
 > = `Error: ${T} ID is empty`
+export type ErrorNumberOfForwardSlashIsNotEqual<
+	Correct extends number,
+	Current extends number
+> = `Error: Invalid query, you need to assert your value as const, eg: ( "a/b/c" as const ) so Typescript can infer the type correctly or else the forward slash count would be 0, current count is ${Current}, need ${Correct}.`
 export type ErrorEmptyUpdate = 'Error: Update data is an empty object literal'
 export type ErrorPossiblyUndefinedAsArrayElement =
 	`Error: You cannot assign PossiblyUndefined as array element, eg: ( PossiblyUndefined[] ), you can however indirectly assign PossiblyUndefined in array, eg: < { a : number | PossiblyUndefined }[] >`
@@ -76,6 +80,7 @@ export type ErrorMsgs =
 	| ErrorUnionInvolveObjectType
 	| ErrorDeleteFieldMerge<string>
 	| ErrorDeleteFieldMergeField<string>
+	| ErrorNumberOfForwardSlashIsNotEqual<number, number>
 	| ErrorCollectionIDString
 	| ErrorInvalidDocumentOrCollectionID<'Document' | 'Collection'>
 	| ErrorInvalidDocumentOrCollectionIDStart<'Document' | 'Collection'>

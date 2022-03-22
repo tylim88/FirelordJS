@@ -1,16 +1,18 @@
 import { MetaTypes } from './metaTypeCreator'
 import { FirelordFirestore } from './firelordFirestore'
-import { DocumentId } from './fieldPath'
+
 export type WhereConstraint<
-	FieldPath extends string | DocumentId,
+	FieldPath extends string,
 	OpStr extends FirelordFirestore.WhereFilterOp,
 	Value
-> = {
-	type: 'where'
-	fieldPath: FieldPath
-	opStr: OpStr
-	value: Value
-}
+> = Readonly<{
+	readonly type: 'where'
+	readonly fieldPath: FieldPath
+	readonly opStr: OpStr
+	readonly value: Value
+}>
+
+const a = Object.freeze({ a: 1 })
 
 export type OrderByConstraint<
 	FieldPath extends string,

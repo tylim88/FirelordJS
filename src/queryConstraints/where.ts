@@ -3,9 +3,9 @@ import {
 	WhereConstraint,
 	FirelordFirestore,
 	DocumentId,
-	IsValidID,
-	ErrorWhereDocumentFieldPath,
+	__name__,
 } from '../types'
+import { documentId } from '../fieldPath'
 
 /**
  * Creates a {@link QueryConstraint} that enforces that documents must contain the
@@ -25,11 +25,7 @@ export const where = <
 >(
 	fieldPath: FieldPath,
 	opStr: OpStr,
-	value: FieldPath extends DocumentId
-		? Value extends string
-			? IsValidID<Value, 'Document'>
-			: ErrorWhereDocumentFieldPath
-		: Value
+	value: Value
 ) => {
 	let newValue = value
 	if (
@@ -41,10 +37,15 @@ export const where = <
 			'This is a very long string to prevent collision: %$GE&^G^*(N Y(&*T^VR&%R&^TN&*^RMN$BEDF^R%TFG%I%TFDH%(UI<)(UKJ^HGFEC#DR^T*&#$%(<RGFESAXSCVBGNHM(&%T^BTNRV%ITB^TJNTN^T^*T',
 		] as typeof newValue
 	}
+	const __name__: __name__ = '__name__'
 	return where_(
 		// @ts-expect-error
-		fieldPath,
+		fieldPath === __name__ ? documentId() : fieldPath,
 		opStr,
 		newValue
-	) as WhereConstraint<FieldPath, OpStr, Value>
+	) as WhereConstraint<
+		FieldPath extends DocumentId ? '__name__' : FieldPath,
+		OpStr,
+		Value
+	>
 }
