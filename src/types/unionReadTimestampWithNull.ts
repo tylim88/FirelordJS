@@ -5,12 +5,12 @@ import { ServerTimestamp, FieldValues } from './fieldValue'
 import { ObjectFlattenRead } from './objectFlatten'
 import { NotTreatedAsObjectType } from './ref'
 
-type none = 'none'
+type NoneAndPrevious = 'none' | 'previous'
 
 // this is a controlled type that make sure 'none' is part of FirelordFirestore.SnapshotOptions['serverTimestamps']
 // if firestore change the object literal type then we would know
 IsTrue<
-	none extends FirelordFirestore.SnapshotOptions['serverTimestamps']
+	NoneAndPrevious extends FirelordFirestore.SnapshotOptions['serverTimestamps']
 		? true
 		: false
 >()
@@ -35,14 +35,14 @@ export type RecursiveUnionReadServerTimestampWithNull<T, Read> =
 export type UnionReadServerTimestampWithNull<
 	T extends MetaTypes,
 	SnapshotOptions extends FirelordFirestore.SnapshotOptions = never
-> = SnapshotOptions['serverTimestamps'] extends none // default type is never, but default value is also none, so it is ok
+> = SnapshotOptions['serverTimestamps'] extends NoneAndPrevious // default type is never, but default value is also none, so it is ok
 	? RecursiveUnionReadServerTimestampWithNull<T['write'], T['read']>
 	: T['read']
 
 export type UnionReadServerTimestampWithNullFlatten<
 	T extends MetaTypes,
 	SnapshotOptions extends FirelordFirestore.SnapshotOptions = never
-> = SnapshotOptions['serverTimestamps'] extends none
+> = SnapshotOptions['serverTimestamps'] extends NoneAndPrevious
 	? RecursiveUnionReadServerTimestampWithNull<
 			T['writeFlatten'],
 			ObjectFlattenRead<T['read']>
