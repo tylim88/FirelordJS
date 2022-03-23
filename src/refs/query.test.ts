@@ -8,7 +8,7 @@ import {
 	endBefore,
 	endAt,
 	startAfter,
-} from '../queryConstraints'
+} from '../queryClauses'
 import { userRefCreator, initializeApp } from '../utilForTests'
 import { documentId } from '../fieldPath'
 import { Timestamp } from 'firebase/firestore'

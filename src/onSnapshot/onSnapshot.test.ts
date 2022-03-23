@@ -15,7 +15,7 @@ import {
 	QueryDocumentSnapshot,
 } from '../types'
 import { query } from '../refs'
-import { where } from '../queryConstraints'
+import { where } from '../queryClauses'
 
 initializeApp()
 const userRef = userRefCreator()

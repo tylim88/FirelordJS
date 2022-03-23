@@ -57,7 +57,6 @@ export type User = MetaTypeCreator<
 >
 
 export const generateRandomData = (): User['write'] => {
-	// do not change the value here as many tests depend on it
 	const beenTo = (pick([[{ China: ['Guangdong'] }], [{ US: ['california'] }]], {
 		count: pick([1, 2])[0],
 	})[0] || []) as (
