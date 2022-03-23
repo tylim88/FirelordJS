@@ -22,6 +22,8 @@ import {
 } from './queryConstraints'
 import { Query, CollectionReference } from './ref'
 import { GetCorrectDocumentIdBasedOnRef } from './fieldPath'
+import { CursorType } from './cursor'
+
 type Equal = '=='
 type Greater = '>'
 type Smaller = '<'
@@ -97,7 +99,7 @@ export type QueryConstraintLimitation<
 							unknown
 					  >
 					? WhereConstraintLimitation<T, Q, Head, PreviousQCs>
-					: Head extends CursorConstraint<unknown[]>
+					: Head extends CursorConstraint<CursorType, unknown[]>
 					? CursorConstraintLimitation<T, Head, PreviousQCs>
 					: never, // impossible route
 				...QueryConstraintLimitation<
@@ -125,9 +127,10 @@ type ValidateCursorOrderBy<
 
 type CursorConstraintLimitation<
 	T extends MetaTypes,
-	U extends CursorConstraint<unknown[]>,
+	U extends CursorConstraint<CursorType, unknown[]>,
 	PreviousQCs extends QueryConstraints<T>[]
 > = U extends CursorConstraint<
+	CursorType,
 	ValidateCursorOrderBy<
 		U['values'],
 		GetAllOrderByFieldValue<T, PreviousQCs, []>

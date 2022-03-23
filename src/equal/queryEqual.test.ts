@@ -26,7 +26,7 @@ describe('test queryEqual', () => {
 				query_(
 					// @ts-expect-error
 					collection('a/b/c'),
-					orderBy('b')
+					orderBy('b').ref
 				)
 			)
 		).toBe(true)
@@ -54,7 +54,7 @@ describe('test queryEqual', () => {
 				query_(
 					// @ts-expect-error
 					collection('a/b/c'),
-					where('a', '==', 1)
+					where('a', '==', 1).ref
 				)
 			)
 		).toBe(false)

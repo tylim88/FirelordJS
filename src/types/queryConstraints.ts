@@ -1,5 +1,7 @@
 import { MetaTypes } from './metaTypeCreator'
 import { FirelordFirestore } from './firelordFirestore'
+import { CursorType } from './cursor'
+
 export type WhereConstraint<
 	T extends MetaTypes,
 	FieldPath extends keyof T['compare'] & string,
@@ -10,6 +12,7 @@ export type WhereConstraint<
 	fieldPath: FieldPath
 	opStr: OpStr
 	value: Value
+	ref: FirelordFirestore.QueryConstraint
 }
 
 export type OrderByConstraint<
@@ -22,19 +25,25 @@ export type OrderByConstraint<
 	type: 'orderBy'
 	fieldPath: FieldPath
 	directionStr: DirectionStr
+	ref: FirelordFirestore.QueryConstraint
 }
 
 export type LimitConstraint<
-	Clause extends 'limit' | 'limitToLast',
+	Type extends 'limit' | 'limitToLast',
 	Value extends number
 > = {
-	type: Clause
+	type: Type
 	value: Value
+	ref: FirelordFirestore.QueryConstraint
 }
 
-export type CursorConstraint<Values extends unknown[]> = {
-	type: 'cursor'
+export type CursorConstraint<
+	Type extends CursorType,
+	Values extends unknown[]
+> = {
+	type: Type
 	values: Values
+	ref: FirelordFirestore.QueryConstraint
 }
 
 export type QueryConstraints<T extends MetaTypes> =
@@ -45,7 +54,7 @@ export type QueryConstraints<T extends MetaTypes> =
 			unknown
 	  >
 	| LimitConstraint<'limit' | 'limitToLast', number>
-	| CursorConstraint<unknown[]>
+	| CursorConstraint<CursorType, unknown[]>
 	| OrderByConstraint<
 			T,
 			keyof T['compare'] & string,

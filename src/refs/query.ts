@@ -30,6 +30,6 @@ export const query = <
 	return query_(
 		// @ts-expect-error
 		query,
-		...queryConstraints
+		...queryConstraints.map(qc => qc.ref)
 	) as Query<T>
 }

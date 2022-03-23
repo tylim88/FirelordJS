@@ -19,10 +19,11 @@ export const orderBy = <
 >(
 	fieldPath: FieldPath extends never ? FieldPath : FieldPath,
 	directionStr?: DirectionStr extends never ? DirectionStr : DirectionStr
-) => {
-	return orderBy_(fieldPath, directionStr) as OrderByConstraint<
-		T,
-		FieldPath,
-		DirectionStr
-	>
+): OrderByConstraint<T, FieldPath, DirectionStr> => {
+	return {
+		type: 'orderBy',
+		fieldPath,
+		directionStr: directionStr as DirectionStr,
+		ref: orderBy_(fieldPath, directionStr),
+	}
 }

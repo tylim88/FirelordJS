@@ -9,7 +9,8 @@ import {
 } from '../types'
 
 export const limitCreator =
-	<Clause extends 'limit' | 'limitToLast'>(
+	<Type extends 'limit' | 'limitToLast'>(
+		type: Type,
 		clause: (limit: number) => FirelordFirestore.QueryConstraint
 	) =>
 	<Value extends number>(
@@ -24,8 +25,12 @@ export const limitCreator =
 				? ErrorLimitInvalidNumber
 				: Value
 			: never // impossible route
-	) => {
-		return clause(limit) as LimitConstraint<Clause, Value>
+	): LimitConstraint<Type, Value> => {
+		return {
+			type,
+			value: limit as Value,
+			ref: clause(limit),
+		}
 	}
 
 /**
@@ -34,7 +39,7 @@ export const limitCreator =
  * @param limit - The maximum number of items to return.
  * @returns The created {@link Query}.
  */
-export const limit = limitCreator<'limit'>(limit_)
+export const limit = limitCreator('limit', limit_)
 
 /**
  * Creates a {@link QueryConstraint} that only returns the last matching documents.
@@ -45,4 +50,4 @@ export const limit = limitCreator<'limit'>(limit_)
  * @param limit - The maximum number of items to return.
  * @returns The created {@link Query}.
  */
-export const limitToLast = limitCreator<'limitToLast'>(limitToLast_)
+export const limitToLast = limitCreator('limitToLast', limitToLast_)

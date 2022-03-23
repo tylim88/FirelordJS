@@ -41,12 +41,19 @@ export const where = <
 		] as typeof newValue
 	}
 	const __name__: __name__ = '__name__'
-	return where_(
-		// @ts-expect-error
-		fieldPath === __name__ ? documentId() : fieldPath,
+
+	return {
+		type: 'where',
+		fieldPath: fieldPath as string,
 		opStr,
-		newValue
-	) as WhereConstraint<
+		value,
+		ref: where_(
+			// @ts-expect-error
+			fieldPath === __name__ ? documentId() : fieldPath,
+			opStr,
+			newValue
+		),
+	} as WhereConstraint<
 		T,
 		FieldPath extends DocumentId ? __name__ : FieldPath,
 		OpStr,
