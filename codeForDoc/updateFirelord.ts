@@ -18,8 +18,13 @@ const abcd = { a: 1, b: 2, c: 3, d: 4 }
 
 updateDoc(
 	docRef,
-	// @ts-expect-error
-	{ a: 1, b: 2, c: 3, d: 4 } // good: type error!
+	{
+		a: 1,
+		b: 2,
+		c: 3,
+		// @ts-expect-error
+		d: 4,
+	} // good: type error!
 )
 //
 //
@@ -30,8 +35,11 @@ updateDoc(
 //
 //
 //
+//
+//
 updateDoc(
-	docRef, // @ts-expect-error
+	docRef,
+	// @ts-expect-error
 	abcd // good: type error!
 )
 

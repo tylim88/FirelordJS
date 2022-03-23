@@ -62,3 +62,15 @@
 3. V1 not compatible with V0.
 4. V1 is 10x better than V0, ain't joking.
 5. The old V0 Documentation can be found [here](https://github.com/tylim88/Firelordjs/beforev1.0.md).
+
+## Related Projects
+
+1. [Firelord](https://www.npmjs.com/package/firelordjs) - Typescript wrapper for Firestore Admin
+2. [Firelordrn](https://www.npmjs.com/package/firelordrn) - Typescript wrapper for Firestore React Native
+3. [FireLaw](https://www.npmjs.com/package/firelaw) - Write Firestore security rule with Typescript !
+
+All the related projects V1 are still in development.
+
+You are asking when I am going to finish them?
+
+Yes I am going to finish them by tomorrow because apparently high precision Typescript wrapper is something that is simple to make, which is totally NOT!

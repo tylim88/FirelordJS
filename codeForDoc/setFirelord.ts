@@ -17,10 +17,26 @@ const docRef = firelord<abc>('abc').doc('efg')
 const abcd = { a: 1, b: 2, c: 3, d: 4 }
 
 setDoc(
-	docRef, // @ts-expect-error
-	{ a: 1, b: 2, c: 3, d: 4 } // good: type error!
+	docRef,
+	{
+		a: 1,
+		b: 2,
+		c: 3,
+		// @ts-expect-error
+		d: 4,
+	} // good: type error!
 )
-
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 setDoc(
 	docRef, // @ts-expect-error
 	abcd // good: type error!
