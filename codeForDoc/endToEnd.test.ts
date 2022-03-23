@@ -65,17 +65,13 @@ describe('end to end test', () => {
 		await readThenCompareWithWriteData(data, ref)
 	})
 	it('test addDoc and deleteDoc', async () => {
-		await writeThenReadTest(async data => {
-			const ref = userRef.collection()
-			const docRef = await addDoc(ref, data)
-			await deleteDoc(docRef)
-			const docSnap = await getDoc(docRef)
-			expect(docSnap.exists()).toBe(false)
-			const docRef2 = await addDoc(ref, data)
-			const docSnap2 = await getDoc(docRef2)
-			expect(docSnap2.exists()).toBe(true)
-			return docRef2
-		})
+		const data = generateRandomData()
+		const ref = userRef.collection()
+		const docRef = await addDoc(ref, data)
+		await readThenCompareWithWriteData(data, docRef)
+		await deleteDoc(docRef)
+		const docSnap = await getDoc(docRef)
+		expect(docSnap.exists()).toBe(false)
 	})
 
 	it('test getDOcs', async () => {

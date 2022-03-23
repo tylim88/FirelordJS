@@ -5,7 +5,8 @@ import { getDoc } from './getDoc'
 import {
 	userRefCreator,
 	initializeApp,
-	writeThenReadTest,
+	generateRandomData,
+	readThenCompareWithWriteData,
 } from '../utilForTests'
 initializeApp()
 const userRef = userRefCreator()
@@ -33,16 +34,12 @@ describe('test addDoc', () => {
 			})
 	})
 	it('test functionality', async () => {
+		const data = generateRandomData()
 		const ref = userRef.collection()
-		await writeThenReadTest(async data => {
-			const docRef = await addDoc(ref, data)
-			await deleteDoc(docRef)
-			const docSnap = await getDoc(docRef)
-			expect(docSnap.exists()).toBe(false)
-			const docRef2 = await addDoc(ref, data)
-			const docSnap2 = await getDoc(docRef2)
-			expect(docSnap2.exists()).toBe(true)
-			return docRef2
-		})
+		const docRef = await addDoc(ref, data)
+		await readThenCompareWithWriteData(data, docRef)
+		await deleteDoc(docRef)
+		const docSnap = await getDoc(docRef)
+		expect(docSnap.exists()).toBe(false)
 	})
 })
