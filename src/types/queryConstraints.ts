@@ -4,12 +4,12 @@ export type WhereConstraint<
 	FieldPath extends string,
 	OpStr extends FirelordFirestore.WhereFilterOp,
 	Value
-> = Readonly<{
-	readonly type: 'where'
-	readonly fieldPath: FieldPath
-	readonly opStr: OpStr
-	readonly value: Value
-}>
+> = {
+	type: 'where'
+	fieldPath: FieldPath
+	opStr: OpStr
+	value: Value
+}
 
 export type OrderByConstraint<
 	T extends MetaTypes,

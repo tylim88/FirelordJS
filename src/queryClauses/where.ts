@@ -4,7 +4,6 @@ import {
 	FirelordFirestore,
 	DocumentId,
 	__name__,
-	MetaTypes,
 } from '../types'
 import { documentId } from '../fieldPath'
 

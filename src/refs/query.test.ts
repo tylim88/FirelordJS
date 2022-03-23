@@ -1,7 +1,6 @@
 import { query } from './query'
 import {
 	limit,
-	limitToLast,
 	orderBy,
 	where,
 	startAt,
@@ -18,101 +17,6 @@ const user = userRefCreator()
 const ref = user.collectionGroup()
 const fullDocPath = 'topLevel/FirelordTest/Users/a' as const // https://stackoverflow.com/questions/71575344/typescript-stop-object-type-from-widening-generic/71575870#71575870
 describe('test query ref', () => {
-	it('test single limit type, should pass', () => {
-		query(ref, limit(1))
-	})
-
-	it('You must specify at least one `orderBy` clause for `limitToLast` queries, negative case', () => {
-		// throw in getDocs/onSnapshot
-		query(
-			ref,
-			// @ts-expect-error
-			limitToLast(1)
-		)
-	})
-
-	it('You must specify at least one `orderBy` clause for `limitToLast` queries, positive case', () => {
-		query(ref, orderBy('age'), orderBy('a.b.c'))
-	})
-
-	it('test orderBy wrong field path type, should fail', () => {
-		query(
-			ref,
-			// @ts-expect-error
-			orderBy('wrongPath2')
-		)
-	})
-
-	it('test limitToLast type with orderBy, should pass', () => {
-		query(ref, orderBy('a.i'), limitToLast(1))
-	})
-
-	it('test wrong where field path', () => {
-		query(
-			ref,
-			// @ts-expect-error
-			where('a1ge', '>=', 2)
-		)
-		query(
-			ref,
-			// @ts-expect-error
-			where('a.b.c1', '>=', 2)
-		)
-	})
-
-	it('test where with incorrect value to compare, should fail', () => {
-		// throw error on in, not-in and array-contains-any if the value is not array
-		query(
-			ref,
-			// @ts-expect-error
-			where('age', '==', '1')
-		)
-		expect(() =>
-			query(
-				ref,
-				// @ts-expect-error
-				where('name', 'not-in', '1')
-			)
-		).toThrow()
-		query(
-			ref,
-			// @ts-expect-error
-			where('a.e', 'array-contains', ['1'])
-		)
-		expect(() =>
-			query(
-				ref,
-				// @ts-expect-error
-				where('a.e', 'array-contains-any', '1')
-			)
-		).toThrow()
-		expect(() =>
-			query(
-				ref,
-				// @ts-expect-error
-				where('a.e', 'not-in', '1')
-			)
-		).toThrow()
-		query(
-			ref,
-			// @ts-expect-error
-			where('a.e', 'in', ['1'])
-		)
-		expect(() =>
-			query(
-				ref,
-				// @ts-expect-error
-				where(documentId(), '>=', 1)
-			)
-		).toThrow()
-		expect(() =>
-			query(
-				ref,
-				// @ts-expect-error
-				where(documentId(), '>=', 'a/b/c')
-			)
-		).toThrow()
-	})
 	it('If you include a filter with a range comparison (<, <=, >, >=), your first ordering must be on the same field, negative case', () => {
 		expect(() =>
 			query(

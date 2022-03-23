@@ -28,9 +28,9 @@ export type __name__ = '__name__'
 
 export type GetCorrectDocumentIdBasedOnRef<
 	T extends MetaTypes,
+	Q extends Query<T> | CollectionReference<T>,
 	FieldPath extends keyof T['compare'],
-	Value,
-	Q extends Query<T> | CollectionReference<T>
+	Value
 > = FieldPath extends __name__
 	? Value extends string
 		? Q extends CollectionReference<T>

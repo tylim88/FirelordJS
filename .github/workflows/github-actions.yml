@@ -21,7 +21,7 @@ jobs:
     - run: npm run e-test
       env:
         PROJECT_ID: ${{ secrets.PROJECT_ID }}
-    - uses: codecov/codecov-action@v3
+    - uses: codecov/codecov-action@v2
   publish:
     runs-on: ubuntu-latest
     needs: test

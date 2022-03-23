@@ -95,7 +95,7 @@ export type QueryConstraintLimitation<
 							FirelordFirestore.WhereFilterOp,
 							unknown
 					  >
-					? WhereConstraintLimitation<T, Head, PreviousQCs, Q>
+					? WhereConstraintLimitation<T, Q, Head, PreviousQCs>
 					: Head extends CursorConstraint<unknown[]>
 					? CursorConstraintLimitation<T, Head, PreviousQCs>
 					: never, // impossible route
@@ -261,9 +261,9 @@ type ValidateWhereInequalityOpStrSameField<
 
 type WhereConstraintLimitation<
 	T extends MetaTypes,
+	Q extends Query<T> | CollectionReference<T>,
 	U extends WhereConstraint<string, FirelordFirestore.WhereFilterOp, unknown>,
-	PreviousQCs extends QueryConstraints<T>[],
-	Q extends Query<T> | CollectionReference<T>
+	PreviousQCs extends QueryConstraints<T>[]
 > = ValidateWhereNotInArrayContainsAny<T, U, PreviousQCs> extends string
 	? ValidateWhereNotInArrayContainsAny<T, U, PreviousQCs>
 	: ValidateWhereNotInNotEqual<T, U, PreviousQCs> extends string
@@ -276,7 +276,7 @@ type WhereConstraintLimitation<
 	? WhereConstraint<
 			U['fieldPath'],
 			U['opStr'],
-			GetCorrectDocumentIdBasedOnRef<T, U['fieldPath'], U['value'], Q>
+			GetCorrectDocumentIdBasedOnRef<T, Q, U['fieldPath'], U['value']>
 	  >
 	: U['opStr'] extends ArrayOfOptStr
 	? WhereConstraint<
@@ -284,9 +284,9 @@ type WhereConstraintLimitation<
 			U['opStr'],
 			GetCorrectDocumentIdBasedOnRef<
 				T,
+				Q,
 				U['fieldPath'],
-				U['value'] extends (infer P)[] ? P : U['value'],
-				Q
+				U['value'] extends (infer P)[] ? P : U['value']
 			>[]
 	  >
 	: U['opStr'] extends ValueOfOnlyArrayOptStr
