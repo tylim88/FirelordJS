@@ -1,5 +1,5 @@
 import { documentId } from './documentId'
-import { DocumentId, IsTrue, IsSame, IsValidID } from '../types'
+import { DocumentId, IsTrue, IsSame } from '../types'
 import { query } from '../refs'
 import { where } from '../queryClauses'
 import {
