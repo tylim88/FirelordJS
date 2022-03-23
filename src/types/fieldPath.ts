@@ -2,7 +2,10 @@ import { MetaTypes } from './metaTypeCreator'
 import { StrictOmit } from './utils'
 import { DocumentReference, Query, CollectionReference } from './ref'
 import { IsValidID, GetNumberOfSlash } from './validID'
-import { ErrorNumberOfForwardSlashIsNotEqual } from './error'
+import {
+	ErrorNumberOfForwardSlashIsNotEqual,
+	ErrorPleaseDoConstAssertion,
+} from './error'
 export interface DocumentId {
 	'Firelord.FieldPath': 'DocumentId'
 }
@@ -31,9 +34,13 @@ export type GetCorrectDocumentIdBasedOnRef<
 > = FieldPath extends __name__
 	? Value extends string
 		? Q extends CollectionReference<T>
-			? IsValidID<Value, 'Document'>
+			? string extends Value
+				? ErrorPleaseDoConstAssertion
+				: IsValidID<Value, 'Document'>
 			: GetNumberOfSlash<Value> extends GetNumberOfSlash<T['docPath']>
-			? IsValidID<Value, 'Document'>
+			? Value extends T['docPath']
+				? IsValidID<Value, 'Document'>
+				: T['docPath']
 			: ErrorNumberOfForwardSlashIsNotEqual<
 					GetNumberOfSlash<T['docPath']>,
 					GetNumberOfSlash<Value>

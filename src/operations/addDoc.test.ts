@@ -33,8 +33,8 @@ describe('test addDoc', () => {
 			})
 	})
 	it('test functionality', async () => {
+		const ref = userRef.collection()
 		await writeThenReadTest(async data => {
-			const ref = userRef.collection()
 			const docRef = await addDoc(ref, data)
 			await deleteDoc(docRef)
 			const docSnap = await getDoc(docRef)

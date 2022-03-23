@@ -17,6 +17,8 @@ export type ErrorDeleteFieldMerge<Key extends string> =
 export type ErrorDeleteFieldMergeField<Key extends string> =
 	`Error: To use deleteField, please include the field path <${Key &
 		string}> in the \`mergeFields\` of the options parameter`
+export type ErrorPleaseDoConstAssertion =
+	`Error: Please assert the value as const eg:( 'a' as const )`
 export type ErrorCollectionIDString =
 	'Error: Collection ID type cannot be string'
 export type ErrorInvalidDocumentOrCollectionID<
@@ -81,6 +83,7 @@ export type ErrorMsgs =
 	| ErrorDeleteFieldMerge<string>
 	| ErrorDeleteFieldMergeField<string>
 	| ErrorNumberOfForwardSlashIsNotEqual<number, number>
+	| ErrorPleaseDoConstAssertion
 	| ErrorCollectionIDString
 	| ErrorInvalidDocumentOrCollectionID<'Document' | 'Collection'>
 	| ErrorInvalidDocumentOrCollectionIDStart<'Document' | 'Collection'>

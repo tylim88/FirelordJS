@@ -71,10 +71,10 @@ const queryTest = async (
 		IsTrue<IsSame<X, Y>>()
 		await compareWriteDataWithDocSnapData(data, queryDocumentSnapshotServer)
 	}
+	// test snapshotEqual
 	expect(snapshotEqual(querySnapshotCache, querySnapshotCache)).toBe(true)
 	expect(snapshotEqual(querySnapshotServer, querySnapshotServer)).toBe(true)
 	expect(snapshotEqual(querySnapshot, querySnapshot)).toBe(true)
-
 	expect(snapshotEqual(querySnapshotCache, querySnapshotServer)).toBe(false)
 	expect(snapshotEqual(querySnapshotCache, querySnapshotServer)).toBe(false)
 

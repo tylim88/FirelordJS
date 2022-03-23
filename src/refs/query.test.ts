@@ -16,8 +16,8 @@ import { Timestamp } from 'firebase/firestore'
 initializeApp()
 const user = userRefCreator()
 const ref = user.collectionGroup()
+const fullDocPath = 'topLevel/FirelordTest/Users/a' as const // https://stackoverflow.com/questions/71575344/typescript-stop-object-type-from-widening-generic/71575870#71575870
 describe('test query ref', () => {
-	const fullDocPath = 'topLevel/FirelordTest/Users/a' as const // https://stackoverflow.com/questions/71575344/typescript-stop-object-type-from-widening-generic/71575870#71575870
 	it('test single limit type, should pass', () => {
 		query(ref, limit(1))
 	})

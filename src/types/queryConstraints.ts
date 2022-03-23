@@ -12,8 +12,6 @@ export type WhereConstraint<
 	readonly value: Value
 }>
 
-const a = Object.freeze({ a: 1 })
-
 export type OrderByConstraint<
 	FieldPath extends string,
 	DirectionStr extends
