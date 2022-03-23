@@ -1,7 +1,8 @@
 import { MetaTypes } from './metaTypeCreator'
 import { FirelordFirestore } from './firelordFirestore'
 export type WhereConstraint<
-	FieldPath extends string,
+	T extends MetaTypes,
+	FieldPath extends keyof T['compare'] & string,
 	OpStr extends FirelordFirestore.WhereFilterOp,
 	Value
 > = {
@@ -38,6 +39,7 @@ export type CursorConstraint<Values extends unknown[]> = {
 
 export type QueryConstraints<T extends MetaTypes> =
 	| WhereConstraint<
+			T,
 			keyof T['compare'] & string,
 			FirelordFirestore.WhereFilterOp,
 			unknown

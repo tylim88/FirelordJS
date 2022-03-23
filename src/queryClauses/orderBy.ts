@@ -12,12 +12,12 @@ import { OrderByConstraint, FirelordFirestore, MetaTypes } from '../types'
  */
 export const orderBy = <
 	T extends MetaTypes,
-	FieldPath extends string,
+	FieldPath extends keyof T['compare'] & string,
 	DirectionStr extends
 		| FirelordFirestore.OrderByDirection
 		| undefined = undefined
 >(
-	fieldPath: FieldPath extends never ? FieldPath : keyof T['compare'] & string,
+	fieldPath: FieldPath extends never ? FieldPath : FieldPath,
 	directionStr?: DirectionStr extends never ? DirectionStr : DirectionStr
 ) => {
 	return orderBy_(fieldPath, directionStr) as OrderByConstraint<

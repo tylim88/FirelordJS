@@ -23,7 +23,7 @@ export type ErrorCollectionIDString =
 	'Error: Collection ID type cannot be string'
 export type ErrorInvalidDocumentOrCollectionID<
 	T extends 'Document' | 'Collection'
-> = `Error: ${T} ID cannot contains forward slash ( / ), double dots ( .. ) ans double underscore ( __ )`
+> = `Error: ${T} ID cannot contains forward slash ( / ), double dots ( .. ) and double underscore ( __ )`
 export type ErrorInvalidDocumentOrCollectionIDStart<
 	T extends 'Document' | 'Collection'
 > = `Error: ${T} ID cannot start with a dot ( . )`
@@ -70,6 +70,9 @@ export type ErrorUnknownMember<T> =
 	`Error: Please remove the unknown member ( ${T & string} )`
 export type ErrorWhereDocumentFieldPath =
 	'If field path is document ID, then value must be string'
+export type ErrorWhere__name__ =
+	"Error: Dont use ( __name__ ) directly as where's field path, use documentId() sentinel field path instead."
+
 export type ErrorMsgs =
 	| ErrorUndefined
 	| ErrorNullBanned
@@ -101,6 +104,7 @@ export type ErrorMsgs =
 	| ErrorCursorTooManyArguments
 	| ErrorUnknownMember<string>
 	| ErrorWhereDocumentFieldPath
+	| ErrorWhere__name__
 
 export type NoUndefinedAndBannedTypes<Data, BannedTypes> =
 	Data extends undefined

@@ -54,7 +54,7 @@ type ValidateOrderByAndInequalityWhere<
 	T extends MetaTypes,
 	AllQCs extends QueryConstraints<T>[]
 > = GetFirstInequalityWhere<T, AllQCs> extends infer W
-	? W extends WhereConstraint<string, InequalityOpStr, unknown>
+	? W extends WhereConstraint<T, string, InequalityOpStr, unknown>
 		? GetFirstOrderBy<T, AllQCs> extends infer O
 			? O extends OrderByConstraint<
 					T,
@@ -91,6 +91,7 @@ export type QueryConstraintLimitation<
 					: Head extends LimitConstraint<'limitToLast', number>
 					? LimitToLastConstraintLimitation<T, Head, AllQCs>
 					: Head extends WhereConstraint<
+							T,
 							string,
 							FirelordFirestore.WhereFilterOp,
 							unknown
@@ -158,7 +159,7 @@ type ValidateOrderByEqualityWhere<
 	AllQCs extends QueryConstraints<T>[]
 > = Extract<
 	GetAllWhereConstraint<T, AllQCs, never>,
-	WhereConstraint<U['fieldPath'], In | Equal, unknown>
+	WhereConstraint<T, U['fieldPath'], In | Equal, unknown>
 > extends never
 	? true
 	: false
@@ -178,7 +179,12 @@ type OrderByConstraintLimitation<
 // You can use at most one in, not-in, or array-contains-any clause per query. You can't combine in , not-in, and array-contains-any in the same query.
 type ValidateWhereNotInArrayContainsAny<
 	T extends MetaTypes,
-	U extends WhereConstraint<string, FirelordFirestore.WhereFilterOp, unknown>,
+	U extends WhereConstraint<
+		T,
+		string,
+		FirelordFirestore.WhereFilterOp,
+		unknown
+	>,
 	PreviousQCs extends QueryConstraints<T>[]
 > = U['opStr'] extends In | NotIn | ArrayContainsAny
 	? Extract<
@@ -193,7 +199,12 @@ type ValidateWhereNotInArrayContainsAny<
 // You cannot use more than one '!=' filter. (not documented directly or indirectly)
 type ValidateWhereNotInNotEqual<
 	T extends MetaTypes,
-	U extends WhereConstraint<string, FirelordFirestore.WhereFilterOp, unknown>,
+	U extends WhereConstraint<
+		T,
+		string,
+		FirelordFirestore.WhereFilterOp,
+		unknown
+	>,
 	PreviousQCs extends QueryConstraints<T>[]
 > = U['opStr'] extends NotIn
 	? Extract<
@@ -219,7 +230,12 @@ type ValidateWhereNotInNotEqual<
 // You can use at most one array-contains clause per query. You can't combine array-contains with array-contains-any.
 type ValidateWhereArrayContainsArrayContainsAny<
 	T extends MetaTypes,
-	U extends WhereConstraint<string, FirelordFirestore.WhereFilterOp, unknown>,
+	U extends WhereConstraint<
+		T,
+		string,
+		FirelordFirestore.WhereFilterOp,
+		unknown
+	>,
 	PreviousQCs extends QueryConstraints<T>[]
 > = U['opStr'] extends ArrayContains
 	? Extract<
@@ -240,20 +256,25 @@ type ValidateWhereArrayContainsArrayContainsAny<
 // In a compound query, range (<, <=, >, >=) and not equals (!=, not-in) comparisons must all filter on the same field.
 type ValidateWhereInequalityOpStrSameField<
 	T extends MetaTypes,
-	U extends WhereConstraint<string, FirelordFirestore.WhereFilterOp, unknown>,
+	U extends WhereConstraint<
+		T,
+		string,
+		FirelordFirestore.WhereFilterOp,
+		unknown
+	>,
 	PreviousQCs extends QueryConstraints<T>[]
 > = U['opStr'] extends InequalityOpStr
 	? Extract<
 			GetAllWhereConstraint<T, PreviousQCs, never>,
-			WhereConstraint<string, InequalityOpStr, unknown>
+			WhereConstraint<T, string, InequalityOpStr, unknown>
 	  > extends never
 		? true
 		: Exclude<
 				Extract<
 					GetAllWhereConstraint<T, PreviousQCs, never>,
-					WhereConstraint<string, InequalityOpStr, unknown>
+					WhereConstraint<T, string, InequalityOpStr, unknown>
 				>,
-				WhereConstraint<U['fieldPath'], InequalityOpStr, unknown>
+				WhereConstraint<T, U['fieldPath'], InequalityOpStr, unknown>
 		  > extends never
 		? true
 		: ErrorWhereInequalityOpStrSameField
@@ -262,7 +283,12 @@ type ValidateWhereInequalityOpStrSameField<
 type WhereConstraintLimitation<
 	T extends MetaTypes,
 	Q extends Query<T> | CollectionReference<T>,
-	U extends WhereConstraint<string, FirelordFirestore.WhereFilterOp, unknown>,
+	U extends WhereConstraint<
+		T,
+		string,
+		FirelordFirestore.WhereFilterOp,
+		unknown
+	>,
 	PreviousQCs extends QueryConstraints<T>[]
 > = ValidateWhereNotInArrayContainsAny<T, U, PreviousQCs> extends string
 	? ValidateWhereNotInArrayContainsAny<T, U, PreviousQCs>
@@ -274,12 +300,14 @@ type WhereConstraintLimitation<
 	? ValidateWhereInequalityOpStrSameField<T, U, PreviousQCs>
 	: U['opStr'] extends ValueOfOptStr
 	? WhereConstraint<
+			T,
 			U['fieldPath'],
 			U['opStr'],
 			GetCorrectDocumentIdBasedOnRef<T, Q, U['fieldPath'], U['value']>
 	  >
 	: U['opStr'] extends ArrayOfOptStr
 	? WhereConstraint<
+			T,
 			U['fieldPath'],
 			U['opStr'],
 			GetCorrectDocumentIdBasedOnRef<
@@ -291,11 +319,16 @@ type WhereConstraintLimitation<
 	  >
 	: U['opStr'] extends ValueOfOnlyArrayOptStr
 	? T['compare'][U['fieldPath']] extends (infer R)[]
-		? WhereConstraint<U['fieldPath'], U['opStr'], T['compare'][U['fieldPath']]>
+		? WhereConstraint<
+				T,
+				U['fieldPath'],
+				U['opStr'],
+				T['compare'][U['fieldPath']]
+		  >
 		: ErrorInvalidWhereCompareValueMustBeArray
 	: U['opStr'] extends ElementOfOptStr
 	? T['compare'][U['fieldPath']] extends (infer R)[]
-		? WhereConstraint<U['fieldPath'], U['opStr'], R>
+		? WhereConstraint<T, U['fieldPath'], U['opStr'], R>
 		: ErrorInvalidWhereCompareValueMustBeArray
 	: never // impossible route
 
@@ -303,7 +336,7 @@ type GetFirstInequalityWhere<
 	T extends MetaTypes,
 	QCs extends QueryConstraints<T>[]
 > = QCs extends [infer H, ...infer Rest]
-	? H extends WhereConstraint<string, InequalityOpStr, unknown>
+	? H extends WhereConstraint<T, string, InequalityOpStr, unknown>
 		? H
 		: Rest extends QueryConstraints<T>[]
 		? GetFirstInequalityWhere<T, Rest>
@@ -349,6 +382,7 @@ type GetAllWhereConstraint<
 	T extends MetaTypes,
 	QCs extends QueryConstraints<T>[],
 	WhereConstraintsAcc extends WhereConstraint<
+		T,
 		string,
 		FirelordFirestore.WhereFilterOp,
 		unknown
@@ -361,6 +395,7 @@ type GetAllWhereConstraint<
 						T,
 						R,
 						| (H extends WhereConstraint<
+								T,
 								string,
 								FirelordFirestore.WhereFilterOp,
 								unknown
@@ -384,6 +419,7 @@ type GetAllWhereConstraintOpStr<
 						T,
 						R,
 						| (H extends WhereConstraint<
+								T,
 								string,
 								FirelordFirestore.WhereFilterOp,
 								unknown

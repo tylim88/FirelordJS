@@ -73,4 +73,12 @@ describe('test query ref', () => {
 			)
 		).toThrow()
 	})
+
+	it('test where with correct value to compare, should pass', () => {
+		query(ref, where('age', '==', 1))
+		query(ref, where('name', 'not-in', ['1']))
+		query(ref, where('a.e', 'array-contains', '1'))
+		query(ref, where('a.e', 'array-contains-any', ['1']))
+		query(ref, where('a.e', 'in', [['1']]))
+	})
 })

@@ -4,6 +4,8 @@ import {
 	FirelordFirestore,
 	DocumentId,
 	__name__,
+	MetaTypes,
+	ErrorWhere__name__,
 } from '../types'
 import { documentId } from '../fieldPath'
 
@@ -19,11 +21,12 @@ import { documentId } from '../fieldPath'
  * @returns The created {@link Query}.
  */
 export const where = <
-	FieldPath extends string | DocumentId,
+	T extends MetaTypes,
+	FieldPath extends (keyof T['writeFlatten'] & string) | DocumentId,
 	OpStr extends FirelordFirestore.WhereFilterOp,
 	Value
 >(
-	fieldPath: FieldPath,
+	fieldPath: FieldPath extends __name__ ? ErrorWhere__name__ : FieldPath,
 	opStr: OpStr,
 	value: Value
 ) => {
@@ -44,7 +47,8 @@ export const where = <
 		opStr,
 		newValue
 	) as WhereConstraint<
-		FieldPath extends DocumentId ? '__name__' : FieldPath,
+		T,
+		FieldPath extends DocumentId ? __name__ : FieldPath,
 		OpStr,
 		Value
 	>
