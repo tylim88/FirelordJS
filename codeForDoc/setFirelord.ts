@@ -64,9 +64,9 @@ setDoc(
 )
 
 setDoc(
-	docRef2, // @ts-expect-error
+	docRef2,
 	{
-		a: 1,
+		a: 1, // @ts-expect-error
 		'b.c': 1,
 	}, // reject unknown member
 	{ merge: true }

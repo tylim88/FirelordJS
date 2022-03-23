@@ -7,19 +7,14 @@ import {
 } from './error'
 import { ArrayUnionOrRemove, DeleteField } from './fieldValue'
 
-// check unknown member in stale value for set
-export type FindUnknownMemberInStaleValue<T, Data> = T extends Record<
-	string,
-	unknown
->
-	? keyof Data extends keyof T
-		? keyof T extends keyof Data
-			? {
-					[K in keyof T]-?: FindUnknownMemberInStaleValue<T[K], Data[K]>
-			  }
-			: T
-		: ErrorUnknownMember<Exclude<keyof Data, keyof T>>
-	: T
+type HandleUnknownMember<T extends Record<string, unknown>, Data> = Omit<
+	Data,
+	Exclude<keyof Data, keyof T>
+> & {
+	[K in Exclude<keyof Data, keyof T>]: ErrorUnknownMember<K> extends Data[K]
+		? never
+		: ErrorUnknownMember<K>
+}
 
 // type checking for array in update operation
 type PartialNoUndefinedAndNoUnknownMemberInArray<T, Data> =
@@ -44,7 +39,7 @@ type PartialNoUndefinedAndNoUnknownMemberInArray<T, Data> =
 						>
 				  }
 				: T
-			: T
+			: HandleUnknownMember<T, Data>
 		: T
 
 // type checking for non-array in update operation
@@ -86,7 +81,7 @@ export type PartialNoUndefinedAndNoUnknownMember<
 						IsSetDeleteFieldAtTopLevel
 				  >
 	  }
-	: ErrorUnknownMember<Exclude<keyof Data, keyof T>>
+	: HandleUnknownMember<T, Data>
 
 // dont need recursive as deleteField only work on top level, but this is more future proof
 // for non merge field set only

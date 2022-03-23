@@ -14,7 +14,7 @@ import {
 	deleteField,
 	increment,
 } from '../fieldValue'
-import { Update, IsTrue, IsSame } from '../types'
+import { Update, IsTrue, IsSame, ErrorUnknownMember } from '../types'
 
 initializeApp()
 const userRef = userRefCreator()
@@ -74,30 +74,51 @@ describe('test updateDoc', () => {
 				name: 'abc',
 			})
 		;() =>
-			// @ts-expect-error
 			updateDoc(userRef.doc('123'), {
 				role: 'visitor',
+				// @ts-expect-error
 				ag2e: 1,
 			})
 	})
+	const ag2e = 'ag2e' as const
+	const errorUnknownMember: ErrorUnknownMember<
+		typeof ag2e
+	> = `Error: Please remove the unknown member ( ${ag2e} )`
+
 	it('test unknown member', () => {
 		;() =>
-			// @ts-expect-error
 			updateDoc(userRef.doc('123'), {
 				role: 'visitor',
-				ag2e: 1,
+				// @ts-expect-error
+				[ag2e]: 1,
+			})
+		;() =>
+			updateDoc(userRef.doc('123'), {
+				role: 'visitor',
+				// @ts-expect-error
+				[ag2e]: errorUnknownMember,
 			})
 	})
 	it('test unknown member with stale value', () => {
 		const stale = {
 			role: 'visitor',
-			ag2e: 1,
+			[ag2e]: 1,
 		}
 		;() =>
 			updateDoc(
 				userRef.doc('123'),
 				// @ts-expect-error
 				stale
+			)
+		const stale2 = {
+			role: 'visitor',
+			[ag2e]: errorUnknownMember,
+		}
+		;() =>
+			updateDoc(
+				userRef.doc('123'),
+				// @ts-expect-error
+				stale2
 			)
 	})
 	it('test empty object literal data', () => {
