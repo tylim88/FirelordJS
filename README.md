@@ -17,7 +17,7 @@
 		</a>
 		&nbsp;
 		<a href="https://www.npmjs.com/package/firelordjs?activeTab=dependencies" target="_blank">
-			<img src="https://img.shields.io/badge/dynamic/json?url=https://api.npmutil.com/package/firelordjs&label=dependencies&query=$.dependencies.count" alt="dependency count"/>
+			<img src="https://img.shields.io/badge/dynamic/json?url=https://api.npmutil.com/package/firelordjs&label=dependencies&query=$.dependencies.count&color=brightgreen" alt="dependency count"/>
 		</a>
 		&nbsp;
 		<img src="https://img.shields.io/badge/minified%2Bgzipped-2KB-brightgreen" alt="package size"/>
@@ -40,11 +40,11 @@
 </div>
 <br/>
 <div align="center">
-		<i>High Precision Typescript Wrapper for Firestore Web, Providing Unparalleled Type Safe and Dev Experience</i>
+		<i>Extremely High Precision Typescript Wrapper for Firestore Web, Providing Unparalleled Type Safe and Dev Experience</i>
 </div>
 <br/>
 <div align="center">
-		<i>Modular, Minuscule, Intuitive, Unopinionated, Craftsmanship, Peaceful, Deep</i>
+		<i>Modular, Minuscule, Intuitive, Unopinionated, Craftsmanship, Ultimate, Peaceful, Deep</i>
 </div>
 <br/>
 <div align="center">
@@ -57,7 +57,8 @@
 
 # Note
 
-1. Documentation is still under development, but is viable to read.
+1. Documentation is not yet complete, but is viable to read.
 2. V1 rewrite from scratch using Firestore V9 API.
-3. V1 is totally different than V0 and is 10x better than.
-4. Documentation before v1.0 can be found [here](https://github.com/tylim88/Firelordjs/beforev1.0.md).
+3. V1 not compatible with V0.
+4. V1 is 10x better than V0, ain't joking.
+5. The old V0 Documentation can be found [here](https://github.com/tylim88/Firelordjs/beforev1.0.md).
