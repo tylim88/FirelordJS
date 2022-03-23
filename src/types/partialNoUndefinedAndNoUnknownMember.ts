@@ -104,7 +104,7 @@ export type RecursivelyReplaceDeleteFieldWithErrorMsg<T, Data> =
 								: T[K]
 							: never // impossible route
 				  }
-				: ErrorUnknownMember<Exclude<keyof Data, keyof T>>
+				: HandleUnknownMember<T, Data>
 			: T
 		: T
 
