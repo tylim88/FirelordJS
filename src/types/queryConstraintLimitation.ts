@@ -57,6 +57,7 @@ type ValidateOrderByAndInequalityWhere<
 	? W extends WhereConstraint<string, InequalityOpStr, unknown>
 		? GetFirstOrderBy<T, AllQCs> extends infer O
 			? O extends OrderByConstraint<
+					T,
 					string,
 					FirelordFirestore.OrderByDirection | undefined
 			  >
@@ -82,6 +83,7 @@ export type QueryConstraintLimitation<
 				Head extends LimitConstraint<'limit', number>
 					? Head
 					: Head extends OrderByConstraint<
+							T,
 							string,
 							FirelordFirestore.OrderByDirection | undefined
 					  >
@@ -149,6 +151,7 @@ type LimitToLastConstraintLimitation<
 type ValidateOrderByEqualityWhere<
 	T extends MetaTypes,
 	U extends OrderByConstraint<
+		T,
 		string,
 		FirelordFirestore.OrderByDirection | undefined
 	>,
@@ -163,6 +166,7 @@ type ValidateOrderByEqualityWhere<
 type OrderByConstraintLimitation<
 	T extends MetaTypes,
 	U extends OrderByConstraint<
+		T,
 		string,
 		FirelordFirestore.OrderByDirection | undefined
 	>,
@@ -311,6 +315,7 @@ type GetFirstOrderBy<
 	QCs extends QueryConstraints<T>[]
 > = QCs extends [infer H, ...infer Rest]
 	? H extends OrderByConstraint<
+			T,
 			string,
 			FirelordFirestore.OrderByDirection | undefined
 	  >
@@ -330,6 +335,7 @@ type GetAllOrderByFieldValue<
 				T,
 				Rest,
 				H extends OrderByConstraint<
+					T,
 					string,
 					FirelordFirestore.OrderByDirection | undefined
 				>

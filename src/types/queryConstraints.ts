@@ -1,6 +1,5 @@
 import { MetaTypes } from './metaTypeCreator'
 import { FirelordFirestore } from './firelordFirestore'
-
 export type WhereConstraint<
 	FieldPath extends string,
 	OpStr extends FirelordFirestore.WhereFilterOp,
@@ -13,6 +12,7 @@ export type WhereConstraint<
 }>
 
 export type OrderByConstraint<
+	T extends MetaTypes,
 	FieldPath extends string,
 	DirectionStr extends
 		| FirelordFirestore.OrderByDirection
@@ -45,6 +45,7 @@ export type QueryConstraints<T extends MetaTypes> =
 	| LimitConstraint<'limit' | 'limitToLast', number>
 	| CursorConstraint<unknown[]>
 	| OrderByConstraint<
+			T,
 			keyof T['compare'] & string,
 			FirelordFirestore.OrderByDirection | undefined
 	  >
