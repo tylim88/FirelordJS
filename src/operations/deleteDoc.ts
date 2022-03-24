@@ -4,4 +4,4 @@ import { FirelordFirestore, Delete } from '../types'
 export const deleteDoc = ((reference: FirelordFirestore.DocumentReference) => {
 	const ref = deleteDoc_(reference)
 	return ref
-}) as Delete
+}) as unknown as Delete

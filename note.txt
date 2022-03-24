@@ -9,6 +9,7 @@ newly discovered runtime error
 7. cursor with has x number of arguments must has at least x number of orderBy clause come before that cursor
 8. cannot use more than one '!=' filter (not documented directly or indirectly)
 9. When querying a collection group by documentId(), the value provided must result in a valid document path, and should has an odd number of segments (1).
+10. When querying a collection by documentId(), you must provide a plain document ID, but 'sandbox/a/b/c' contains a '/' character.
 
 new info 
 1. new limit/limitToLast clause will override old limit/limitToLast clause in query
@@ -18,8 +19,10 @@ new info
 
 limitation
 1. update and merge set operation break type, use it with care, there is nothing we can do other than using possibly undefined
-2. unable to union object type with other type except possibly undefined
+2. unable to union object type with other type except possibly undefined <- not exactly limitation but something that you shouldn't do
 3. collection reference unable to return the correct parent type due to MetaType self referencing limitation
+4. no autocomplete for where's value.
+5. working with documentId and where require to assert the value as const.
 
 anything where the input has nothing to do with document data type, is directly exported by FirelordJS without any change, they are:
 - loadBundle

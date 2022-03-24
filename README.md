@@ -48,11 +48,11 @@
 </div>
 <br/>
 <div align="center">
-		<i>Of The VFQAT, By The VFQAT, For The VFQAT **</i>
+		<i>Of The VFQAT, By The VFQAT, For The VFQAT</i>
 </div>
 <br/>
 <div align="center">
-<a href="https://firelordjs.com/quick_start" rel="nofollow" target="_blank"><strong>V1.0 Documentation</strong></a>
+<a href="https://firelordjs.com/quick_start" rel="nofollow" target="_blank"><strong>Documentation</strong></a>
 </div>
 
 # Note

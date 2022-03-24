@@ -23,4 +23,4 @@ export const updateDoc = ((
 		flatten(data)
 	)
 	return ref
-}) as Update
+}) as unknown as Update

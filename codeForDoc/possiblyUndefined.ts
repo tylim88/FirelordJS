@@ -35,7 +35,7 @@ getDoc(docRef).then(docSnap => {
 type abc2 = MetaTypeCreator<
 	{
 		a: number
-		b: number
+		b: { c: number; d: { e: number }[] }
 	},
 	'abc',
 	string,
@@ -46,6 +46,11 @@ type abc2 = MetaTypeCreator<
 const docRef2 = firelord<abc2>('abc').doc('efg')
 
 getDoc(docRef2).then(docSnap => {
+	//
+	//
+	//
+	//
+	//
 	//
 	//
 	//

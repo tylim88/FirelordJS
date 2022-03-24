@@ -22,4 +22,4 @@ export const setDoc = ((
 		? setDoc_(reference, data, options)
 		: setDoc_(reference, data)
 	return ref
-}) as Set // const setDoc:set = .... type mismatched though
+}) as unknown as Set // const setDoc:Set = .... type mismatched though
