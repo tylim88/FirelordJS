@@ -27,7 +27,10 @@ export const doc = <
 		: IsValidID<Path, 'Document', '/'>,
 	firestore?: FirelordFirestore.Firestore
 ) => {
-	return doc_(firestore || getFirestore(), path) as DocumentReference<T>
+	return doc_(
+		firestore || getFirestore(),
+		path
+	) as unknown as DocumentReference<T>
 }
 
 export const docCreator =

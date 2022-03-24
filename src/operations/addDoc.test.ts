@@ -7,10 +7,21 @@ import {
 	initializeApp,
 	generateRandomData,
 	readThenCompareWithWriteData,
+	User,
 } from '../utilForTests'
+import { IsSame, IsTrue, DocumentReference } from '../types'
+
 initializeApp()
 const userRef = userRefCreator()
 describe('test addDoc', () => {
+	it('check return type', () => {
+		;async () => {
+			const docRef = await addDoc(userRef.collection(), generateRandomData())
+			type A = typeof docRef
+			type B = DocumentReference<User>
+			IsTrue<IsSame<A, B>>()
+		}
+	})
 	it('test wrong type', () => {
 		;() =>
 			addDoc(userRef.collection(), {

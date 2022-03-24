@@ -2,8 +2,8 @@ import {
 	initializeApp,
 	generateRandomData,
 	readThenCompareWithWriteData,
-	writeThenReadTest,
 	compareWriteDataWithDocSnapData,
+	User,
 } from '../src/utilForTests'
 import {
 	setDoc,
@@ -19,33 +19,12 @@ import {
 	onSnapshot,
 	runTransaction,
 	getFirestore,
-	MetaTypeCreator,
-	DeleteField,
-	ServerTimestamp,
 	writeBatch,
 } from 'firelordjs'
 
 initializeApp()
-export type User = MetaTypeCreator<
-	{
-		age: number
-		beenTo: (
-			| Record<'US', ('Hawaii' | 'California')[]>
-			| Record<'China', ('Guangdong' | 'Shanghai')[]>
-		)[]
-		name: string
-		role: 'admin' | 'editor' | 'visitor'
-		a: {
-			b: { c: number; f: { g: boolean; h: Date; m: number }[] }
-			i: { j: number | DeleteField; l: Date }
-			e: string[]
-			k: ServerTimestamp | DeleteField
-		}
-	},
-	'FirelordJSEndToEnd',
-	string
->
-const userRef = getFirelord()<User>('FirelordJSEndToEnd')
+
+const userRef = getFirelord()<User>('topLevel/FirelordTest/Users')
 describe('end to end test', () => {
 	it('test updateDoc, setDoc, and delete field', async () => {
 		const data = generateRandomData()

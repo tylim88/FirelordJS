@@ -24,6 +24,13 @@ import {
 } from './markUnionObjectAsError'
 import { NotTreatedAsObjectType } from './ref'
 
+export type IdAndPath = {
+	docID: string
+	collectionID: string
+	docPath: string
+	collectionPath: string
+}
+
 export type MetaType = {
 	collectionPath: string
 	collectionID: string
@@ -34,14 +41,15 @@ export type MetaType = {
 	writeFlatten: Record<string, unknown>
 	compare: Record<string, unknown>
 	base: Record<string, unknown>
-	ancestors: { docID: string; collectionID: string }[]
+	parent: IdAndPath | null
+	ancestors: IdAndPath[]
 }
 
 export type MetaTypeCreator<
 	Base extends Record<string, unknown>,
 	CollectionID extends string,
 	DocID extends string = string,
-	Parent extends MetaType | undefined = undefined,
+	Parent extends MetaType | null = null,
 	Settings extends {
 		allFieldsPossiblyUndefined?: boolean
 		banNull?: boolean
@@ -104,9 +112,33 @@ export type MetaTypeCreator<
 	docPath: Parent extends MetaType
 		? `${Parent['collectionPath']}/${Parent['docID']}/${CollectionID}/${DocID}`
 		: `${CollectionID}/${DocID}`
+	parent: Parent
 	ancestors: Parent extends MetaType
-		? [...Parent['ancestors'], { docID: DocID; collectionID: CollectionID }]
-		: [{ docID: DocID; collectionID: CollectionID }]
+		? [
+				...Parent['ancestors'],
+				{
+					docID: DocID
+					collectionID: CollectionID
+					docPath: Parent extends MetaType
+						? `${Parent['collectionPath']}/${Parent['docID']}/${CollectionID}/${DocID}`
+						: `${CollectionID}/${DocID}`
+					collectionPath: Parent extends MetaType
+						? `${Parent['collectionPath']}/${Parent['docID']}/${CollectionID}`
+						: CollectionID
+				}
+		  ]
+		: [
+				{
+					docID: DocID
+					collectionID: CollectionID
+					docPath: Parent extends MetaType
+						? `${Parent['collectionPath']}/${Parent['docID']}/${CollectionID}/${DocID}`
+						: `${CollectionID}/${DocID}`
+					collectionPath: Parent extends MetaType
+						? `${Parent['collectionPath']}/${Parent['docID']}/${CollectionID}`
+						: CollectionID
+				}
+		  ]
 }
 
 type ReadConverterArray<

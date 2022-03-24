@@ -44,7 +44,7 @@ export interface CollectionReference<T extends MetaType> {
 	 * A reference to the containing `DocumentReference` if this is a
 	 * subcollection. If this isn't a subcollection, the reference is null.
 	 */
-	get parent(): DocumentReference<T> | null
+	get parent(): unknown // ! limitation
 }
 
 export interface Query<T extends MetaType> {

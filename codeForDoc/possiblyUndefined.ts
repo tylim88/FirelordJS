@@ -39,7 +39,7 @@ type abc2 = MetaTypeCreator<
 	},
 	'abc',
 	string,
-	undefined, // no parent
+	null, // no parent
 	{ allFieldsPossiblyUndefined: true }
 >
 

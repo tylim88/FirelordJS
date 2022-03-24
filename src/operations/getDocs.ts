@@ -19,7 +19,7 @@ export const getDocs = <T extends MetaType>(query: Query<T>) => {
 	return getDocs_(
 		// @ts-expect-error
 		query
-	) as Promise<QuerySnapshot<T>>
+	) as unknown as Promise<QuerySnapshot<T>>
 }
 
 /**
@@ -32,7 +32,7 @@ export const getDocsFromCache = <T extends MetaType>(query: Query<T>) => {
 	return getDocsFromCache_(
 		// @ts-expect-error
 		query
-	) as Promise<QuerySnapshot<T>>
+	) as unknown as Promise<QuerySnapshot<T>>
 }
 
 /**
@@ -45,5 +45,5 @@ export const getDocsFromServer = <T extends MetaType>(query: Query<T>) => {
 	return getDocsFromServer_(
 		// @ts-expect-error
 		query
-	) as Promise<QuerySnapshot<T>>
+	) as unknown as Promise<QuerySnapshot<T>>
 }

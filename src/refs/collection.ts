@@ -31,7 +31,7 @@ export const collection = <
 	return collection_(
 		firestore || getFirestore(),
 		path
-	) as CollectionReference<T>
+	) as unknown as CollectionReference<T>
 }
 
 export const collectionCreator =
