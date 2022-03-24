@@ -41,15 +41,7 @@ export type MetaTypeCreator<
 	Base extends Record<string, unknown>,
 	CollectionID extends string,
 	DocID extends string = string,
-	Parent extends {
-		collectionPath: string
-		docID: string
-		ancestors: { docID: string; collectionID: string }[]
-	} = {
-		collectionPath: never
-		docID: never
-		ancestors: never
-	},
+	Parent extends MetaTypes | undefined = undefined,
 	Settings extends {
 		allFieldsPossiblyUndefined?: boolean
 		banNull?: boolean
@@ -105,26 +97,16 @@ export type MetaTypeCreator<
 			: IsValidID<CollectionID, 'Collection'>,
 		never
 	>
-	collectionPath: Parent extends {
-		collectionPath: never
-		docID: never
-	}
-		? CollectionID
-		: `${Parent['collectionPath']}/${Parent['docID']}/${CollectionID}`
+	collectionPath: Parent extends MetaTypes
+		? `${Parent['collectionPath']}/${Parent['docID']}/${CollectionID}`
+		: CollectionID
 	docID: IsValidID<DocID, 'Document'>
-	docPath: Parent extends {
-		collectionPath: never
-		docID: never
-	}
-		? `${CollectionID}/${DocID}`
-		: `${Parent['collectionPath']}/${Parent['docID']}/${CollectionID}/${DocID}`
-	ancestors: Parent extends {
-		collectionPath: never
-		docID: never
-		ancestors: never
-	}
-		? [{ docID: DocID; collectionID: CollectionID }]
-		: [...Parent['ancestors'], { docID: DocID; collectionID: CollectionID }]
+	docPath: Parent extends MetaTypes
+		? `${Parent['collectionPath']}/${Parent['docID']}/${CollectionID}/${DocID}`
+		: `${CollectionID}/${DocID}`
+	ancestors: Parent extends MetaTypes
+		? [...Parent['ancestors'], { docID: DocID; collectionID: CollectionID }]
+		: [{ docID: DocID; collectionID: CollectionID }]
 }
 
 type ReadConverterArray<
