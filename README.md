@@ -71,6 +71,6 @@
 
 All the related projects V1 are still in development.
 
-You are asking when I am going to finish them?
+When I am going to finish them?
 
 Yes I am going to finish them by tomorrow because apparently high precision Typescript wrapper is something that is simple to make, which is totally NOT!
