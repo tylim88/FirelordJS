@@ -73,10 +73,10 @@ type ValidateOrderByAndInequalityWhere<
 
 export type QueryConstraintLimitation<
 	T extends MetaType,
+	Q extends Query<T> | CollectionReference<T>,
 	RestQCs extends QueryConstraints<T>[],
 	PreviousQCs extends QueryConstraints<T>[],
-	AllQCs extends QueryConstraints<T>[],
-	Q extends Query<T> | CollectionReference<T>
+	AllQCs extends QueryConstraints<T>[]
 > = ValidateOrderByAndInequalityWhere<T, AllQCs> extends string
 	? ValidateOrderByAndInequalityWhere<T, AllQCs>
 	: RestQCs extends [infer Head, ...infer Rest]
@@ -104,12 +104,12 @@ export type QueryConstraintLimitation<
 					: never, // impossible route
 				...QueryConstraintLimitation<
 					T,
+					Q,
 					Rest,
 					Head extends QueryConstraints<T>
 						? [...PreviousQCs, Head]
 						: PreviousQCs, // impossible route
-					AllQCs,
-					Q
+					AllQCs
 				>
 		  ]
 		: never[] // impossible route

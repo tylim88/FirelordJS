@@ -19,13 +19,15 @@ import {
  */
 export const query = <
 	T extends MetaType,
-	QC extends QueryConstraints<AddSentinelFieldPathToCompare<T>>[],
-	Q extends Query<T> | CollectionReference<T>
+	Q extends
+		| Query<AddSentinelFieldPathToCompare<T>>
+		| CollectionReference<AddSentinelFieldPathToCompare<T>>,
+	QC extends QueryConstraints<AddSentinelFieldPathToCompare<T>>[]
 >(
 	query: Q extends never ? Q : Query<T> | CollectionReference<T>,
 	...queryConstraints: QC extends never
 		? QC
-		: QueryConstraintLimitation<AddSentinelFieldPathToCompare<T>, QC, [], QC, Q>
+		: QueryConstraintLimitation<AddSentinelFieldPathToCompare<T>, Q, QC, [], QC>
 ) => {
 	return query_(
 		// @ts-expect-error

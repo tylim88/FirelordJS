@@ -1,5 +1,5 @@
 import { addDoc as addDoc_ } from 'firebase/firestore'
-import { MetaType, CollectionReference } from '../types'
+import { MetaType, CollectionReference, DocumentReference } from '../types'
 
 /** 
 	Add a new document to specified CollectionReference with the given data, assigning it a document ID automatically.
@@ -15,10 +15,9 @@ export const addDoc = <T extends MetaType>(
 	reference: CollectionReference<T>,
 	data: T['write']
 ) => {
-	const ref = addDoc_(
+	return addDoc_(
 		// @ts-expect-error
 		reference,
 		data
-	)
-	return ref
+	) as Promise<DocumentReference<T>>
 }

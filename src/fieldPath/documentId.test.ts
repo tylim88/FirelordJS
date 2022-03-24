@@ -1,5 +1,5 @@
 import { documentId } from './documentId'
-import { DocumentId, IsTrue, IsSame } from '../types'
+import { DocumentId, IsTrue, IsSame, DocumentReference } from '../types'
 import { query } from '../refs'
 import { where } from '../queryClauses'
 import {
@@ -7,6 +7,8 @@ import {
 	initializeApp,
 	generateRandomData,
 	compareWriteDataWithDocSnapData,
+	Parent,
+	User,
 } from '../utilForTests'
 import { setDoc, getDocs } from '../operations'
 initializeApp()
@@ -49,9 +51,22 @@ describe('test document id type', () => {
 	it('test correct input', () => {
 		query(refGroup, where(documentId(), '==', fullDocPath))
 		query(ref, where(documentId(), '!=', 'a' as const))
+		query(refGroup, where(documentId(), '==', user.doc('abc')))
+		query(ref, where(documentId(), '!=', user.doc('abc')))
 	})
 
-	it('test incorrect path', () => {
+	it('test incorrect input', () => {
+		query(
+			refGroup,
+			// @ts-expect-error
+			where(documentId(), '==', user.doc('abc') as DocumentReference<Parent>)
+		)
+
+		query(
+			ref, // @ts-expect-error
+			where(documentId(), '!=', user.doc('abc') as DocumentReference<Parent>)
+		)
+
 		query(
 			refGroup,
 			// @ts-expect-error
@@ -108,7 +123,8 @@ describe('test document id type', () => {
 	it('test functionality', async () => {
 		const docID = 'TestDocumentID' as const
 		const data = generateRandomData()
-		await setDoc(user.doc('TestDocumentID'), data)
+		const docRef = user.doc(docID)
+		await setDoc(docRef, data)
 		const query1 = query(ref, where(documentId(), '==', docID))
 		const query2 = query(
 			refGroup,
@@ -118,6 +134,25 @@ describe('test document id type', () => {
 				'topLevel/FirelordTest/Users/TestDocumentID' as const
 			)
 		)
+		const queryAndTest = async (query: typeof query1) => {
+			const querySnapshot = await getDocs(query)
+			const docSnapshot = querySnapshot.docs.filter(doc => doc.id === docID)[0]
+			expect(docSnapshot).not.toBe(undefined)
+			if (docSnapshot) {
+				compareWriteDataWithDocSnapData(data, docSnapshot)
+			}
+		}
+		await queryAndTest(query1)
+		await queryAndTest(query2)
+	})
+
+	it('test functionality with document reference', async () => {
+		const docID = 'TestDocumentIDWithDocRef' as const
+		const data = generateRandomData()
+		const docRef = user.doc(docID) // as DocumentReference<Parent>
+		await setDoc(docRef, data)
+		const query1 = query(ref, where(documentId(), '==', docRef))
+		const query2 = query(refGroup, where(documentId(), '==', docRef))
 		const queryAndTest = async (query: typeof query1) => {
 			const querySnapshot = await getDocs(query)
 			const docSnapshot = querySnapshot.docs.filter(doc => doc.id === docID)[0]

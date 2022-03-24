@@ -18,12 +18,12 @@ export interface DocumentReference<T extends MetaType> {
 	/**
 	 * The document's identifier within its collection.
 	 */
-	get id(): string
+	get id(): T['docID']
 	/**
 	 * A string representing the path of the referenced document (relative
 	 * to the root of the database).
 	 */
-	get path(): string
+	get path(): T['docPath']
 	/**
 	 * The collection this `DocumentReference` belongs to.
 	 */
@@ -34,12 +34,12 @@ export interface CollectionReference<T extends MetaType> {
 	/** The type of this Firestore reference. */
 	readonly type: 'collection'
 	/** The collection's identifier. */
-	get id(): string
+	get id(): T['docID']
 	/**
 	 * A string representing the path of the referenced collection (relative
 	 * to the root of the database).
 	 */
-	get path(): string
+	get path(): T['docPath']
 	/**
 	 * A reference to the containing `DocumentReference` if this is a
 	 * subcollection. If this isn't a subcollection, the reference is null.
