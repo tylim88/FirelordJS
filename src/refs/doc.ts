@@ -1,5 +1,5 @@
 import {
-	MetaTypes,
+	MetaType,
 	DocumentReference,
 	FirelordFirestore,
 	IsValidID,
@@ -17,7 +17,7 @@ import { doc as doc_, getFirestore } from 'firebase/firestore'
  * @returns The `DocumentReference` instance.
  */
 export const doc = <
-	T extends MetaTypes,
+	T extends MetaType,
 	Path extends T['docPath'] = T['docPath']
 >(
 	path: Path extends never
@@ -31,7 +31,7 @@ export const doc = <
 }
 
 export const docCreator =
-	<T extends MetaTypes>(
+	<T extends MetaType>(
 		firestore: FirelordFirestore.Firestore,
 		collectionPath: T['collectionPath']
 	) =>

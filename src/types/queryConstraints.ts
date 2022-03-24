@@ -1,9 +1,9 @@
-import { MetaTypes } from './metaTypeCreator'
+import { MetaType } from './metaTypeCreator'
 import { FirelordFirestore } from './firelordFirestore'
 import { CursorType } from './cursor'
 
 export type WhereConstraint<
-	T extends MetaTypes,
+	T extends MetaType,
 	FieldPath extends keyof T['compare'] & string,
 	OpStr extends FirelordFirestore.WhereFilterOp,
 	Value
@@ -16,7 +16,7 @@ export type WhereConstraint<
 }
 
 export type OrderByConstraint<
-	T extends MetaTypes,
+	T extends MetaType,
 	FieldPath extends string,
 	DirectionStr extends
 		| FirelordFirestore.OrderByDirection
@@ -46,7 +46,7 @@ export type CursorConstraint<
 	ref: FirelordFirestore.QueryConstraint
 }
 
-export type QueryConstraints<T extends MetaTypes> =
+export type QueryConstraints<T extends MetaType> =
 	| WhereConstraint<
 			T,
 			keyof T['compare'] & string,

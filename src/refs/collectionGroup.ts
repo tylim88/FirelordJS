@@ -1,4 +1,4 @@
-import { MetaTypes, FirelordFirestore, Query, IsValidID } from '../types'
+import { MetaType, FirelordFirestore, Query, IsValidID } from '../types'
 import {
 	collectionGroup as collectionGroup_,
 	getFirestore,
@@ -16,7 +16,7 @@ import {
  * @returns The created `Query`.
  */
 export const collectionGroup = <
-	T extends MetaTypes,
+	T extends MetaType,
 	CollectionId extends T['collectionID'] = T['collectionID']
 >(
 	collectionId: CollectionId extends never
@@ -29,7 +29,7 @@ export const collectionGroup = <
 	return collectionGroup_(firestore || getFirestore(), collectionId) as Query<T>
 }
 export const collectionGroupCreator =
-	<T extends MetaTypes>(
+	<T extends MetaType>(
 		firestore: FirelordFirestore.Firestore,
 		collectionID: T['collectionID']
 	) =>

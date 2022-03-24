@@ -1,4 +1,4 @@
-import { MetaTypes } from './metaTypeCreator'
+import { MetaType } from './metaTypeCreator'
 import { DocumentReference, Transaction, WriteBatch } from './ref'
 import {
 	PartialNoUndefinedAndNoUnknownMember,
@@ -19,7 +19,7 @@ Writes to the document referred to by this DocumentReference. If the document do
 A Promise resolved once the data has been successfully written to the backend (note that it won't resolve while you're offline).
 */
 type SetCreator<U> = <
-	T extends MetaTypes,
+	T extends MetaType,
 	// https://stackoverflow.com/questions/71223634/typescript-interface-causing-type-instantiation-is-excessively-deep-and-possibl
 	Data extends Record<string, unknown>, // ! if change this type to firestore document data, it will trigger <Type instantiation is excessively deep and possibly infinite> error
 	SetOptions extends

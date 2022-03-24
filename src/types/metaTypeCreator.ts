@@ -24,7 +24,7 @@ import {
 } from './markUnionObjectAsError'
 import { NotTreatedAsObjectType } from './ref'
 
-export type MetaTypes = {
+export type MetaType = {
 	collectionPath: string
 	collectionID: string
 	docID: string
@@ -41,7 +41,7 @@ export type MetaTypeCreator<
 	Base extends Record<string, unknown>,
 	CollectionID extends string,
 	DocID extends string = string,
-	Parent extends MetaTypes | undefined = undefined,
+	Parent extends MetaType | undefined = undefined,
 	Settings extends {
 		allFieldsPossiblyUndefined?: boolean
 		banNull?: boolean
@@ -97,14 +97,14 @@ export type MetaTypeCreator<
 			: IsValidID<CollectionID, 'Collection'>,
 		never
 	>
-	collectionPath: Parent extends MetaTypes
+	collectionPath: Parent extends MetaType
 		? `${Parent['collectionPath']}/${Parent['docID']}/${CollectionID}`
 		: CollectionID
 	docID: IsValidID<DocID, 'Document'>
-	docPath: Parent extends MetaTypes
+	docPath: Parent extends MetaType
 		? `${Parent['collectionPath']}/${Parent['docID']}/${CollectionID}/${DocID}`
 		: `${CollectionID}/${DocID}`
-	ancestors: Parent extends MetaTypes
+	ancestors: Parent extends MetaType
 		? [...Parent['ancestors'], { docID: DocID; collectionID: CollectionID }]
 		: [{ docID: DocID; collectionID: CollectionID }]
 }

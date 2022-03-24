@@ -1,5 +1,5 @@
 import { snapshotEqual as snapshotEqual_ } from 'firebase/firestore'
-import { DocumentSnapshot, QuerySnapshot, MetaTypes } from '../types'
+import { DocumentSnapshot, QuerySnapshot, MetaType } from '../types'
 
 /**
  * Returns true if the provided snapshots are equal.
@@ -9,7 +9,7 @@ import { DocumentSnapshot, QuerySnapshot, MetaTypes } from '../types'
  * @returns true if the snapshots are equal.
  */
 export const snapshotEqual = (
-	// ! DocumentSnapshot<User> does not extends DocumentSnapshot<MetaTypes>...why? same case with QuerySnapshot
+	// ! DocumentSnapshot<User> does not extends DocumentSnapshot<MetaType>...why? same case with QuerySnapshot
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	left: DocumentSnapshot<any> | QuerySnapshot<any>,
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -17,7 +17,7 @@ export const snapshotEqual = (
 ) => {
 	return snapshotEqual_(
 		// @ts-expect-error
-		left as DocumentSnapshot<MetaTypes>,
-		right as DocumentSnapshot<MetaTypes>
+		left as DocumentSnapshot<MetaType>,
+		right as DocumentSnapshot<MetaType>
 	)
 }

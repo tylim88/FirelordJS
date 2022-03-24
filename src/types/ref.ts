@@ -1,13 +1,13 @@
 // ! ref type is not sharable across V8 and V9
 // ! possibly problematic if firestore add new props
 
-import { MetaTypes } from './metaTypeCreator'
+import { MetaType } from './metaTypeCreator'
 import { FirelordFirestore } from './firelordFirestore'
 import { Get } from './get'
 import { TransactionSet, WriteBatchSet } from './set'
 import { TransactionUpdate, WriteBatchUpdate } from './update'
 import { TransactionDelete, WriteBatchDelete } from './delete'
-export interface DocumentReference<T extends MetaTypes> {
+export interface DocumentReference<T extends MetaType> {
 	/** The type of this Firestore reference. */
 	readonly type: 'document'
 	/**
@@ -30,7 +30,7 @@ export interface DocumentReference<T extends MetaTypes> {
 	get parent(): CollectionReference<T>
 }
 
-export interface CollectionReference<T extends MetaTypes> {
+export interface CollectionReference<T extends MetaType> {
 	/** The type of this Firestore reference. */
 	readonly type: 'collection'
 	/** The collection's identifier. */
@@ -47,7 +47,7 @@ export interface CollectionReference<T extends MetaTypes> {
 	get parent(): DocumentReference<T> | null
 }
 
-export interface Query<T extends MetaTypes> {
+export interface Query<T extends MetaType> {
 	/** The type of this Firestore reference. */
 	readonly type: 'query' | 'collection'
 	/**
@@ -149,4 +149,4 @@ export interface WriteBatch {
 	commit(): Promise<void>
 }
 
-export type NotTreatedAsObjectType = DocumentReference<MetaTypes>
+export type NotTreatedAsObjectType = DocumentReference<MetaType>

@@ -1,6 +1,6 @@
 import { onSnapshot as onSnapshot_ } from 'firebase/firestore'
 import {
-	MetaTypes,
+	MetaType,
 	Query,
 	DocumentReference,
 	FirelordFirestore,
@@ -52,7 +52,7 @@ const isOptions = (
  * the snapshot listener.
  */
 export const onSnapshot = <
-	T extends MetaTypes,
+	T extends MetaType,
 	Ref extends Query<T> | DocumentReference<T>
 >(
 	reference: Ref extends never ? Ref : Query<T> | DocumentReference<T>,

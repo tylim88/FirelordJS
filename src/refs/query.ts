@@ -1,6 +1,6 @@
 import { query as query_ } from 'firebase/firestore'
 import {
-	MetaTypes,
+	MetaType,
 	Query,
 	CollectionReference,
 	QueryConstraints,
@@ -18,7 +18,7 @@ import {
  * existing or new constraints.
  */
 export const query = <
-	T extends MetaTypes,
+	T extends MetaType,
 	QC extends QueryConstraints<AddSentinelFieldPathToCompare<T>>[],
 	Q extends Query<T> | CollectionReference<T>
 >(

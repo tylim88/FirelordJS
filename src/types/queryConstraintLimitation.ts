@@ -1,4 +1,4 @@
-import { MetaTypes } from './metaTypeCreator'
+import { MetaType } from './metaTypeCreator'
 import { FirelordFirestore } from './firelordFirestore'
 import {
 	ErrorLimitToLastOrderBy,
@@ -53,7 +53,7 @@ IsTrue<
 
 // If you include a filter with a range comparison (<, <=, >, >=), your first ordering must be on the same field
 type ValidateOrderByAndInequalityWhere<
-	T extends MetaTypes,
+	T extends MetaType,
 	AllQCs extends QueryConstraints<T>[]
 > = GetFirstInequalityWhere<T, AllQCs> extends infer W
 	? W extends WhereConstraint<T, string, InequalityOpStr, unknown>
@@ -72,7 +72,7 @@ type ValidateOrderByAndInequalityWhere<
 	: never // impossible route
 
 export type QueryConstraintLimitation<
-	T extends MetaTypes,
+	T extends MetaType,
 	RestQCs extends QueryConstraints<T>[],
 	PreviousQCs extends QueryConstraints<T>[],
 	AllQCs extends QueryConstraints<T>[],
@@ -126,7 +126,7 @@ type ValidateCursorOrderBy<
 	: [] // end, Rest is []
 
 type CursorConstraintLimitation<
-	T extends MetaTypes,
+	T extends MetaType,
 	U extends CursorConstraint<CursorType, unknown[]>,
 	PreviousQCs extends QueryConstraints<T>[]
 > = U extends CursorConstraint<
@@ -140,7 +140,7 @@ type CursorConstraintLimitation<
 	: ErrorCursorTooManyArguments
 
 type LimitToLastConstraintLimitation<
-	T extends MetaTypes,
+	T extends MetaType,
 	U extends LimitConstraint<'limitToLast', number>,
 	AllQCs extends QueryConstraints<T>[]
 > = AllQCs extends (infer A)[]
@@ -153,7 +153,7 @@ type LimitToLastConstraintLimitation<
 
 // You can't order your query by a field included in an equality (==) or (in) clause.
 type ValidateOrderByEqualityWhere<
-	T extends MetaTypes,
+	T extends MetaType,
 	U extends OrderByConstraint<
 		T,
 		string,
@@ -168,7 +168,7 @@ type ValidateOrderByEqualityWhere<
 	: false
 
 type OrderByConstraintLimitation<
-	T extends MetaTypes,
+	T extends MetaType,
 	U extends OrderByConstraint<
 		T,
 		string,
@@ -181,7 +181,7 @@ type OrderByConstraintLimitation<
 
 // You can use at most one in, not-in, or array-contains-any clause per query. You can't combine in , not-in, and array-contains-any in the same query.
 type ValidateWhereNotInArrayContainsAny<
-	T extends MetaTypes,
+	T extends MetaType,
 	U extends WhereConstraint<
 		T,
 		string,
@@ -201,7 +201,7 @@ type ValidateWhereNotInArrayContainsAny<
 // You can't combine not-in with not equals !=.
 // You cannot use more than one '!=' filter. (not documented directly or indirectly)
 type ValidateWhereNotInNotEqual<
-	T extends MetaTypes,
+	T extends MetaType,
 	U extends WhereConstraint<
 		T,
 		string,
@@ -232,7 +232,7 @@ type ValidateWhereNotInNotEqual<
 
 // You can use at most one array-contains clause per query. You can't combine array-contains with array-contains-any.
 type ValidateWhereArrayContainsArrayContainsAny<
-	T extends MetaTypes,
+	T extends MetaType,
 	U extends WhereConstraint<
 		T,
 		string,
@@ -258,7 +258,7 @@ type ValidateWhereArrayContainsArrayContainsAny<
 
 // In a compound query, range (<, <=, >, >=) and not equals (!=, not-in) comparisons must all filter on the same field.
 type ValidateWhereInequalityOpStrSameField<
-	T extends MetaTypes,
+	T extends MetaType,
 	U extends WhereConstraint<
 		T,
 		string,
@@ -284,7 +284,7 @@ type ValidateWhereInequalityOpStrSameField<
 	: true
 
 type WhereConstraintLimitation<
-	T extends MetaTypes,
+	T extends MetaType,
 	Q extends Query<T> | CollectionReference<T>,
 	U extends WhereConstraint<
 		T,
@@ -336,7 +336,7 @@ type WhereConstraintLimitation<
 	: never // impossible route
 
 type GetFirstInequalityWhere<
-	T extends MetaTypes,
+	T extends MetaType,
 	QCs extends QueryConstraints<T>[]
 > = QCs extends [infer H, ...infer Rest]
 	? H extends WhereConstraint<T, string, InequalityOpStr, unknown>
@@ -347,7 +347,7 @@ type GetFirstInequalityWhere<
 	: true // not found, no check needed
 
 type GetFirstOrderBy<
-	T extends MetaTypes,
+	T extends MetaType,
 	QCs extends QueryConstraints<T>[]
 > = QCs extends [infer H, ...infer Rest]
 	? H extends OrderByConstraint<
@@ -362,7 +362,7 @@ type GetFirstOrderBy<
 	: true // not found, no check needed
 
 type GetAllOrderByFieldValue<
-	T extends MetaTypes,
+	T extends MetaType,
 	QCs extends QueryConstraints<T>[],
 	FieldValueTypeAcc extends unknown[]
 > = QCs extends [infer H, ...infer Rest]
@@ -382,7 +382,7 @@ type GetAllOrderByFieldValue<
 	: FieldValueTypeAcc // not found, no check needed
 
 type GetAllWhereConstraint<
-	T extends MetaTypes,
+	T extends MetaType,
 	QCs extends QueryConstraints<T>[],
 	WhereConstraintsAcc extends WhereConstraint<
 		T,
@@ -411,7 +411,7 @@ type GetAllWhereConstraint<
 	: WhereConstraintsAcc // QCs is []
 
 type GetAllWhereConstraintOpStr<
-	T extends MetaTypes,
+	T extends MetaType,
 	QCs extends QueryConstraints<T>[],
 	OpStrAcc extends FirelordFirestore.WhereFilterOp
 > = QCs extends [infer H, ...infer R]

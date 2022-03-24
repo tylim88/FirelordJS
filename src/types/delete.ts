@@ -1,4 +1,4 @@
-import { MetaTypes } from './metaTypeCreator'
+import { MetaType } from './metaTypeCreator'
 import { DocumentReference, Transaction, WriteBatch } from './ref'
 /**
 Deletes the document referred to by the specified DocumentReference.
@@ -8,7 +8,7 @@ Deletes the document referred to by the specified DocumentReference.
 @returns
 A Promise resolved once the document has been successfully deleted from the backend (note that it won't resolve while you're offline).
 */
-type DeleteCreator<U> = <T extends MetaTypes>(
+type DeleteCreator<U> = <T extends MetaType>(
 	reference: DocumentReference<T>
 ) => U
 

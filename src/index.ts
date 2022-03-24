@@ -1,5 +1,5 @@
 import { getFirestore } from 'firebase/firestore'
-import { MetaTypes, FirelordFirestore } from './types'
+import { MetaType, FirelordFirestore } from './types'
 import { docCreator, collectionCreator, collectionGroupCreator } from './refs'
 
 /**
@@ -16,7 +16,7 @@ import { docCreator, collectionCreator, collectionGroupCreator } from './refs'
  */
 export const getFirelord =
 	(firestore?: FirelordFirestore.Firestore) =>
-	<T extends MetaTypes>(collectionPath: T['collectionPath']) => {
+	<T extends MetaType>(collectionPath: T['collectionPath']) => {
 		const fstore = firestore || getFirestore()
 		const doc = docCreator<T>(fstore, collectionPath)
 		const collection = collectionCreator<T>(fstore, collectionPath)

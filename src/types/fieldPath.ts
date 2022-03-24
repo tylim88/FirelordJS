@@ -1,4 +1,4 @@
-import { MetaTypes } from './metaTypeCreator'
+import { MetaType } from './metaTypeCreator'
 import { StrictOmit } from './utils'
 import { DocumentReference, Query, CollectionReference } from './ref'
 import { IsValidID, GetNumberOfSlash } from './validID'
@@ -10,7 +10,7 @@ export interface DocumentId {
 	'Firelord.FieldPath': 'DocumentId'
 }
 
-export type AddSentinelFieldPathToCompare<T extends MetaTypes> = StrictOmit<
+export type AddSentinelFieldPathToCompare<T extends MetaType> = StrictOmit<
 	T,
 	'compare'
 > & {
@@ -19,15 +19,17 @@ export type AddSentinelFieldPathToCompare<T extends MetaTypes> = StrictOmit<
 	}
 }
 
-export type RemoveSentinelFieldPathFromCompare<T extends MetaTypes> =
-	StrictOmit<T, 'compare'> & {
-		compare: StrictOmit<T['compare'], __name__>
-	}
+export type RemoveSentinelFieldPathFromCompare<T extends MetaType> = StrictOmit<
+	T,
+	'compare'
+> & {
+	compare: StrictOmit<T['compare'], __name__>
+}
 
 export type __name__ = '__name__'
 
 export type GetCorrectDocumentIdBasedOnRef<
-	T extends MetaTypes,
+	T extends MetaType,
 	Q extends Query<T> | CollectionReference<T>,
 	FieldPath extends keyof T['compare'],
 	Value

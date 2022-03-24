@@ -4,10 +4,9 @@ import {
 	FirelordFirestore,
 	DocumentId,
 	__name__,
-	MetaTypes,
+	MetaType,
 	ErrorWhere__name__,
 } from '../types'
-import { documentId } from '../fieldPath'
 
 /**
  * Creates a {@link QueryConstraint} that enforces that documents must contain the
@@ -21,7 +20,7 @@ import { documentId } from '../fieldPath'
  * @returns The created {@link Query}.
  */
 export const where = <
-	T extends MetaTypes,
+	T extends MetaType,
 	FieldPath extends (keyof T['writeFlatten'] & string) | DocumentId,
 	OpStr extends FirelordFirestore.WhereFilterOp,
 	Value
@@ -40,7 +39,6 @@ export const where = <
 			'This is a very long string to prevent collision: %$GE&^G^*(N Y(&*T^VR&%R&^TN&*^RMN$BEDF^R%TFG%I%TFDH%(UI<)(UKJ^HGFEC#DR^T*&#$%(<RGFESAXSCVBGNHM(&%T^BTNRV%ITB^TJNTN^T^*T',
 		] as typeof newValue
 	}
-	const __name__: __name__ = '__name__'
 
 	return {
 		type: 'where',
@@ -49,7 +47,7 @@ export const where = <
 		value,
 		ref: where_(
 			// @ts-expect-error
-			fieldPath === __name__ ? documentId() : fieldPath,
+			fieldPath,
 			opStr,
 			newValue
 		),

@@ -1,5 +1,5 @@
 import {
-	MetaTypes,
+	MetaType,
 	CollectionReference,
 	FirelordFirestore,
 	IsValidID,
@@ -18,7 +18,7 @@ import { collection as collection_, getFirestore } from 'firebase/firestore'
  * @returns The `CollectionReference` instance.
  */
 export const collection = <
-	T extends MetaTypes,
+	T extends MetaType,
 	Path extends T['collectionPath'] = T['collectionPath']
 >(
 	path: Path extends never
@@ -35,7 +35,7 @@ export const collection = <
 }
 
 export const collectionCreator =
-	<T extends MetaTypes>(
+	<T extends MetaType>(
 		firestore: FirelordFirestore.Firestore,
 		collectionPath: T['collectionPath']
 	) =>
