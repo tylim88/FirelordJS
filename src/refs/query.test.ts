@@ -17,6 +17,67 @@ const user = userRefCreator()
 const ref = user.collectionGroup()
 const fullDocPath = 'topLevel/FirelordTest/Users/a' as const // https://stackoverflow.com/questions/71575344/typescript-stop-object-type-from-widening-generic/71575870#71575870
 describe('test query ref', () => {
+	it('In a compound query, range (<, <=, >, >=) and not equals (!=, not-in) comparisons must all filter on the same field, negative test', () => {
+		expect(() =>
+			query(
+				ref,
+				where(documentId(), '>', fullDocPath),
+				limit(1),
+				// @ts-expect-error
+				where('a.b.c', '!=', 2)
+			)
+		).toThrow()
+		expect(() =>
+			query(
+				ref,
+				where('age', '>', 2),
+				limit(1),
+				// @ts-expect-error
+				where('a.b.c', '!=', 2)
+			)
+		).toThrow()
+		expect(() =>
+			query(
+				ref,
+				where('age', '>', 2),
+				limit(1),
+				// @ts-expect-error
+				where('a.b.c', '!=', 2)
+			)
+		).toThrow()
+		expect(() =>
+			query(
+				ref,
+				where('age', '<=', 2),
+				limit(1),
+				// @ts-expect-error
+				where('a.b.c', 'not-in', [2])
+			)
+		).toThrow()
+		expect(() =>
+			query(
+				ref,
+				where('age', 'not-in', [2]),
+				limit(1),
+				// @ts-expect-error
+				where('a.b.c', '<', 2)
+			)
+		).toThrow()
+	})
+
+	it('In a compound query, range (<, <=, >, >=) and not equals (!=, not-in) comparisons must all filter on the same field, positive test', () => {
+		query(
+			ref,
+			where(documentId(), '>', fullDocPath),
+			limit(1),
+			where(documentId(), '!=', fullDocPath)
+		)
+		query(ref, where('age', '>', 2), limit(1), where('age', '!=', 2))
+		query(ref, where('a.b.c', '>', 2), limit(1), where('a.b.c', '!=', 2))
+		query(ref, where('age', '<=', 2), limit(1), where('age', 'not-in', [2]))
+		query(ref, where('a.b.c', 'not-in', [2]), limit(1), where('a.b.c', '<', 2))
+	})
+
 	it('If you include a filter with a range comparison (<, <=, >, >=), your first ordering must be on the same field, negative case', () => {
 		expect(() =>
 			query(
@@ -233,36 +294,6 @@ describe('test query ref', () => {
 		).toThrow()
 	})
 
-	it(`You cannot use more than one '!=' filter (undocumented limitation), negative case`, () => {
-		expect(() =>
-			query(
-				ref,
-				where(documentId(), '!=', fullDocPath),
-				limit(1),
-				// @ts-expect-error
-				where('age', '!=', 1)
-			)
-		).toThrow()
-		expect(() =>
-			query(
-				ref,
-				where('age', '!=', 1),
-				limit(1),
-				// @ts-expect-error
-				where('age', '!=', 1)
-			)
-		).toThrow()
-		expect(() =>
-			query(
-				ref,
-				where('age', '!=', 1),
-				limit(1),
-				// @ts-expect-error
-				where('a.b.c', '!=', 1)
-			)
-		).toThrow()
-	})
-
 	it(`You can use at most one array-contains clause per query. You can't combine array-contains with array-contains-any, negative case`, () => {
 		expect(() =>
 			query(
@@ -293,65 +324,6 @@ describe('test query ref', () => {
 		).toThrow()
 	})
 
-	it('In a compound query, range (<, <=, >, >=) and not equals (!=, not-in) comparisons must all filter on the same field, negative test', () => {
-		expect(() =>
-			query(
-				ref,
-				where(documentId(), '>', fullDocPath),
-				limit(1),
-				// @ts-expect-error
-				where('a.b.c', '!=', 2)
-			)
-		).toThrow()
-		expect(() =>
-			query(
-				ref,
-				where('age', '>', 2),
-				limit(1),
-				// @ts-expect-error
-				where('a.b.c', '!=', 2)
-			)
-		).toThrow()
-		expect(() =>
-			query(
-				ref,
-				where('age', '>', 2),
-				limit(1),
-				// @ts-expect-error
-				where('a.b.c', '!=', 2)
-			)
-		).toThrow()
-		expect(() =>
-			query(
-				ref,
-				where('age', '<=', 2),
-				limit(1),
-				// @ts-expect-error
-				where('a.b.c', 'not-in', [2])
-			)
-		).toThrow()
-		expect(() =>
-			query(
-				ref,
-				where('age', 'not-in', [2]),
-				limit(1),
-				// @ts-expect-error
-				where('a.b.c', '<', 2)
-			)
-		).toThrow()
-	})
-	it('In a compound query, range (<, <=, >, >=) and not equals (!=, not-in) comparisons must all filter on the same field, positive test', () => {
-		query(
-			ref,
-			where(documentId(), '>', fullDocPath),
-			limit(1),
-			where(documentId(), '!=', fullDocPath)
-		)
-		query(ref, where('age', '>', 2), limit(1), where('age', '!=', 2))
-		query(ref, where('a.b.c', '>', 2), limit(1), where('a.b.c', '!=', 2))
-		query(ref, where('age', '<=', 2), limit(1), where('age', 'not-in', [2]))
-		query(ref, where('a.b.c', 'not-in', [2]), limit(1), where('a.b.c', '<', 2))
-	})
 	it('Too many arguments provided to startAt/startAfter/endAt/endBefore(). The number of arguments must be less than or equal to the number of orderBy() clauses, negative case', () => {
 		// cursor with has x number of arguments must has x number of orderBy clause before that cursor
 		// does not throw on the spot if orderBy clause exist first, still throw in getDocs and onSnapshot
@@ -441,5 +413,35 @@ describe('test query ref', () => {
 		query(ref, where('age', 'not-in', []))
 		query(ref, where('age', 'in', []))
 		query(ref, where('a.e', 'array-contains-any', []))
+	})
+
+	it(`You cannot use more than one '!=' filter (undocumented limitation), negative case`, () => {
+		expect(() =>
+			query(
+				ref,
+				where(documentId(), '!=', fullDocPath),
+				limit(1),
+				// @ts-expect-error
+				where('age', '!=', 1)
+			)
+		).toThrow()
+		expect(() =>
+			query(
+				ref,
+				where('age', '!=', 1),
+				limit(1),
+				// @ts-expect-error
+				where('age', '!=', 1)
+			)
+		).toThrow()
+		expect(() =>
+			query(
+				ref,
+				where('age', '!=', 1),
+				limit(1),
+				// @ts-expect-error
+				where('a.b.c', '!=', 1)
+			)
+		).toThrow()
 	})
 })

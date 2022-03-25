@@ -27,14 +27,12 @@ type Doc<T extends MetaType> = {
 	 * Gets a `DocumentReference` instance that refers to the document at the
 	 * specified absolute path.
 	 *
-	 * @param firestore - A reference to the root `Firestore` instance.
 	 * @param path - A slash-separated path to a document.
 	 * @throws If the final path has an odd number of segments and does not point to
 	 * a document.
 	 * @returns The `DocumentReference` instance.
 	 */
 	<DocumentId extends T['docID']>(
-		firestore: FirelordFirestore.Firestore,
 		documentID: DocumentId extends never
 			? DocumentId
 			: DocumentId extends IsValidID<DocumentId, 'Document'>
@@ -45,12 +43,14 @@ type Doc<T extends MetaType> = {
 	 * Gets a `DocumentReference` instance that refers to the document at the
 	 * specified absolute path.
 	 *
+	 * @param firestore - A reference to the root `Firestore` instance.
 	 * @param path - A slash-separated path to a document.
 	 * @throws If the final path has an odd number of segments and does not point to
 	 * a document.
 	 * @returns The `DocumentReference` instance.
 	 */
 	<DocumentId extends T['docID']>(
+		firestore: FirelordFirestore.Firestore,
 		documentID: DocumentId extends never
 			? DocumentId
 			: DocumentId extends IsValidID<DocumentId, 'Document'>
