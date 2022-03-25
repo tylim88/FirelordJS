@@ -38,14 +38,32 @@ export type GetCorrectDocumentIdBasedOnRef<
 		? Q extends CollectionReference<T>
 			? string extends Value
 				? ErrorPleaseDoConstAssertion
-				: IsValidID<Value, 'Document'>
+				: IsValidID<
+						Value,
+						'Document',
+						Q extends Query<T>
+							? 'Path'
+							: Q extends CollectionReference<T>
+							? 'ID'
+							: never // impossible route
+				  >
 			: GetNumberOfSlash<Value> extends GetNumberOfSlash<T['docPath']>
 			? Value extends T['docPath']
-				? IsValidID<Value, 'Document', '/'>
+				? IsValidID<
+						Value,
+						'Document',
+						Q extends Query<T>
+							? 'Path'
+							: Q extends CollectionReference<T>
+							? 'ID'
+							: never // impossible route
+				  >
 				: T['docPath']
 			: ErrorNumberOfForwardSlashIsNotEqual<
 					GetNumberOfSlash<T['docPath']>,
 					GetNumberOfSlash<Value>
 			  >
 		: DocumentReference<RemoveSentinelFieldPathFromCompare<T>>
-	: T['compare'][FieldPath]
+	: FieldPath extends string
+	? T['compare'][FieldPath]
+	: never // impossible route

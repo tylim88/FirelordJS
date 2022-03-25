@@ -102,13 +102,13 @@ export type MetaTypeCreator<
 	collectionID: NoUndefinedAndBannedTypes<
 		string extends CollectionID
 			? ErrorCollectionIDString
-			: IsValidID<CollectionID, 'Collection'>,
+			: IsValidID<CollectionID, 'Collection', 'ID'>,
 		never
 	>
 	collectionPath: Parent extends MetaType
 		? `${Parent['collectionPath']}/${Parent['docID']}/${CollectionID}`
 		: CollectionID
-	docID: IsValidID<DocID, 'Document'>
+	docID: IsValidID<DocID, 'Document', 'ID'>
 	docPath: Parent extends MetaType
 		? `${Parent['collectionPath']}/${Parent['docID']}/${CollectionID}/${DocID}`
 		: `${CollectionID}/${DocID}`

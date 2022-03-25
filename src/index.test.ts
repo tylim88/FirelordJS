@@ -1,14 +1,38 @@
-import { getFirelord } from '.'
+import { getFirelord, MetaTypeCreator } from '.'
 import { initializeApp, User } from './utilForTests'
 import { getFirestore } from 'firebase/firestore'
 
 initializeApp()
 
+type parent = MetaTypeCreator<
+	{
+		a: { b: string; c: boolean }
+		d: number
+		e: { f: string[] }
+	},
+	'parent',
+	string
+>
+
+type child = MetaTypeCreator<
+	{
+		a: { b: string; c: boolean }
+		d: number
+		e: { f: string[] }
+	},
+	'child',
+	string,
+	parent
+>
+
 describe('test', () => {
-	it('test no error', () => {
-		expect(() =>
-			getFirelord()<User>(`topLevel/FirelordTest/Users`)
-		).not.toThrow()
+	it('test incorrect collection', () => {
+		;() => getFirelord()<child>('parent//child').collection()
+		;() =>
+			getFirelord()<User>(
+				// @ts-expect-error
+				`topLevel//Users`
+			)
 	})
 	it('test type', () => {
 		;() => {

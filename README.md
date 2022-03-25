@@ -48,29 +48,28 @@
 </div>
 <br/>
 <div align="center">
-		<i>Of The VFQAT, By The VFQAT, For The VFQAT</i>
+	<i>Of The VFQAT &#160;&#160;||&#160;&#160; By The VFQAT &#160;&#160;||&#160;&#160; For The VFQAT</i>
 </div>
-<br/>
+<br />
+<div align="center">
+	<i>End Firestore Typing Madness</i>
+</div>
+<br />
 <div align="center">
 <a href="https://firelordjs.com/quick_start" rel="nofollow" target="_blank"><strong>Documentation</strong></a>
 </div>
 
 # Note
 
-1. Documentation is not yet complete, but is viable to read.
-2. V1 rewrite from scratch using Firestore V9 API.
-3. V1 not compatible with V0.
-4. V1 is 10x better than V0, ain't joking.
-5. The old V0 Documentation can be found [here](https://github.com/tylim88/Firelordjs/beforev1.0.md).
+1. V1 rewrite from scratch using Firestore V9 API.
+2. V1 is not compatible with V0.
+3. V1 is 10x better than V0.
+4. The old V0 Documentation can be found [here](https://github.com/tylim88/Firelordjs/V0Doc.md).
 
 ## Related Projects
 
 1. [Firelord](https://www.npmjs.com/package/firelordjs) - Typescript wrapper for Firestore Admin
 2. [Firelordrn](https://www.npmjs.com/package/firelordrn) - Typescript wrapper for Firestore React Native
-3. [FireLaw](https://www.npmjs.com/package/firelaw) - Write Firestore security rule with Typescript !
+3. [FireLaw](https://www.npmjs.com/package/firelaw) - Write Firestore security rule with Typescript
 
-All the related projects V1 are still in development.
-
-When I am going to finish them?
-
-Yes I am going to finish them by tomorrow because apparently high precision Typescript wrapper is something that is simple to make, which is totally NOT!
+All the related projects V1.0 are still in development.

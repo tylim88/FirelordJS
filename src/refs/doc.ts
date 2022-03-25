@@ -35,9 +35,9 @@ type Doc<T extends MetaType> = {
 	<DocumentId extends T['docID']>(
 		documentID: DocumentId extends never
 			? DocumentId
-			: DocumentId extends IsValidID<DocumentId, 'Document'>
+			: DocumentId extends IsValidID<DocumentId, 'Document', 'ID'>
 			? T['docID']
-			: IsValidID<DocumentId, 'Document'>
+			: IsValidID<DocumentId, 'Document', 'ID'>
 	): DocumentReference<T>
 	/**
 	 * Gets a `DocumentReference` instance that refers to the document at the
@@ -53,8 +53,8 @@ type Doc<T extends MetaType> = {
 		firestore: FirelordFirestore.Firestore,
 		documentID: DocumentId extends never
 			? DocumentId
-			: DocumentId extends IsValidID<DocumentId, 'Document'>
+			: DocumentId extends IsValidID<DocumentId, 'Document', 'ID'>
 			? T['docID']
-			: IsValidID<DocumentId, 'Document'>
+			: IsValidID<DocumentId, 'Document', 'ID'>
 	): DocumentReference<T>
 }

@@ -21,9 +21,14 @@ export type ErrorPleaseDoConstAssertion =
 	`Error: Please assert the value as const eg:( 'a' as const )`
 export type ErrorCollectionIDString =
 	'Error: Collection ID type cannot be string'
+export type ErrorEndOfID =
+	'Error: ID or Path cannot end in a forward slash ( / )'
 export type ErrorInvalidDocumentOrCollectionID<
-	T extends 'Document' | 'Collection'
-> = `Error: ${T} ID cannot contains forward slash ( / ), double dots ( .. ) and double underscore ( __ )`
+	T extends 'Document' | 'Collection',
+	Type extends 'ID' | 'Path'
+> = `Error: ${T} ${Type} cannot contains ${Type extends 'ID'
+	? 'forward slash ( / ), '
+	: ''}double dots ( .. ) and double underscore ( __ )`
 export type ErrorInvalidDocumentOrCollectionIDStart<
 	T extends 'Document' | 'Collection'
 > = `Error: ${T} ID cannot start with a dot ( . )`
@@ -87,8 +92,9 @@ export type ErrorMsgs =
 	| ErrorDeleteFieldMergeField<string>
 	| ErrorNumberOfForwardSlashIsNotEqual<number, number>
 	| ErrorPleaseDoConstAssertion
+	| ErrorEndOfID
 	| ErrorCollectionIDString
-	| ErrorInvalidDocumentOrCollectionID<'Document' | 'Collection'>
+	| ErrorInvalidDocumentOrCollectionID<'Document' | 'Collection', 'ID' | 'Path'>
 	| ErrorInvalidDocumentOrCollectionIDStart<'Document' | 'Collection'>
 	| ErrorEmptyUpdate
 	| ErrorMoreThanOnceDocSnapshotInCursor

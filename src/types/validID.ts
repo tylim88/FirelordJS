@@ -3,6 +3,7 @@ import {
 	NoUndefinedAndBannedTypes,
 	ErrorInvalidDocumentOrCollectionIDStart,
 	ErrorInvalidDocumentOrCollectionID,
+	ErrorEndOfID,
 } from './error'
 
 type InvalidIDCharacter = '/' | '..' | '//' | '__'
@@ -26,15 +27,22 @@ export type GetNumberOfInvalidCharacter<
 export type IsValidID<
 	ID extends string,
 	Mode extends 'Document' | 'Collection',
-	Allow extends InvalidIDCharacter = never
+	Type extends 'ID' | 'Path'
 > = ID extends NoUndefinedAndBannedTypes<ID, never>
 	? ID extends ''
 		? ErrorEmptyDocumentOrCollectionID<Mode>
+		: ID extends `${infer Head}/`
+		? ErrorEndOfID
 		: ID extends `.${infer Rest}`
 		? ErrorInvalidDocumentOrCollectionIDStart<Mode>
 		: ID extends `.${infer P}`
 		? ErrorInvalidDocumentOrCollectionIDStart<Mode>
-		: GetNumberOfInvalidCharacter<ID, AllowInvalidIDCharacter<Allow>> extends 0
+		: GetNumberOfInvalidCharacter<
+				ID,
+				AllowInvalidIDCharacter<
+					Type extends 'ID' ? never : Type extends 'Path' ? '/' : never // impossible route
+				>
+		  > extends 0
 		? ID
-		: ErrorInvalidDocumentOrCollectionID<Mode>
+		: ErrorInvalidDocumentOrCollectionID<Mode, Type>
 	: NoUndefinedAndBannedTypes<ID, never>
