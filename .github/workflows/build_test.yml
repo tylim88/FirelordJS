@@ -1,0 +1,24 @@
+on:
+  workflow_call:
+
+jobs:
+  build_test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '16.14'
+        cache: 'npm'
+        cache-dependency-path: '**/package-lock.json'
+    - run: npm i
+    - run: npm run pre-commit
+    - run: npm test
+      env:
+        PROJECT_ID: ${{ secrets.PROJECT_ID }}
+    - run: npm run build
+    - run: npm run link
+    - run: npm run e-tsc
+    - run: npm run e-test
+      env:
+        PROJECT_ID: ${{ secrets.PROJECT_ID }}

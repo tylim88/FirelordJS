@@ -1,0 +1,15 @@
+name: Branch
+on: [push]
+jobs:
+  build_test:
+    if: github.ref != 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '16.14'
+        cache: 'npm'
+        cache-dependency-path: '**/package-lock.json'
+    - uses: ./.github/workflows/build_test.yml
+
