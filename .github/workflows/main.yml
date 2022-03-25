@@ -12,7 +12,7 @@ jobs:
         cache: 'npm'
         cache-dependency-path: '**/package-lock.json'
         registry-url: 'https://registry.npmjs.org'
-    - uses: ./.github/workflows/build_test.yml
+    - uses: ./build_test.yml
     - uses: codecov/codecov-action@v2
     - run: npm publish
       env:

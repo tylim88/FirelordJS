@@ -11,5 +11,5 @@ jobs:
         node-version: '16.14'
         cache: 'npm'
         cache-dependency-path: '**/package-lock.json'
-    - uses: ./.github/workflows/build_test.yml
+    - uses: ./build_test.yml
 
