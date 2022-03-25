@@ -1,32 +1,27 @@
 import { query as query_, getFirestore } from 'firebase/firestore'
-import { query, collection, collectionGroup } from '../refs'
+import { query } from '../refs'
 import { queryEqual } from './queryEqual'
 import { initializeApp, userRefCreator } from '../utilForTests'
 import { where, orderBy } from '../queryClauses'
 
 initializeApp()
-const colRef = userRefCreator().collection()
+const colRef = userRefCreator().collection
+const groupRef = userRefCreator().collectionGroup
 describe('test queryEqual', () => {
 	it('test equal', () => {
 		expect(
 			queryEqual(
-				query(collection('a/b/c'), where('a', '==', 1)),
-				query(collection('a/b/c'), where('a', '==', 1))
+				query(colRef(), where('a.b.c', '==', 1)),
+				query(colRef(), where('a.b.c', '==', 1))
 			)
 		).toBe(true)
 		expect(
 			queryEqual(
-				query(collectionGroup('c', getFirestore()), where('a', '==', 1)),
-				query(collectionGroup('c'), where('a', '==', 1))
-			)
-		).toBe(true)
-		expect(
-			queryEqual(
-				query(collection('a/b/c'), orderBy('b')),
+				query(colRef(), orderBy('a.b')),
 				query_(
 					// @ts-expect-error
-					collection('a/b/c'),
-					orderBy('b').ref
+					colRef(),
+					orderBy('a.b').ref
 				)
 			)
 		).toBe(true)
@@ -34,27 +29,23 @@ describe('test queryEqual', () => {
 	it('test not equal', () => {
 		expect(
 			queryEqual(
-				query(collection('a/b/c'), where('a', '==', 1)),
-				query(
-					colRef,
-					// @ts-expect-error
-					where('a', '==', 1)
-				)
+				query(colRef(), where('a.b.c', '==', 1)),
+				query(colRef(), where('age', '==', 1))
 			)
 		).toBe(false)
 		expect(
 			queryEqual(
-				query(collectionGroup('c'), where('a', '==', 1)),
-				query(collectionGroup('c', getFirestore()), where('b', '==', 1))
+				query(groupRef(), where('a.b.c', '==', 1)),
+				query(groupRef(getFirestore()), where('age', '==', 1))
 			)
 		).toBe(false)
 		expect(
 			queryEqual(
-				query(collection('a/b/c'), orderBy('b')),
+				query(colRef(), orderBy('a.b')),
 				query_(
 					// @ts-expect-error
-					collection('a/b/c'),
-					where('a', '==', 1).ref
+					colRef(),
+					where('a.b.c', '==', 1).ref
 				)
 			)
 		).toBe(false)

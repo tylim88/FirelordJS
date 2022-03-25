@@ -17,11 +17,11 @@ import { docCreator, collectionCreator, collectionGroupCreator } from './refs'
 export const getFirelord =
 	(firestore?: FirelordFirestore.Firestore) =>
 	<T extends MetaType>(collectionPath: T['collectionPath']) => {
-		const fstore = firestore || getFirestore()
-		const doc = docCreator<T>(fstore, collectionPath)
-		const collection = collectionCreator<T>(fstore, collectionPath)
+		const fStore = firestore || getFirestore()
+		const doc = docCreator<T>(fStore, collectionPath)
+		const collection = collectionCreator<T>(fStore, collectionPath)
 		const collectionGroup = collectionGroupCreator<T>(
-			fstore,
+			fStore,
 			collectionPath.split('/').pop() as string
 		)
 		return Object.freeze({

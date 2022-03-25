@@ -38,6 +38,8 @@ export namespace FirelordFirestore {
 	export type SnapshotListenOptions =
 		import('firebase/firestore').SnapshotListenOptions
 
+	export type Unsubscribe = import('firebase/firestore').Unsubscribe
+
 	export type DocumentReference<T extends DocumentData = DocumentData> =
 		import('firebase/firestore').DocumentReference<T>
 

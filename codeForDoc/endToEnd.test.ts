@@ -94,6 +94,7 @@ describe('end to end test', () => {
 					unsub()
 					done()
 				},
+				// @ts-expect-error
 				{ includeMetadataChanges: false },
 				{ includeMetadataChanges: true }
 			)

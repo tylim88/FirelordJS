@@ -25,14 +25,18 @@ describe('test onSnapshot', () => {
 		const data = generateRandomData()
 		expect.hasAssertions()
 		setDoc(docRef, data).then(() => {
-			const unsub = onSnapshot(docRef, async documentSnapshot => {
-				type A = typeof documentSnapshot
-				type B = DocumentSnapshot<User>
-				IsTrue<IsSame<B, A>>()
-				await compareWriteDataWithDocSnapData(data, documentSnapshot)
-				unsub()
-				done()
-			})
+			const unsub = onSnapshot(
+				docRef,
+				async documentSnapshot => {
+					type A = typeof documentSnapshot
+					type B = DocumentSnapshot<User>
+					IsTrue<IsSame<B, A>>()
+					await compareWriteDataWithDocSnapData(data, documentSnapshot)
+					unsub()
+					done()
+				},
+				{ includeMetadataChanges: true }
+			)
 		})
 	})
 	it('test one doc functionality and type with options', done => {
@@ -50,6 +54,7 @@ describe('test onSnapshot', () => {
 					unsub()
 					done()
 				},
+				// @ts-expect-error
 				{ includeMetadataChanges: true },
 				() => {}
 			)
@@ -79,7 +84,10 @@ describe('test onSnapshot', () => {
 					}
 					unsub()
 					done()
-				}
+				},
+				() => {}, // @ts-expect-error
+				{ includeMetadataChanges: true },
+				{ includeMetadataChanges: false }
 			)
 		})
 	})

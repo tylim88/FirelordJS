@@ -15,6 +15,7 @@ import {
 	increment,
 } from '../fieldValue'
 import { Update, IsTrue, IsSame, ErrorUnknownMember } from '../types'
+import { getFirestore } from 'firebase/firestore'
 
 initializeApp()
 const userRef = userRefCreator()
@@ -201,6 +202,14 @@ describe('test updateDoc', () => {
 	it('test functionality', async () => {
 		await writeThenReadTest(async data => {
 			const ref = userRef.doc('updateDocTestCase')
+			await setDoc(ref, generateRandomData())
+			await updateDoc(ref, data)
+			return ref
+		})
+	})
+	it('test functionality with overload', async () => {
+		await writeThenReadTest(async data => {
+			const ref = userRef.doc(getFirestore(), 'updateDocTestCase')
 			await setDoc(ref, generateRandomData())
 			await updateDoc(ref, data)
 			return ref
