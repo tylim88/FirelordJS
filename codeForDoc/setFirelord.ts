@@ -19,24 +19,27 @@ setDoc(
 	{
 		a: 1,
 		b: 2,
-		c: 3,
-		// @ts-expect-error
+		c: 3, // @ts-expect-error
 		d: 4,
 	} // good: type error!
 )
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 setDoc(
-	docRef, // @ts-expect-error
+	docRef,
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	// @ts-expect-error
 	abcd // good: type error!
 )
 
@@ -56,8 +59,7 @@ setDoc(
 	docRef2,
 	{
 		a: 1,
-		b: { c: 1 },
-		// @ts-expect-error
+		b: { c: 1 }, // @ts-expect-error
 		e: undefined, // good, reject undefined!
 	},
 	{ merge: true }
@@ -70,10 +72,8 @@ setDoc(
 		b: { c: 1 },
 	},
 	{
-		mergeFields: [
-			// @ts-expect-error
-			'j.k',
-		],
+		// @ts-expect-error
+		mergeFields: ['j.k'],
 	} // good, reject unknown path
 )
 

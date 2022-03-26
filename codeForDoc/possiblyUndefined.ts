@@ -64,7 +64,6 @@ getDoc(docRef2).then(docSnap => {
 type abc3 = MetaTypeCreator<
 	{
 		a: PossiblyReadAsUndefined[]
-		b: { c: PossiblyReadAsUndefined }[]
 	},
 	'abc',
 	string
@@ -84,7 +83,6 @@ getDoc(docRef3).then(docSnap => {
 			//
 			//
 			a,
-			b,
 		} = data
 	}
 })
@@ -127,10 +125,15 @@ type abc5 = MetaTypeCreator<
 >
 
 const docRef5 = getFirelord<abc5>()('abc').doc('efg')
-//
-//
+
 setDoc(docRef5, {
-	a: 1,
-	// @ts-expect-error
-	b: 2,
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	a: 1, // @ts-expect-error
+	b: undefined,
 })

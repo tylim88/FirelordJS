@@ -19,24 +19,27 @@ updateDoc(
 	{
 		a: 1,
 		b: 2,
-		c: 3,
-		// @ts-expect-error
+		c: 3, // @ts-expect-error
 		d: 4,
 	} // good: type error!
 )
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
 updateDoc(
 	docRef,
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 	// @ts-expect-error
 	abcd // good: type error!
 )
