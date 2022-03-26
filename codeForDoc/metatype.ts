@@ -1,4 +1,4 @@
-import { MetaTypeCreator, getFirelord } from 'firelordjs'
+import { MetaTypeCreator, getFirelord, DocumentReference } from 'firelordjs'
 
 type Parent = MetaTypeCreator<
 	{
@@ -76,8 +76,6 @@ type abc = MetaTypeCreator<
 //
 const collectionReferenceParent =
 	getFirelord<Child>()('parent/abc/child').collection().parent
-
-import { DocumentReference } from 'firelordjs'
 
 const collectionReferenceParentTypeCasted = getFirelord<Child>()(
 	'parent/abc/child'

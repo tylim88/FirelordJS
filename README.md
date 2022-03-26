@@ -61,10 +61,8 @@
 
 # Note
 
-1. V1 rewrite from scratch using Firestore V9 API.
-2. V1 is not compatible with V0.
-3. V1 is 10x better than V0.
-4. The old V0 Documentation can be found [here](https://github.com/tylim88/Firelordjs/V0Doc.md).
+1. V1 rewrite from scratch using Firestore V9 API and is better than V0 by a huge margin.
+2. V1 is not compatible with V0, the old V0 Documentation can be found [here](https://github.com/tylim88/Firelordjs/V0Doc.md).
 
 ## Related Projects
 

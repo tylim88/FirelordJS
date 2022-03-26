@@ -1,7 +1,7 @@
 {
 	"extends": "./tsconfig.json",
 	"compilerOptions": {
-		"emitDeclarationOnly": false
+		"emitDeclarationOnly": true
 	},
 	"exclude": ["**/*.test.ts", "src/utilForTests.ts"]
 }
