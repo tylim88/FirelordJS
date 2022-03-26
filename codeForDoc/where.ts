@@ -31,8 +31,8 @@ type child = MetaTypeCreator<
 	string,
 	parent
 >
-
-const ref = firelord<child>('parent//child').collection()
+// @ts-expect-error
+const ref = getFirelord<child>()('parent//child').collection()
 //
 //
 //

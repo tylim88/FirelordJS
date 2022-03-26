@@ -7,7 +7,7 @@ import { arrayRemove } from './arrayRemove'
 initializeApp()
 describe('test arrayRemove', () => {
 	const ref =
-		getFirelord()<MetaTypeCreator<{ a: number[] }, 'arrayRemove', string>>(
+		getFirelord<MetaTypeCreator<{ a: number[] }, 'arrayRemove', string>>()(
 			'arrayRemove'
 		)
 	const docRef = ref.doc('arrayRemove')

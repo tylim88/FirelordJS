@@ -9,8 +9,6 @@ import {
 	endAt,
 } from 'firelordjs'
 
-const firelord = getFirelord()
-
 type abc = MetaTypeCreator<
 	{
 		a: { b: string; c: boolean }
@@ -21,7 +19,7 @@ type abc = MetaTypeCreator<
 	string
 >
 
-const ref = firelord<abc>('abc').collection()
+const ref = getFirelord<abc>()('abc').collection()
 //
 //
 //

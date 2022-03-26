@@ -7,7 +7,7 @@ import { increment } from './increment'
 initializeApp()
 describe('test increment', () => {
 	const ref =
-		getFirelord()<MetaTypeCreator<{ a: number }, 'increment', string>>(
+		getFirelord<MetaTypeCreator<{ a: number }, 'increment', string>>()(
 			'increment'
 		)
 	const docRef = ref.doc('increment')

@@ -1,7 +1,5 @@
 import { updateDoc, MetaTypeCreator, getFirelord } from 'firelordjs'
 
-const firelord = getFirelord()
-
 type abc = MetaTypeCreator<
 	{
 		a: number
@@ -12,7 +10,7 @@ type abc = MetaTypeCreator<
 	string
 >
 
-const docRef = firelord<abc>('abc').doc('efg')
+const docRef = getFirelord<abc>()('abc').doc('efg')
 
 const abcd = { a: 1, b: 2, c: 3, d: 4 }
 
@@ -60,7 +58,7 @@ type abc2 = MetaTypeCreator<
 	string
 >
 
-const docRef2 = getFirelord()<abc2>('abc').doc('efg')
+const docRef2 = getFirelord<abc2>()('abc').doc('efg')
 
 updateDoc(
 	docRef2,

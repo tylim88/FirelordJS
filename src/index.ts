@@ -15,11 +15,8 @@ import { docCreator, collectionCreator, collectionGroupCreator } from './refs'
  DocumentReference, CollectionReference and CollectionGroupReference instance.
  */
 export const getFirelord =
-	(firestore?: FirelordFirestore.Firestore) =>
-	<
-		T extends MetaType,
-		CollectionPath extends T['collectionPath'] = T['collectionPath']
-	>(
+	<T extends MetaType>(firestore?: FirelordFirestore.Firestore) =>
+	<CollectionPath extends T['collectionPath'] = T['collectionPath']>(
 		collectionPath: CollectionPath extends never
 			? CollectionPath
 			: IsValidID<CollectionPath, 'Collection', 'Path'>

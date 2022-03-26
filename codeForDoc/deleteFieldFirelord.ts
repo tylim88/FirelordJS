@@ -7,8 +7,6 @@ import {
 	getDoc,
 } from 'firelordjs'
 
-const firelord = getFirelord()
-
 type abc = MetaTypeCreator<
 	{
 		a: number | DeleteField
@@ -18,7 +16,7 @@ type abc = MetaTypeCreator<
 	string
 >
 
-const docRef = firelord<abc>('abc').doc('efg')
+const docRef = getFirelord<abc>()('abc').doc('efg')
 
 updateDoc(docRef, {
 	a: deleteField(), // can delete 'a'
@@ -48,7 +46,7 @@ type abc2 = MetaTypeCreator<
 	string
 >
 
-const docRef2 = firelord<abc2>('abc').doc('efg')
+const docRef2 = getFirelord<abc2>()('abc').doc('efg')
 
 updateDoc(docRef2, {
 	//
@@ -72,7 +70,7 @@ type abc3 = MetaTypeCreator<
 	string
 >
 
-const docRef3 = firelord<abc3>('abc').doc('efg')
+const docRef3 = getFirelord<abc3>()('abc').doc('efg')
 
 updateDoc(docRef3, {
 	//

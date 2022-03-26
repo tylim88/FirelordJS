@@ -7,7 +7,7 @@ import { arrayUnion } from './arrayUnion'
 initializeApp()
 describe('test arrayUnion', () => {
 	const ref =
-		getFirelord()<MetaTypeCreator<{ a: number[] }, 'arrayUnion', string>>(
+		getFirelord<MetaTypeCreator<{ a: number[] }, 'arrayUnion', string>>()(
 			'arrayUnion'
 		)
 	const docRef = ref.doc('arrayUnion')

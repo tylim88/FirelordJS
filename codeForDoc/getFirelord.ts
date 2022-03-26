@@ -17,9 +17,7 @@ type abc = MetaTypeCreator<
 	string
 >
 
-const firelord = getFirelord()
-
-const docRef = firelord<abc>('abc').doc('efg')
+const docRef = getFirelord<abc>()('abc').doc('efg')
 
 getDoc(docRef).then(docSnapshot => {
 	const data = docSnapshot.data({ serverTimestamps: 'none' })

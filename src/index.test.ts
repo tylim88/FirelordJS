@@ -27,20 +27,24 @@ type child = MetaTypeCreator<
 
 describe('test', () => {
 	it('test incorrect collection', () => {
-		;() => getFirelord()<child>('parent//child').collection()
 		;() =>
-			getFirelord()<User>(
+			getFirelord<child>()(
+				// @ts-expect-error
+				'parent//child'
+			).collection()
+		;() =>
+			getFirelord<User>()(
 				// @ts-expect-error
 				`topLevel//Users`
 			)
 	})
 	it('test type', () => {
 		;() => {
-			getFirelord(getFirestore())<User>(
+			getFirelord<User>(getFirestore())(
 				// @ts-expect-error
 				`topLevel/FirelordTest1/Users`
 			)
-			const userRef = getFirelord()<User>(
+			const userRef = getFirelord<User>()(
 				// @ts-expect-error
 				'User1s'
 			)
