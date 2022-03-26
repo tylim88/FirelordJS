@@ -1,35 +1,31 @@
-import {
-	doc as doc_,
-	collection as collection_,
-	collectionGroup as collectionGroup_,
-	getFirestore,
-} from 'firebase/firestore'
-import { MetaTypes } from './types'
+import { getFirestore } from 'firebase/firestore'
+import { MetaType, FirelordFirestore, IsValidID } from './types'
 import { docCreator, collectionCreator, collectionGroupCreator } from './refs'
-import { FirebaseApp } from 'firebase/app'
 
 /**
  Gets a FirelordReference instance that refers to the doc, collection, and collectionGroup at the specified absolute path.
  
- @param firestore — A reference to the root Firestore instance.
+ @param firestore 
+ Optional. A reference to the Firestore database. If no value is provided, default Firestore instance is used.
  
- @param path — A slash-separated full path to a collection.
+ @param path 
+ A slash-separated full path to a collection.
  
- @returns — DocumentReference, CollectionReference and CollectionGroupReference instance.
+ @returns 
+ DocumentReference, CollectionReference and CollectionGroupReference instance.
  */
 export const getFirelord =
-	(app?: FirebaseApp) =>
-	<T extends MetaTypes>(collectionPath: T['collectionPath']) => {
-		const firestore = getFirestore(app)
-		const doc = docCreator<T>(doc_, firestore, collectionPath)
-		const collection = collectionCreator<T>(
-			collection_,
-			firestore,
-			collectionPath
-		)
+	<T extends MetaType>(firestore?: FirelordFirestore.Firestore) =>
+	<CollectionPath extends T['collectionPath'] = T['collectionPath']>(
+		collectionPath: CollectionPath extends never
+			? CollectionPath
+			: IsValidID<CollectionPath, 'Collection', 'Path'>
+	) => {
+		const fStore = firestore || getFirestore()
+		const doc = docCreator<T>(fStore, collectionPath)
+		const collection = collectionCreator<T>(fStore, collectionPath)
 		const collectionGroup = collectionGroupCreator<T>(
-			collectionGroup_,
-			firestore,
+			fStore,
 			collectionPath.split('/').pop() as string
 		)
 		return Object.freeze({
@@ -39,18 +35,35 @@ export const getFirelord =
 		})
 	}
 
-export { Timestamp, GeoPoint, getFirestore } from 'firebase/firestore'
-export { writeBatch } from './batch'
+export {
+	Timestamp,
+	GeoPoint,
+	getFirestore,
+	terminate,
+	initializeFirestore,
+	loadBundle,
+	clearIndexedDbPersistence,
+	connectFirestoreEmulator,
+	disableNetwork,
+	enableIndexedDbPersistence,
+	enableMultiTabIndexedDbPersistence,
+	enableNetwork,
+	onSnapshotsInSync,
+	namedQuery,
+} from 'firebase/firestore'
+export * from './batch'
+export * from './transaction'
 export * from './fieldValue'
+export * from './fieldPath'
 export * from './onSnapshot'
 export * from './operations'
-export * from './queryConstraints'
-export { runTransaction } from './transaction'
+export * from './queryClauses'
 export { query } from './refs'
+export * from './equal'
 export type {
-	Creator as Firelord,
-	ServerTimestampFieldValue,
-	DeleteAbleFieldValue,
-	PossiblyReadAsUndefinedFieldValue,
+	MetaTypeCreator,
+	ServerTimestamp,
+	DeleteField,
+	PossiblyReadAsUndefined,
 	DocumentReference,
 } from './types'

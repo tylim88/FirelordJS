@@ -1,5 +1,5 @@
 import {
-	MetaTypes,
+	MetaType,
 	DocumentReference,
 	PartialNoUndefinedAndNoUnknownMember,
 } from '../types'
@@ -16,7 +16,7 @@ import { Transaction, WriteBatch } from './ref'
 	A Promise resolved once the data has been successfully written to the backend (note that it won't resolve while you're offline). 
 */
 export type UpdateCreator<U> = <
-	T extends MetaTypes,
+	T extends MetaType,
 	Data extends import('@firebase/firestore').DocumentData
 >(
 	reference: DocumentReference<T>,

@@ -1,7 +1,7 @@
-import { onSnapshot } from './index'
+import { onSnapshot } from './onSnapshot'
 import {
 	generateRandomData,
-	compareReadAndWriteData,
+	compareWriteDataWithDocSnapData,
 	initializeApp,
 	userRefCreator,
 	User,
@@ -15,7 +15,7 @@ import {
 	QueryDocumentSnapshot,
 } from '../types'
 import { query } from '../refs'
-import { where } from '../queryConstraints'
+import { where } from '../queryClauses'
 
 initializeApp()
 const userRef = userRefCreator()
@@ -25,14 +25,18 @@ describe('test onSnapshot', () => {
 		const data = generateRandomData()
 		expect.hasAssertions()
 		setDoc(docRef, data).then(() => {
-			const unsub = onSnapshot(docRef, async documentSnapshot => {
-				type A = typeof documentSnapshot
-				type B = DocumentSnapshot<User>
-				IsTrue<IsSame<B, A>>()
-				await compareReadAndWriteData(data, documentSnapshot)
-				unsub()
-				done()
-			})
+			const unsub = onSnapshot(
+				docRef,
+				async documentSnapshot => {
+					type A = typeof documentSnapshot
+					type B = DocumentSnapshot<User>
+					IsTrue<IsSame<B, A>>()
+					await compareWriteDataWithDocSnapData(data, documentSnapshot)
+					unsub()
+					done()
+				},
+				{ includeMetadataChanges: true }
+			)
 		})
 	})
 	it('test one doc functionality and type with options', done => {
@@ -46,11 +50,13 @@ describe('test onSnapshot', () => {
 					type A = typeof documentSnapshot
 					type B = DocumentSnapshot<User>
 					IsTrue<IsSame<B, A>>()
-					await compareReadAndWriteData(data, documentSnapshot)
+					await compareWriteDataWithDocSnapData(data, documentSnapshot)
 					unsub()
 					done()
 				},
-				{ includeMetadataChanges: true }
+				// @ts-expect-error
+				{ includeMetadataChanges: true },
+				() => {}
 			)
 		})
 	})
@@ -74,11 +80,14 @@ describe('test onSnapshot', () => {
 						type C = typeof queryDocumentSnapshot
 						type D = QueryDocumentSnapshot<User>
 						IsTrue<IsSame<C, D>>()
-						await compareReadAndWriteData(data, queryDocumentSnapshot)
+						await compareWriteDataWithDocSnapData(data, queryDocumentSnapshot)
 					}
 					unsub()
 					done()
-				}
+				},
+				() => {}, // @ts-expect-error
+				{ includeMetadataChanges: true },
+				{ includeMetadataChanges: false }
 			)
 		})
 	})
@@ -103,12 +112,12 @@ describe('test onSnapshot', () => {
 						type C = typeof queryDocumentSnapshot
 						type D = QueryDocumentSnapshot<User>
 						IsTrue<IsSame<C, D>>()
-						await compareReadAndWriteData(data, queryDocumentSnapshot)
+						await compareWriteDataWithDocSnapData(data, queryDocumentSnapshot)
 					}
 					unsub()
 					done()
 				},
-				{ includeMetadataChanges: false },
+				() => {},
 				{ includeMetadataChanges: true }
 			)
 		})

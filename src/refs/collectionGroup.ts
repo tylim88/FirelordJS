@@ -1,13 +1,14 @@
-import { MetaTypes, FirelordFirestore, Query } from '../types'
+import { MetaType, FirelordFirestore, Query } from '../types'
+import { collectionGroup as collectionGroup_ } from 'firebase/firestore'
 
 export const collectionGroupCreator =
-	<T extends MetaTypes>(
-		collectionGroup: FirelordFirestore.CollectionGroup,
-		firestore: FirelordFirestore.Firestore,
+	<T extends MetaType>(
+		fStore: FirelordFirestore.Firestore,
 		collectionID: T['collectionID']
 	) =>
-	() => {
-		const ref = collectionGroup(firestore, collectionID)
-
-		return ref as Query<T>
+	(firestore?: FirelordFirestore.Firestore) => {
+		return collectionGroup_(
+			firestore || fStore,
+			collectionID as string
+		) as Query<T>
 	}

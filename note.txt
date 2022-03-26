@@ -8,6 +8,8 @@ newly discovered runtime error
 6. comparing direct array in query (this is prevented naturally by type engine)
 7. cursor with has x number of arguments must has at least x number of orderBy clause come before that cursor
 8. cannot use more than one '!=' filter (not documented directly or indirectly)
+9. When querying a collection group by documentId(), the value provided must result in a valid document path, and should has an odd number of segments (1).
+10. When querying a collection by documentId(), you must provide a plain document ID, but 'sandbox/a/b/c' contains a '/' character.
 
 new info 
 1. new limit/limitToLast clause will override old limit/limitToLast clause in query
@@ -16,5 +18,19 @@ new info
 4. firestore cannot store Nan
 
 limitation
-1. update and merge set operation break type, use it with care, there is nothing we can do other than using possibly undefined
-2. unable to union object type with other type except possibly undefined
+1. unable to union object type with other type except possibly undefined <- not exactly limitation but something that you shouldn't do
+2. collection reference unable to return the correct parent type due to MetaType self referencing limitation
+3. no autocomplete for where's value.
+4. working with documentId and where require to assert the value as const.
+5. no Record<number, any>
+
+anything where the input has nothing to do with document data type, is directly exported by FirelordJS without any change, they are:
+- loadBundle
+- clearIndexedDbPersistence
+- connectFirestoreEmulator
+- disableNetwork
+- enableIndexedDbPersistence
+- enableMultiTabIndexedDbPersistence
+- enableNetwork
+- onSnapshotsInSync
+- namedQuery

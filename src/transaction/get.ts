@@ -5,7 +5,7 @@ export const getCreator =
 	// @ts-expect-error
 	async reference => {
 		const ref = await transaction.get(
-			reference as FirelordFirestore.DocumentReference
+			reference as unknown as FirelordFirestore.DocumentReference
 		)
 		return ref
 	}

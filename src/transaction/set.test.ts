@@ -3,7 +3,7 @@ import {
 	readThenCompareWithWriteData,
 	generateRandomData,
 	initializeApp,
-	compareReadAndWriteData,
+	compareWriteDataWithDocSnapData,
 } from '../utilForTests'
 import { runTransaction } from '.'
 import { setDoc, getDoc } from '../operations'
@@ -40,7 +40,7 @@ describe('test set transaction', () => {
 		await setDoc(docRef, data)
 		await runTransaction(async transaction => {
 			const docSnap = await transaction.get(docRef)
-			compareReadAndWriteData(data, docSnap)
+			compareWriteDataWithDocSnapData(data, docSnap)
 		})
 	})
 	it('test delete functionality', async () => {

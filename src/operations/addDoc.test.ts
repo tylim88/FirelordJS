@@ -5,11 +5,23 @@ import { getDoc } from './getDoc'
 import {
 	userRefCreator,
 	initializeApp,
-	writeThenReadTest,
+	generateRandomData,
+	readThenCompareWithWriteData,
+	User,
 } from '../utilForTests'
+import { IsSame, IsTrue, DocumentReference } from '../types'
+
 initializeApp()
 const userRef = userRefCreator()
 describe('test addDoc', () => {
+	it('check return type', () => {
+		;async () => {
+			const docRef = await addDoc(userRef.collection(), generateRandomData())
+			type A = typeof docRef
+			type B = DocumentReference<User>
+			IsTrue<IsSame<A, B>>()
+		}
+	})
 	it('test wrong type', () => {
 		;() =>
 			addDoc(userRef.collection(), {
@@ -33,16 +45,12 @@ describe('test addDoc', () => {
 			})
 	})
 	it('test functionality', async () => {
-		await writeThenReadTest(async data => {
-			const ref = userRef.collection()
-			const docRef = await addDoc(ref, data)
-			await deleteDoc(docRef)
-			const docSnap = await getDoc(docRef)
-			expect(docSnap.exists()).toBe(false)
-			const docRef2 = await addDoc(ref, data)
-			const docSnap2 = await getDoc(docRef2)
-			expect(docSnap2.exists()).toBe(true)
-			return docRef2
-		})
+		const data = generateRandomData()
+		const ref = userRef.collection()
+		const docRef = await addDoc(ref, data)
+		await readThenCompareWithWriteData(data, docRef)
+		await deleteDoc(docRef)
+		const docSnap = await getDoc(docRef)
+		expect(docSnap.exists()).toBe(false)
 	})
 })

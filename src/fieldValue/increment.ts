@@ -1,5 +1,5 @@
 import { increment as increment_ } from 'firebase/firestore'
-import { NumberFieldValue } from '../types'
+import { Increment } from '../types'
 
 /**
 Returns a special value that can be used with @firebase/firestore/lite#(setDoc:1) or * @firebase/firestore/lite#(updateDoc:1) that tells the server to increment the field's current value by the given value.
@@ -14,5 +14,5 @@ If the current field value is not of type number, or if the field does not yet e
 The FieldValue sentinel for use in a call to setDoc() or updateDoc()
  */
 export const increment = (n: number) => {
-	return increment_(n) as unknown as NumberFieldValue
+	return increment_(n) as unknown as Increment
 }

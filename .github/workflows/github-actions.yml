@@ -1,4 +1,4 @@
-name: GitHub Actions
+name: Main
 on: [push]
 jobs:
   test:
@@ -22,19 +22,19 @@ jobs:
       env:
         PROJECT_ID: ${{ secrets.PROJECT_ID }}
     - uses: codecov/codecov-action@v2
-  # publish:
-  #   runs-on: ubuntu-latest
-  #   needs: test
-  #   if: github.ref == 'refs/heads/main'
-  #   steps:
-  #   - uses: actions/checkout@v3
-  #   - uses: actions/setup-node@v2
-  #     with:
-  #       node-version: '16.14'
-  #       cache: 'npm'
-  #       cache-dependency-path: '**/package-lock.json'
-  #       registry-url: 'https://registry.npmjs.org'
-  #   - run: npm i
-  #   - run: npm publish
-  #     env:
-  #         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+  publish:
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.ref == 'refs/heads/main'
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '16.14'
+        cache: 'npm'
+        cache-dependency-path: '**/package-lock.json'
+        registry-url: 'https://registry.npmjs.org'
+    - run: npm i
+    - run: npm publish
+      env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

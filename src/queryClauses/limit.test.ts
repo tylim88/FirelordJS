@@ -1,4 +1,6 @@
 import { limit } from './limit'
+
+// limit to last type also tested in orderBy
 describe('test limit type', () => {
 	it('test wide number type, should pass', () => {
 		;() => {

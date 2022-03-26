@@ -1,6 +1,6 @@
-import { updateDoc, Firelord, getFirelord } from 'firelordjs'
+import { updateDoc, MetaTypeCreator, getFirelord } from 'firelordjs'
 
-type abc = Firelord<
+type abc = MetaTypeCreator<
 	{
 		a: number
 		b: number
@@ -10,28 +10,37 @@ type abc = Firelord<
 	string
 >
 
-const firelord = getFirelord()
-
-const docRef = firelord<abc>('abc').doc('efg')
+const docRef = getFirelord<abc>()('abc').doc('efg')
 
 const abcd = { a: 1, b: 2, c: 3, d: 4 }
 
 updateDoc(
 	docRef,
-	// @ts-expect-error
-	{ a: 1, b: 2, c: 3, d: 4 } // good: type error!
+	{
+		a: 1,
+		b: 2,
+		c: 3, // @ts-expect-error
+		d: 4,
+	} // good: type error!
 )
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
 updateDoc(
-	docRef, // @ts-expect-error
+	docRef,
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	// @ts-expect-error
 	abcd // good: type error!
 )
 
@@ -42,7 +51,7 @@ updateDoc(docRef, {
 	b: undefined,
 }) // good: reject undefined!
 
-type abc2 = Firelord<
+type abc2 = MetaTypeCreator<
 	{
 		a: number
 		b: { c: number; d: number }
@@ -52,7 +61,7 @@ type abc2 = Firelord<
 	string
 >
 
-const docRef2 = getFirelord()<abc2>('abc').doc('efg')
+const docRef2 = getFirelord<abc2>()('abc').doc('efg')
 
 updateDoc(
 	docRef2,

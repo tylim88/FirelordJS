@@ -2,13 +2,13 @@ import {
 	FirelordFirestore,
 	TransactionDelete,
 	DocumentReference,
-	MetaTypes,
+	MetaType,
 } from '../types'
 
 export const deleteCreator = ((transaction: FirelordFirestore.Transaction) =>
-	(reference: DocumentReference<MetaTypes>) => {
+	(reference: DocumentReference<MetaType>) => {
 		const ref = transaction.delete(
-			reference as FirelordFirestore.DocumentReference
+			reference as unknown as FirelordFirestore.DocumentReference
 		)
 		return ref
 	}) as unknown as (

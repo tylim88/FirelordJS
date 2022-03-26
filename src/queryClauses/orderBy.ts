@@ -1,5 +1,5 @@
 import { orderBy as orderBy_ } from 'firebase/firestore'
-import { OrderByConstraint, FirelordFirestore } from '../types'
+import { OrderByConstraint, FirelordFirestore, MetaType } from '../types'
 
 /**
  * Creates a {@link QueryConstraint} that sorts the query result by the
@@ -11,16 +11,19 @@ import { OrderByConstraint, FirelordFirestore } from '../types'
  * @returns The created {@link Query}.
  */
 export const orderBy = <
-	FieldPath extends string,
+	T extends MetaType,
+	FieldPath extends keyof T['compare'] & string,
 	DirectionStr extends
 		| FirelordFirestore.OrderByDirection
 		| undefined = undefined
 >(
-	fieldPath: FieldPath,
-	directionStr?: DirectionStr
-) => {
-	return orderBy_(fieldPath, directionStr) as OrderByConstraint<
-		FieldPath,
-		DirectionStr
-	>
+	fieldPath: FieldPath extends never ? FieldPath : FieldPath,
+	directionStr?: DirectionStr extends never ? DirectionStr : DirectionStr
+): OrderByConstraint<T, FieldPath, DirectionStr> => {
+	return {
+		type: 'orderBy',
+		fieldPath,
+		directionStr: directionStr as DirectionStr,
+		ref: orderBy_(fieldPath, directionStr),
+	}
 }

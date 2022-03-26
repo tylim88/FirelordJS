@@ -1,19 +1,21 @@
-import { MetaTypes } from './creator'
+import { MetaType } from './metaTypeCreator'
 import { ErrorMoreThanOnceDocSnapshotInCursor } from './error'
 import { IsUnion } from './utils'
 import { CursorConstraint } from './queryConstraints'
 import { DocumentSnapshot } from './snapshot'
 
-export type Cursor = <T extends unknown[]>(
-	...snapshotOrFieldValues: T extends (infer R)[]
-		? DocumentSnapshot<MetaTypes> extends R
+export type CursorType = 'startAt' | 'startAfter' | 'endAt' | 'endBefore'
+
+export type Cursor<Type extends CursorType> = <Values extends unknown[]>(
+	...snapshotOrFieldValues: Values extends (infer R)[]
+		? DocumentSnapshot<MetaType> extends R
 			? IsUnion<R> extends false
-				? T extends [infer Head, ...infer Rest]
+				? Values extends [infer Head, ...infer Rest]
 					? Rest extends []
-						? T
+						? Values
 						: ErrorMoreThanOnceDocSnapshotInCursor
 					: never[]
 				: ErrorMoreThanOnceDocSnapshotInCursor
-			: T
-		: T
-) => CursorConstraint<T>
+			: Values
+		: Values
+) => CursorConstraint<Type, Values>

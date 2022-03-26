@@ -1,4 +1,4 @@
-import { ObjectFlattenHybrid } from './types'
+import { ObjectFlattenHybrid, FirelordFirestore, IsSame, IsTrue } from './types'
 
 // for update
 export const flatten = <T extends Record<string, unknown>>(object: T) => {
@@ -23,4 +23,18 @@ export const flatten = <T extends Record<string, unknown>>(object: T) => {
 	flat(object, '')
 
 	return obj as ObjectFlattenHybrid<T>
+}
+
+const firestore = 'firestore'
+const lite = 'firestore-lite'
+
+IsTrue<
+	IsSame<typeof firestore | typeof lite, FirelordFirestore.Firestore['type']>
+>()
+
+export const isFirestore = (
+	value: unknown
+): value is FirelordFirestore.Firestore => {
+	const v = value as Partial<FirelordFirestore.Firestore>
+	return v?.type === firestore || v?.type === lite
 }

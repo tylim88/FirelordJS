@@ -1,23 +1,21 @@
 import { FirelordFirestore } from './firelordFirestore'
 import {
 	ErrorFieldValueInArray,
-	ErrorEmptyDocumentOrCollectionID,
 	ErrorUnassignedAbleFieldValue,
 	NoUndefinedAndBannedTypes,
 	NoDirectNestedArray,
-	ErrorInvalidDocumentOrCollectionID,
-	ErrorInvalidDocumentOrCollectionIDStart,
 	ErrorPossiblyUndefinedAsArrayElement,
 	ErrorCollectionIDString,
 } from './error'
+import { IsValidID } from './validID'
 import {
 	FieldValues,
 	UnassignedAbleFieldValue,
-	ArrayFieldValue,
-	NumberFieldValue,
-	DeleteAbleFieldValue,
-	ServerTimestampFieldValue,
-	PossiblyReadAsUndefinedFieldValue,
+	ArrayUnionOrRemove,
+	Increment,
+	DeleteField,
+	ServerTimestamp,
+	PossiblyReadAsUndefined,
 } from './fieldValue'
 import { ObjectFlattenHybrid } from './objectFlatten'
 import {
@@ -26,7 +24,14 @@ import {
 } from './markUnionObjectAsError'
 import { NotTreatedAsObjectType } from './ref'
 
-export type MetaTypes = {
+export type IdAndPath = {
+	docID: string
+	collectionID: string
+	docPath: string
+	collectionPath: string
+}
+
+export type MetaType = {
 	collectionPath: string
 	collectionID: string
 	docID: string
@@ -36,55 +41,15 @@ export type MetaTypes = {
 	writeFlatten: Record<string, unknown>
 	compare: Record<string, unknown>
 	base: Record<string, unknown>
-	ancestors: { docID: string; collectionID: string }[]
+	parent: IdAndPath | null
+	ancestors: IdAndPath[]
 }
 
-type InvalidIDCharacter = '/' | '..'
-// ID type check is overkill, just for fun
-export type IsValidID<
-	ID extends string,
-	Mode extends 'Document' | 'Collection'
-> = ID extends NoUndefinedAndBannedTypes<ID, never>
-	? ID extends ''
-		? ErrorEmptyDocumentOrCollectionID<Mode>
-		: ID extends `.${infer Rest}`
-		? ErrorInvalidDocumentOrCollectionIDStart<Mode>
-		: ID extends `.`
-		? ErrorInvalidDocumentOrCollectionIDStart<Mode>
-		: ID extends `${infer Head}${infer Middle}${infer Tail}`
-		? Head extends InvalidIDCharacter
-			? ErrorInvalidDocumentOrCollectionID<Mode>
-			: Middle extends InvalidIDCharacter
-			? ErrorInvalidDocumentOrCollectionID<Mode>
-			: Tail extends InvalidIDCharacter
-			? ErrorInvalidDocumentOrCollectionID<Mode>
-			: ID
-		: ID extends `${infer Head}${infer Tail}`
-		? Head extends InvalidIDCharacter
-			? ErrorInvalidDocumentOrCollectionID<Mode>
-			: Tail extends InvalidIDCharacter
-			? ErrorInvalidDocumentOrCollectionID<Mode>
-			: ID
-		: ID extends `${infer Head}`
-		? Head extends InvalidIDCharacter
-			? ErrorInvalidDocumentOrCollectionID<Mode>
-			: ID
-		: ID
-	: NoUndefinedAndBannedTypes<ID, never>
-
-export type Creator<
+export type MetaTypeCreator<
 	Base extends Record<string, unknown>,
 	CollectionID extends string,
-	DocID extends string,
-	Parent extends {
-		collectionPath: string
-		docID: string
-		ancestors: { docID: string; collectionID: string }[]
-	} = {
-		collectionPath: never
-		docID: never
-		ancestors: never
-	},
+	DocID extends string = string,
+	Parent extends MetaType | null = null,
 	Settings extends {
 		allFieldsPossiblyUndefined?: boolean
 		banNull?: boolean
@@ -137,29 +102,43 @@ export type Creator<
 	collectionID: NoUndefinedAndBannedTypes<
 		string extends CollectionID
 			? ErrorCollectionIDString
-			: IsValidID<CollectionID, 'Collection'>,
+			: IsValidID<CollectionID, 'Collection', 'ID'>,
 		never
 	>
-	collectionPath: Parent extends {
-		collectionPath: never
-		docID: never
-	}
-		? CollectionID
-		: `${Parent['collectionPath']}/${Parent['docID']}/${CollectionID}`
-	docID: IsValidID<DocID, 'Document'>
-	docPath: Parent extends {
-		collectionPath: never
-		docID: never
-	}
-		? `${CollectionID}/${DocID}`
-		: `${Parent['collectionPath']}/${Parent['docID']}/${CollectionID}/${DocID}`
-	ancestors: Parent extends {
-		collectionPath: never
-		docID: never
-		ancestors: never
-	}
-		? [{ docID: DocID; collectionID: CollectionID }]
-		: [...Parent['ancestors'], { docID: DocID; collectionID: CollectionID }]
+	collectionPath: Parent extends MetaType
+		? `${Parent['collectionPath']}/${Parent['docID']}/${CollectionID}`
+		: CollectionID
+	docID: IsValidID<DocID, 'Document', 'ID'>
+	docPath: Parent extends MetaType
+		? `${Parent['collectionPath']}/${Parent['docID']}/${CollectionID}/${DocID}`
+		: `${CollectionID}/${DocID}`
+	parent: Parent
+	ancestors: Parent extends MetaType
+		? [
+				...Parent['ancestors'],
+				{
+					docID: DocID
+					collectionID: CollectionID
+					docPath: Parent extends MetaType
+						? `${Parent['collectionPath']}/${Parent['docID']}/${CollectionID}/${DocID}`
+						: `${CollectionID}/${DocID}`
+					collectionPath: Parent extends MetaType
+						? `${Parent['collectionPath']}/${Parent['docID']}/${CollectionID}`
+						: CollectionID
+				}
+		  ]
+		: [
+				{
+					docID: DocID
+					collectionID: CollectionID
+					docPath: Parent extends MetaType
+						? `${Parent['collectionPath']}/${Parent['docID']}/${CollectionID}/${DocID}`
+						: `${CollectionID}/${DocID}`
+					collectionPath: Parent extends MetaType
+						? `${Parent['collectionPath']}/${Parent['docID']}/${CollectionID}`
+						: CollectionID
+				}
+		  ]
 }
 
 type ReadConverterArray<
@@ -178,7 +157,7 @@ type ReadConverterArray<
 		?
 				| FirelordFirestore.Timestamp
 				| (InArray extends true ? never : AllFieldsPossiblyUndefined)
-		: T extends PossiblyReadAsUndefinedFieldValue
+		: T extends PossiblyReadAsUndefined
 		? InArray extends true
 			? ErrorPossiblyUndefinedAsArrayElement
 			: undefined
@@ -209,9 +188,9 @@ type ReadConverter<T, AllFieldsPossiblyUndefined, BannedTypes> =
 							true
 					  >[]
 					| AllFieldsPossiblyUndefined
-			: T extends ServerTimestampFieldValue | Date | FirelordFirestore.Timestamp
+			: T extends ServerTimestamp | Date | FirelordFirestore.Timestamp
 			? FirelordFirestore.Timestamp | AllFieldsPossiblyUndefined
-			: T extends DeleteAbleFieldValue | PossiblyReadAsUndefinedFieldValue
+			: T extends DeleteField | PossiblyReadAsUndefined
 			? undefined
 			: T extends UnassignedAbleFieldValue
 			? ErrorUnassignedAbleFieldValue
@@ -237,7 +216,7 @@ type CompareConverterArray<T, BannedTypes> = NoDirectNestedArray<T> extends T
 		? ErrorFieldValueInArray
 		: T extends Date | FirelordFirestore.Timestamp
 		? FirelordFirestore.Timestamp | Date
-		: T extends PossiblyReadAsUndefinedFieldValue
+		: T extends PossiblyReadAsUndefined
 		? never
 		: T extends NotTreatedAsObjectType
 		? T
@@ -251,11 +230,11 @@ type CompareConverterArray<T, BannedTypes> = NoDirectNestedArray<T> extends T
 type CompareConverter<T, BannedTypes> = NoDirectNestedArray<T> extends T
 	? T extends (infer A)[]
 		? CompareConverterArray<A, BannedTypes>[]
-		: T extends ServerTimestampFieldValue | Date | FirelordFirestore.Timestamp
+		: T extends ServerTimestamp | Date | FirelordFirestore.Timestamp
 		? FirelordFirestore.Timestamp | Date
 		: T extends UnassignedAbleFieldValue
 		? ErrorUnassignedAbleFieldValue
-		: T extends PossiblyReadAsUndefinedFieldValue | DeleteAbleFieldValue
+		: T extends PossiblyReadAsUndefined | DeleteField
 		? never
 		: T extends NotTreatedAsObjectType
 		? T
@@ -273,7 +252,7 @@ type ArrayWriteConverter<T, BannedTypes> = NoDirectNestedArray<T> extends T
 		? ErrorFieldValueInArray
 		: T extends FirelordFirestore.Timestamp | Date
 		? FirelordFirestore.Timestamp | Date
-		: T extends PossiblyReadAsUndefinedFieldValue
+		: T extends PossiblyReadAsUndefined
 		? never
 		: T extends NotTreatedAsObjectType
 		? T
@@ -288,20 +267,20 @@ type WriteConverter<T, BannedTypes> = NoDirectNestedArray<T> extends T
 	? T extends (infer A)[]
 		?
 				| ArrayWriteConverter<A, BannedTypes>[]
-				| ArrayFieldValue<ArrayWriteConverter<A, BannedTypes>>
-		: T extends ServerTimestampFieldValue
-		? ServerTimestampFieldValue
+				| ArrayUnionOrRemove<ArrayWriteConverter<A, BannedTypes>>
+		: T extends ServerTimestamp
+		? ServerTimestamp
 		: T extends number
 		? number extends T
-			? T | NumberFieldValue
+			? T | Increment
 			: T
-		: T extends DeleteAbleFieldValue
-		? DeleteAbleFieldValue
+		: T extends DeleteField
+		? DeleteField
 		: T extends UnassignedAbleFieldValue
 		? ErrorUnassignedAbleFieldValue
 		: T extends FirelordFirestore.Timestamp | Date
 		? FirelordFirestore.Timestamp | Date
-		: T extends PossiblyReadAsUndefinedFieldValue
+		: T extends PossiblyReadAsUndefined
 		? never
 		: T extends NotTreatedAsObjectType
 		? T

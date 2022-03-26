@@ -1,4 +1,4 @@
-import { MetaTypes } from './creator'
+import { MetaType } from './metaTypeCreator'
 import { DocumentReference } from './ref'
 import { DocumentSnapshot } from './snapshot'
 /**
@@ -11,6 +11,6 @@ Note: getDoc() attempts to provide up-to-date data when possible by waiting for 
 @returns
 A Promise resolved with a DocumentSnapshot containing the current document contents.
 */
-export type Get = <T extends MetaTypes>(
+export type Get = <T extends MetaType>(
 	reference: DocumentReference<T>
 ) => Promise<DocumentSnapshot<T>>

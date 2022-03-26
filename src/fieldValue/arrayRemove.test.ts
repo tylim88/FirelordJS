@@ -1,13 +1,13 @@
 import { getFirelord } from '..'
 import { setDoc, getDoc, updateDoc } from '../operations'
 import { initializeApp } from '../utilForTests'
-import { Creator } from '../types'
+import { MetaTypeCreator } from '../types'
 import { arrayRemove } from './arrayRemove'
 
 initializeApp()
 describe('test arrayRemove', () => {
 	const ref =
-		getFirelord()<Creator<{ a: number[] }, 'arrayRemove', string>>(
+		getFirelord<MetaTypeCreator<{ a: number[] }, 'arrayRemove', string>>()(
 			'arrayRemove'
 		)
 	const docRef = ref.doc('arrayRemove')

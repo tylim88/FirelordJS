@@ -62,8 +62,8 @@ it('test data type with estimate option', () => {
 it('test data type with previous option', () => {
 	;() => {
 		const target = documentSnapshot.data({ serverTimestamps: 'previous' })
-		type A = typeof target
-		type B = User['read'] | undefined
+		type A = NonNullable<typeof target>['a']['k']
+		type B = User['read']['a']['k'] | undefined | null
 		IsTrue<IsSame<A, B>>()
 	}
 })
@@ -91,7 +91,7 @@ it('test get type with previous option', () => {
 			serverTimestamps: 'previous',
 		})
 		type A = typeof target
-		type B = User['read']['a']['k'] | undefined
+		type B = User['read']['a']['k'] | undefined | null
 		IsTrue<IsSame<A, B>>()
 	}
 })

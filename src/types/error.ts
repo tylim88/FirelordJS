@@ -17,17 +17,30 @@ export type ErrorDeleteFieldMerge<Key extends string> =
 export type ErrorDeleteFieldMergeField<Key extends string> =
 	`Error: To use deleteField, please include the field path <${Key &
 		string}> in the \`mergeFields\` of the options parameter`
+export type ErrorPleaseDoConstAssertion =
+	`Error: Please assert the value as const eg:( 'a' as const )`
 export type ErrorCollectionIDString =
 	'Error: Collection ID type cannot be string'
+export type ErrorEndOfID =
+	'Error: ID or Path cannot end in a forward slash ( / )'
 export type ErrorInvalidDocumentOrCollectionID<
-	T extends 'Document' | 'Collection'
-> = `Error: ${T} ID cannot contains forward slash \`/\` and double dots \`..\` `
+	T extends 'Document' | 'Collection',
+	Type extends 'ID' | 'Path'
+> = `Error: ${T} ${Type} cannot contains ${Type extends 'ID'
+	? 'forward slash ( / ), '
+	: ''}double dots ( .. ) and double underscore ( __ )`
 export type ErrorInvalidDocumentOrCollectionIDStart<
 	T extends 'Document' | 'Collection'
-> = `Error: ${T} ID cannot start with a dot \`.\``
+> = `Error: ${T} ID cannot start with a dot ( . )`
 export type ErrorEmptyDocumentOrCollectionID<
 	T extends 'Document' | 'Collection'
 > = `Error: ${T} ID is empty`
+export type ErrorNumberOfForwardSlashIsNotEqual<
+	Correct extends number,
+	Current extends number
+> = `Error: ${Current extends 0
+	? `You need to assert your value for documentId() as const, eg: ( 'a/b/c' as const ) or else the forward slash count would be 0`
+	: `Invalid query, forward slash count mismatched`}, current count is ${Current}, need ${Correct}.`
 export type ErrorEmptyUpdate = 'Error: Update data is an empty object literal'
 export type ErrorPossiblyUndefinedAsArrayElement =
 	`Error: You cannot assign PossiblyUndefined as array element, eg: ( PossiblyUndefined[] ), you can however indirectly assign PossiblyUndefined in array, eg: < { a : number | PossiblyUndefined }[] >`
@@ -35,16 +48,10 @@ export type ErrorMoreThanOnceDocSnapshotInCursor =
 	'Error: If Document Snapshot exist in cursor, there can be only one and only Document Snapshot in the argument'
 export type ErrorLimitInvalidNumber =
 	'Error: do not use negative, 0 or decimal value'
-export type ErrorInvalidWhereCompareValue =
-	`Error: Incorrect value to compare type, make sure the value to compare type is correct`
 export type ErrorLimitToLastOrderBy =
 	'Error: You must specify at least one orderBy clause for limitToLast queries'
-export type ErrorInvalidWhereCompareValueArrayVersion =
-	`Error: ( not-in ) and ( in ) require the value to compare to be array version of that value, eg if the data type is ( string ), then the value to compare type must be ( string[] )`
 export type ErrorInvalidWhereCompareValueMustBeArray =
 	`Error: You can only use ( array-contains ) and ( array-contains-any ) on array data type`
-export type ErrorInvalidWhereFieldValueMustBeElementOfArray =
-	`Error: the value to compare for ( array-contains ) comparator must be element of an array data type, eg if the data type is ( string[] ), then the value to compare type must be ( string )`
 export type ErrorOrderByAndInEqualityWhere<
 	OrderByField extends string,
 	WhereField extends string
@@ -68,6 +75,11 @@ export type ErrorCursorTooManyArguments =
 	`Error: Too many arguments provided to startAt/startAfter/endAt/endBefore(). The number of arguments must be less than or equal to the number of orderBy() clauses than come before it`
 export type ErrorUnknownMember<T> =
 	`Error: Please remove the unknown member ( ${T & string} )`
+export type ErrorWhereDocumentFieldPath =
+	'If field path is document ID, then value must be string'
+export type ErrorWhere__name__ =
+	"Error: Dont use ( __name__ ) directly as where's field path, use documentId() sentinel field path instead."
+
 export type ErrorMsgs =
 	| ErrorUndefined
 	| ErrorNullBanned
@@ -80,14 +92,16 @@ export type ErrorMsgs =
 	| ErrorUnionInvolveObjectType
 	| ErrorDeleteFieldMerge<string>
 	| ErrorDeleteFieldMergeField<string>
+	| ErrorNumberOfForwardSlashIsNotEqual<number, number>
+	| ErrorPleaseDoConstAssertion
+	| ErrorEndOfID
 	| ErrorCollectionIDString
-	| ErrorInvalidDocumentOrCollectionID<'Document' | 'Collection'>
+	| ErrorInvalidDocumentOrCollectionID<'Document' | 'Collection', 'ID' | 'Path'>
 	| ErrorInvalidDocumentOrCollectionIDStart<'Document' | 'Collection'>
 	| ErrorEmptyUpdate
 	| ErrorMoreThanOnceDocSnapshotInCursor
 	| ErrorLimitInvalidNumber
 	| ErrorLimitToLastOrderBy
-	| ErrorInvalidWhereCompareValue
 	| ErrorOrderByAndInEqualityWhere<string, string>
 	| ErrorInvalidWhereCompareValueMustBeArray
 	| ErrorOrderByEqualityWhere
@@ -96,8 +110,9 @@ export type ErrorMsgs =
 	| ErrorWhereInequalityOpStrSameField
 	| ErrorWhereOnlyOneNotEqual
 	| ErrorCursorTooManyArguments
-	| ErrorInvalidWhereCompareValueArrayVersion
 	| ErrorUnknownMember<string>
+	| ErrorWhereDocumentFieldPath
+	| ErrorWhere__name__
 
 export type NoUndefinedAndBannedTypes<Data, BannedTypes> =
 	Data extends undefined

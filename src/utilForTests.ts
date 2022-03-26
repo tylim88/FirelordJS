@@ -1,17 +1,19 @@
 import { getFirelord } from '.'
 import { Timestamp } from 'firebase/firestore'
 import {
-	Creator,
-	ServerTimestampFieldValue,
+	MetaTypeCreator,
+	ServerTimestamp,
 	DocumentReference,
-	DeleteAbleFieldValue,
+	DeleteField,
 	DocumentSnapshot,
 } from './types'
 import { initializeApp as initializeApp_ } from 'firebase/app'
 import pick from 'pick-random'
 import betwin from 'betwin'
-import { getDoc } from './operations'
+import { getDoc, getDocFromCache, getDocFromServer } from './operations'
 import { flatten } from './utils'
+import { cloneDeep } from 'lodash'
+import { snapshotEqual } from './equal'
 
 export const initializeApp = () => {
 	const env = process.env
@@ -22,10 +24,7 @@ export const initializeApp = () => {
 }
 import { arrayUnion, increment, serverTimestamp } from './fieldValue'
 
-export const userRefCreator = () =>
-	getFirelord()<User>(`topLevel/FirelordTest/Users`)
-
-export type Parent = Creator<
+export type Parent = MetaTypeCreator<
 	{
 		a: 1
 	},
@@ -33,7 +32,7 @@ export type Parent = Creator<
 	'FirelordTest'
 >
 
-export type User = Creator<
+export type User = MetaTypeCreator<
 	{
 		age: number
 		beenTo: (
@@ -44,18 +43,19 @@ export type User = Creator<
 		role: 'admin' | 'editor' | 'visitor'
 		a: {
 			b: { c: number; f: { g: boolean; h: Date; m: number }[] }
-			i: { j: number | DeleteAbleFieldValue; l: Date }
+			i: { j: number | DeleteField; l: Date }
 			e: string[]
-			k: ServerTimestampFieldValue | DeleteAbleFieldValue
+			k: ServerTimestamp | DeleteField
 		}
 	},
 	'Users',
 	string,
 	Parent
 >
+export const userRefCreator = () =>
+	getFirelord<User>()(`topLevel/FirelordTest/Users`)
 
 export const generateRandomData = (): User['write'] => {
-	// do not change the value here as many tests depend on it
 	const beenTo = (pick([[{ China: ['Guangdong'] }], [{ US: ['california'] }]], {
 		count: pick([1, 2])[0],
 	})[0] || []) as (
@@ -90,26 +90,19 @@ export const generateRandomData = (): User['write'] => {
 	return { beenTo, name, role, age, a }
 }
 
-export const readThenCompareWithWriteData = async (
-	writeData: User['write'],
-	ref: DocumentReference<User>
-) => {
-	const docSnap = await getDoc(ref)
-	compareReadAndWriteData(writeData, docSnap)
-}
-
-export const compareReadAndWriteData = (
+export const compareWriteDataWithDocSnapData = (
 	writeData: User['write'],
 	docSnap: DocumentSnapshot<User>
 ) => {
+	const data = cloneDeep(writeData)
 	const readData = docSnap.data()
 	const exists = docSnap.exists()
 	expect(exists).toBe(true)
 	expect(readData).not.toBe(undefined)
 	if (readData) {
 		// convert date
-		writeData.a.b.f = (
-			writeData.a.b.f as {
+		data.a.b.f = (
+			data.a.b.f as {
 				g: boolean
 				h: Date | Timestamp
 				m: number
@@ -119,12 +112,12 @@ export const compareReadAndWriteData = (
 			return item
 		})
 		// convert field value
-		writeData.a.i.l = Timestamp.fromDate(writeData.a.i.l as Date)
-		writeData.a.e = docSnap.get('a.e') as string[]
-		writeData.a.i.j = docSnap.get('a.i.j') as number
-		writeData.a.k = docSnap.get('a.k') as unknown as ServerTimestampFieldValue
+		data.a.i.l = Timestamp.fromDate(data.a.i.l as Date)
+		data.a.e = docSnap.get('a.e') as string[]
+		data.a.i.j = docSnap.get('a.i.j') as number
+		data.a.k = docSnap.get('a.k') as unknown as ServerTimestamp
 
-		expect(readData).toEqual(writeData)
+		expect(readData).toEqual(data)
 
 		const fieldPaths: Parameters<typeof docSnap.get>[0][] = [
 			'age',
@@ -146,6 +139,27 @@ export const compareReadAndWriteData = (
 			})
 		})
 	}
+}
+
+export const readThenCompareWithWriteData = async (
+	writeData: User['write'],
+	ref: DocumentReference<User>
+) => {
+	const docSnap = await getDoc(ref)
+	const docSnapServer = await getDocFromServer(ref)
+
+	expect(snapshotEqual(docSnapServer, docSnap)).toBe(true)
+
+	const arr = [docSnap, docSnapServer]
+	arr.forEach(dSnap =>
+		compareWriteDataWithDocSnapData(cloneDeep(writeData), dSnap)
+	)
+	// https://stackoverflow.com/questions/70315073/firestore-web-version-9-modular-getdocsfromcache-seems-not-working
+	// persistence are disable by default for web
+	// cannot enable persistence without browser indexedDB
+	// unable to test with cache, will error for getDoc
+	// expect async throw https://stackoverflow.com/a/54585620/5338829
+	await expect(getDocFromCache(ref)).rejects.toThrow()
 }
 
 export const writeThenReadTest = async (

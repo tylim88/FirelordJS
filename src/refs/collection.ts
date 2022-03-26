@@ -1,13 +1,14 @@
-import { MetaTypes, CollectionReference, FirelordFirestore } from '../types'
+import { MetaType, CollectionReference, FirelordFirestore } from '../types'
+import { collection as collection_ } from 'firebase/firestore'
 
 export const collectionCreator =
-	<T extends MetaTypes>(
-		collection: FirelordFirestore.Collection,
-		firestore: FirelordFirestore.Firestore,
+	<T extends MetaType>(
+		fStore: FirelordFirestore.Firestore,
 		collectionPath: T['collectionPath']
 	) =>
-	() => {
-		const ref = collection(firestore, collectionPath)
-
-		return ref as CollectionReference<T>
+	(firestore?: FirelordFirestore.Firestore) => {
+		return collection_(
+			firestore || fStore,
+			collectionPath as string
+		) as unknown as CollectionReference<T>
 	}

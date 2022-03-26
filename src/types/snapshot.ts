@@ -1,7 +1,7 @@
 // ! snapshot type is not sharable across V8 and V9
 // ! possibly problematic if firestore add new props
 
-import { MetaTypes } from './creator'
+import { MetaType } from './metaTypeCreator'
 import { FirelordFirestore } from './firelordFirestore'
 import {
 	UnionReadServerTimestampWithNullFlatten,
@@ -9,7 +9,7 @@ import {
 } from './unionReadTimestampWithNull'
 import { DocumentReference, Query } from './ref'
 
-export interface DocumentSnapshot<T extends MetaTypes> {
+export interface DocumentSnapshot<T extends MetaType> {
 	/**
 	 *  Metadata about the `DocumentSnapshot`, including information about its
 	 *  source and local modifications.
@@ -74,7 +74,7 @@ export interface DocumentSnapshot<T extends MetaTypes> {
 	get ref(): DocumentReference<T>
 }
 
-export interface QuerySnapshot<T extends MetaTypes> {
+export interface QuerySnapshot<T extends MetaType> {
 	/**
 	 * Metadata about this snapshot, concerning its source and if it has local
 	 * modifications.
@@ -116,7 +116,7 @@ export interface QuerySnapshot<T extends MetaTypes> {
 	): Array<DocumentChange<T>>
 }
 
-export interface QueryDocumentSnapshot<T extends MetaTypes>
+export interface QueryDocumentSnapshot<T extends MetaType>
 	extends DocumentSnapshot<T> {
 	/**
 	 * Retrieves all fields in the document as an `Object`.
@@ -136,7 +136,7 @@ export interface QueryDocumentSnapshot<T extends MetaTypes>
 	) => UnionReadServerTimestampWithNull<T, SnapshotOptions>
 }
 
-export interface DocumentChange<T extends MetaTypes> {
+export interface DocumentChange<T extends MetaType> {
 	/** The type of change ('added', 'modified', or 'removed'). */
 	readonly type: FirelordFirestore.DocumentChangeType
 	/** The document affected by this change. */

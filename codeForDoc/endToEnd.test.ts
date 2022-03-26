@@ -2,8 +2,8 @@ import {
 	initializeApp,
 	generateRandomData,
 	readThenCompareWithWriteData,
-	writeThenReadTest,
-	compareReadAndWriteData,
+	compareWriteDataWithDocSnapData,
+	User,
 } from '../src/utilForTests'
 import {
 	setDoc,
@@ -19,33 +19,12 @@ import {
 	onSnapshot,
 	runTransaction,
 	getFirestore,
-	Firelord,
-	DeleteAbleFieldValue,
-	ServerTimestampFieldValue,
 	writeBatch,
 } from 'firelordjs'
 
 initializeApp()
-export type User = Firelord<
-	{
-		age: number
-		beenTo: (
-			| Record<'US', ('Hawaii' | 'California')[]>
-			| Record<'China', ('Guangdong' | 'Shanghai')[]>
-		)[]
-		name: string
-		role: 'admin' | 'editor' | 'visitor'
-		a: {
-			b: { c: number; f: { g: boolean; h: Date; m: number }[] }
-			i: { j: number | DeleteAbleFieldValue; l: Date }
-			e: string[]
-			k: ServerTimestampFieldValue | DeleteAbleFieldValue
-		}
-	},
-	'FirelordJSEndToEnd',
-	string
->
-const userRef = getFirelord()<User>('FirelordJSEndToEnd')
+
+const userRef = getFirelord<User>()('topLevel/FirelordTest/Users')
 describe('end to end test', () => {
 	it('test updateDoc, setDoc, and delete field', async () => {
 		const data = generateRandomData()
@@ -65,17 +44,13 @@ describe('end to end test', () => {
 		await readThenCompareWithWriteData(data, ref)
 	})
 	it('test addDoc and deleteDoc', async () => {
-		await writeThenReadTest(async data => {
-			const ref = userRef.collection()
-			const docRef = await addDoc(ref, data)
-			await deleteDoc(docRef)
-			const docSnap = await getDoc(docRef)
-			expect(docSnap.exists()).toBe(false)
-			const docRef2 = await addDoc(ref, data)
-			const docSnap2 = await getDoc(docRef2)
-			expect(docSnap2.exists()).toBe(true)
-			return docRef2
-		})
+		const data = generateRandomData()
+		const ref = userRef.collection()
+		const docRef = await addDoc(ref, data)
+		await readThenCompareWithWriteData(data, docRef)
+		await deleteDoc(docRef)
+		const docSnap = await getDoc(docRef)
+		expect(docSnap.exists()).toBe(false)
 	})
 
 	it('test getDOcs', async () => {
@@ -96,7 +71,7 @@ describe('end to end test', () => {
 		expect(querySnapshot.docs.length).toBe(1)
 		expect(queryDocumentSnapshot).not.toBe(undefined)
 		if (queryDocumentSnapshot) {
-			await compareReadAndWriteData(data, queryDocumentSnapshot)
+			await compareWriteDataWithDocSnapData(data, queryDocumentSnapshot)
 		}
 	})
 	it('test onSnapshot', done => {
@@ -114,11 +89,12 @@ describe('end to end test', () => {
 					expect(querySnapshot.docs.length).toBe(1)
 					expect(queryDocumentSnapshot).not.toBe(undefined)
 					if (queryDocumentSnapshot) {
-						await compareReadAndWriteData(data, queryDocumentSnapshot)
+						await compareWriteDataWithDocSnapData(data, queryDocumentSnapshot)
 					}
 					unsub()
 					done()
 				},
+				// @ts-expect-error
 				{ includeMetadataChanges: false },
 				{ includeMetadataChanges: true }
 			)
@@ -159,7 +135,7 @@ describe('end to end test', () => {
 		await setDoc(docRef, data)
 		await runTransaction(async transaction => {
 			const docSnap = await transaction.get(docRef)
-			compareReadAndWriteData(data, docSnap)
+			compareWriteDataWithDocSnapData(data, docSnap)
 		})
 	})
 	it('test batch update, delete field', async () => {

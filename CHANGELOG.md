@@ -1,7 +1,7 @@
 # HISTORY
 
-## 1.0
+## v1.0 26-Mar-22
 
-preparing...
+V1.0 released
 
 [Change log before v1.0](https://github.com/tylim88/Firelord/blob/main/CHANGELOG.md)

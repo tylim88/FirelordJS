@@ -1,10 +1,12 @@
 import { query as query_ } from 'firebase/firestore'
 import {
-	MetaTypes,
+	MetaType,
 	Query,
 	CollectionReference,
 	QueryConstraints,
 	QueryConstraintLimitation,
+	AddSentinelFieldPathToCompare,
+	AddSentinelFieldPathToCompareHighLevel,
 } from '../types'
 
 /**
@@ -16,15 +18,31 @@ import {
  * @throws if any of the provided query constraints cannot be combined with the
  * existing or new constraints.
  */
-export const query = <T extends MetaTypes, QC extends QueryConstraints<T>[]>(
-	query: Query<T> | CollectionReference<T>,
+export const query = <
+	T extends MetaType,
+	Q extends Query<T> | CollectionReference<T>,
+	QC extends QueryConstraints<AddSentinelFieldPathToCompare<T>>[]
+>(
+	query: Q extends never
+		? Q
+		: Q extends Query<T>
+		? Query<T>
+		: Q extends CollectionReference<T>
+		? CollectionReference<T>
+		: never, // has to code this way to infer T perfectly without union Query<T> | CollectionReference<T>
 	...queryConstraints: QC extends never
 		? QC
-		: QueryConstraintLimitation<T, QC, [], QC>
+		: QueryConstraintLimitation<
+				AddSentinelFieldPathToCompare<T>,
+				AddSentinelFieldPathToCompareHighLevel<T, Q>,
+				QC,
+				[],
+				QC
+		  >
 ) => {
 	return query_(
 		// @ts-expect-error
 		query,
-		...queryConstraints
+		...queryConstraints.map(qc => qc.ref)
 	) as Query<T>
 }

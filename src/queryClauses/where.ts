@@ -1,5 +1,12 @@
 import { where as where_ } from 'firebase/firestore'
-import { WhereConstraint, FirelordFirestore } from '../types'
+import {
+	WhereConstraint,
+	FirelordFirestore,
+	DocumentId,
+	__name__,
+	MetaType,
+	ErrorWhere__name__,
+} from '../types'
 
 /**
  * Creates a {@link QueryConstraint} that enforces that documents must contain the
@@ -13,11 +20,12 @@ import { WhereConstraint, FirelordFirestore } from '../types'
  * @returns The created {@link Query}.
  */
 export const where = <
-	FieldPath extends string,
+	T extends MetaType,
+	FieldPath extends (keyof T['writeFlatten'] & string) | DocumentId,
 	OpStr extends FirelordFirestore.WhereFilterOp,
 	Value
 >(
-	fieldPath: FieldPath,
+	fieldPath: FieldPath extends __name__ ? ErrorWhere__name__ : FieldPath,
 	opStr: OpStr,
 	value: Value
 ) => {
@@ -31,8 +39,21 @@ export const where = <
 			'This is a very long string to prevent collision: %$GE&^G^*(N Y(&*T^VR&%R&^TN&*^RMN$BEDF^R%TFG%I%TFDH%(UI<)(UKJ^HGFEC#DR^T*&#$%(<RGFESAXSCVBGNHM(&%T^BTNRV%ITB^TJNTN^T^*T',
 		] as typeof newValue
 	}
-	return where_(fieldPath, opStr, newValue) as WhereConstraint<
-		FieldPath,
+
+	return {
+		type: 'where',
+		fieldPath: fieldPath as string,
+		opStr,
+		value,
+		ref: where_(
+			// @ts-expect-error
+			fieldPath,
+			opStr,
+			newValue
+		),
+	} as WhereConstraint<
+		T,
+		FieldPath extends DocumentId ? __name__ : FieldPath,
 		OpStr,
 		Value
 	>

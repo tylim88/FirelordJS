@@ -1,13 +1,13 @@
 // ! ref type is not sharable across V8 and V9
 // ! possibly problematic if firestore add new props
 
-import { MetaTypes } from './creator'
+import { MetaType } from './metaTypeCreator'
 import { FirelordFirestore } from './firelordFirestore'
 import { Get } from './get'
 import { TransactionSet, WriteBatchSet } from './set'
 import { TransactionUpdate, WriteBatchUpdate } from './update'
 import { TransactionDelete, WriteBatchDelete } from './delete'
-export interface DocumentReference<T extends MetaTypes> {
+export interface DocumentReference<T extends MetaType> {
 	/** The type of this Firestore reference. */
 	readonly type: 'document'
 	/**
@@ -18,36 +18,36 @@ export interface DocumentReference<T extends MetaTypes> {
 	/**
 	 * The document's identifier within its collection.
 	 */
-	get id(): string
+	get id(): T['docID']
 	/**
 	 * A string representing the path of the referenced document (relative
 	 * to the root of the database).
 	 */
-	get path(): string
+	get path(): T['docPath']
 	/**
 	 * The collection this `DocumentReference` belongs to.
 	 */
 	get parent(): CollectionReference<T>
 }
 
-export interface CollectionReference<T extends MetaTypes> {
+export interface CollectionReference<T extends MetaType> {
 	/** The type of this Firestore reference. */
 	readonly type: 'collection'
 	/** The collection's identifier. */
-	get id(): string
+	get id(): T['docID']
 	/**
 	 * A string representing the path of the referenced collection (relative
 	 * to the root of the database).
 	 */
-	get path(): string
+	get path(): T['docPath']
 	/**
 	 * A reference to the containing `DocumentReference` if this is a
 	 * subcollection. If this isn't a subcollection, the reference is null.
 	 */
-	get parent(): DocumentReference<T> | null
+	get parent(): 'Message: Due to limitation, type casting DocumentReference<Parent> is needed here' // ! limitation
 }
 
-export interface Query<T extends MetaTypes> {
+export interface Query<T extends MetaType> {
 	/** The type of this Firestore reference. */
 	readonly type: 'query' | 'collection'
 	/**
@@ -149,4 +149,4 @@ export interface WriteBatch {
 	commit(): Promise<void>
 }
 
-export type NotTreatedAsObjectType = DocumentReference<MetaTypes>
+export type NotTreatedAsObjectType = DocumentReference<MetaType>
