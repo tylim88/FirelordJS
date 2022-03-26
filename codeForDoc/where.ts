@@ -101,7 +101,7 @@ query(
 	// @ts-expect-error
 	where(documentId(), '==', 'parent/abc/child' as const)
 ) // bad: count mismatched
-query(groupRef, where(documentId(), '==', 'parent/abc/child/xyz' as const)) // good: with const assertion and correct type
+query(groupRef, where(documentId(), '==', 'parent/abc/child/xyz' as const)) // good: count matched and correct type
 //
 //
 //
