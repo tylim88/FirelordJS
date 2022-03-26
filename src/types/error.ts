@@ -38,7 +38,9 @@ export type ErrorEmptyDocumentOrCollectionID<
 export type ErrorNumberOfForwardSlashIsNotEqual<
 	Correct extends number,
 	Current extends number
-> = `Error: Invalid query, you need to assert your value as const, eg: ( "a/b/c" as const ) so Typescript can infer the type correctly or else the forward slash count would be 0, current count is ${Current}, need ${Correct}.`
+> = `Error: ${Current extends 0
+	? `You need to assert your value for documentId() as const, eg: ( 'a/b/c' as const ) or else the forward slash count would be 0`
+	: `Invalid query, forward slash count mismatched`}, current count is ${Current}, need ${Correct}.`
 export type ErrorEmptyUpdate = 'Error: Update data is an empty object literal'
 export type ErrorPossiblyUndefinedAsArrayElement =
 	`Error: You cannot assign PossiblyUndefined as array element, eg: ( PossiblyUndefined[] ), you can however indirectly assign PossiblyUndefined in array, eg: < { a : number | PossiblyUndefined }[] >`

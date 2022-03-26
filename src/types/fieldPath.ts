@@ -19,6 +19,15 @@ export type AddSentinelFieldPathToCompare<T extends MetaType> = StrictOmit<
 	}
 }
 
+export type AddSentinelFieldPathToCompareHighLevel<
+	T extends MetaType,
+	Q extends Query<T> | CollectionReference<T>
+> = Q extends Query<T>
+	? Query<AddSentinelFieldPathToCompare<T>>
+	: Q extends CollectionReference<T>
+	? CollectionReference<AddSentinelFieldPathToCompare<T>>
+	: never // impossible route
+
 export type RemoveSentinelFieldPathFromCompare<T extends MetaType> = StrictOmit<
 	T,
 	'compare'
@@ -38,31 +47,21 @@ export type GetCorrectDocumentIdBasedOnRef<
 		? Q extends CollectionReference<T>
 			? string extends Value
 				? ErrorPleaseDoConstAssertion
-				: IsValidID<
-						Value,
-						'Document',
-						Q extends Query<T>
-							? 'Path'
-							: Q extends CollectionReference<T>
-							? 'ID'
-							: never // impossible route
+				: Value extends T['docID']
+				? IsValidID<Value, 'Document', 'ID'>
+				: T['docID']
+			: Q extends Query<T>
+			? string extends Value
+				? ErrorPleaseDoConstAssertion
+				: GetNumberOfSlash<Value> extends GetNumberOfSlash<T['docPath']>
+				? Value extends T['docPath']
+					? IsValidID<Value, 'Document', 'Path'> // !
+					: T['docPath']
+				: ErrorNumberOfForwardSlashIsNotEqual<
+						GetNumberOfSlash<T['docPath']>,
+						GetNumberOfSlash<Value>
 				  >
-			: GetNumberOfSlash<Value> extends GetNumberOfSlash<T['docPath']>
-			? Value extends T['docPath']
-				? IsValidID<
-						Value,
-						'Document',
-						Q extends Query<T>
-							? 'Path'
-							: Q extends CollectionReference<T>
-							? 'ID'
-							: never // impossible route
-				  >
-				: T['docPath']
-			: ErrorNumberOfForwardSlashIsNotEqual<
-					GetNumberOfSlash<T['docPath']>,
-					GetNumberOfSlash<Value>
-			  >
+			: never // impossible route
 		: DocumentReference<RemoveSentinelFieldPathFromCompare<T>>
 	: FieldPath extends string
 	? T['compare'][FieldPath]

@@ -70,6 +70,6 @@
 
 1. [Firelord](https://www.npmjs.com/package/firelordjs) - Typescript wrapper for Firestore Admin
 2. [Firelordrn](https://www.npmjs.com/package/firelordrn) - Typescript wrapper for Firestore React Native
-3. [FireLaw](https://www.npmjs.com/package/firelaw) - Write Firestore security rule with Typescript
+3. [FireLaw](https://www.npmjs.com/package/firelaw) - Write Firestore security rule with Typescript, utilizing Firelord type engine.
 
 All the related projects V1.0 are still in development.

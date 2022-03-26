@@ -8,7 +8,6 @@ import {
 	generateRandomData,
 	compareWriteDataWithDocSnapData,
 	Parent,
-	User,
 } from '../utilForTests'
 import { setDoc, getDocs } from '../operations'
 initializeApp()
@@ -53,6 +52,23 @@ describe('test document id type', () => {
 		query(ref, where(documentId(), '!=', 'a' as const))
 		query(refGroup, where(documentId(), '==', user.doc('abc')))
 		query(ref, where(documentId(), '!=', user.doc('abc')))
+	})
+
+	it('test incorrect input (swap)', () => {
+		expect(() =>
+			query(
+				ref,
+				// @ts-expect-error
+				where(documentId(), '==', fullDocPath)
+			)
+		).toThrow()
+		expect(() =>
+			query(
+				refGroup,
+				// @ts-expect-error
+				where(documentId(), '!=', 'a' as const)
+			)
+		).toThrow()
 	})
 
 	it('test incorrect input', () => {

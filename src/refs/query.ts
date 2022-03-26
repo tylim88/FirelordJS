@@ -6,6 +6,7 @@ import {
 	QueryConstraints,
 	QueryConstraintLimitation,
 	AddSentinelFieldPathToCompare,
+	AddSentinelFieldPathToCompareHighLevel,
 } from '../types'
 
 /**
@@ -19,15 +20,25 @@ import {
  */
 export const query = <
 	T extends MetaType,
-	Q extends
-		| Query<AddSentinelFieldPathToCompare<T>>
-		| CollectionReference<AddSentinelFieldPathToCompare<T>>,
+	Q extends Query<T> | CollectionReference<T>,
 	QC extends QueryConstraints<AddSentinelFieldPathToCompare<T>>[]
 >(
-	query: Q extends never ? Q : Query<T> | CollectionReference<T>,
+	query: Q extends never
+		? Q
+		: Q extends Query<T>
+		? Query<T>
+		: Q extends CollectionReference<T>
+		? CollectionReference<T>
+		: never, // has to code this way to infer T perfectly without union Query<T> | CollectionReference<T>
 	...queryConstraints: QC extends never
 		? QC
-		: QueryConstraintLimitation<AddSentinelFieldPathToCompare<T>, Q, QC, [], QC>
+		: QueryConstraintLimitation<
+				AddSentinelFieldPathToCompare<T>,
+				AddSentinelFieldPathToCompareHighLevel<T, Q>,
+				QC,
+				[],
+				QC
+		  >
 ) => {
 	return query_(
 		// @ts-expect-error
