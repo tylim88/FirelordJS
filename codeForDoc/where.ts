@@ -7,7 +7,7 @@ import {
 	documentId,
 } from 'firelordjs'
 
-type parent = MetaTypeCreator<
+type Parent = MetaTypeCreator<
 	{
 		a: number
 	},
@@ -15,19 +15,17 @@ type parent = MetaTypeCreator<
 	string
 >
 
-type child = MetaTypeCreator<
+type Child = MetaTypeCreator<
 	{
-		a: { b: 'a' | 'b' | 'c'; c: boolean }
-		d: number
-		e: { f: string[] }
+		a: 'a' | 'b' | 'c'
 	},
 	'child',
 	string,
-	parent
+	Parent
 >
-const firelordRef = getFirelord<child>()('parent/abc/child')
+const firelordRef = getFirelord<Child>()('parent/abc/child')
 const colRef = firelordRef.collection()
-const groupRef = getFirelord<child>()('parent/abc/child').collectionGroup()
+const groupRef = getFirelord<Child>()('parent/abc/child').collectionGroup()
 //
 //
 //
@@ -37,9 +35,9 @@ const groupRef = getFirelord<child>()('parent/abc/child').collectionGroup()
 query(
 	colRef,
 	// @ts-expect-error
-	where('a.b', '==', 'a')
+	where('a', '==', 'a')
 ) // bad: no const assertion
-query(colRef, where('a.b', '==', 'a' as const)) // good: with const assertion
+query(colRef, where('a', '==', 'a' as const)) // good: with const assertion
 //
 const withoutAssertion = 'a'
 const withAssertion = 'a' as const
@@ -50,9 +48,9 @@ const withAssertion = 'a' as const
 query(
 	colRef,
 	// @ts-expect-error
-	where('a.b', '==', withoutAssertion)
+	where('a', '==', withoutAssertion)
 ) // bad: no const assertion
-query(colRef, where('a.b', '==', withAssertion)) // good: with const assertion
+query(colRef, where('a', '==', withAssertion)) // good: with const assertion
 //
 //
 //

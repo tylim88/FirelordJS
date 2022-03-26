@@ -18,11 +18,11 @@ new info
 4. firestore cannot store Nan
 
 limitation
-1. update and merge set operation break type, use it with care, there is nothing we can do other than using possibly undefined
-2. unable to union object type with other type except possibly undefined <- not exactly limitation but something that you shouldn't do
-3. collection reference unable to return the correct parent type due to MetaType self referencing limitation
-4. no autocomplete for where's value.
-5. working with documentId and where require to assert the value as const.
+1. unable to union object type with other type except possibly undefined <- not exactly limitation but something that you shouldn't do
+2. collection reference unable to return the correct parent type due to MetaType self referencing limitation
+3. no autocomplete for where's value.
+4. working with documentId and where require to assert the value as const.
+5. no Record<number, any>
 
 anything where the input has nothing to do with document data type, is directly exported by FirelordJS without any change, they are:
 - loadBundle
