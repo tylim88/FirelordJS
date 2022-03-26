@@ -23,7 +23,7 @@
 		<img src="https://img.shields.io/badge/minified%2Bgzipped-2KB-brightgreen" alt="package size"/>
 		&nbsp;
 		<a href="https://github.com/tylim88/Firelordjs/actions" target="_blank">
-			<img src="https://github.com/tylim88/Firelordjs/actions/workflows/main.yml/badge.svg" alt="github action"/>
+			<img src="https://github.com/tylim88/Firelordjs/actions/workflows/github-actions.yml/badge.svg" alt="github action"/>
 		</a>
 		&nbsp;
 		<a href="https://codecov.io/gh/tylim88/Firelordjs" target="_blank">
