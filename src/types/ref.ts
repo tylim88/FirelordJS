@@ -149,6 +149,3 @@ export interface WriteBatch {
 	 */
 	commit(): Promise<void>
 }
-
-// ! this is useless, remove in future
-export type NotTreatedAsObjectType = DocumentReference<MetaType>

@@ -1,13 +1,12 @@
 import { IsTrue } from './utils'
 import { MetaType } from './metaTypeCreator'
 import { FirelordFirestore } from './firelordFirestore'
-import { ServerTimestamp, FieldValues } from './fieldValue'
+import { ServerTimestamp } from './fieldValue'
 import { ObjectFlattenRead } from './objectFlatten'
-import { NotTreatedAsObjectType } from './ref'
 
 type NoneAndPrevious = 'none' | 'previous'
 
-// this is a controlled type that make sure 'none' is part of FirelordFirestore.SnapshotOptions['serverTimestamps']
+// this is a controlled type that make sure 'none' | 'previous' is part of FirelordFirestore.SnapshotOptions['serverTimestamps']
 // if firestore change the object literal type then we would know
 IsTrue<
 	NoneAndPrevious extends FirelordFirestore.SnapshotOptions['serverTimestamps']
@@ -18,8 +17,6 @@ IsTrue<
 export type RecursiveUnionReadServerTimestampWithNull<T, Read> =
 	T extends ServerTimestamp
 		? Read | null
-		: T extends FieldValues | NotTreatedAsObjectType
-		? Read
 		: T extends Record<string, unknown>
 		? Read extends Record<string, unknown>
 			? {

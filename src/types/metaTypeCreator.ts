@@ -22,7 +22,6 @@ import {
 	RecursiveExcludePossiblyUndefinedFieldValue,
 	RecursiveReplaceUnionInvolveObjectTypeWithErrorMsg,
 } from './markUnionObjectAsError'
-import { NotTreatedAsObjectType } from './ref'
 
 export type IdAndPath = {
 	docID: string
@@ -161,8 +160,6 @@ type ReadConverterArray<
 		? InArray extends true
 			? ErrorPossiblyUndefinedAsArrayElement
 			: undefined
-		: T extends NotTreatedAsObjectType
-		? T | AllFieldsPossiblyUndefined
 		: T extends Record<string, unknown>
 		?
 				| {
@@ -194,8 +191,6 @@ type ReadConverter<T, AllFieldsPossiblyUndefined, BannedTypes> =
 			? undefined
 			: T extends UnassignedAbleFieldValue
 			? ErrorUnassignedAbleFieldValue
-			: T extends NotTreatedAsObjectType
-			? T | AllFieldsPossiblyUndefined
 			: T extends Record<string, unknown>
 			?
 					| {
@@ -218,8 +213,6 @@ type CompareConverterArray<T, BannedTypes> = NoDirectNestedArray<T> extends T
 		? FirelordFirestore.Timestamp | Date
 		: T extends PossiblyReadAsUndefined
 		? never
-		: T extends NotTreatedAsObjectType
-		? T
 		: T extends Record<string, unknown>
 		? {
 				[K in keyof T]-?: CompareConverterArray<T[K], BannedTypes>
@@ -236,8 +229,6 @@ type CompareConverter<T, BannedTypes> = NoDirectNestedArray<T> extends T
 		? ErrorUnassignedAbleFieldValue
 		: T extends PossiblyReadAsUndefined | DeleteField
 		? never
-		: T extends NotTreatedAsObjectType
-		? T
 		: T extends Record<string, unknown>
 		? {
 				[K in keyof T]-?: CompareConverter<T[K], BannedTypes>
@@ -254,8 +245,6 @@ type ArrayWriteConverter<T, BannedTypes> = NoDirectNestedArray<T> extends T
 		? FirelordFirestore.Timestamp | Date
 		: T extends PossiblyReadAsUndefined
 		? never
-		: T extends NotTreatedAsObjectType
-		? T
 		: T extends Record<string, unknown>
 		? {
 				[K in keyof T]-?: ArrayWriteConverter<T[K], BannedTypes>
@@ -282,8 +271,6 @@ type WriteConverter<T, BannedTypes> = NoDirectNestedArray<T> extends T
 		? FirelordFirestore.Timestamp | Date
 		: T extends PossiblyReadAsUndefined
 		? never
-		: T extends NotTreatedAsObjectType
-		? T
 		: T extends Record<string, unknown>
 		? {
 				[K in keyof T]-?: WriteConverter<T[K], BannedTypes>
