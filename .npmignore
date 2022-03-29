@@ -7,10 +7,15 @@
 /.husky
 /.config
 /.parcel-cache
+/codeForDoc
+/.opensource
+/.husky
 
 # ignore file
 .gitignore
 .npmignore
+note.txt
+V0Doc.md
 
 # config file
 jest.config.js
@@ -18,6 +23,11 @@ tsconfig.json
 .eslintrc.js
 .prettierrc.js
 babel.config.js    
+.env
+jest.config.doc.js
+tsconfig.doc.json
+lgtm.yml
+tsconfig.prod.json
 
 # types
 /types/**/*
