@@ -18,7 +18,16 @@ const docRef = doc(getFirestore(), 'abc/efg') as abc
 setDoc(docRef, {
 	a: deleteField(),
 	b: { c: deleteField() },
-}) // bad, runtime error!
+}) // bad, no merge option, runtime error!
+
+setDoc(
+	docRef,
+	{
+		a: deleteField(),
+		b: { c: deleteField() },
+	},
+	{ merge: false }
+) // bad, merge option is false, runtime error!
 
 setDoc(
 	docRef,
@@ -40,6 +49,6 @@ setDoc(
 
 // =======update==========
 updateDoc(docRef, {
-	'b.c': deleteField(), // good, 'a' is top level
+	'b.c': deleteField(), // good, 'b.c' is top level
 	b: { c: deleteField() }, // bad, c is not top level, runtime exception!
 })

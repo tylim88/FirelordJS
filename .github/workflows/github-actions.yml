@@ -23,7 +23,7 @@ jobs:
         env:
           PROJECT_ID: ${{ secrets.PROJECT_ID }}
       - uses: codecov/codecov-action@v2
-  test_build_publish:
+  build_test_publish:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     steps:

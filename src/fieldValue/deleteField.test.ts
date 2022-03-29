@@ -60,8 +60,11 @@ describe('test deleteField', () => {
 				docRef,
 				{
 					a: 'abc',
-					b: { c: [{ d: true }], e: 3 },
-					f: deleteField(), // low level is ok in set
+					b: {
+						c: [{ d: true }],
+						e: deleteField(), // low level is ok in set
+					},
+					f: deleteField(),
 					g: {
 						h: deleteField(), // low level is ok in set
 					},
