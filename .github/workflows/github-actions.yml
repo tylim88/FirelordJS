@@ -35,10 +35,10 @@ jobs:
           cache-dependency-path: '**/package-lock.json'
           registry-url: 'https://registry.npmjs.org'
       - run: npm i
-      - run: npm run pub
+      # - run: npm run pub
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - run: npm p-reinstall
-      - run: npm p-test
+      - run: npm run p-reinstall
+      - run: npm run p-test
         env:
           PROJECT_ID: ${{ secrets.PROJECT_ID }}
