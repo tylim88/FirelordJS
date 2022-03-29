@@ -7,16 +7,12 @@ export type ErrorFieldValueInArray =
 	'Error: Field Value is not a valid data type in array, directly or indirectly'
 export type ErrorUnassignedAbleFieldValue =
 	'Error: Please do not directly assign Increment, Array Remove and Array Union Field Value'
-export type ErrorSetDeleteFieldMustAtTopLevel =
-	'Error: Set operation Delete Field must appear at top level of your data, if you need to delete nested field, use Update operation'
 export type ErrorUnionInvolveObjectType =
 	'Error: Please check your type declaration, do not union object literal type with other type except PossiblyReadAsUndefined'
-export type ErrorDeleteFieldMerge<Key extends string> =
-	`Error: To use deleteField, please set ( merge ) to ( true ) or include the field path <${Key &
-		string}> in the ( mergeFields ) of the options parameter.`
-export type ErrorDeleteFieldMergeField<Key extends string> =
-	`Error: To use deleteField, please include the field path <${Key &
-		string}> in the \`mergeFields\` of the options parameter`
+export type ErrorDeleteFieldMerge =
+	`Error: To use deleteField, please set ( merge ) to ( true ) or set ( mergeFields with an array, empty array also fine ) in the options parameter.`
+export type ErrorDeleteFieldUnion<T extends string> =
+	`Error: To use ( deleteField() ) on ( ${T} ), please union ( DeleteField ) type with ${T}'s type in the type definition(MetaTypeCreator)`
 export type ErrorPleaseDoConstAssertion =
 	`Error: Please assert the value as const eg:( 'a' as const )`
 export type ErrorCollectionIDString =
@@ -90,10 +86,9 @@ export type ErrorMsgs =
 	| ErrorFieldValueInArray
 	| ErrorEmptyDocumentOrCollectionID<'Document' | 'Collection'>
 	| ErrorUnassignedAbleFieldValue
-	| ErrorSetDeleteFieldMustAtTopLevel
 	| ErrorUnionInvolveObjectType
-	| ErrorDeleteFieldMerge<string>
-	| ErrorDeleteFieldMergeField<string>
+	| ErrorDeleteFieldMerge
+	| ErrorDeleteFieldUnion<string>
 	| ErrorNumberOfForwardSlashIsNotEqual<number, number>
 	| ErrorPleaseDoConstAssertion
 	| ErrorEndOfID

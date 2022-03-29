@@ -22,12 +22,7 @@ export type UpdateCreator<U> = <
 	reference: DocumentReference<T>,
 	data: Data extends never
 		? Data
-		: PartialNoUndefinedAndNoUnknownMember<
-				T['writeFlatten'],
-				Data,
-				false,
-				false
-		  >
+		: PartialNoUndefinedAndNoUnknownMember<T['writeFlatten'], Data, false>
 ) => U
 
 export type Update = UpdateCreator<Promise<void>>
