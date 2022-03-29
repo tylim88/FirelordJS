@@ -8,9 +8,6 @@ import { TransactionSet, WriteBatchSet } from './set'
 import { TransactionUpdate, WriteBatchUpdate } from './update'
 import { TransactionDelete, WriteBatchDelete } from './delete'
 
-// ! this is useless, remove in future
-export type NotTreatedAsObjectType = DocumentReference<MetaType>
-
 export interface DocumentReference<T extends MetaType> {
 	/** The type of this Firestore reference. */
 	readonly type: 'document'
@@ -152,3 +149,6 @@ export interface WriteBatch {
 	 */
 	commit(): Promise<void>
 }
+
+// ! this is useless, remove in future
+export type NotTreatedAsObjectType = DocumentReference<MetaType>
