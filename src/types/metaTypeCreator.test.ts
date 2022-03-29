@@ -1,4 +1,4 @@
-import { MetaTypeCreator } from './metaTypeCreator'
+import { MetaTypeCreator, MetaType } from './metaTypeCreator'
 import { FirelordFirestore } from './firelordFirestore'
 import { ErrorNullBanned, ErrorUnionInvolveObjectType } from './error'
 import {
@@ -8,7 +8,7 @@ import {
 	PossiblyReadAsUndefined,
 	DeleteField,
 } from './fieldValue'
-import { NotTreatedAsObjectType } from './ref'
+import { DocumentReference } from './ref'
 import { IsTrue, IsSame, IsEqual } from './utils'
 
 describe('test Firelord type', () => {
@@ -21,7 +21,7 @@ describe('test Firelord type', () => {
 					d: { e: false }
 					f: { g: Date | null; h: 2 }[]
 					j: ServerTimestamp | null | Date
-					k: NotTreatedAsObjectType | null
+					k: DocumentReference<MetaType> | null
 				}
 				h: string
 				i: number | null
@@ -44,7 +44,7 @@ describe('test Firelord type', () => {
 							  }[]
 							| undefined
 						j: FirelordFirestore.Timestamp | null | undefined
-						k: NotTreatedAsObjectType | null | undefined
+						k: DocumentReference<MetaType> | null | undefined
 				  }
 				| undefined
 			h: string | undefined
@@ -68,7 +68,7 @@ describe('test Firelord type', () => {
 							h: 2
 					  }>
 				j: ServerTimestamp | null | Date | FirelordFirestore.Timestamp
-				k: NotTreatedAsObjectType | null
+				k: DocumentReference<MetaType> | null
 			}
 			h: string
 			i: number | null | Increment
@@ -91,7 +91,7 @@ describe('test Firelord type', () => {
 							h: 2
 					  }>
 				j: ServerTimestamp | null | Date | FirelordFirestore.Timestamp
-				k: NotTreatedAsObjectType | null
+				k: DocumentReference<MetaType> | null
 				'd.e': false
 			}
 			h: string
@@ -110,7 +110,7 @@ describe('test Firelord type', () => {
 						h: 2
 				  }>
 			'b.j': ServerTimestamp | null | Date | FirelordFirestore.Timestamp
-			'b.k': NotTreatedAsObjectType | null
+			'b.k': DocumentReference<MetaType> | null
 			'b.d.e': false
 		}
 
@@ -128,7 +128,7 @@ describe('test Firelord type', () => {
 							h: 2
 					  }[]
 				j: FirelordFirestore.Timestamp | Date | null
-				k: NotTreatedAsObjectType | null
+				k: DocumentReference<MetaType> | null
 			}
 			h: string
 			i: number | null
@@ -142,7 +142,7 @@ describe('test Firelord type', () => {
 						h: 2
 				  }[]
 			'b.j': FirelordFirestore.Timestamp | Date | null
-			'b.k': NotTreatedAsObjectType | null
+			'b.k': DocumentReference<MetaType> | null
 			'b.d.e': false
 		}
 
@@ -171,7 +171,7 @@ describe('test Firelord type', () => {
 						  }[]
 						| PossiblyReadAsUndefined
 					j: ServerTimestamp | null | PossiblyReadAsUndefined
-					k: NotTreatedAsObjectType | null | PossiblyReadAsUndefined
+					k: DocumentReference<MetaType> | null | PossiblyReadAsUndefined
 				}
 				h: string | PossiblyReadAsUndefined | null
 				i: number | PossiblyReadAsUndefined
@@ -192,7 +192,7 @@ describe('test Firelord type', () => {
 					  }[]
 					| undefined
 				j: FirelordFirestore.Timestamp | null | undefined
-				k: NotTreatedAsObjectType | null | undefined
+				k: DocumentReference<MetaType> | null | undefined
 			}
 			h: string | undefined | null
 			i: number | undefined
@@ -215,7 +215,7 @@ describe('test Firelord type', () => {
 							h: 2
 					  }>
 				j: ServerTimestamp | null
-				k: NotTreatedAsObjectType | null
+				k: DocumentReference<MetaType> | null
 			}
 			h: string | null
 			i: number | Increment
@@ -239,7 +239,7 @@ describe('test Firelord type', () => {
 							h: 2
 					  }>
 				j: ServerTimestamp | null
-				k: NotTreatedAsObjectType | null
+				k: DocumentReference<MetaType> | null
 			}
 			h: string | null
 			i: number | Increment
@@ -258,7 +258,7 @@ describe('test Firelord type', () => {
 			}
 			'b.j': ServerTimestamp | null
 			'b.d.e': false
-			'b.k': NotTreatedAsObjectType | null
+			'b.k': DocumentReference<MetaType> | null
 		}
 
 		type ExpectedCompare = {
@@ -275,7 +275,7 @@ describe('test Firelord type', () => {
 							h: 2
 					  }[]
 				j: FirelordFirestore.Timestamp | Date | null
-				k: NotTreatedAsObjectType | null
+				k: DocumentReference<MetaType> | null
 			}
 			h: string | null
 			i: number
@@ -290,7 +290,7 @@ describe('test Firelord type', () => {
 						h: 2
 				  }[]
 			'b.j': FirelordFirestore.Timestamp | Date | null
-			'b.k': NotTreatedAsObjectType | null
+			'b.k': DocumentReference<MetaType> | null
 		}
 
 		type Read = A['read']
@@ -318,7 +318,7 @@ describe('test Firelord type', () => {
 						  }[]
 						| null
 					j: ServerTimestamp | null
-					k: NotTreatedAsObjectType | null
+					k: DocumentReference<MetaType> | null
 				}
 				h: string | null
 				i: number | null
@@ -341,7 +341,7 @@ describe('test Firelord type', () => {
 					  }[]
 					| ErrorNullBanned
 				j: FirelordFirestore.Timestamp | ErrorNullBanned
-				k: NotTreatedAsObjectType | ErrorNullBanned
+				k: DocumentReference<MetaType> | ErrorNullBanned
 			}
 			h: string | ErrorNullBanned
 			i: number | ErrorNullBanned
@@ -362,7 +362,7 @@ describe('test Firelord type', () => {
 							h: ErrorNullBanned | 2
 					  }>
 				j: ServerTimestamp | ErrorNullBanned
-				k: NotTreatedAsObjectType | ErrorNullBanned
+				k: DocumentReference<MetaType> | ErrorNullBanned
 			}
 			h: string | ErrorNullBanned
 			i: number | ErrorNullBanned | Increment
@@ -386,7 +386,7 @@ describe('test Firelord type', () => {
 							h: 2 | ErrorNullBanned
 					  }>
 				j: ServerTimestamp | ErrorNullBanned
-				k: NotTreatedAsObjectType | ErrorNullBanned
+				k: DocumentReference<MetaType> | ErrorNullBanned
 			}
 			'b.j': ServerTimestamp | ErrorNullBanned
 			'b.c': 'a' | ErrorNullBanned
@@ -406,7 +406,7 @@ describe('test Firelord type', () => {
 				  }>
 			h: string | ErrorNullBanned
 			i: number | ErrorNullBanned | Increment
-			'b.k': NotTreatedAsObjectType | ErrorNullBanned
+			'b.k': DocumentReference<MetaType> | ErrorNullBanned
 		}
 
 		type ExpectedCompare = {
@@ -424,7 +424,7 @@ describe('test Firelord type', () => {
 							h: ErrorNullBanned | 2
 					  }[]
 				j: Date | FirelordFirestore.Timestamp | ErrorNullBanned
-				k: NotTreatedAsObjectType | ErrorNullBanned
+				k: DocumentReference<MetaType> | ErrorNullBanned
 			}
 			'b.j': Date | FirelordFirestore.Timestamp | ErrorNullBanned
 			'b.c': 'a' | ErrorNullBanned
@@ -440,7 +440,7 @@ describe('test Firelord type', () => {
 				  }[]
 			h: string | ErrorNullBanned
 			i: number | ErrorNullBanned
-			'b.k': NotTreatedAsObjectType | ErrorNullBanned
+			'b.k': DocumentReference<MetaType> | ErrorNullBanned
 		}
 
 		type Read = A['read']
@@ -463,7 +463,7 @@ describe('test Firelord type', () => {
 					d: { e: false } | DeleteField
 					f: { g: Date | null; h: 2 }[] | DeleteField
 					j: ServerTimestamp | null | Date | DeleteField
-					k: NotTreatedAsObjectType | null | DeleteField
+					k: DocumentReference<MetaType> | null | DeleteField
 				}
 				h: string | DeleteField
 				i: number | null | DeleteField
@@ -484,7 +484,7 @@ describe('test Firelord type', () => {
 					  }[]
 					| undefined
 				j: FirelordFirestore.Timestamp | null | undefined
-				k: NotTreatedAsObjectType | null | undefined
+				k: DocumentReference<MetaType> | null | undefined
 			}
 
 			h: string | undefined
@@ -512,7 +512,7 @@ describe('test Firelord type', () => {
 					| Date
 					| FirelordFirestore.Timestamp
 					| DeleteField
-				k: NotTreatedAsObjectType | null | DeleteField
+				k: DocumentReference<MetaType> | null | DeleteField
 			}
 			h: string | DeleteField
 			i: number | null | Increment | DeleteField
@@ -539,7 +539,7 @@ describe('test Firelord type', () => {
 					| Date
 					| FirelordFirestore.Timestamp
 					| DeleteField
-				k: NotTreatedAsObjectType | null | DeleteField
+				k: DocumentReference<MetaType> | null | DeleteField
 			}
 			h: string | DeleteField
 			i: number | null | Increment | DeleteField
@@ -561,7 +561,7 @@ describe('test Firelord type', () => {
 				| Date
 				| FirelordFirestore.Timestamp
 				| DeleteField
-			'b.k': NotTreatedAsObjectType | null | DeleteField
+			'b.k': DocumentReference<MetaType> | null | DeleteField
 		}
 
 		type ExpectedCompare = {
@@ -575,7 +575,7 @@ describe('test Firelord type', () => {
 							h: 2
 					  }[]
 				j: FirelordFirestore.Timestamp | Date | null
-				k: NotTreatedAsObjectType | null
+				k: DocumentReference<MetaType> | null
 			}
 			h: string
 			i: number | null
@@ -588,7 +588,7 @@ describe('test Firelord type', () => {
 				  }[]
 
 			'b.j': FirelordFirestore.Timestamp | Date | null
-			'b.k': NotTreatedAsObjectType | null
+			'b.k': DocumentReference<MetaType> | null
 		}
 
 		type Read = A['read']
