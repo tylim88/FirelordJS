@@ -2,15 +2,16 @@ import { MetaType } from './metaTypeCreator'
 import { FirelordFirestore } from './firelordFirestore'
 import {
 	ErrorLimitToLastOrderBy,
-	ErrorOrderByAndInEqualityWhere,
-	ErrorInvalidWhereCompareValueMustBeArray,
-	ErrorOrderByEqualityWhere,
+	ErrorWhereOrderByAndInEquality,
+	ErrorWhereCompareValueMustBeArray,
+	ErrorWhereOrderByEquality,
 	ErrorWhereNotInArrayContainsAny,
 	ErrorWhereNotInNotEqual,
 	ErrorWhereArrayContainsArrayContainsAny,
 	ErrorWhereInequalityOpStrSameField,
 	ErrorWhereOnlyOneNotEqual,
 	ErrorCursorTooManyArguments,
+	ErrorWhereNoFreshEmptyArray,
 } from './error'
 import { IsSame, IsTrue } from './utils'
 import {
@@ -65,7 +66,7 @@ type ValidateOrderByAndInequalityWhere<
 			  >
 				? IsSame<W['fieldPath'], O['fieldPath']> extends true
 					? true
-					: ErrorOrderByAndInEqualityWhere<O['fieldPath'], W['fieldPath']>
+					: ErrorWhereOrderByAndInEquality<O['fieldPath'], W['fieldPath']>
 				: true // orderBy not found
 			: never // impossible route
 		: true // inequality Where not found
@@ -176,7 +177,7 @@ type OrderByConstraintLimitation<
 	>,
 	AllQCs extends QueryConstraints<T>[]
 > = ValidateOrderByEqualityWhere<T, U, AllQCs> extends false
-	? ErrorOrderByEqualityWhere
+	? ErrorWhereOrderByEquality
 	: U
 
 // You can use at most one in, not-in, or array-contains-any clause per query. You can't combine in , not-in, and array-contains-any in the same query.
@@ -313,26 +314,32 @@ type WhereConstraintLimitation<
 			T,
 			U['fieldPath'],
 			U['opStr'],
-			GetCorrectDocumentIdBasedOnRef<
-				T,
-				Q,
-				U['fieldPath'],
-				U['value'] extends (infer P)[] ? P : U['value']
-			>[]
+			U['value'] extends never[]
+				? ErrorWhereNoFreshEmptyArray
+				: U['value'] extends (infer P)[]
+				? GetCorrectDocumentIdBasedOnRef<T, Q, U['fieldPath'], P>[]
+				: ErrorWhereCompareValueMustBeArray<U['fieldPath']>
 	  >
 	: U['opStr'] extends ValueOfOnlyArrayOptStr
-	? T['compare'][U['fieldPath']] extends (infer R)[]
-		? WhereConstraint<
-				T,
-				U['fieldPath'],
-				U['opStr'],
-				T['compare'][U['fieldPath']]
-		  >
-		: ErrorInvalidWhereCompareValueMustBeArray
+	? WhereConstraint<
+			T,
+			U['fieldPath'],
+			U['opStr'],
+			U['value'] extends never[]
+				? ErrorWhereNoFreshEmptyArray
+				: T['compare'][U['fieldPath']] extends (infer R)[]
+				? T['compare'][U['fieldPath']]
+				: ErrorWhereCompareValueMustBeArray<U['fieldPath']>
+	  >
 	: U['opStr'] extends ElementOfOptStr
-	? T['compare'][U['fieldPath']] extends (infer R)[]
-		? WhereConstraint<T, U['fieldPath'], U['opStr'], R>
-		: ErrorInvalidWhereCompareValueMustBeArray
+	? WhereConstraint<
+			T,
+			U['fieldPath'],
+			U['opStr'],
+			T['compare'][U['fieldPath']] extends (infer R)[]
+				? R
+				: ErrorWhereCompareValueMustBeArray<U['fieldPath']>
+	  >
 	: never // impossible route
 
 type GetFirstInequalityWhere<

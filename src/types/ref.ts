@@ -1,6 +1,3 @@
-// ! ref type is not sharable across V8 and V9
-// ! possibly problematic if firestore add new props
-
 import { MetaType } from './metaTypeCreator'
 import { FirelordFirestore } from './firelordFirestore'
 import { Get } from './get'

@@ -50,16 +50,16 @@ export type ErrorLimitInvalidNumber =
 	'Error: do not use negative, 0 or decimal value'
 export type ErrorLimitToLastOrderBy =
 	'Error: You must specify at least one orderBy clause for limitToLast queries'
-export type ErrorInvalidWhereCompareValueMustBeArray =
-	`Error: You can only use ( array-contains ) and ( array-contains-any ) on array data type`
-export type ErrorOrderByAndInEqualityWhere<
+export type ErrorWhereCompareValueMustBeArray<T extends string> =
+	`Error: ${T} is not an array, you can only use ( array-contains ) and ( array-contains-any ) on array data type`
+export type ErrorWhereOrderByAndInEquality<
 	OrderByField extends string,
 	WhereField extends string
 > = `Error: Invalid query. You have a where filter with an inequality ( <, <=, !=, not-in, >, or >= ) on field ( ${WhereField &
 	string} ) and so you must also use ( ${WhereField &
 	string} ) as your first argument to orderBy(), but your first orderBy() is on field ( ${OrderByField &
 	string} ) instead.`
-export type ErrorOrderByEqualityWhere =
+export type ErrorWhereOrderByEquality =
 	`Error: You can't order your query by a field included in an equality ( == ) or ( in ) clause.`
 export type ErrorWhereNotInArrayContainsAny =
 	`Error: You can use at most one ( in, not-in, or array-contains-any ) clause per query. You can't combine ( in, not-in, and array-contains-any ) in the same query.`
@@ -70,7 +70,9 @@ export type ErrorWhereArrayContainsArrayContainsAny =
 export type ErrorWhereInequalityOpStrSameField =
 	`Invalid query. All where filters with an inequality (<, <=, !=, not-in, >, or >=) must be on the same field path.`
 export type ErrorWhereOnlyOneNotEqual =
-	`Error: You cannot use more than one '!=' filter.`
+	`Error: You cannot use more than one ( != ) filter.`
+export type ErrorWhereNoFreshEmptyArray =
+	`Error: No Fresh Empty Array in ( in, not-in, array-contains-any ) filter`
 export type ErrorCursorTooManyArguments =
 	`Error: Too many arguments provided to startAt/startAfter/endAt/endBefore(). The number of arguments must be less than or equal to the number of orderBy() clauses than come before it`
 export type ErrorUnknownMember<T> =
@@ -102,9 +104,9 @@ export type ErrorMsgs =
 	| ErrorMoreThanOnceDocSnapshotInCursor
 	| ErrorLimitInvalidNumber
 	| ErrorLimitToLastOrderBy
-	| ErrorOrderByAndInEqualityWhere<string, string>
-	| ErrorInvalidWhereCompareValueMustBeArray
-	| ErrorOrderByEqualityWhere
+	| ErrorWhereOrderByAndInEquality<string, string>
+	| ErrorWhereCompareValueMustBeArray<string>
+	| ErrorWhereOrderByEquality
 	| ErrorWhereNotInArrayContainsAny
 	| ErrorWhereArrayContainsArrayContainsAny
 	| ErrorWhereInequalityOpStrSameField
@@ -113,6 +115,9 @@ export type ErrorMsgs =
 	| ErrorUnknownMember<string>
 	| ErrorWhereDocumentFieldPath
 	| ErrorWhere__name__
+	| ErrorWhereNoFreshEmptyArray
+
+export type ReplaceErrorMsgsWithNever<T> = T extends ErrorMsgs ? never : T // ! not yet implemented anywhere
 
 export type NoUndefinedAndBannedTypes<Data, BannedTypes> =
 	Data extends undefined

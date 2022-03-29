@@ -21,7 +21,6 @@ A Promise resolved once the data has been successfully written to the backend (n
 type SetCreator<U> = <
 	T extends MetaType,
 	// https://stackoverflow.com/questions/71223634/typescript-interface-causing-type-instantiation-is-excessively-deep-and-possibl
-	// ! do not extends documentData({[field: string]: any}), see reason in the link
 	Data extends Record<string, unknown>,
 	SetOptions extends
 		| {

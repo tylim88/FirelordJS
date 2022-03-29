@@ -55,7 +55,7 @@ export type GetCorrectDocumentIdBasedOnRef<
 				? ErrorPleaseDoConstAssertion
 				: GetNumberOfSlash<Value> extends GetNumberOfSlash<T['docPath']>
 				? Value extends T['docPath']
-					? IsValidID<Value, 'Document', 'Path'> // !
+					? IsValidID<Value, 'Document', 'Path'>
 					: T['docPath']
 				: ErrorNumberOfForwardSlashIsNotEqual<
 						GetNumberOfSlash<T['docPath']>,

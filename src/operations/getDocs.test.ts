@@ -81,6 +81,7 @@ const queryTest = async (
 	// ! false with filter, true without filter, why?
 	// expect(snapshotEqual(querySnapshot, querySnapshotServer)).toBe(true)
 }
+
 describe('test getDocs', () => {
 	it('test naked query functionality and type', async () => {
 		const docId = 'getDocsNakedQueryTest'
@@ -110,5 +111,35 @@ describe('test getDocs', () => {
 			where('a.b.c', '==', data.a.b.c as number)
 		)
 		await queryTest(shareQuery, docId, data, docRef)
+	})
+
+	it('test empty array with ( in ) filter', async () => {
+		const arr: number[] = []
+		const shareQuery = query(
+			userRef.collectionGroup(),
+			where('a.b.c', 'in', arr)
+		)
+		const querySnap = await getDocs(shareQuery)
+		expect(querySnap.docs.length).toBe(0)
+	})
+
+	it('test empty array with ( not-in ) filter', async () => {
+		const arr: number[] = []
+		const shareQuery = query(
+			userRef.collectionGroup(),
+			where('a.b.c', 'not-in', arr)
+		)
+		const querySnap = await getDocs(shareQuery)
+		expect(querySnap.docs.length).not.toBe(0)
+	})
+
+	it('test empty array with ( array-contains-any ) filter', async () => {
+		const arr: string[] = []
+		const shareQuery = query(
+			userRef.collectionGroup(),
+			where('a.e', 'array-contains-any', arr)
+		)
+		const querySnap = await getDocs(shareQuery)
+		expect(querySnap.docs.length).toBe(0)
 	})
 })

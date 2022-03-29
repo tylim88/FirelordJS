@@ -409,12 +409,6 @@ describe('test query ref', () => {
 		)
 	})
 
-	it('test empty array for in, not-in, array-contains-any, should pass', () => {
-		query(ref, where('age', 'not-in', []))
-		query(ref, where('age', 'in', []))
-		query(ref, where('a.e', 'array-contains-any', []))
-	})
-
 	it(`You cannot use more than one '!=' filter (undocumented limitation), negative case`, () => {
 		expect(() =>
 			query(
