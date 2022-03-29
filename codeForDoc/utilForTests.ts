@@ -1,19 +1,24 @@
-import { getFirelord } from '.'
-import { Timestamp } from 'firebase/firestore'
 import {
-	MetaTypeCreator,
-	ServerTimestamp,
+	getFirelord,
+	getDoc,
+	getDocFromCache,
+	getDocFromServer,
+	snapshotEqual,
+	arrayUnion,
+	increment,
+	serverTimestamp,
 	DocumentReference,
+	MetaTypeCreator,
+	Timestamp,
+	ServerTimestamp,
 	DeleteField,
 	DocumentSnapshot,
-} from './types'
+} from 'firelordjs'
 import { initializeApp as initializeApp_ } from 'firebase/app'
 import pick from 'pick-random'
 import betwin from 'betwin'
-import { getDoc, getDocFromCache, getDocFromServer } from './operations'
-import { flatten } from './utils'
+import { flatten } from '../src/utils'
 import { cloneDeep } from 'lodash'
-import { snapshotEqual } from './equal'
 
 export const initializeApp = () => {
 	const env = process.env
@@ -22,8 +27,6 @@ export const initializeApp = () => {
 	}
 	return initializeApp_(config)
 }
-
-import { arrayUnion, increment, serverTimestamp } from './fieldValue'
 
 export type Parent = MetaTypeCreator<
 	{

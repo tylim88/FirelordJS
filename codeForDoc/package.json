@@ -4,14 +4,15 @@
 	"description": "test published Firelordjs",
 	"main": "index.js",
 	"scripts": {
-		"rei": "rm -rf node_modules/ && rm package-lock.json && npm i",
+		"reinstall": "rm -rf node_modules/ && rm package-lock.json && npm i",
 		"test": "rm -rf coverage && jest --forceExit"
 	},
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
-		"firelordjs": "latest",
-		"firebase": "latest"
+		"endtoendtest": "file:",
+		"firebase": "latest",
+		"firelordjs": "latest"
 	},
 	"devDependencies": {
 		"@types/jest": "^27.0.2",

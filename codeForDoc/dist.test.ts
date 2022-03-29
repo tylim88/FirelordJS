@@ -4,7 +4,7 @@ import {
 	readThenCompareWithWriteData,
 	compareWriteDataWithDocSnapData,
 	User,
-} from '../src/utilForTests'
+} from './utilForTests'
 import {
 	setDoc,
 	updateDoc,
