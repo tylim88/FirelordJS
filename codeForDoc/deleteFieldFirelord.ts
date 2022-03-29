@@ -5,6 +5,7 @@ import {
 	DeleteField,
 	deleteField,
 	getDoc,
+	setDoc,
 } from 'firelordjs'
 
 type abc = MetaTypeCreator<
@@ -76,4 +77,28 @@ updateDoc(docRef3, {
 	//
 	//
 	a: deleteField(),
+})
+
+type abc4 = MetaTypeCreator<
+	{
+		a: number | DeleteField
+		b: { c: string | DeleteField }
+	},
+	'abc',
+	string
+>
+const docRef4 = getFirelord<abc4>()('abc').doc('efg')
+//
+//
+//
+//
+//
+//
+setDoc(docRef4, {
+	b: { c: deleteField() }, // bad, c is not top level
+})
+
+updateDoc(docRef4, {
+	b: { c: deleteField() }, // good, FirelordJS flatten it down internally
+	'b.c': deleteField(), // good, 'b.c' is top level
 })

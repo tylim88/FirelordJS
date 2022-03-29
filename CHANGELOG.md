@@ -1,5 +1,9 @@
 # HISTORY
 
+## v1.0.9 30-Mars-22
+
+- fix the type logic of deleteField, merge set now able to use deleteField on nested fields
+
 ## v1.0.8 30-Mars-22
 
 - where clause stop fresh empty array for 'in', 'not-in', and 'array-contains-any' filter

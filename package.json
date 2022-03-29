@@ -1,6 +1,6 @@
 {
 	"name": "firelordjs",
-	"version": "1.0.8",
+	"version": "1.0.9",
 	"description": "🔥 Extremely High Precision Typescript Wrapper for Firestore Web, Providing Unparalleled Type Safe and Dev Experience",
 	"source": "src/index.ts",
 	"main": "dist/index.js",
@@ -44,7 +44,7 @@
 	"bugs": {
 		"url": "https://github.com/tylim88/firelordjs/issues"
 	},
-	"homepage": "https://firelordjs.com/",
+	"homepage": "https://firelordjs.com",
 	"keywords": [
 		"firebase",
 		"firestore",

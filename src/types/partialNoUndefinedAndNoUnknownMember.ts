@@ -1,8 +1,7 @@
 import {
 	ErrorDeleteFieldMerge,
-	ErrorDeleteFieldMergeField,
+	ErrorDeleteFieldUnion,
 	ErrorEmptyUpdate,
-	ErrorSetDeleteFieldMustAtTopLevel,
 	ErrorUnknownMember,
 } from './error'
 import { ArrayUnionOrRemove, DeleteField } from './fieldValue'
@@ -46,15 +45,14 @@ type PartialNoUndefinedAndNoUnknownMemberInArray<T, Data> =
 export type PartialNoUndefinedAndNoUnknownMember<
 	T extends Record<string, unknown>,
 	Data extends Record<string, unknown>,
-	Merge extends boolean | string[], // this is for set operation only
-	IsSetDeleteFieldAtTopLevel extends boolean // this is for set operation only
+	Merge extends boolean | string[] // this is for set operation only
 > = Data extends Record<string, never>
 	? ErrorEmptyUpdate | T
 	: keyof Data extends keyof T
 	? {
 			[K in keyof T & keyof Data]-?: T[K] extends Record<string, unknown>
 				? Data[K] extends Record<string, unknown>
-					? PartialNoUndefinedAndNoUnknownMember<T[K], Data[K], Merge, false>
+					? PartialNoUndefinedAndNoUnknownMember<T[K], Data[K], Merge>
 					: T[K]
 				: T[K] extends (infer BaseKeyElement)[] | ArrayUnionOrRemove
 				? Data[K] extends (infer DataKeyElement)[]
@@ -66,20 +64,8 @@ export type PartialNoUndefinedAndNoUnknownMember<
 								DataKeyElement
 						  >[]
 						: BaseKeyElement[]
-					: IsSetDeleteAbleFieldValueValid<
-							T[K],
-							Data[K],
-							K & string,
-							Merge,
-							IsSetDeleteFieldAtTopLevel
-					  >
-				: IsSetDeleteAbleFieldValueValid<
-						T[K],
-						Data[K],
-						K & string,
-						Merge,
-						IsSetDeleteFieldAtTopLevel
-				  >
+					: IsSetDeleteAbleFieldValueValid<T[K], Data[K], K & string, Merge>
+				: IsSetDeleteAbleFieldValueValid<T[K], Data[K], K & string, Merge>
 	  }
 	: HandleUnknownMember<T, Data>
 
@@ -98,7 +84,9 @@ export type RecursivelyReplaceDeleteFieldWithErrorMsg<T, Data> =
 										: T[K]
 									: Data[K] extends DeleteField
 									? DeleteField extends Extract<T[K], DeleteField>
-										? Exclude<T[K], DeleteField> | ErrorDeleteFieldMerge<K>
+										? string extends Exclude<T[K], DeleteField>
+											? ErrorDeleteFieldMerge
+											: Exclude<T[K], DeleteField> | ErrorDeleteFieldMerge
 										: T[K]
 									: T[K]
 								: T[K]
@@ -111,21 +99,24 @@ export type RecursivelyReplaceDeleteFieldWithErrorMsg<T, Data> =
 type IsSetDeleteAbleFieldValueValid<
 	T,
 	Data,
-	Key extends string,
-	Merge extends boolean | string[],
-	IsSetDeleteFieldAtTopLevel extends boolean
+	K extends string,
+	Merge extends boolean | string[]
 > = Merge extends false
 	? T
 	: Data extends DeleteField
-	? IsSetDeleteFieldAtTopLevel extends false
-		? ErrorSetDeleteFieldMustAtTopLevel | Exclude<T, DeleteField>
-		: Merge extends true
+	? Merge extends true
 		? T
 		: Merge extends false
-		? ErrorDeleteFieldMerge<Key> | Exclude<T, DeleteField> // only show error when condition failed
+		? DeleteField extends Extract<T, DeleteField>
+			? string extends Exclude<T, DeleteField>
+				? ErrorDeleteFieldMerge
+				: Exclude<T, DeleteField> | ErrorDeleteFieldMerge // only show error when condition failed
+			: T
 		: Merge extends (infer P)[]
-		? Key extends P
+		? DeleteField extends Extract<T, DeleteField>
 			? T
-			: ErrorDeleteFieldMergeField<Key> | Exclude<T, DeleteField> // only show error when condition failed
+			: string extends Exclude<T, DeleteField>
+			? ErrorDeleteFieldUnion<K>
+			: Exclude<T, DeleteField> | ErrorDeleteFieldMerge // only show error when condition failed
 		: T
 	: T
