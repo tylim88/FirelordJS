@@ -1,0 +1,42 @@
+{
+	"name": "endtoendtest",
+	"version": "1.0.0",
+	"description": "test published Firelordjs",
+	"main": "index.js",
+	"scripts": {
+		"rei": "rm -rf node_modules/ && rm package-lock.json && npm i",
+		"test": "rm -rf coverage && jest --forceExit"
+	},
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"firelordjs": "latest",
+		"firebase": "latest"
+	},
+	"devDependencies": {
+		"@types/jest": "^27.0.2",
+		"@types/lodash": "^4.14.180",
+		"@typescript-eslint/eslint-plugin": "^5.0.0",
+		"@typescript-eslint/parser": "^5.0.0",
+		"betwin": "^1.1.3",
+		"cross-env": "^7.0.3",
+		"dotenv": "^16.0.0",
+		"env-cmd": "^10.1.0",
+		"eslint": "^7.32.0",
+		"eslint-cli": "^1.1.1",
+		"eslint-config-prettier": "^8.3.0",
+		"eslint-import-resolver-typescript": "^2.5.0",
+		"eslint-plugin-import": "^2.25.2",
+		"eslint-plugin-prettier": "^4.0.0",
+		"husky": "^7.0.0",
+		"jest": "^27.2.5",
+		"jsdoc": "^3.6.5",
+		"lodash": "^4.17.21",
+		"pick-random": "^3.0.0",
+		"prettier": "^2.4.1",
+		"pretty-quick": "^3.1.3",
+		"ts-essentials": "^9.0.0",
+		"ts-jest": "^27.0.5",
+		"typescript": "^4.6.2"
+	}
+}

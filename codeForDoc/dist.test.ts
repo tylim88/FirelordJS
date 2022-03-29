@@ -25,7 +25,7 @@ import {
 initializeApp()
 
 const userRef = getFirelord<User>()('topLevel/FirelordTest/Users')
-describe('end to end test', () => {
+describe('dist files test', () => {
 	it('test updateDoc, setDoc, and delete field', async () => {
 		const data = generateRandomData()
 		const ref = userRef.doc('updateDocSpecificFieldTestCase')

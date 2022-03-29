@@ -38,3 +38,8 @@ jobs:
     - run: npm run pub
       env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+    - run: cd endToEndTest
+    - run: npm run rei
+    - run: npm test
+      env:
+        PROJECT_ID: ${{ secrets.PROJECT_ID }}
