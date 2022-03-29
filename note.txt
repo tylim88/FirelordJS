@@ -34,5 +34,3 @@ anything where the input has nothing to do with document data type, is directly 
 - enableNetwork
 - onSnapshotsInSync
 - namedQuery
-
-..
