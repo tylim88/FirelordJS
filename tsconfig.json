@@ -10,7 +10,7 @@
 		"strict": true,
 		"target": "esNext",
 		"allowJs": true,
-		"emitDeclarationOnly": true,
+		"emitDeclarationOnly": false,
 		"outDir": "dist",
 		"noUncheckedIndexedAccess": true,
 		"removeComments": false,

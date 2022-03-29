@@ -1,10 +1,11 @@
 {
 	"name": "firelordjs",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"description": "🔥 Extremely High Precision Typescript Wrapper for Firestore Web, Providing Unparalleled Type Safe and Dev Experience",
 	"source": "src/index.ts",
-	"main": "./dist/index.js",
-	"types": "./dist/index.d.ts",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"private": true,
 	"targets": {
 		"types": false,
 		"main": {
@@ -21,8 +22,8 @@
 		"pretty-quick": "pretty-quick --stage",
 		"pre-commit": "tsc && npm run lint --fix && npm run pretty-quick",
 		"parcel": "rm -rf dist && tsc && parcel build",
-		"build": "rm -rf dist && tsc -p tsconfig.prod.json && parcel build",
-		"single-test": "jest src/refs/query.test.ts",
+		"build": "rm -rf dist && tsc",
+		"single-test": "jest src/utils.test.ts",
 		"link": "npm link && npm link firelordjs",
 		"dev": "---------------------dev------------------------",
 		"d-link": "npm run build && npm run link",
@@ -40,7 +41,7 @@
 	"bugs": {
 		"url": "https://github.com/tylim88/firelordjs/issues"
 	},
-	"homepage": "https://firelordjs.com/quick_start/",
+	"homepage": "https://firelordjs.com/",
 	"keywords": [
 		"firebase",
 		"firestore",
