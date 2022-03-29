@@ -1,6 +1,6 @@
 {
 	"name": "firelordjs",
-	"version": "1.0.6",
+	"version": "1.0.7",
 	"description": "🔥 Extremely High Precision Typescript Wrapper for Firestore Web, Providing Unparalleled Type Safe and Dev Experience",
 	"source": "src/index.ts",
 	"main": "dist/index.js",
@@ -12,7 +12,7 @@
 		}
 	},
 	"scripts": {
-		"rei": "rm -rf node_modules/ && rm package-lock.json && npm i && npx husky install",
+		"reinstall": "rm -rf node_modules/ && rm package-lock.json && npm i && npx husky install",
 		"lint": "eslint . --ext .ts --fix",
 		"watch": "jest --watch",
 		"tsc": "tsc",
@@ -28,9 +28,13 @@
 		"d-link": "npm run build && npm run link",
 		"d-test": "tsc && npm test",
 		"d-e-test": "npm run d-link && npm run e-tsc && npm run e-test",
+		"d-p-test": "npm run p-reinstall && npm run p-test",
 		"endToEnd": "-------------endToEnd-----------------------",
 		"e-tsc": "tsc -p tsconfig.doc.json",
-		"e-test": "jest --forceExit -c=jest.config.doc.js"
+		"e-test": "jest --forceExit -c=jest.config.doc.js",
+		"published": "-------------published test-----------------------",
+		"p-reinstall": "npm --prefix codeForDoc run reinstall",
+		"p-test": "npm --prefix codeForDoc test"
 	},
 	"repository": {
 		"type": "git",

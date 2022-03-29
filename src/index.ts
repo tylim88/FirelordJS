@@ -61,9 +61,15 @@ export * from './queryClauses'
 export { query } from './refs'
 export * from './equal'
 export type {
+	MetaType,
 	MetaTypeCreator,
 	ServerTimestamp,
 	DeleteField,
 	PossiblyReadAsUndefined,
 	DocumentReference,
+	CollectionReference,
+	Query,
+	DocumentSnapshot,
+	QuerySnapshot,
+	QueryDocumentSnapshot,
 } from './types'
