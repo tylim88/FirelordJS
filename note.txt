@@ -34,3 +34,8 @@ anything where the input has nothing to do with document data type, is directly 
 - enableNetwork
 - onSnapshotsInSync
 - namedQuery
+
+new features:
+1. prevent naked empty array in where clause <-- easy
+2. stop user from using error message as value <-- easy but need to implement in many place
+3. absolute member <-- difficult

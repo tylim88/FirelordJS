@@ -1,5 +1,4 @@
 import { FieldValues } from './fieldValue'
-import { NotTreatedAsObjectType } from './ref'
 
 // https://javascript.plainenglish.io/using-firestore-with-more-typescript-8058b6a88674
 type DeepKeyHybridInner<
@@ -7,7 +6,9 @@ type DeepKeyHybridInner<
 	K extends keyof T,
 	Mode extends 'read' | 'write'
 > = K extends string
-	? T[K] extends FieldValues | NotTreatedAsObjectType
+	? // ! this line is not needed because FieldValues does not extends Record<string, unknown>, however removing it cause error in normal setDoc operation when dealing with array field value, how is this possible as normal setDoc does not implement this check.
+	  // ! it seems like it is inferring type from merge setDoc data type, need more research
+	  T[K] extends FieldValues
 		? K
 		: T[K] extends Record<string, unknown>
 		? Mode extends 'write'
@@ -35,11 +36,7 @@ type DeepValueHybrid<
 	? T[P]
 	: never // impossible route
 
-export type ObjectFlattenHybrid<Data> = Data extends
-	| FieldValues
-	| NotTreatedAsObjectType // might not need to exclude FieldValues as it is interface now, but just leave it for now for safe
-	? Data
-	: Data extends Record<string, unknown>
+export type ObjectFlattenHybrid<Data> = Data extends Record<string, unknown>
 	? {
 			[K in DeepKeyHybrid<Data, 'write'>]-?: ObjectFlattenHybrid<
 				DeepValueHybrid<Data, K, 'write'>

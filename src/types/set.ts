@@ -21,7 +21,7 @@ A Promise resolved once the data has been successfully written to the backend (n
 type SetCreator<U> = <
 	T extends MetaType,
 	// https://stackoverflow.com/questions/71223634/typescript-interface-causing-type-instantiation-is-excessively-deep-and-possibl
-	Data extends Record<string, unknown>, // ! if change this type to firestore document data, it will trigger <Type instantiation is excessively deep and possibly infinite> error
+	Data extends Record<string, unknown>,
 	SetOptions extends
 		| {
 				merge: boolean
@@ -52,11 +52,7 @@ type SetCreator<U> = <
 				true
 		  >
 		: RecursivelyReplaceDeleteFieldWithErrorMsg<T['write'], Data>,
-	// RecursivelyReplaceDeleteFieldWithErrorMsg<
-	// 		T['write'],
-	// 		 Data
-	//   >,
-	options?: SetOptions
+	options?: SetOptions extends never ? SetOptions : SetOptions
 ) => U
 
 export type Set = SetCreator<Promise<void>>

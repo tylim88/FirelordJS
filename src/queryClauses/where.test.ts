@@ -6,6 +6,8 @@ import { documentId } from '../fieldPath'
 initializeApp()
 const user = userRefCreator()
 const ref = user.collectionGroup()
+
+// runtime is tested on getDocs and onSnapshot
 describe('test query ref', () => {
 	it('test wrong where field path', () => {
 		query(
@@ -80,5 +82,28 @@ describe('test query ref', () => {
 		query(ref, where('a.e', 'array-contains', '1'))
 		query(ref, where('a.e', 'array-contains-any', ['1']))
 		query(ref, where('a.e', 'in', [['1']]))
+	})
+
+	it('test block fresh empty array, negative case', () => {
+		// @ts-expect-error
+		query(ref, where('name', 'not-in', []))
+		// @ts-expect-error
+		query(ref, where('name', 'in', []))
+		// @ts-expect-error
+		query(ref, where('a.e', 'array-contains-any', []))
+		// @ts-expect-error
+		query(ref, where('a.e', 'in', []))
+		// @ts-expect-error
+		query(ref, where('a.e', 'not-in', []))
+	})
+
+	it('test block fresh empty array, positive case', () => {
+		const arr: string[] = []
+		const arr2D: string[][] = []
+		query(ref, where('name', 'not-in', arr))
+		query(ref, where('name', 'in', arr))
+		query(ref, where('a.e', 'array-contains-any', arr))
+		query(ref, where('a.e', 'in', arr2D))
+		query(ref, where('a.e', 'not-in', arr2D))
 	})
 })
