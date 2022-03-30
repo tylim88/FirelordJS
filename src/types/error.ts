@@ -67,8 +67,8 @@ export type ErrorWhereInequalityOpStrSameField =
 	`Invalid query. All where filters with an inequality (<, <=, !=, not-in, >, or >=) must be on the same field path.`
 export type ErrorWhereOnlyOneNotEqual =
 	`Error: You cannot use more than one ( != ) filter.`
-export type ErrorWhereNoFreshEmptyArray =
-	`Error: No Fresh Empty Array in ( in, not-in, array-contains-any ) filter`
+export type ErrorWhereNoNeverEmptyArray =
+	`Error: No Empty Array ( never[] ) in ( in, not-in, array-contains-any ) filter`
 export type ErrorCursorTooManyArguments =
 	`Error: Too many arguments provided to startAt/startAfter/endAt/endBefore(). The number of arguments must be less than or equal to the number of orderBy() clauses than come before it`
 export type ErrorUnknownMember<T> =
@@ -110,7 +110,7 @@ export type ErrorMsgs =
 	| ErrorUnknownMember<string>
 	| ErrorWhereDocumentFieldPath
 	| ErrorWhere__name__
-	| ErrorWhereNoFreshEmptyArray
+	| ErrorWhereNoNeverEmptyArray
 
 export type ReplaceErrorMsgsWithNever<T> = T extends ErrorMsgs ? never : T // ! not yet implemented anywhere
 

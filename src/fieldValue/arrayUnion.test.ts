@@ -31,7 +31,7 @@ describe('test arrayUnion', () => {
 			expect(data.a).not.toEqual([-100, 100])
 		}
 	})
-	it('test with empty array', async () => {
+	it('test with no arg', async () => {
 		await updateDoc(docRef, { a: arrayUnion() })
 		const docSnap = await getDoc(docRef)
 		const data = docSnap.data()
@@ -40,5 +40,12 @@ describe('test arrayUnion', () => {
 			expect(data.a).toEqual([100, -100])
 			expect(data.a).not.toEqual([-100, 100])
 		}
+	})
+
+	it('test with empty array', async () => {
+		await updateDoc(docRef, {
+			// @ts-expect-error
+			a: arrayUnion([]),
+		})
 	})
 })

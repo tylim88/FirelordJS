@@ -116,3 +116,18 @@ query(
 	orderBy('a')
 ) // bad: first orderBy field is incorrect
 query(colRef, where(documentId(), '>', 'xyz' as const), orderBy('__name__')) // good: first orderBy field is correct
+//
+//
+//
+//
+//
+//
+//
+//
+// @ts-expect-error
+query(colRef, where('a', 'in', [])) // never[] type is not ok
+//
+const arr = (): ('a' | 'b' | 'c')[] => {
+	return []
+} // empty array may result from expression
+query(colRef, where('a', 'in', arr())) // impossible to block correctType[]

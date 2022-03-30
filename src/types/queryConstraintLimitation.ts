@@ -11,7 +11,7 @@ import {
 	ErrorWhereInequalityOpStrSameField,
 	ErrorWhereOnlyOneNotEqual,
 	ErrorCursorTooManyArguments,
-	ErrorWhereNoFreshEmptyArray,
+	ErrorWhereNoNeverEmptyArray,
 } from './error'
 import { IsSame, IsTrue } from './utils'
 import {
@@ -315,7 +315,7 @@ type WhereConstraintLimitation<
 			U['fieldPath'],
 			U['opStr'],
 			U['value'] extends never[]
-				? ErrorWhereNoFreshEmptyArray
+				? ErrorWhereNoNeverEmptyArray
 				: U['value'] extends (infer P)[]
 				? GetCorrectDocumentIdBasedOnRef<T, Q, U['fieldPath'], P>[]
 				: ErrorWhereCompareValueMustBeArray<U['fieldPath']>
@@ -326,7 +326,7 @@ type WhereConstraintLimitation<
 			U['fieldPath'],
 			U['opStr'],
 			U['value'] extends never[]
-				? ErrorWhereNoFreshEmptyArray
+				? ErrorWhereNoNeverEmptyArray
 				: T['compare'][U['fieldPath']] extends (infer R)[]
 				? T['compare'][U['fieldPath']]
 				: ErrorWhereCompareValueMustBeArray<U['fieldPath']>

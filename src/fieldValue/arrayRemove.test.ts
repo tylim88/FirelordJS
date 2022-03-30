@@ -32,7 +32,7 @@ describe('test arrayRemove', () => {
 			expect(data.a).not.toEqual([0, 100])
 		}
 	})
-	it('test with empty array', async () => {
+	it('test with no arg', async () => {
 		await updateDoc(docRef, { a: arrayRemove() })
 		const docSnap = await getDoc(docRef)
 		const data = docSnap.data()
@@ -41,5 +41,11 @@ describe('test arrayRemove', () => {
 			expect(data.a).toEqual([100, 0])
 			expect(data.a).not.toEqual([0, 100])
 		}
+	})
+	it('test with empty array', async () => {
+		await updateDoc(docRef, {
+			// @ts-expect-error
+			a: arrayRemove([]),
+		})
 	})
 })
