@@ -41,11 +41,4 @@ describe('test arrayUnion', () => {
 			expect(data.a).not.toEqual([-100, 100])
 		}
 	})
-
-	it('test with empty array', async () => {
-		await updateDoc(docRef, {
-			// @ts-expect-error
-			a: arrayUnion([]),
-		})
-	})
 })
