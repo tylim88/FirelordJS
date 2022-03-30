@@ -13,6 +13,7 @@ module.exports = {
 	],
 	parser: '@typescript-eslint/parser',
 	ignorePatterns: [
+		'codeForDoc/**/*',
 		'dist/**/*', // Ignore built files.
 	],
 	plugins: ['@typescript-eslint', 'import'],

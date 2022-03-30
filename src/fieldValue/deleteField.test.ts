@@ -111,7 +111,8 @@ describe('test deleteField', () => {
 			setDoc(
 				docRef,
 				{
-					a: 'abc',
+					// @ts-expect-error
+					a: deleteField(),
 					// @ts-expect-error
 					b: { c: [{ d: true }] }, // error because incomplete member
 					// @ts-expect-error

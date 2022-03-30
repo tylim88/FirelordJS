@@ -15,6 +15,29 @@ type HandleUnknownMember<T extends Record<string, unknown>, Data> = Omit<
 		: ErrorUnknownMember<K>
 }
 
+type IsSetDeleteAbleFieldValueValid<
+	T,
+	Data,
+	K extends string,
+	Merge extends boolean | string[]
+> = Merge extends false
+	? T
+	: Data extends DeleteField
+	? Merge extends true
+		? DeleteField extends Extract<T, DeleteField>
+			? T
+			: string extends Exclude<T, DeleteField>
+			? ErrorDeleteFieldUnion<K>
+			: Exclude<T, DeleteField> | ErrorDeleteFieldMerge
+		: Merge extends (infer P)[]
+		? DeleteField extends Extract<T, DeleteField>
+			? T
+			: string extends Exclude<T, DeleteField>
+			? ErrorDeleteFieldUnion<K>
+			: Exclude<T, DeleteField> | ErrorDeleteFieldMerge
+		: T
+	: T
+
 // type checking for array in update operation
 type PartialNoUndefinedAndNoUnknownMemberInArray<T, Data> =
 	T extends (infer ElementOfBase)[]
@@ -87,7 +110,7 @@ export type RecursivelyReplaceDeleteFieldWithErrorMsg<T, Data> =
 										? string extends Exclude<T[K], DeleteField>
 											? ErrorDeleteFieldMerge
 											: Exclude<T[K], DeleteField> | ErrorDeleteFieldMerge
-										: T[K]
+										: ErrorDeleteFieldMerge
 									: T[K]
 								: T[K]
 							: never // impossible route
@@ -95,28 +118,3 @@ export type RecursivelyReplaceDeleteFieldWithErrorMsg<T, Data> =
 				: HandleUnknownMember<T, Data>
 			: T
 		: T
-
-type IsSetDeleteAbleFieldValueValid<
-	T,
-	Data,
-	K extends string,
-	Merge extends boolean | string[]
-> = Merge extends false
-	? T
-	: Data extends DeleteField
-	? Merge extends true
-		? T
-		: Merge extends false
-		? DeleteField extends Extract<T, DeleteField>
-			? string extends Exclude<T, DeleteField>
-				? ErrorDeleteFieldMerge
-				: Exclude<T, DeleteField> | ErrorDeleteFieldMerge // only show error when condition failed
-			: T
-		: Merge extends (infer P)[]
-		? DeleteField extends Extract<T, DeleteField>
-			? T
-			: string extends Exclude<T, DeleteField>
-			? ErrorDeleteFieldUnion<K>
-			: Exclude<T, DeleteField> | ErrorDeleteFieldMerge // only show error when condition failed
-		: T
-	: T

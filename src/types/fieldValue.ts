@@ -18,8 +18,6 @@ export interface ArrayUnionOrRemove<T = unknown> {
 
 export type UnassignedAbleFieldValue = Increment | ArrayUnionOrRemove
 
-// do not use string for Field Value, or else field with string type can accept them without problem
-// this not a big issue, but able assigning field value to string member may raise question and confusion
 export type FieldValues =
 	| ServerTimestamp
 	| UnassignedAbleFieldValue
