@@ -1,4 +1,9 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-npm run pre-commit
+npm run lint --fix
+npm run pretty-quick
+npm run tsc 
+npm run d-test
+npm run d-e-test
+npm run d-p-test

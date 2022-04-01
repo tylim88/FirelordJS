@@ -19,7 +19,6 @@
 		"test": "rm -rf coverage && jest --forceExit",
 		"pub": "npm run build && npm publish",
 		"pretty-quick": "pretty-quick --stage",
-		"pre-commit": "tsc && npm run lint --fix && npm run pretty-quick",
 		"parcel": "rm -rf dist && tsc && parcel build",
 		"build": "rm -rf dist && tsc",
 		"single-test": "jest src/utils.test.ts",
