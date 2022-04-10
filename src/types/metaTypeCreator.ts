@@ -23,13 +23,6 @@ import {
 	RecursiveReplaceUnionInvolveObjectTypeWithErrorMsg,
 } from './markUnionObjectAsError'
 
-export type IdAndPath = {
-	docID: string
-	collectionID: string
-	docPath: string
-	collectionPath: string
-}
-
 export type MetaType = {
 	collectionPath: string
 	collectionID: string
@@ -40,8 +33,8 @@ export type MetaType = {
 	writeFlatten: Record<string, unknown>
 	compare: Record<string, unknown>
 	base: Record<string, unknown>
-	parent: IdAndPath | null
-	ancestors: IdAndPath[]
+	parent: MetaType | null
+	ancestors: MetaType[]
 }
 
 export type MetaTypeCreator<
@@ -115,29 +108,9 @@ export type MetaTypeCreator<
 	ancestors: Parent extends MetaType
 		? [
 				...Parent['ancestors'],
-				{
-					docID: DocID
-					collectionID: CollectionID
-					docPath: Parent extends MetaType
-						? `${Parent['collectionPath']}/${Parent['docID']}/${CollectionID}/${DocID}`
-						: `${CollectionID}/${DocID}`
-					collectionPath: Parent extends MetaType
-						? `${Parent['collectionPath']}/${Parent['docID']}/${CollectionID}`
-						: CollectionID
-				}
+				MetaTypeCreator<Base, CollectionID, DocID, Parent, Settings>
 		  ]
-		: [
-				{
-					docID: DocID
-					collectionID: CollectionID
-					docPath: Parent extends MetaType
-						? `${Parent['collectionPath']}/${Parent['docID']}/${CollectionID}/${DocID}`
-						: `${CollectionID}/${DocID}`
-					collectionPath: Parent extends MetaType
-						? `${Parent['collectionPath']}/${Parent['docID']}/${CollectionID}`
-						: CollectionID
-				}
-		  ]
+		: [MetaTypeCreator<Base, CollectionID, DocID, Parent, Settings>]
 }
 
 type ReadConverterArray<

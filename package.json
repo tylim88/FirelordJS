@@ -1,6 +1,6 @@
 {
 	"name": "firelordjs",
-	"version": "1.0.11",
+	"version": "1.1.0",
 	"description": "🔥 Extremely High Precision Typescript Wrapper for Firestore Web, Providing Unparalleled Type Safe and Dev Experience",
 	"source": "src/index.ts",
 	"main": "dist/index.js",
@@ -19,7 +19,6 @@
 		"test": "rm -rf coverage && jest --forceExit",
 		"pub": "npm run build && npm publish",
 		"pretty-quick": "pretty-quick --stage",
-		"pre-commit": "tsc && npm run lint --fix && npm run pretty-quick",
 		"parcel": "rm -rf dist && tsc && parcel build",
 		"build": "rm -rf dist && tsc",
 		"single-test": "jest src/utils.test.ts",

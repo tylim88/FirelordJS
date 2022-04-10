@@ -13,11 +13,7 @@
 		"emitDeclarationOnly": false,
 		"outDir": "dist",
 		"noUncheckedIndexedAccess": true,
-		"removeComments": false,
-		"typeRoots": ["./node_modules/@types"]
+		"removeComments": false
 	},
-	"include": ["src/**/*"],
-	"ts-node": {
-		"require": ["tsconfig-paths/register"]
-	}
+	"include": ["src/**/*"]
 }
