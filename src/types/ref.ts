@@ -42,7 +42,7 @@ export interface CollectionReference<T extends MetaType> {
 	 * A reference to the containing `DocumentReference` if this is a
 	 * subcollection. If this isn't a subcollection, the reference is null.
 	 */
-	get parent(): 'Message: Due to limitation, you need to type cast this into DocumentReference<TheParent>' // ! limitation
+	get parent(): T['parent']
 }
 
 export interface Query<T extends MetaType> {

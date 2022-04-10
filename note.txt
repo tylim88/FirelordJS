@@ -19,7 +19,6 @@ new info
 
 limitation
 1. unable to union object type with other type except possibly undefined <- not exactly limitation but something that you shouldn't do
-2. collection reference unable to return the correct parent type due to MetaType self referencing limitation
 3. no autocomplete for where's value.
 4. working with documentId and where require to assert the value as const.
 5. no Record<number, any>

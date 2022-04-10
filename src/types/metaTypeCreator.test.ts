@@ -10,8 +10,12 @@ import {
 } from './fieldValue'
 import { DocumentReference } from './ref'
 import { IsTrue, IsSame, IsEqual } from './utils'
+import { Parent, User } from '../utilForTests'
 
 describe('test Firelord type', () => {
+	it('test parents equal', () => {
+		IsTrue<IsSame<Parent, User['parent']>>()
+	})
 	it('test read all as undefined', () => {
 		type A = MetaTypeCreator<
 			{

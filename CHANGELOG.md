@@ -1,5 +1,9 @@
 # HISTORY
 
+## v1.1.0 10-April-22
+
+- MetaType now able to refer to itself, CollectionReference Parent props no longer need type casting
+
 ## v1.0.9 30-Mars-22
 
 - fix the type logic of deleteField, merge set now able to use deleteField on nested fields
