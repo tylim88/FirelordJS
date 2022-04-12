@@ -1,5 +1,9 @@
 # HISTORY
 
+## v1.2.0 12-April-22
+
+- gradually add support for @firebase/rules-unit-testing, stage 1
+
 ## v1.1.0 10-April-22
 
 - MetaType now able to refer to itself, CollectionReference Parent props no longer need type casting

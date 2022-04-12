@@ -17,10 +17,8 @@ export const updateDoc = ((
 	reference: FirelordFirestore.DocumentReference,
 	data: Record<string, unknown>
 ) => {
-	const ref = updateDoc_(
-		reference,
+	const ref =
 		// @ts-expect-error
-		flatten(data)
-	)
+		updateDoc_(reference, flatten(data)) // ! type messed up, after adding firestore of testing type, weird
 	return ref
 }) as unknown as Update

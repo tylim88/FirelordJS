@@ -8,7 +8,8 @@ export const collectionGroupCreator =
 	) =>
 	(firestore?: FirelordFirestore.Firestore) => {
 		return collectionGroup_(
-			firestore || fStore,
+			// @ts-expect-error
+			firestore || fStore, // ! type messed up, after adding firestore of testing type, weird
 			collectionID as string
-		) as Query<T>
+		) as unknown as Query<T>
 	}

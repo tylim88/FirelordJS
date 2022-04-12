@@ -16,9 +16,10 @@ type abc = DocumentReference<{
 const docRef = doc(getFirestore(), 'abc/efg') as abc
 
 // Accept unknown member from stale value
+// ! type messed up, expect error need to move to top after adding firestore of testing type, weird
+// @ts-expect-error
 updateDoc(
 	docRef,
-	// @ts-expect-error
 	{ a: 1, b: 2, c: 3, d: 4 } // good: type error!
 )
 

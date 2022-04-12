@@ -53,7 +53,7 @@ describe('dist files test', () => {
 		expect(docSnap.exists()).toBe(false)
 	})
 
-	it('test getDOcs', async () => {
+	it('test getDocs', async () => {
 		const docId = 'getDocsWithOptionsQueryTest'
 		const docRef = userRef.doc(docId)
 		const data = generateRandomData()
@@ -74,6 +74,7 @@ describe('dist files test', () => {
 			await compareWriteDataWithDocSnapData(data, queryDocumentSnapshot)
 		}
 	})
+
 	it('test onSnapshot', done => {
 		const docId = 'onSnapshotWithOptionQueryTest'
 		const docRef = userRef.doc(docId)

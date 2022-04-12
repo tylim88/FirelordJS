@@ -14,7 +14,7 @@ type parent = MetaTypeCreator<
 	string
 >
 
-type child = MetaTypeCreator<
+type Child = MetaTypeCreator<
 	{
 		a: { b: string; c: boolean }
 		d: number
@@ -28,7 +28,7 @@ type child = MetaTypeCreator<
 describe('test', () => {
 	it('test incorrect collection', () => {
 		;() =>
-			getFirelord<child>()(
+			getFirelord<Child>()(
 				// @ts-expect-error
 				'parent//child'
 			).collection()

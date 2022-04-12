@@ -13,13 +13,18 @@ import { isFirestore } from '../utils'
 export const runTransaction: RunTransaction = (firestore, updateFunction) => {
 	const fStore = isFirestore(firestore) ? firestore : getFirestore()
 	const callback = isFirestore(firestore) ? updateFunction : firestore
-	return runTransaction_(fStore, async transaction => {
-		const set = setCreator(transaction)
-		const update = updateCreator(transaction)
-		const get = getCreator(transaction)
-		const delete_ = deleteCreator(transaction)
-		return callback({ set, update, get, delete: delete_ })
-	})
+	return runTransaction_(
+		// @ts-expect-error
+		fStore, // ! type messed up, after adding firestore of testing type, weird
+
+		async transaction => {
+			const set = setCreator(transaction)
+			const update = updateCreator(transaction)
+			const get = getCreator(transaction)
+			const delete_ = deleteCreator(transaction)
+			return callback({ set, update, get, delete: delete_ })
+		}
+	)
 }
 
 type RunTransaction = {

@@ -8,7 +8,8 @@ export const collectionCreator =
 	) =>
 	(firestore?: FirelordFirestore.Firestore) => {
 		return collection_(
-			firestore || fStore,
+			// @ts-expect-error
+			firestore || fStore, // ! type messed up, after adding firestore of testing type, weird
 			collectionPath as string
 		) as unknown as CollectionReference<T>
 	}
