@@ -17,12 +17,12 @@ jobs:
       - run: npm test
         env:
           PROJECT_ID: ${{ secrets.PROJECT_ID }}
+      - run: npm run build
       - run: npm run link
       - run: npm run e-tsc
       - run: npm run e-test
         env:
           PROJECT_ID: ${{ secrets.PROJECT_ID }}
-      - run: npm run build
       - uses: codecov/codecov-action@v2
   build_publish:
     runs-on: ubuntu-latest
