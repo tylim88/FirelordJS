@@ -8,7 +8,7 @@ import {
 	QuerySnapshot,
 } from '../types'
 
-const isOptions = (
+export const isOptions = (
 	arg:
 		| ((error: FirelordFirestore.FirestoreError) => void)
 		| (() => void)

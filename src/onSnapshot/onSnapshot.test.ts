@@ -1,4 +1,4 @@
-import { onSnapshot } from './onSnapshot'
+import { onSnapshot, isOptions } from './onSnapshot'
 import {
 	generateRandomData,
 	compareWriteDataWithDocSnapData,
@@ -20,6 +20,11 @@ import { where } from '../queryClauses'
 initializeApp()
 const userRef = userRefCreator()
 describe('test onSnapshot', () => {
+	it('test isOption', () => {
+		expect(isOptions({})).toBe(false)
+		expect(isOptions({ includeMetadataChanges: false })).toBe(true)
+		expect(isOptions({ includeMetadataChanges: true })).toBe(true)
+	})
 	it('test one doc functionality and type', done => {
 		const docRef = userRef.doc('onSnapshotOneDocTest')
 		const data = generateRandomData()
@@ -54,8 +59,7 @@ describe('test onSnapshot', () => {
 					unsub()
 					done()
 				},
-				// @ts-expect-error
-				{ includeMetadataChanges: true },
+				() => {},
 				() => {}
 			)
 		})
@@ -85,9 +89,8 @@ describe('test onSnapshot', () => {
 					unsub()
 					done()
 				},
-				() => {}, // @ts-expect-error
-				{ includeMetadataChanges: true },
-				{ includeMetadataChanges: false }
+				() => {},
+				{ includeMetadataChanges: true }
 			)
 		})
 	})
@@ -117,7 +120,6 @@ describe('test onSnapshot', () => {
 					unsub()
 					done()
 				},
-				() => {},
 				{ includeMetadataChanges: true }
 			)
 		})

@@ -1,4 +1,4 @@
-import { flatten } from './utils'
+import { flatten, isFirestore } from './utils'
 import {
 	increment,
 	arrayRemove,
@@ -47,6 +47,14 @@ const prependPropsName = (obj: Record<string, unknown>, name: string) => {
 describe('test flatten', () => {
 	it('test empty', () => {
 		expect(flatten({})).toEqual({})
+	})
+	it('test isOption', () => {
+		expect(isFirestore({})).toBe(false)
+		expect(isFirestore({ type: 'firest1ore' })).toBe(false)
+		expect(isFirestore({ type: 'firestore' })).toBe(true)
+		expect(isFirestore({ type: 'firestore-lite' })).toBe(true)
+		expect(isFirestore({ useEmulator: {} })).toBe(true)
+		expect(isFirestore({ useEmulator: undefined })).toBe(false)
 	})
 	it('test basic', () => {
 		expect(
