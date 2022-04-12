@@ -33,20 +33,22 @@ export const onSnapshot: OnSnapshot = (
 		(isOptions(onError) ? onError : undefined) ||
 		(isOptions(onCompletion) ? onCompletion : undefined)
 
-	return newOptions
-		? onSnapshot_(reference as FirelordFirestore.Query, newOptions, {
-				// @ts-expect-error
-				next: onNext,
-				error: newOnError,
-				complete: newOncCompletion,
-		  })
-		: onSnapshot_(
-				reference as FirelordFirestore.Query,
-				// @ts-expect-error
-				onNext,
-				newOnError,
-				newOncCompletion
-		  )
+	if (newOptions) {
+		return onSnapshot_(reference as FirelordFirestore.Query, newOptions, {
+			// @ts-expect-error
+			next: onNext,
+			error: newOnError,
+			complete: newOncCompletion,
+		})
+	} else {
+		return onSnapshot_(
+			reference as FirelordFirestore.Query,
+			// @ts-expect-error
+			onNext,
+			newOnError,
+			newOncCompletion
+		)
+	}
 }
 
 type OnSnapshot = {
