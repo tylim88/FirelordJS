@@ -55,6 +55,7 @@
 		"V9"
 	],
 	"devDependencies": {
+		"@firebase/rules-unit-testing": "^2.0.2",
 		"@parcel/transformer-typescript-types": "^2.3.2",
 		"@types/jest": "^27.0.2",
 		"@types/lodash": "^4.14.180",

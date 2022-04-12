@@ -15,7 +15,10 @@ A WriteBatch that can be used to atomically execute multiple writes.
 export const writeBatch = (
 	firestore?: FirelordFirestore.Firestore
 ): WriteBatch => {
-	const batch = writeBatch_(firestore || getFirestore())
+	const batch = writeBatch_(
+		// @ts-expect-error
+		firestore || getFirestore() // ! type messed up, after adding firestore of testing type, weird
+	)
 	return Object.freeze({
 		commit: () => batch.commit(),
 		set: setCreator(batch),

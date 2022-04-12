@@ -12,7 +12,7 @@ export interface DocumentReference<T extends MetaType> {
 	 * The {@link Firestore} instance the document is in.
 	 * This is useful for performing transactions, for example.
 	 */
-	readonly firestore: FirelordFirestore.Firestore
+	readonly firestore: FirelordFirestore.FirestoreGet
 	/**
 	 * The document's identifier within its collection.
 	 */
@@ -52,7 +52,7 @@ export interface Query<T extends MetaType> {
 	 * The `Firestore` instance for the Firestore database (useful for performing
 	 * transactions, etc.).
 	 */
-	readonly firestore: FirelordFirestore.Firestore
+	readonly firestore: FirelordFirestore.FirestoreGet
 }
 
 export interface Transaction {

@@ -6,16 +6,7 @@ import {
 	FirelordFirestore,
 	DocumentSnapshot,
 	QuerySnapshot,
-	IsTrue,
 } from '../types'
-
-const includeMetadataChanges = 'includeMetadataChanges' as const
-// this will trigger error if firestore change the type definition
-IsTrue<
-	typeof includeMetadataChanges extends keyof FirelordFirestore.SnapshotListenOptions
-		? true
-		: false
->()
 
 const isOptions = (
 	arg:
@@ -24,12 +15,8 @@ const isOptions = (
 		| FirelordFirestore.SnapshotListenOptions
 		| undefined
 ): arg is FirelordFirestore.SnapshotListenOptions => {
-	if (arg) {
-		// eslint-disable-next-line no-prototype-builtins
-		return arg.hasOwnProperty(includeMetadataChanges)
-	} else {
-		return false
-	}
+	const v = arg as Partial<FirelordFirestore.SnapshotListenOptions>
+	return !!v?.includeMetadataChanges
 }
 
 export const onSnapshot: OnSnapshot = (

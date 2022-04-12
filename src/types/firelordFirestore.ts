@@ -1,5 +1,10 @@
+import { RulesTestContext } from '@firebase/rules-unit-testing'
 export namespace FirelordFirestore {
-	export type Firestore = ReturnType<FirebaseFirestore['getFirestore']>
+	export type Firestore = FirestoreGet | FirestoreTesting
+
+	export type FirestoreGet = ReturnType<FirebaseFirestore['getFirestore']>
+
+	export type FirestoreTesting = ReturnType<RulesTestContext['firestore']>
 
 	export type FirebaseFirestore = typeof import('firebase/firestore')
 
