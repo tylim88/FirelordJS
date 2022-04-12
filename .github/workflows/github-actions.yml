@@ -19,6 +19,7 @@ jobs:
           PROJECT_ID: ${{ secrets.PROJECT_ID }}
       - run: npm run build
       - run: npm run link
+      - run: npm link firelordjs
       - run: npm run e-tsc
       - run: npm run e-test
         env:

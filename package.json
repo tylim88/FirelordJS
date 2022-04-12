@@ -1,6 +1,6 @@
 {
 	"name": "firelordjs",
-	"version": "1.1.0",
+	"version": "1.2.0",
 	"description": "🔥 Extremely High Precision Typescript Wrapper for Firestore Web, Providing Unparalleled Type Safe and Dev Experience",
 	"source": "src/index.ts",
 	"main": "dist/index.js",
@@ -55,7 +55,6 @@
 		"V9"
 	],
 	"devDependencies": {
-		"@firebase/rules-unit-testing": "^2.0.2",
 		"@parcel/transformer-typescript-types": "^2.3.2",
 		"@types/jest": "^27.0.2",
 		"@types/lodash": "^4.14.180",
