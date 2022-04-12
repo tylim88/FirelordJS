@@ -16,7 +16,7 @@ const isOptions = (
 		| undefined
 ): arg is FirelordFirestore.SnapshotListenOptions => {
 	const v = arg as Partial<FirelordFirestore.SnapshotListenOptions>
-	return !!v?.includeMetadataChanges
+	return v?.includeMetadataChanges !== undefined // includeMetadataChanges is boolean, so check for undefined
 }
 
 export const onSnapshot: OnSnapshot = (

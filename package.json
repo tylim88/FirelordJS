@@ -1,6 +1,6 @@
 {
 	"name": "firelordjs",
-	"version": "1.2.0",
+	"version": "1.1.1",
 	"description": "🔥 Extremely High Precision Typescript Wrapper for Firestore Web, Providing Unparalleled Type Safe and Dev Experience",
 	"source": "src/index.ts",
 	"main": "dist/index.js",
@@ -12,14 +12,14 @@
 		}
 	},
 	"scripts": {
-		"reinstall": "rm -rf node_modules/ && rm package-lock.json && npm i && npx husky install",
+		"reinstall": "(rm -rf node_modules || true) && (rm package-lock.json || true) && npm i && npx husky install",
 		"lint": "eslint . --ext .ts --fix",
 		"watch": "jest --watch",
 		"tsc": "tsc",
 		"test": "rm -rf coverage && jest --forceExit",
 		"pub": "npm run build && npm publish",
 		"pretty-quick": "pretty-quick --stage",
-		"parcel": "rm -rf dist && tsc && parcel build",
+		"parcel": "rm -rf dist && tsc --emitDeclarationOnly true && parcel build",
 		"build": "rm -rf dist && tsc",
 		"single-test": "jest src/utils.test.ts",
 		"link": "npm link && npm link firelordjs",
@@ -71,7 +71,7 @@
 		"eslint-import-resolver-typescript": "^2.5.0",
 		"eslint-plugin-import": "^2.25.2",
 		"eslint-plugin-prettier": "^4.0.0",
-		"firebase": "^9.6.6",
+		"firebase": "^9.6.10",
 		"husky": "^7.0.0",
 		"jest": "^27.2.5",
 		"jsdoc": "^3.6.5",

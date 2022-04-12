@@ -4,7 +4,7 @@
 	"description": "test published Firelordjs",
 	"main": "index.js",
 	"scripts": {
-		"reinstall": "rm -rf node_modules/ && rm package-lock.json && npm i",
+		"reinstall": "(rm -rf node_modules || true) && (rm package-lock.json || true) && npm i",
 		"test": "rm -rf coverage && jest --forceExit"
 	},
 	"author": "",
@@ -12,7 +12,7 @@
 	"dependencies": {
 		"endtoendtest": "file:",
 		"firebase": "latest",
-		"firelordjs": "^1.1.0"
+		"firelordjs": "latest"
 	},
 	"devDependencies": {
 		"@firebase/rules-unit-testing": "^2.0.2",

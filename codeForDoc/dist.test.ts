@@ -74,6 +74,7 @@ describe('dist files test', () => {
 			await compareWriteDataWithDocSnapData(data, queryDocumentSnapshot)
 		}
 	})
+
 	it('test onSnapshot', done => {
 		const docId = 'onSnapshotWithOptionQueryTest'
 		const docRef = userRef.doc(docId)
