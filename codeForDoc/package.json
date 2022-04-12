@@ -12,9 +12,10 @@
 	"dependencies": {
 		"endtoendtest": "file:",
 		"firebase": "latest",
-		"firelordjs": "^1.0.11-beta.1"
+		"firelordjs": "^1.1.0"
 	},
 	"devDependencies": {
+		"@firebase/rules-unit-testing": "^2.0.2",
 		"@types/jest": "^27.0.2",
 		"@types/lodash": "^4.14.180",
 		"@typescript-eslint/eslint-plugin": "^5.0.0",
