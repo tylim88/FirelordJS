@@ -71,7 +71,7 @@ describe('test whether works with rules-unit-testing', () => {
 	})
 	it('test addDoc and deleteDoc', async () => {
 		const data = generateRandomData()
-		const ref = userRef.collection()
+		const ref = userRef.collection(firestore)
 		const docRef = await addDoc(ref, data)
 		await readThenCompareWithWriteData(data, docRef)
 		await deleteDoc(docRef)
@@ -87,7 +87,7 @@ describe('test whether works with rules-unit-testing', () => {
 		expect.hasAssertions()
 		const querySnapshot = await getDocs(
 			query(
-				userRef.collectionGroup(),
+				userRef.collectionGroup(firestore),
 				where('a.b.c', '==', data.a.b.c as number)
 			)
 		)
@@ -108,7 +108,10 @@ describe('test whether works with rules-unit-testing', () => {
 		expect.hasAssertions()
 		setDoc(docRef, data).then(() => {
 			const unsub = onSnapshot(
-				query(userRef.collection(), where('a.b.c', '==', data.a.b.c as number)),
+				query(
+					userRef.collection(firestore),
+					where('a.b.c', '==', data.a.b.c as number)
+				),
 				async querySnapshot => {
 					const queryDocumentSnapshot = querySnapshot.docs.filter(
 						doc => doc.id === docId
