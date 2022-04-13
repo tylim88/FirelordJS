@@ -113,7 +113,7 @@
 
 support [@firebase/rules-unit-testing](https://www.npmjs.com/package/@firebase/rules-unit-testing)
 
-The development code, built code and published code are all tested.
+The development code, built code and published code are all tested in ci.
 
 ## Related Projects
 
