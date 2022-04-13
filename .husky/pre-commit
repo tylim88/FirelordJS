@@ -5,4 +5,4 @@ npm run lint --fix
 npm run pretty-quick
 npm run build 
 npm run d-test
-npm run d-e-test
+npm run d-b-test
