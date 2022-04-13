@@ -4,8 +4,9 @@
 	"description": "test published Firelordjs",
 	"main": "index.js",
 	"scripts": {
-		"reinstall": "(rm -rf node_modules || true) && (rm package-lock.json || true) && npm i",
-		"test": "rm -rf coverage && jest --forceExit"
+		"uninstall": "rm -rf node_modules && rm -rf package-lock.json",
+		"reinstall": "npm run uninstall && npm i",
+		"test": "firebase emulators:exec --only firestore \"rm -rf coverage && jest --forceExit\""
 	},
 	"author": "",
 	"license": "ISC",

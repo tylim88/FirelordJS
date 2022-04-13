@@ -95,8 +95,7 @@ describe('dist files test', () => {
 					unsub()
 					done()
 				},
-				// @ts-expect-error
-				{ includeMetadataChanges: false },
+				() => {},
 				{ includeMetadataChanges: true }
 			)
 		})

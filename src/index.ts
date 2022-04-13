@@ -20,7 +20,7 @@ export const getFirelord =
 		collectionPath: CollectionPath extends never
 			? CollectionPath
 			: IsValidID<CollectionPath, 'Collection', 'Path'>
-	) => {
+	): FirelordRef<T> => {
 		const fStore = firestore || getFirestore()
 		const doc = docCreator<T>(fStore, collectionPath)
 		const collection = collectionCreator<T>(fStore, collectionPath)
@@ -34,6 +34,32 @@ export const getFirelord =
 			collectionGroup,
 		})
 	}
+
+export type FirelordRef<T extends MetaType> = Readonly<{
+	doc: {
+		<DocumentId extends T['docID']>(
+			documentID: DocumentId extends never
+				? DocumentId
+				: DocumentId extends IsValidID<DocumentId, 'Document', 'ID'>
+				? T['docID']
+				: IsValidID<DocumentId, 'Document', 'ID'>
+		): import('./types').DocumentReference<T>
+		<DocumentId_1 extends T['docID']>(
+			firestore: FirelordFirestore.Firestore,
+			documentID: DocumentId_1 extends never
+				? DocumentId_1
+				: DocumentId_1 extends IsValidID<DocumentId_1, 'Document', 'ID'>
+				? T['docID']
+				: IsValidID<DocumentId_1, 'Document', 'ID'>
+		): import('./types').DocumentReference<T>
+	}
+	collection: (
+		firestore?: FirelordFirestore.Firestore | undefined
+	) => import('./types').CollectionReference<T>
+	collectionGroup: (
+		firestore?: FirelordFirestore.Firestore | undefined
+	) => import('./types').Query<T>
+}>
 
 export {
 	Timestamp,

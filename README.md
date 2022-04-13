@@ -109,10 +109,11 @@
 <a href="https://firelordjs.com/quick_start" target="_blank"><strong>Documentation</strong></a>
 </div>
 
-# Note
+<br/>
 
-1. V1 rewrite from scratch using Firestore V9 API and is better than V0 by a huge margin.
-2. V1 is not compatible with V0, the old V0 Documentation can be found [here](https://github.com/tylim88/Firelordjs/V0Doc.md).
+support [@firebase/rules-unit-testing](https://www.npmjs.com/package/@firebase/rules-unit-testing)
+
+The development code, built code and published code are all tested in ci.
 
 ## Related Projects
 

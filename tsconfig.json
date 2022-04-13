@@ -13,7 +13,8 @@
 		"emitDeclarationOnly": false,
 		"outDir": "dist",
 		"noUncheckedIndexedAccess": true,
-		"removeComments": false
+		"removeComments": false,
+		"resolveJsonModule": true
 	},
 	"include": ["src/**/*"]
 }

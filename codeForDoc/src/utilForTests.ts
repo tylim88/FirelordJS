@@ -17,7 +17,7 @@ import {
 import { initializeApp as initializeApp_ } from 'firebase/app'
 import pick from 'pick-random'
 import betwin from 'betwin'
-import { flatten } from '../src/utils'
+import { flatten } from '../../src/utils'
 import { cloneDeep } from 'lodash'
 
 export const initializeApp = () => {

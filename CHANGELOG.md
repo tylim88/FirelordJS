@@ -1,5 +1,9 @@
 # HISTORY
 
+## v1.2.0 13-April-22
+
+- @firebase/rules-unit-testing is now supported and tested.
+
 ## v1.2.0 12-April-22
 
 - gradually add support for @firebase/rules-unit-testing, stage 1

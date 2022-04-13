@@ -16,7 +16,6 @@
 .gitignore
 .npmignore
 note.txt
-V0Doc.md
 
 # config file
 jest.config.js
@@ -40,3 +39,6 @@ tsconfig.prod.json
 # misc
 CHANGELOG.md
 package-lock.json
+firebase-debug.log
+firestore-debug.log
+/firebase.json

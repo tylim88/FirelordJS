@@ -11,6 +11,7 @@ jobs:
           node-version: '16.14'
           cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
+      - run: npm i -g firebase-tools
       - run: npm i
       - run: npm run lint --fix
       - run: npm run pretty-quick
@@ -19,8 +20,8 @@ jobs:
           PROJECT_ID: ${{ secrets.PROJECT_ID }}
       - run: npm run build
       - run: npm run link
-      - run: npm run e-tsc
-      - run: npm run e-test
+      - run: npm run b-tsc
+      - run: npm run b-test
         env:
           PROJECT_ID: ${{ secrets.PROJECT_ID }}
       - uses: codecov/codecov-action@v2
@@ -35,6 +36,7 @@ jobs:
           cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
           registry-url: 'https://registry.npmjs.org'
+      - run: npm i -g firebase-tools
       - run: npm i
       - run: npm run build
       - run: npm publish
