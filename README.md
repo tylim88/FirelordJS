@@ -42,7 +42,7 @@
 			&nbsp;
 			<a href="https://github.com/tylim88/Firelordjs/actions" target="_blank">
 				<img
-					src="https://github.com/tylim88/Firelordjs/actions/workflows/main.yml/badge.svg"
+					src="https://github.com/tylim88/Firelordjs/actions/workflows/github-actions.yml/badge.svg"
 					alt="github action"
 				/>
 			</a>
