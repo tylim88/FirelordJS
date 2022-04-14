@@ -1,4 +1,4 @@
-name: push-main-publish
+name: main
 on: [push]
 jobs:
   build_publish:
