@@ -1,10 +1,15 @@
 # HISTORY
 
-## v1.2.0 13-April-22
+## v1.1.3 14-April-22
+
+- expose `PartialNoUndefinedAndNoUnknownMember`
+
+## v1.1.2 13-April-22
 
 - @firebase/rules-unit-testing is now supported and tested.
+- expose `FirelordRef`
 
-## v1.2.0 12-April-22
+## v1.1.1 12-April-22
 
 - gradually add support for @firebase/rules-unit-testing, stage 1
 
