@@ -1,7 +1,7 @@
 import {
 	MetaType,
 	DocumentReference,
-	PartialNoUndefinedAndNoUnknownMember,
+	PartialNoUndefinedAndNoUnknownMemberNoEmptyMember,
 } from '../types'
 import { Transaction, WriteBatch } from './ref'
 /**
@@ -22,7 +22,12 @@ export type UpdateCreator<U> = <
 	reference: DocumentReference<T>,
 	data: Data extends never
 		? Data
-		: PartialNoUndefinedAndNoUnknownMember<T['writeFlatten'], Data, false>
+		: PartialNoUndefinedAndNoUnknownMemberNoEmptyMember<
+				T['writeFlatten'],
+				Data,
+				false,
+				false
+		  >
 ) => U
 
 export type Update = UpdateCreator<Promise<void>>

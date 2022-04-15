@@ -1,5 +1,11 @@
 # HISTORY
 
+## v1.1.6 15-April-22
+
+- rename `PartialNoUndefinedAndNoUnknownMember` to `PartialNoUndefinedAndNoUnknownMemberNoEmptyMember`
+- add `AllowEmptyMember` option to `PartialNoUndefinedAndNoUnknownMemberNoEmptyMember`
+- remove firebase as peer dependency
+
 ## v1.1.3 14-April-22
 
 - expose `PartialNoUndefinedAndNoUnknownMember`
