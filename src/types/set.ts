@@ -1,7 +1,7 @@
 import { MetaType } from './metaTypeCreator'
 import { DocumentReference, Transaction, WriteBatch } from './ref'
 import {
-	PartialNoUndefinedAndNoUnknownMember,
+	PartialNoUndefinedAndNoUnknownMemberNoEmptyMember,
 	RecursivelyReplaceDeleteFieldWithErrorMsg,
 } from './partialNoUndefinedAndNoUnknownMember'
 import { DeepKeyHybrid } from './objectFlatten'
@@ -41,14 +41,15 @@ type SetCreator<U> = <
 				| {
 						mergeFields: DeepKeyHybrid<Data, 'write'>[]
 				  }
-		? PartialNoUndefinedAndNoUnknownMember<
+		? PartialNoUndefinedAndNoUnknownMemberNoEmptyMember<
 				T['write'],
 				Data,
 				SetOptions extends { merge: boolean }
 					? SetOptions['merge']
 					: SetOptions extends { mergeFields: DeepKeyHybrid<Data, 'write'>[] }
 					? SetOptions['mergeFields']
-					: false
+					: false,
+				false
 		  >
 		: RecursivelyReplaceDeleteFieldWithErrorMsg<T['write'], Data>,
 	options?: SetOptions extends never ? SetOptions : SetOptions
