@@ -2,7 +2,7 @@ name: all-except-main-push
 on: [push]
 jobs:
   build_test:
-    if: github.ref != 'refs/heads/master'
+    if: github.ref != 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
