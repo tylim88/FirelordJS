@@ -1,0 +1,26 @@
+name: all-pull-request
+on: [pull_request]
+jobs:
+  build_test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16.14'
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
+      - run: npm i -g firebase-tools
+      - run: npm i
+      - run: npm run lint --fix
+      - run: npm run pretty-quick
+      - run: npm test
+        env:
+          PROJECT_ID: ${{ secrets.PROJECT_ID }}
+      - run: npm run build
+      - run: npm run link
+      - run: npm run b-tsc
+      - run: npm run b-test
+        env:
+          PROJECT_ID: ${{ secrets.PROJECT_ID }}
+      - uses: codecov/codecov-action@v2

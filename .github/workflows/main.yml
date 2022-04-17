@@ -1,0 +1,24 @@
+name: Main
+on: [push]
+jobs:
+  build_publish:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16.14'
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
+          registry-url: 'https://registry.npmjs.org'
+      - run: npm i -g firebase-tools
+      - run: npm i
+      - run: npm run build
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - run: npm run p-reinstall
+      - run: npm run p-test
+        env:
+          PROJECT_ID: ${{ secrets.PROJECT_ID }}
