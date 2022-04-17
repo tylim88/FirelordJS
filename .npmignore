@@ -10,7 +10,7 @@
 /codeForDoc
 /.opensource
 /.husky
-/endToEndTest
+/scripts
 
 # ignore file
 .gitignore
