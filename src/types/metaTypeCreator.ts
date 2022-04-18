@@ -57,8 +57,12 @@ export type MetaTypeCreator<
 	}
 	// so it looks more explicit in typescript hint
 	write: {
-		[J in keyof RecursiveReplaceUnionInvolveObjectTypeWithErrorMsg<Base>]-?: WriteConverter<
-			RecursiveReplaceUnionInvolveObjectTypeWithErrorMsg<Base>[J],
+		[J in keyof RecursiveReplaceUnionInvolveObjectTypeWithErrorMsg<
+			RecursiveExcludePossiblyUndefinedFieldValue<Base>
+		>]-?: WriteConverter<
+			RecursiveReplaceUnionInvolveObjectTypeWithErrorMsg<
+				RecursiveExcludePossiblyUndefinedFieldValue<Base>
+			>[J],
 			Settings['banNull'] extends true ? null : never
 		>
 	}
