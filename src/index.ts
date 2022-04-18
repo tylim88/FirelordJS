@@ -98,5 +98,5 @@ export type {
 	DocumentSnapshot,
 	QuerySnapshot,
 	QueryDocumentSnapshot,
-	PartialNoUndefinedAndNoUnknownMemberNoEmptyMember as PartialNoUndefinedAndNoUnknownMember,
 } from './types'
+export * as Types from './types'
