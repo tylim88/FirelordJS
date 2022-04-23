@@ -106,7 +106,7 @@
 </div>
 <br />
 <div align="center">
-<a href="https://firelordjs.com/quick_start" target="_blank"><strong>Documentation</strong></a>
+<a href="https://firelordjs.com/quick_start" target="_blank" style="color:blue"><strong>Documentation</strong></a>
 </div>
 
 <br/>
@@ -121,4 +121,4 @@ The development code, built code and published code are all tested in ci.
 2. [Firelordrn](https://www.npmjs.com/package/firelordrn) - Typescript wrapper for Firestore React Native
 3. [FireLaw](https://www.npmjs.com/package/firelaw) - Write Firestore security rule with Typescript, utilizing Firelord type engine.
 
-All 3 projects are **still in development**.
+All 3 projects are **still in development**. FirelordJS itself is completed.
