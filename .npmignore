@@ -35,10 +35,9 @@ tsconfig.prod.json
 **/*.test.d.ts
 **/*.test.js
 **/*.tgz
+**/*.log
 
 # misc
 CHANGELOG.md
 package-lock.json
-firebase-debug.log
-firestore-debug.log
-/firebase.json
+firebase.json
