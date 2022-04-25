@@ -10,6 +10,7 @@
 /.opensource
 /.husky
 /scripts
+/src
 
 # ignore file
 .gitignore
