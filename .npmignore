@@ -2,7 +2,6 @@
 /.circleci 
 /.github
 /node_modules
-/src
 /coverage
 /.husky
 /.config
