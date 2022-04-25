@@ -4,7 +4,7 @@
 		"module": "CommonJS",
 		"declaration": true,
 		"esModuleInterop": true,
-		"sourceMap": true,
+		"sourceMap": false,
 		"noImplicitAny": true,
 		"forceConsistentCasingInFileNames": true,
 		"strict": true,
