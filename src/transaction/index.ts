@@ -42,7 +42,7 @@ The function to execute within the transaction context.
 @returns
 If the transaction completed successfully or was explicitly aborted (the updateFunction returned a failed promise), the promise returned by the updateFunction is returned here. Otherwise, if the transaction failed, a rejected promise with the corresponding failure error is returned.
 */
-	<T>( // what is this T for?
+	<T>(
 		firestore: FirelordFirestore.Firestore,
 		updateFunction: (transaction: Transaction) => Promise<T>
 	): Promise<T>
@@ -57,7 +57,5 @@ The function to execute within the transaction context.
 @returns
 If the transaction completed successfully or was explicitly aborted (the updateFunction returned a failed promise), the promise returned by the updateFunction is returned here. Otherwise, if the transaction failed, a rejected promise with the corresponding failure error is returned.
 */
-	<T>( // what is this T for?
-		updateFunction: (transaction: Transaction) => Promise<T>
-	): Promise<T>
+	<T>(updateFunction: (transaction: Transaction) => Promise<T>): Promise<T>
 }

@@ -17,7 +17,15 @@ describe('test set transaction', () => {
 		type B = TransactionSet
 		IsTrue<IsSame<A, B>>()
 	})
+	it('test transaction return type', () => {
+		;async () => {
+			const A = await runTransaction(async () => {
+				return 1 as const
+			})
 
+			IsTrue<IsSame<typeof A, 1>>()
+		}
+	})
 	it('test set functionality', async () => {
 		const docRef = userRef.doc('setTransactionTestCase')
 		const docRef2 = userRef.doc('setTransactionTestCase2')
