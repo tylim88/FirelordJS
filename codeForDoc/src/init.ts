@@ -1,6 +1,7 @@
 import { getFirelord } from 'firelordjs'
 import { initializeApp } from 'firebase/app'
 import { Example } from './dataType'
+import { getFirestore } from 'firebase/firestore'
 
 initializeApp({
 	apiKey: '### FIREBASE API KEY ###',
@@ -8,4 +9,10 @@ initializeApp({
 	projectId: '### CLOUD FIRESTORE PROJECT ID ###',
 })
 
-export const example = getFirelord<Example>()('SomeCollectionName')
+export const db = getFirestore()
+
+const firelordExample = getFirelord<Example>(db)
+// OR
+const firelordExample_Alt = getFirelord<Example>()
+
+export const example = firelordExample('SomeCollectionName')
