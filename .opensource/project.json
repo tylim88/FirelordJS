@@ -7,7 +7,13 @@
 
 	"pages": [],
 
-	"related": ["tylim88/Firelordrn", "tylim88/Firelord"],
+	"related": [
+		"tylim88/Firelordrn",
+		"tylim88/Firelord",
+		"tylim88/FireLaw",
+		"tylim88/FireCall",
+		"tylim88/FireCaller"
+	],
 
 	"tabs": []
 }

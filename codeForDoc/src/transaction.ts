@@ -1,4 +1,4 @@
-import { example } from './init'
+import { example, db } from './init'
 import {
 	runTransaction,
 	serverTimestamp,
@@ -8,6 +8,10 @@ import {
 
 export const dummy = async () => {
 	try {
+		await runTransaction(db, async transaction => {
+			// ...
+		})
+		// OR you can skip 'db'
 		await runTransaction(async transaction => {
 			await transaction.get(example.doc('lmn')).then(docSnapshot => {
 				const data = docSnapshot.data()
