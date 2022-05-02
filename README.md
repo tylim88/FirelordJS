@@ -117,8 +117,9 @@ The development code, built code and published code are all tested in ci.
 
 ## Related Projects
 
-1. [Firelord](https://www.npmjs.com/package/firelordjs) - Typescript wrapper for Firestore Admin
-2. [Firelordrn](https://www.npmjs.com/package/firelordrn) - Typescript wrapper for Firestore React Native
-3. [FireLaw](https://www.npmjs.com/package/firelaw) - Write Firestore security rule with Typescript, utilizing Firelord type engine.
+1. [Firelord](https://github.com/tylim88/Firelord) - Typescript wrapper for Firestore Admin
+2. [Firelordrn](https://github.com/tylim88/firelordrn) - Typescript wrapper for Firestore React Native
+3. [FireLaw](https://github.com/tylim88/firelaw) - Write Firestore security rule with Typescript, utilizing Firelord type engine.
+4. [FireCall](https://github.com/tylim88/FireCall) - Helper Function to write easier and safer Firebase onCall function.
 
-All 3 projects are **still in development**. FirelordJS itself is completed.
+   FirelordJS is completed. FireCall is in beta, the rest are still under development.
