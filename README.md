@@ -36,7 +36,7 @@
 			</a>
 			&nbsp;
 			<img
-				src="https://img.shields.io/badge/gzipped-2KB-brightgreen"
+				src="https://img.shields.io/badge/gzipped-6KB-brightgreen"
 				alt="package size"
 			/>
 			&nbsp;
@@ -122,4 +122,4 @@ The development code, built code and published code are all tested in ci.
 3. [FireLaw](https://github.com/tylim88/firelaw) - Write Firestore security rule with Typescript, utilizing Firelord type engine.
 4. [FireCall](https://github.com/tylim88/FireCall) - Helper Function to write easier and safer Firebase onCall function.
 
-   FirelordJS is completed. FireCall is in beta, the rest are still under development.
+FirelordJS is completed. FireCall is in beta, the rest are still under development.
