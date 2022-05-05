@@ -12,6 +12,7 @@ import {
 	ErrorWhereOnlyOneNotEqual,
 	ErrorCursorTooManyArguments,
 	ErrorWhereNoNeverEmptyArray,
+	ErrorCursor__name__,
 } from './error'
 import { IsSame, IsTrue } from './utils'
 import {
@@ -25,6 +26,7 @@ import { Query, CollectionReference } from './ref'
 import {
 	GetCorrectDocumentIdBasedOnRef,
 	RemoveSentinelFieldPathFromCompare,
+	__name__,
 } from './fieldPath'
 import { CursorType } from './cursor'
 import { QueryDocumentSnapshot, DocumentSnapshot } from './snapshot'
@@ -124,15 +126,45 @@ export type QueryConstraintLimitation<
 type ValidateCursorOrderBy<
 	T extends MetaType,
 	Values extends unknown[],
-	AllOrderFieldValue extends unknown[]
+	AllOrderBy extends OrderByConstraint<
+		T,
+		string,
+		FirelordFirestore.OrderByDirection | undefined
+	>[]
 > = Values extends [infer Head, ...infer Rest]
-	? AllOrderFieldValue extends [infer H, ...infer R]
-		? [
-				Head extends H | QueryDocumentSnapshot<T> | DocumentSnapshot<T>
-					? Head | QueryDocumentSnapshot<T> | DocumentSnapshot<T>
-					: H | QueryDocumentSnapshot<T> | DocumentSnapshot<T>,
-				...ValidateCursorOrderBy<T, Rest, R>
-		  ]
+	? AllOrderBy extends [infer H, ...infer R]
+		? H extends OrderByConstraint<
+				T,
+				string,
+				FirelordFirestore.OrderByDirection | undefined
+		  >
+			? [
+					H['fieldPath'] extends __name__
+						? string extends Head
+							? ErrorCursor__name__
+							: T['docPath']
+						: Head extends
+								| T['compare'][H['fieldPath']]
+								| QueryDocumentSnapshot<T>
+								| DocumentSnapshot<T>
+						? Head | QueryDocumentSnapshot<T> | DocumentSnapshot<T>
+						:
+								| T['compare'][H['fieldPath']]
+								| QueryDocumentSnapshot<T>
+								| DocumentSnapshot<T>,
+					...ValidateCursorOrderBy<
+						T,
+						Rest,
+						R extends OrderByConstraint<
+							T,
+							string,
+							FirelordFirestore.OrderByDirection | undefined
+						>[]
+							? R
+							: []
+					>
+			  ]
+			: never // impossible route
 		: [ErrorCursorTooManyArguments]
 	: [] // end, Rest is []
 
@@ -145,7 +177,7 @@ type CursorConstraintLimitation<
 	ValidateCursorOrderBy<
 		RemoveSentinelFieldPathFromCompare<T>,
 		U['values'],
-		GetAllOrderByFieldValue<T, PreviousQCs, []>
+		GetAllOrderBy<T, PreviousQCs, []>
 	>
 >
 
@@ -336,7 +368,7 @@ type WhereConstraintLimitation<
 			U['opStr'],
 			U['value'] extends never[]
 				? ErrorWhereNoNeverEmptyArray
-				: T['compare'][U['fieldPath']] extends (infer R)[]
+				: T['compare'][U['fieldPath']] extends unknown[]
 				? T['compare'][U['fieldPath']]
 				: ErrorWhereCompareValueMustBeArray<U['fieldPath']>
 	  >
@@ -377,13 +409,17 @@ type GetFirstOrderBy<
 		: never // impossible route
 	: true // not found, no check needed
 
-type GetAllOrderByFieldValue<
+type GetAllOrderBy<
 	T extends MetaType,
 	QCs extends QueryConstraints<T>[],
-	FieldValueTypeAcc extends unknown[]
+	AllOrderBy extends OrderByConstraint<
+		T,
+		string,
+		FirelordFirestore.OrderByDirection | undefined
+	>[]
 > = QCs extends [infer H, ...infer Rest]
 	? Rest extends QueryConstraints<T>[]
-		? GetAllOrderByFieldValue<
+		? GetAllOrderBy<
 				T,
 				Rest,
 				H extends OrderByConstraint<
@@ -391,11 +427,11 @@ type GetAllOrderByFieldValue<
 					string,
 					FirelordFirestore.OrderByDirection | undefined
 				>
-					? [...FieldValueTypeAcc, T['compare'][H['fieldPath']]]
-					: FieldValueTypeAcc
+					? [...AllOrderBy, H]
+					: AllOrderBy
 		  >
 		: [] // impossible route
-	: FieldValueTypeAcc // not found, no check needed
+	: AllOrderBy // not found, no check needed
 
 type GetAllWhereConstraint<
 	T extends MetaType,

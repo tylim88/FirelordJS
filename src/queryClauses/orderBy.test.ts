@@ -169,6 +169,25 @@ it('Too many arguments provided to startAt/startAfter/endAt/endBefore(). The num
 			endAt(1, ParentDocumentSnapshot)
 		)
 	).toThrow() // the only value __name__ can use for cursor is full doc path
+
+	query(
+		ref,
+		orderBy('a.b.c'),
+		orderBy('__name__'),
+		limit(1),
+		startAt(1),
+		// @ts-expect-error
+		endAt(1, 'topLevel/FirelordTest/Users/123')
+	)
+
+	query(
+		ref,
+		orderBy('a.b.c'),
+		orderBy('__name__'),
+		limit(1),
+		startAt(1), // @ts-expect-error
+		endAt(UserQueryDocumentSnapshot, 'a/123')
+	)
 })
 it('Too many arguments provided to startAt/startAfter/endAt/endBefore(). The number of arguments must be less than or equal to the number of orderBy() clauses, positive case', () => {
 	// cursor with has x number of arguments must has x number of orderBy clause before that cursor
@@ -215,7 +234,7 @@ it('Too many arguments provided to startAt/startAfter/endAt/endBefore(). The num
 		orderBy('__name__'),
 		limit(1),
 		startAt(1),
-		endAt(1, 'a/123')
+		endAt(1, `topLevel/FirelordTest/Users/123` as const)
 	)
 
 	query(
@@ -232,6 +251,6 @@ it('Too many arguments provided to startAt/startAfter/endAt/endBefore(). The num
 		orderBy('__name__'),
 		limit(1),
 		startAt(1),
-		endAt(UserQueryDocumentSnapshot, 'a/123')
+		endAt(UserQueryDocumentSnapshot, `topLevel/FirelordTest/Users/123` as const)
 	)
 })

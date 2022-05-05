@@ -1,5 +1,13 @@
 # HISTORY
 
+## v1.3.0 6-May-2022
+
+- orderBy('\_name') cursor now only accept full doc path, if input type is string, require const assertion or else display "Please use const assertion" error message.
+
+## v1.2.1 6-May-2022
+
+- fix cursor runtime not usable bug https://github.com/tylim88/Firelordjs/issues/51
+
 ## v1.2.0 5-May-2022
 
 - fix cursor not able to use with query document snapshot and document snapshot https://github.com/tylim88/Firelordjs/issues/51
