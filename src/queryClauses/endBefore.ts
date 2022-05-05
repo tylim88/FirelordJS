@@ -15,6 +15,6 @@ export const endBefore: Cursor<'endBefore'> = (...snapshotOrFieldValues) => {
 	return {
 		type: 'endBefore',
 		values: snapshotOrFieldValues,
-		ref: endBefore_(snapshotOrFieldValues),
+		ref: endBefore_(...snapshotOrFieldValues),
 	}
 }

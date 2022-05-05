@@ -18,6 +18,9 @@ import {
 	runTransaction,
 	writeBatch,
 	FirelordRef,
+	orderBy,
+	endAt,
+	startAt,
 } from 'firelordjs'
 import firebasejson from '../firebase.json'
 import {
@@ -205,5 +208,44 @@ describe('test whether works with rules-unit-testing', () => {
 		await batch.commit()
 		data.a.b.f = []
 		await readThenCompareWithWriteData(data, ref)
+	})
+	it('cursor test', async () => {
+		const d1 = generateRandomData()
+		const d2 = generateRandomData()
+		const d3 = generateRandomData()
+		const d4 = generateRandomData()
+		const p1 = setDoc(userRef.doc('1'), d1)
+		const p2 = setDoc(userRef.doc('2'), d2)
+		const p3 = setDoc(userRef.doc('3'), d3)
+		const p4 = setDoc(userRef.doc('4'), d4)
+
+		await Promise.all([p1, p2, p3, p4])
+
+		expect.assertions(2)
+
+		const p5 = getDocs(
+			query(userRef.collectionGroup(), orderBy('age'), endAt(d3.age as number))
+		).then(querySnapshot => {
+			const doc = querySnapshot.docs[querySnapshot.docs.length - 1]
+			if (doc) {
+				const data = doc.data()
+				expect(data.age).toBe(d3.age)
+			}
+		})
+		const p6 = getDocs(
+			query(
+				userRef.collectionGroup(),
+				orderBy('age'),
+				startAt(d1.age as number)
+			)
+		).then(querySnapshot => {
+			const doc = querySnapshot.docs[0]
+			if (doc) {
+				const data = doc.data()
+				expect(data.age).toBe(d1.age)
+			}
+		})
+
+		await Promise.all([p5, p6])
 	})
 })

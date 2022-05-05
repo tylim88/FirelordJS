@@ -15,6 +15,6 @@ export const startAt: Cursor<'startAt'> = (...snapshotOrFieldValues) => {
 	return {
 		type: 'startAt',
 		values: snapshotOrFieldValues,
-		ref: startAt_(snapshotOrFieldValues),
+		ref: startAt_(...snapshotOrFieldValues),
 	}
 }

@@ -113,14 +113,16 @@ it('Too many arguments provided to startAt/startAfter/endAt/endBefore(). The num
 		endAt(ParentDocumentSnapshot)
 	)
 
-	query(
-		ref,
-		orderBy('a.b.c'),
-		limit(1),
-		startAt(1),
-		// @ts-expect-error
-		endAt(1, 2)
-	)
+	expect(() =>
+		query(
+			ref,
+			orderBy('a.b.c'),
+			limit(1),
+			startAt(1),
+			// @ts-expect-error
+			endAt(1, 2)
+		)
+	).toThrow() // throw because endAt has more argument than the number of orderBy
 
 	query(
 		ref,
@@ -131,35 +133,42 @@ it('Too many arguments provided to startAt/startAfter/endAt/endBefore(). The num
 		// @ts-expect-error
 		endAt(1, 2)
 	)
-	query(
-		ref,
-		orderBy('a.b.c'),
-		orderBy('__name__'),
-		limit(1),
-		startAt(1),
-		// @ts-expect-error
-		endAt(1, 2)
-	)
 
-	query(
-		ref,
-		orderBy('a.b.c'),
-		orderBy('__name__'),
-		limit(1),
-		startAt(1),
-		// @ts-expect-error
-		endAt(1, ParentQueryDocumentSnapshot)
-	)
+	expect(() =>
+		query(
+			ref,
+			orderBy('a.b.c'),
+			orderBy('__name__'),
+			limit(1),
+			startAt(1),
+			// @ts-expect-error
+			endAt(1, 2)
+		)
+	).toThrow() // throw because passing number to doc name
 
-	query(
-		ref,
-		orderBy('a.b.c'),
-		orderBy('__name__'),
-		limit(1),
-		startAt(1),
-		// @ts-expect-error
-		endAt(1, ParentDocumentSnapshot)
-	)
+	expect(() =>
+		query(
+			ref,
+			orderBy('a.b.c'),
+			orderBy('__name__'),
+			limit(1),
+			startAt(1),
+			// @ts-expect-error
+			endAt(1, ParentQueryDocumentSnapshot)
+		)
+	).toThrow() // the only value __name__ can use for cursor is full doc path
+
+	expect(() =>
+		query(
+			ref,
+			orderBy('a.b.c'),
+			orderBy('__name__'),
+			limit(1),
+			startAt(1),
+			// @ts-expect-error
+			endAt(1, ParentDocumentSnapshot)
+		)
+	).toThrow() // the only value __name__ can use for cursor is full doc path
 })
 it('Too many arguments provided to startAt/startAfter/endAt/endBefore(). The number of arguments must be less than or equal to the number of orderBy() clauses, positive case', () => {
 	// cursor with has x number of arguments must has x number of orderBy clause before that cursor
@@ -206,7 +215,7 @@ it('Too many arguments provided to startAt/startAfter/endAt/endBefore(). The num
 		orderBy('__name__'),
 		limit(1),
 		startAt(1),
-		endAt(1, '123')
+		endAt(1, 'a/123')
 	)
 
 	query(
@@ -223,6 +232,6 @@ it('Too many arguments provided to startAt/startAfter/endAt/endBefore(). The num
 		orderBy('__name__'),
 		limit(1),
 		startAt(1),
-		endAt(UserQueryDocumentSnapshot, '123')
+		endAt(UserQueryDocumentSnapshot, 'a/123')
 	)
 })

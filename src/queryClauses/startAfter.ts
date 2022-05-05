@@ -15,6 +15,6 @@ export const startAfter: Cursor<'startAfter'> = (...snapshotOrFieldValues) => {
 	return {
 		type: 'startAfter',
 		values: snapshotOrFieldValues,
-		ref: startAfter_(snapshotOrFieldValues),
+		ref: startAfter_(...snapshotOrFieldValues),
 	}
 }

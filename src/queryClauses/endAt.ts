@@ -15,6 +15,6 @@ export const endAt: Cursor<'endAt'> = (...snapshotOrFieldValues) => {
 	return {
 		type: 'endAt',
 		values: snapshotOrFieldValues,
-		ref: endAt_(snapshotOrFieldValues),
+		ref: endAt_(...snapshotOrFieldValues),
 	}
 }
