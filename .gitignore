@@ -12,7 +12,6 @@
 **/*.tgz
 **/*.log
 
-
 # misc
 .DS_Store
 .env.local
@@ -22,3 +21,4 @@
 /.config
 .env
 /.parcel-cache
+.firebaserc
