@@ -1,5 +1,9 @@
 # HISTORY
 
+## v1.2.0 5-May-2022
+
+- fix cursor not able to use with query document snapshot and document snapshot https://github.com/tylim88/Firelordjs/issues/51
+
 ## v1.1.6 15-April-22
 
 - rename `PartialNoUndefinedAndNoUnknownMember` to `PartialNoUndefinedAndNoUnknownMemberNoEmptyMember`

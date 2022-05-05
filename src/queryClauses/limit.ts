@@ -19,9 +19,7 @@ export const limitCreator =
 			: number extends Value
 			? Value
 			: Value extends infer R
-			? `${R & number}` extends `-${number}`
-				? ErrorLimitInvalidNumber
-				: `${R & number}` extends `${number}.${number}`
+			? `${R & number}` extends `-${number}` | `${number}.${number}`
 				? ErrorLimitInvalidNumber
 				: Value
 			: never // impossible route

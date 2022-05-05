@@ -15,7 +15,6 @@
 # ignore file
 .gitignore
 .npmignore
-note.txt
 
 # config file
 jest.config.js
@@ -41,3 +40,6 @@ tsconfig.prod.json
 CHANGELOG.md
 package-lock.json
 firebase.json
+.eslintignore
+.firebaserc
+note.txt
