@@ -111,7 +111,7 @@
 
 <br/>
 
-support [@firebase/rules-unit-testing](https://www.npmjs.com/package/@firebase/rules-unit-testing)
+support [@firebase/rules-unit-testing](https://firelordjs.com/tests)
 
 The development code, built code and published code are all tested in ci.
 
