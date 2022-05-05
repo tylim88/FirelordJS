@@ -22,8 +22,12 @@ import {
 	LimitConstraint,
 } from './queryConstraints'
 import { Query, CollectionReference } from './ref'
-import { GetCorrectDocumentIdBasedOnRef } from './fieldPath'
+import {
+	GetCorrectDocumentIdBasedOnRef,
+	RemoveSentinelFieldPathFromCompare,
+} from './fieldPath'
 import { CursorType } from './cursor'
+import { QueryDocumentSnapshot, DocumentSnapshot } from './snapshot'
 
 type Equal = '=='
 type Greater = '>'
@@ -118,11 +122,17 @@ export type QueryConstraintLimitation<
 
 // Too many arguments provided to startAt(). The number of arguments must be less than or equal to the number of orderBy() clauses
 type ValidateCursorOrderBy<
+	T extends MetaType,
 	Values extends unknown[],
 	AllOrderFieldValue extends unknown[]
 > = Values extends [infer Head, ...infer Rest]
 	? AllOrderFieldValue extends [infer H, ...infer R]
-		? [Head extends H ? Head : H, ...ValidateCursorOrderBy<Rest, R>]
+		? [
+				Head extends H | QueryDocumentSnapshot<T> | DocumentSnapshot<T>
+					? Head | QueryDocumentSnapshot<T> | DocumentSnapshot<T>
+					: H | QueryDocumentSnapshot<T> | DocumentSnapshot<T>,
+				...ValidateCursorOrderBy<T, Rest, R>
+		  ]
 		: [ErrorCursorTooManyArguments]
 	: [] // end, Rest is []
 
@@ -130,15 +140,14 @@ type CursorConstraintLimitation<
 	T extends MetaType,
 	U extends CursorConstraint<CursorType, unknown[]>,
 	PreviousQCs extends QueryConstraints<T>[]
-> = U extends CursorConstraint<
+> = CursorConstraint<
 	CursorType,
 	ValidateCursorOrderBy<
+		RemoveSentinelFieldPathFromCompare<T>,
 		U['values'],
 		GetAllOrderByFieldValue<T, PreviousQCs, []>
 	>
 >
-	? U
-	: ErrorCursorTooManyArguments
 
 type LimitToLastConstraintLimitation<
 	T extends MetaType,
