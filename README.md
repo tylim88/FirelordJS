@@ -111,9 +111,9 @@
 
 <br/>
 
-> FirelordJS is the only library that capable of providing insane type safety while exposing all the API of the original Firestore SDK.
+> FirelordJS is the only library that capable of providing insane type safety while exposing almost all the API of the original Firestore SDK.
 >
-> FirelordJS has the lowest learning curve, best type safety and possibly also the smallest.
+> FirelordJS has the lowest learning curve, the lowest technical debt, best type safety and possibly also the smallest.
 >
 > It is what you are looking at: the Master of Fire.
 >

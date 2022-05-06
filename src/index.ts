@@ -76,6 +76,7 @@ export {
 	enableNetwork,
 	onSnapshotsInSync,
 	namedQuery,
+	Bytes,
 } from 'firebase/firestore'
 export * from './batch'
 export * from './transaction'
