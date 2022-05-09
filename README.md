@@ -117,7 +117,7 @@
 >
 > - the lowest learning curve (API is nearly identical to the original API).
 > - the lowest technical debt (easiest to revert to the original API).
-> - the best type-safe (let me know if you found anything that has better type safety).
+> - the best type safety (let me know if you found anything that has better type safety).
 > - possibly also the smallest.
 >
 > It is what you are looking at: the Master of Fire.
