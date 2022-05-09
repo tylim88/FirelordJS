@@ -5,7 +5,7 @@ module.exports = {
 	roots: ['<rootDir>/src'],
 	testMatch: ['**/__tests__/**/*.+(ts|js)', '**/?(*.)+(spec|test).+(ts|js)'],
 	transform: {
-		'^.+\\.(ts)$': ['babel-jest'],
+		'^.+\\.(js|ts)$': ['babel-jest'],
 	}, // ts-jest causing coverage issue, use babel-jest instead
 	moduleDirectories: ['node_modules', 'src'],
 	collectCoverage: true,
