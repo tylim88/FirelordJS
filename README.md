@@ -132,5 +132,3 @@ The development code, built code and published code are all tested in ci.
 2. [Firelordrn](https://github.com/tylim88/firelordrn) - Typescript wrapper for Firestore React Native
 3. [FireLaw](https://github.com/tylim88/firelaw) - Write Firestore security rule with Typescript, utilizing Firelord type engine.
 4. [FireCall](https://github.com/tylim88/FireCall) - Helper Function to write easier and safer Firebase onCall function.
-
-FirelordJS is completed. FireCall is in beta, the rest are still under development.
