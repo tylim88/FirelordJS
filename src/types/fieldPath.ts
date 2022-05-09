@@ -53,7 +53,7 @@ export type GetCorrectDocumentIdBasedOnRef<
 			: Q extends Query<T>
 			? string extends Value
 				? ErrorPleaseDoConstAssertion
-				: GetNumberOfSlash<Value> extends GetNumberOfSlash<T['docPath']>
+				: GetNumberOfSlash<Value> extends GetNumberOfSlash<T['docPath']> // checking number of slash is a must, because the docID type most likely is string, and will accept any string
 				? Value extends T['docPath']
 					? IsValidID<Value, 'Document', 'Path'>
 					: T['docPath']
