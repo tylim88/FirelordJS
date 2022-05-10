@@ -19,6 +19,9 @@
 .env.test.local
 .env.production.local
 /.config
-.env
 /.parcel-cache
+
+# env
+env.json
+.env
 .firebaserc
