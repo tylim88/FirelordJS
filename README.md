@@ -111,20 +111,36 @@
 
 <br/>
 
-> FirelordJS is the only library that capable of providing insane type safety while exposing almost all the API of the original Firestore SDK.
->
-> FirelordJS has:
->
-> - the lowest learning curve (API is nearly identical to the original API).
-> - the lowest technical debt (easiest to revert to the original API).
-> - the best type safety (let me know if you found anything that has better type safety).
-> - possibly also the smallest.
->
-> It is what you are looking at: the Master of Fire.
+FirelordJS is the only library that capable of providing insane type safety while exposing almost all the API of the original Firestore SDK.
+
+FirelordJS has:
+
+- The lowest learning curve (API is nearly identical to the original API).
+- The lowest technical debt (easiest to revert to the original API).
+- The best type safety (let me know if you found anything that has better type safety).
+- The only library that capable of type against runtime errors.
+- Possibly also the smallest.
+
+It is what you are looking at: the Master of Fire.
 
 support [@firebase/rules-unit-testing](https://firelordjs.com/tests)
 
 The development code, built code and published code are all tested in ci.
+
+## Contribution
+
+For starter, you can refactor files in `src/types` folder.
+
+If you are looking for challenge, you can try to implement `mandatory field type`:
+
+1. It is a special type that assign (with union) to object member.
+2. Member with such type will become `required` even in `update` operations.
+
+Type like this can be useful if you need a mandatory field while trying to update a document because the update operations default behavior is all members are optional. Practical usage is something like `updatedAt` member that keep track of document last updated time.
+
+Basically just turn an optional member into a required member but due to inner complexity, this is not going to be easy.
+
+So if you want to work on this, come to me first to discuss the implementation strategy, I will provide all information you need to carry out this commit.
 
 ## Related Projects
 
