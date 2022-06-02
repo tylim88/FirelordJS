@@ -1,5 +1,11 @@
 import { getFirestore } from 'firebase/firestore'
-import { MetaType, FirelordFirestore, IsValidID } from './types'
+import {
+	MetaType,
+	FirelordFirestore,
+	IsValidID,
+	GetNumberOfSlash,
+	ErrorNumberOfForwardSlashIsNotEqual,
+} from './types'
 import { docCreator, collectionCreator, collectionGroupCreator } from './refs'
 
 /**
@@ -19,7 +25,14 @@ export const getFirelord =
 	<CollectionPath extends T['collectionPath'] = T['collectionPath']>(
 		collectionPath: CollectionPath extends never
 			? CollectionPath
-			: IsValidID<CollectionPath, 'Collection', 'Path'>
+			: GetNumberOfSlash<CollectionPath> extends GetNumberOfSlash<
+					T['collectionPath']
+			  >
+			? IsValidID<CollectionPath, 'Collection', 'Path'>
+			: ErrorNumberOfForwardSlashIsNotEqual<
+					GetNumberOfSlash<T['collectionPath']>,
+					GetNumberOfSlash<CollectionPath>
+			  >
 	): FirelordRef<T> => {
 		const fStore = firestore || getFirestore()
 		const doc = docCreator<T>(fStore, collectionPath)
