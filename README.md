@@ -131,16 +131,16 @@ The development code, built code and published code are all tested in ci.
 
 For starter, you can refactor files in `src/types` folder.
 
-If you are looking for challenge, you can try to implement `mandatory field type`:
+Looking for a challenge? Then you can try to implement `mandatory field type`:
 
 1. It is a special type that assign (with union) to object member.
-2. Member with such type will become `required` even in `update` operations.
+2. Member with such type become `required` even in `update` operations(all members in update operations are partial).
 
-Type like this can be useful if you need a mandatory field while trying to update a document because the update operations default behavior is all members are optional. Practical usage is something like `updatedAt` member that keep track of document last updated time.
+Type like this can be useful if you need a mandatory field while trying to update a document. Practical usage is something like `updatedAt` member that keep track of document last updated time.
 
 Basically just turn an optional member into a required member but due to inner complexity, this is not going to be easy.
 
-So if you want to work on this, come to me first to discuss the implementation strategy, I will provide all information you need to carry out this commit.
+If you want to work on this, come to me first to discuss the implementation strategy, I will provide all information you need to carry out this mission.
 
 ## Related Projects
 
