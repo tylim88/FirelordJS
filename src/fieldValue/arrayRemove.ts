@@ -1,5 +1,5 @@
 import { arrayRemove as arrayRemove_ } from 'firebase/firestore'
-import { ArrayUnionOrRemove, ElementOf } from '../types'
+import { ArrayUnionOrRemove } from '../types'
 
 /**
 Returns a special value that can be used with (setDoc:1) or * updateDoc:1 that tells the server to remove the given elements from any array value that already exists on the server. All instances of each element specified will be removed from the array. If the field being modified is not already an array it will be overwritten with an empty array.
@@ -13,6 +13,6 @@ export const arrayRemove = <Elements extends unknown[]>(
 	...elements: Elements
 ) => {
 	return arrayRemove_(...elements) as unknown as ArrayUnionOrRemove<
-		ElementOf<Elements>
+		Elements[number]
 	>
 }
