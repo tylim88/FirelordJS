@@ -124,7 +124,9 @@ describe('test whether works with rules-unit-testing', () => {
 					unsub()
 					done()
 				},
-				() => {},
+				() => {
+					//
+				},
 				{ includeMetadataChanges: true }
 			)
 		})

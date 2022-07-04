@@ -16,6 +16,7 @@ describe('test get transaction', () => {
 			runTransaction(transaction => {
 				return transaction.get(userRef.doc('123')).then(docSnap => {
 					const data = docSnap.data()
+					/*  eslint-disable @typescript-eslint/no-unused-vars */
 					if (data) {
 						const {
 							beenTo,
@@ -33,6 +34,7 @@ describe('test get transaction', () => {
 							// @ts-expect-error
 							unknown,
 						} = data
+						/*  eslint-enable @typescript-eslint/no-unused-vars */
 					}
 				})
 			})

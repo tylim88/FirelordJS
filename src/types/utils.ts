@@ -11,6 +11,7 @@ type UnionToIntersection<U> = (
 
 export type IsUnion<T> = [T] extends [UnionToIntersection<T>] ? false : true
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const IsTrue = <T extends true>() => {
 	//
 } // for type assertion, normally use with IsSame or IEqual

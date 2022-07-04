@@ -7,7 +7,7 @@ import {
 	readThenCompareWithWriteData,
 } from '../utilForTests'
 import { IsTrue, IsSame, TransactionUpdate } from '../types'
-import { setDoc, getDoc } from '../operations'
+import { setDoc } from '../operations'
 import { deleteField } from '../fieldValue'
 import { updateCreator } from './update'
 

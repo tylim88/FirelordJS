@@ -59,8 +59,12 @@ describe('test onSnapshot', () => {
 					unsub()
 					done()
 				},
-				() => {},
-				() => {}
+				() => {
+					//
+				},
+				() => {
+					//
+				}
 			)
 		})
 	})
@@ -89,7 +93,9 @@ describe('test onSnapshot', () => {
 					unsub()
 					done()
 				},
-				() => {},
+				() => {
+					//
+				},
 				{ includeMetadataChanges: true }
 			)
 		})

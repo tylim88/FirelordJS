@@ -45,6 +45,8 @@ export interface CollectionReference<T extends MetaType> {
 	get parent(): T['parent']
 }
 
+// Query<T> is needed in order to infer the type correctly
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export interface Query<T extends MetaType> {
 	/** The type of this Firestore reference. */
 	readonly type: 'query' | 'collection'

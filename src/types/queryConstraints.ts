@@ -16,7 +16,6 @@ export type WhereConstraint<
 }
 
 export type OrderByConstraint<
-	T extends MetaType,
 	FieldPath extends string,
 	DirectionStr extends
 		| FirelordFirestore.OrderByDirection
@@ -56,7 +55,6 @@ export type QueryConstraints<T extends MetaType> =
 	| LimitConstraint<'limit' | 'limitToLast', number>
 	| CursorConstraint<CursorType, unknown[]>
 	| OrderByConstraint<
-			T,
 			keyof T['compare'] & string,
 			FirelordFirestore.OrderByDirection | undefined
 	  >

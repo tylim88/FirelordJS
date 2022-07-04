@@ -29,7 +29,7 @@ type IsSetDeleteAbleFieldValueValid<
 			: string extends Exclude<T, DeleteField>
 			? ErrorDeleteFieldUnion<K>
 			: Exclude<T, DeleteField> | ErrorDeleteFieldMerge
-		: Merge extends (infer P)[]
+		: Merge extends unknown[]
 		? DeleteField extends Extract<T, DeleteField>
 			? T
 			: string extends Exclude<T, DeleteField>
