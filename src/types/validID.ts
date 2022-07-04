@@ -20,7 +20,7 @@ export type GetNumberOfInvalidCharacter<
 	ID extends string,
 	InvalidCharacter extends string,
 	SlashCount extends unknown[] = []
-> = ID extends `${infer Head}${InvalidCharacter}${infer Tail}`
+> = ID extends `${string}${InvalidCharacter}${infer Tail}`
 	? GetNumberOfInvalidCharacter<Tail, InvalidCharacter, [1, ...SlashCount]>
 	: SlashCount['length']
 
@@ -31,11 +31,9 @@ export type IsValidID<
 > = ID extends NoUndefinedAndBannedTypes<ID, never>
 	? ID extends ''
 		? ErrorEmptyDocumentOrCollectionID<Mode>
-		: ID extends `${infer Head}/`
+		: ID extends `${string}/`
 		? ErrorEndOfID
-		: ID extends `.${infer Rest}`
-		? ErrorInvalidDocumentOrCollectionIDStart<Mode>
-		: ID extends `.${infer P}`
+		: ID extends `.${string}`
 		? ErrorInvalidDocumentOrCollectionIDStart<Mode>
 		: GetNumberOfInvalidCharacter<
 				ID,

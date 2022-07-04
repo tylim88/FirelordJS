@@ -5,6 +5,9 @@ import {
 	IsValidID,
 	GetNumberOfSlash,
 	ErrorNumberOfForwardSlashIsNotEqual,
+	DocumentReference,
+	CollectionReference,
+	Query,
 } from './types'
 import { docCreator, collectionCreator, collectionGroupCreator } from './refs'
 
@@ -56,7 +59,7 @@ export type FirelordRef<T extends MetaType> = Readonly<{
 				: DocumentId extends IsValidID<DocumentId, 'Document', 'ID'>
 				? T['docID']
 				: IsValidID<DocumentId, 'Document', 'ID'>
-		): import('./types').DocumentReference<T>
+		): DocumentReference<T>
 		<DocumentId_1 extends T['docID']>(
 			firestore: FirelordFirestore.Firestore,
 			documentID: DocumentId_1 extends never
@@ -64,14 +67,14 @@ export type FirelordRef<T extends MetaType> = Readonly<{
 				: DocumentId_1 extends IsValidID<DocumentId_1, 'Document', 'ID'>
 				? T['docID']
 				: IsValidID<DocumentId_1, 'Document', 'ID'>
-		): import('./types').DocumentReference<T>
+		): DocumentReference<T>
 	}
 	collection: (
 		firestore?: FirelordFirestore.Firestore | undefined
-	) => import('./types').CollectionReference<T>
+	) => CollectionReference<T>
 	collectionGroup: (
 		firestore?: FirelordFirestore.Firestore | undefined
-	) => import('./types').Query<T>
+	) => Query<T>
 }>
 
 export {

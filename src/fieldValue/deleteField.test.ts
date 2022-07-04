@@ -62,11 +62,11 @@ describe('test deleteField', () => {
 					a: 'abc',
 					b: {
 						c: [{ d: true }],
-						e: deleteField(), // low level is ok in set
+						e: deleteField(), // low level is ok in merge
 					},
 					f: deleteField(),
 					g: {
-						h: deleteField(), // low level is ok in set
+						h: deleteField(), // low level is ok in merge
 					},
 				},
 				{ mergeFields: ['f', 'a'] }
@@ -88,6 +88,7 @@ describe('test deleteField', () => {
 				a: 'abc',
 				f: deleteField(),
 				'b.c': deleteField(),
+				b: { c: deleteField() }, // low level is ok for update because update flat everything internally
 			})
 		}
 	})
@@ -138,10 +139,10 @@ describe('test deleteField', () => {
 								d: deleteField(), // array reject all field value
 							},
 						],
-						e: deleteField(), // low level is ok in set
+						e: deleteField(), // low level is ok in merge
 					},
 					g: {
-						h: deleteField(), // low level is ok in set
+						h: deleteField(), // low level is ok in merge
 					},
 				},
 				{ merge: true }
@@ -159,10 +160,10 @@ describe('test deleteField', () => {
 								d: deleteField(), // array reject all field value
 							},
 						],
-						e: deleteField(), // low level is ok in set
+						e: deleteField(), // low level is ok in merge
 					},
 					g: {
-						h: deleteField(), // low level is ok in set
+						h: deleteField(), // low level is ok in merge
 					},
 					j: {
 						// @ts-expect-error

@@ -19,7 +19,7 @@ export const orderBy = <
 >(
 	fieldPath: FieldPath extends never ? FieldPath : FieldPath,
 	directionStr?: DirectionStr extends never ? DirectionStr : DirectionStr
-): OrderByConstraint<T, FieldPath, DirectionStr> => {
+): OrderByConstraint<FieldPath, DirectionStr> => {
 	return {
 		type: 'orderBy',
 		fieldPath,

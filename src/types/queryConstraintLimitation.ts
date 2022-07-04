@@ -66,7 +66,6 @@ type ValidateOrderByAndInequalityWhere<
 	? W extends WhereConstraint<T, string, InequalityOpStr, unknown>
 		? GetFirstOrderBy<T, AllQCs> extends infer O
 			? O extends OrderByConstraint<
-					T,
 					string,
 					FirelordFirestore.OrderByDirection | undefined
 			  >
@@ -92,7 +91,6 @@ export type QueryConstraintLimitation<
 				Head extends LimitConstraint<'limit', number>
 					? Head
 					: Head extends OrderByConstraint<
-							T,
 							string,
 							FirelordFirestore.OrderByDirection | undefined
 					  >
@@ -127,14 +125,12 @@ type ValidateCursorOrderBy<
 	T extends MetaType,
 	Values extends unknown[],
 	AllOrderBy extends OrderByConstraint<
-		T,
 		string,
 		FirelordFirestore.OrderByDirection | undefined
 	>[]
 > = Values extends [infer Head, ...infer Rest]
 	? AllOrderBy extends [infer H, ...infer R]
 		? H extends OrderByConstraint<
-				T,
 				string,
 				FirelordFirestore.OrderByDirection | undefined
 		  >
@@ -156,7 +152,6 @@ type ValidateCursorOrderBy<
 						T,
 						Rest,
 						R extends OrderByConstraint<
-							T,
 							string,
 							FirelordFirestore.OrderByDirection | undefined
 						>[]
@@ -197,7 +192,6 @@ type LimitToLastConstraintLimitation<
 type ValidateOrderByEqualityWhere<
 	T extends MetaType,
 	U extends OrderByConstraint<
-		T,
 		string,
 		FirelordFirestore.OrderByDirection | undefined
 	>,
@@ -212,7 +206,6 @@ type ValidateOrderByEqualityWhere<
 type OrderByConstraintLimitation<
 	T extends MetaType,
 	U extends OrderByConstraint<
-		T,
 		string,
 		FirelordFirestore.OrderByDirection | undefined
 	>,
@@ -399,7 +392,6 @@ type GetFirstOrderBy<
 	QCs extends QueryConstraints<T>[]
 > = QCs extends [infer H, ...infer Rest]
 	? H extends OrderByConstraint<
-			T,
 			string,
 			FirelordFirestore.OrderByDirection | undefined
 	  >
@@ -413,7 +405,6 @@ type GetAllOrderBy<
 	T extends MetaType,
 	QCs extends QueryConstraints<T>[],
 	AllOrderBy extends OrderByConstraint<
-		T,
 		string,
 		FirelordFirestore.OrderByDirection | undefined
 	>[]
@@ -423,7 +414,6 @@ type GetAllOrderBy<
 				T,
 				Rest,
 				H extends OrderByConstraint<
-					T,
 					string,
 					FirelordFirestore.OrderByDirection | undefined
 				>
