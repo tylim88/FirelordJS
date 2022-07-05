@@ -129,22 +129,34 @@ The development code, built code and published code are all tested in CI.
 
 ## Contribution
 
-1. For starter, you can refactor files in `src/types` folder.
+(The lower it goes, the harder it is)
+
+1. For starter, you can refactor files in `src/types` folder, especially `src/types/queryConstraintLimitation.ts`.
 
 2. Simplify type logic and remove dead code.
 
-3. You can also work on the [documentation](https://github.com/tylim88/FirelordJSDoc).
+3. Utilizing the latest Typescript feature, like [extends Constraints on infer Type Variables](https://devblogs.microsoft.com/typescript/announcing-typescript-4-7/#extends-constraints-on-infer-type-variables) to reduce code length.
 
-4. Looking for a challenge? Then you can try to implement `mandatory field type`:
+4. Improve tests.
 
-- It is a special type that assign (with union) to object member.
-- Members with such type become `required` even in `update` operations(all members in update operations are partial by default).
+5. You can also work on the [documentation](https://github.com/tylim88/FirelordJSDoc).
 
-Practical usage is something like `updatedAt` member that keep track of document last updated time.
+6. You can help to implement the exact same type logics for (NodeJS Admin version)[https://github.com/tylim88/Firelord], the admin version is still using the old logics.
 
-Basically just turn an optional member into a required member but due to inner complexity, this is not going to be easy.
+   Note that there is no V9 for admin, so we need to rewrite the runtime wrapper for it to looks like V9. We must reuse the type logics and tests code for consistency.
 
-If you want to work on this, come to me first to discuss the implementation strategy, I will provide all information you need to carry out this commit.
+7. Looking for a challenge? Then you can try to implement `mandatory field type`:
+
+   - It is a special type that assign (with union) to object member.
+   - Members with such type become `required` even in `update` operations(all members in update operations are partial by default).
+
+   Practical usage is something like `updatedAt` member that keep track of document last updated time.
+
+   Basically just turn an optional member into a required member but due to inner complexity, this is not going to be easy.
+
+   If you want to work on this, come to me first to discuss the implementation strategy, I will provide all information you need to carry out this commit.
+
+8. Or just spread the word. 🙂
 
 ## Related Projects
 
