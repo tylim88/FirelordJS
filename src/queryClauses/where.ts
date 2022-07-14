@@ -22,7 +22,7 @@ import {
 export const where = <
 	T extends MetaType,
 	FieldPath extends (keyof T['writeFlatten'] & string) | DocumentId,
-	OpStr extends FirelordFirestore.WhereFilterOp,
+	OpStr extends FirelordFirestore.OriWhereFilterOp,
 	Value
 >(
 	fieldPath: FieldPath extends __name__ ? ErrorWhere__name__ : FieldPath,

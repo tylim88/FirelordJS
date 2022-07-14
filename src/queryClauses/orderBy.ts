@@ -14,7 +14,7 @@ export const orderBy = <
 	T extends MetaType,
 	FieldPath extends keyof T['compare'] & string,
 	DirectionStr extends
-		| FirelordFirestore.OrderByDirection
+		| FirelordFirestore.OriOrderByDirection
 		| undefined = undefined
 >(
 	fieldPath: FieldPath extends never ? FieldPath : FieldPath,

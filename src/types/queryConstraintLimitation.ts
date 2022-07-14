@@ -1,5 +1,5 @@
 import { MetaType } from './metaTypeCreator'
-import { FirelordFirestore } from './firelordFirestore'
+import { FirelordFirestore } from './ori'
 import {
 	ErrorLimitToLastOrderBy,
 	ErrorWhereOrderByAndInEquality,
@@ -49,7 +49,7 @@ type ValueOfOnlyArrayOptStr = ArrayContainsAny
 type ElementOfOptStr = ArrayContains
 IsTrue<
 	IsSame<
-		FirelordFirestore.WhereFilterOp,
+		FirelordFirestore.OriWhereFilterOp,
 		| InequalityOpStr
 		| ValueOfOptStr
 		| ArrayOfOptStr
@@ -67,7 +67,7 @@ type ValidateOrderByAndInequalityWhere<
 		? GetFirstOrderBy<T, AllQCs> extends infer O
 			? O extends OrderByConstraint<
 					string,
-					FirelordFirestore.OrderByDirection | undefined
+					FirelordFirestore.OriOrderByDirection | undefined
 			  >
 				? IsSame<W['fieldPath'], O['fieldPath']> extends true
 					? true
@@ -92,7 +92,7 @@ export type QueryConstraintLimitation<
 					? Head
 					: Head extends OrderByConstraint<
 							string,
-							FirelordFirestore.OrderByDirection | undefined
+							FirelordFirestore.OriOrderByDirection | undefined
 					  >
 					? OrderByConstraintLimitation<T, Head, AllQCs>
 					: Head extends LimitConstraint<'limitToLast', number>
@@ -100,7 +100,7 @@ export type QueryConstraintLimitation<
 					: Head extends WhereConstraint<
 							T,
 							string,
-							FirelordFirestore.WhereFilterOp,
+							FirelordFirestore.OriWhereFilterOp,
 							unknown
 					  >
 					? WhereConstraintLimitation<T, Q, Head, PreviousQCs>
@@ -126,13 +126,13 @@ type ValidateCursorOrderBy<
 	Values extends unknown[],
 	AllOrderBy extends OrderByConstraint<
 		string,
-		FirelordFirestore.OrderByDirection | undefined
+		FirelordFirestore.OriOrderByDirection | undefined
 	>[]
 > = Values extends [infer Head, ...infer Rest]
 	? AllOrderBy extends [infer H, ...infer R]
 		? H extends OrderByConstraint<
 				string,
-				FirelordFirestore.OrderByDirection | undefined
+				FirelordFirestore.OriOrderByDirection | undefined
 		  >
 			? [
 					H['fieldPath'] extends __name__
@@ -153,7 +153,7 @@ type ValidateCursorOrderBy<
 						Rest,
 						R extends OrderByConstraint<
 							string,
-							FirelordFirestore.OrderByDirection | undefined
+							FirelordFirestore.OriOrderByDirection | undefined
 						>[]
 							? R
 							: []
@@ -193,7 +193,7 @@ type ValidateOrderByEqualityWhere<
 	T extends MetaType,
 	U extends OrderByConstraint<
 		string,
-		FirelordFirestore.OrderByDirection | undefined
+		FirelordFirestore.OriOrderByDirection | undefined
 	>,
 	AllQCs extends QueryConstraints<T>[]
 > = Extract<
@@ -207,7 +207,7 @@ type OrderByConstraintLimitation<
 	T extends MetaType,
 	U extends OrderByConstraint<
 		string,
-		FirelordFirestore.OrderByDirection | undefined
+		FirelordFirestore.OriOrderByDirection | undefined
 	>,
 	AllQCs extends QueryConstraints<T>[]
 > = ValidateOrderByEqualityWhere<T, U, AllQCs> extends false
@@ -220,7 +220,7 @@ type ValidateWhereNotInArrayContainsAny<
 	U extends WhereConstraint<
 		T,
 		string,
-		FirelordFirestore.WhereFilterOp,
+		FirelordFirestore.OriWhereFilterOp,
 		unknown
 	>,
 	PreviousQCs extends QueryConstraints<T>[]
@@ -240,7 +240,7 @@ type ValidateWhereNotInNotEqual<
 	U extends WhereConstraint<
 		T,
 		string,
-		FirelordFirestore.WhereFilterOp,
+		FirelordFirestore.OriWhereFilterOp,
 		unknown
 	>,
 	PreviousQCs extends QueryConstraints<T>[]
@@ -271,7 +271,7 @@ type ValidateWhereArrayContainsArrayContainsAny<
 	U extends WhereConstraint<
 		T,
 		string,
-		FirelordFirestore.WhereFilterOp,
+		FirelordFirestore.OriWhereFilterOp,
 		unknown
 	>,
 	PreviousQCs extends QueryConstraints<T>[]
@@ -297,7 +297,7 @@ type ValidateWhereInequalityOpStrSameField<
 	U extends WhereConstraint<
 		T,
 		string,
-		FirelordFirestore.WhereFilterOp,
+		FirelordFirestore.OriWhereFilterOp,
 		unknown
 	>,
 	PreviousQCs extends QueryConstraints<T>[]
@@ -324,7 +324,7 @@ type WhereConstraintLimitation<
 	U extends WhereConstraint<
 		T,
 		string,
-		FirelordFirestore.WhereFilterOp,
+		FirelordFirestore.OriWhereFilterOp,
 		unknown
 	>,
 	PreviousQCs extends QueryConstraints<T>[]
@@ -393,7 +393,7 @@ type GetFirstOrderBy<
 > = QCs extends [infer H, ...infer Rest]
 	? H extends OrderByConstraint<
 			string,
-			FirelordFirestore.OrderByDirection | undefined
+			FirelordFirestore.OriOrderByDirection | undefined
 	  >
 		? H
 		: Rest extends QueryConstraints<T>[]
@@ -406,7 +406,7 @@ type GetAllOrderBy<
 	QCs extends QueryConstraints<T>[],
 	AllOrderBy extends OrderByConstraint<
 		string,
-		FirelordFirestore.OrderByDirection | undefined
+		FirelordFirestore.OriOrderByDirection | undefined
 	>[]
 > = QCs extends [infer H, ...infer Rest]
 	? Rest extends QueryConstraints<T>[]
@@ -415,7 +415,7 @@ type GetAllOrderBy<
 				Rest,
 				H extends OrderByConstraint<
 					string,
-					FirelordFirestore.OrderByDirection | undefined
+					FirelordFirestore.OriOrderByDirection | undefined
 				>
 					? [...AllOrderBy, H]
 					: AllOrderBy
@@ -429,7 +429,7 @@ type GetAllWhereConstraint<
 	WhereConstraintsAcc extends WhereConstraint<
 		T,
 		string,
-		FirelordFirestore.WhereFilterOp,
+		FirelordFirestore.OriWhereFilterOp,
 		unknown
 	>
 > = QCs extends [infer H, ...infer R]
@@ -442,7 +442,7 @@ type GetAllWhereConstraint<
 						| (H extends WhereConstraint<
 								T,
 								string,
-								FirelordFirestore.WhereFilterOp,
+								FirelordFirestore.OriWhereFilterOp,
 								unknown
 						  >
 								? H
@@ -455,7 +455,7 @@ type GetAllWhereConstraint<
 type GetAllWhereConstraintOpStr<
 	T extends MetaType,
 	QCs extends QueryConstraints<T>[],
-	OpStrAcc extends FirelordFirestore.WhereFilterOp
+	OpStrAcc extends FirelordFirestore.OriWhereFilterOp
 > = QCs extends [infer H, ...infer R]
 	? R extends QueryConstraints<T>[]
 		?
@@ -466,7 +466,7 @@ type GetAllWhereConstraintOpStr<
 						| (H extends WhereConstraint<
 								T,
 								string,
-								FirelordFirestore.WhereFilterOp,
+								FirelordFirestore.OriWhereFilterOp,
 								unknown
 						  >
 								? H['opStr']

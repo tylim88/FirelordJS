@@ -1,6 +1,6 @@
 import { IsTrue } from './utils'
 import { MetaType } from './metaTypeCreator'
-import { FirelordFirestore } from './firelordFirestore'
+import { FirelordFirestore } from './ori'
 import { ServerTimestamp } from './fieldValue'
 import { ObjectFlattenRead } from './objectFlatten'
 
@@ -9,7 +9,7 @@ type NoneAndPrevious = 'none' | 'previous'
 // this is a controlled type that make sure 'none' | 'previous' is part of FirelordFirestore.SnapshotOptions['serverTimestamps']
 // if firestore change the object literal type then we would know
 IsTrue<
-	NoneAndPrevious extends FirelordFirestore.SnapshotOptions['serverTimestamps']
+	NoneAndPrevious extends FirelordFirestore.OriSnapshotOptions['serverTimestamps']
 		? true
 		: false
 >()
@@ -31,14 +31,14 @@ export type RecursiveUnionReadServerTimestampWithNull<T, Read> =
 
 export type UnionReadServerTimestampWithNull<
 	T extends MetaType,
-	SnapshotOptions extends FirelordFirestore.SnapshotOptions = never
+	SnapshotOptions extends FirelordFirestore.OriSnapshotOptions = never
 > = SnapshotOptions['serverTimestamps'] extends NoneAndPrevious // default type is never, but default value is also none, so it is ok
 	? RecursiveUnionReadServerTimestampWithNull<T['write'], T['read']>
 	: T['read']
 
 export type UnionReadServerTimestampWithNullFlatten<
 	T extends MetaType,
-	SnapshotOptions extends FirelordFirestore.SnapshotOptions = never
+	SnapshotOptions extends FirelordFirestore.OriSnapshotOptions = never
 > = SnapshotOptions['serverTimestamps'] extends NoneAndPrevious
 	? RecursiveUnionReadServerTimestampWithNull<
 			T['writeFlatten'],

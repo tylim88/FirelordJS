@@ -11,7 +11,7 @@ import {
 export const limitCreator =
 	<Type extends 'limit' | 'limitToLast'>(
 		type: Type,
-		clause: (limit: number) => FirelordFirestore.QueryConstraint
+		clause: (limit: number) => FirelordFirestore.OriQueryConstraint
 	) =>
 	<Value extends number>(
 		limit: Value extends 0

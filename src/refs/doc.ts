@@ -10,7 +10,7 @@ import { isFirestore } from '../utils'
 // tested with update
 export const docCreator =
 	<T extends MetaType>(
-		fStore: FirelordFirestore.Firestore,
+		fStore: FirelordFirestore.OriFirestore,
 		collectionPath: T['collectionPath']
 	): Doc<T> => // @ts-expect-error
 	(firestore, documentId) => {
@@ -51,7 +51,7 @@ type Doc<T extends MetaType> = {
 	 * @returns The `DocumentReference` instance.
 	 */
 	<DocumentId extends T['docID']>(
-		firestore: FirelordFirestore.Firestore,
+		firestore: FirelordFirestore.OriFirestore,
 		documentID: DocumentId extends never
 			? DocumentId
 			: DocumentId extends IsValidID<DocumentId, 'Document', 'ID'>

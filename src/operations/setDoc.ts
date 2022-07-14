@@ -14,9 +14,9 @@ Writes to the document referred to by this DocumentReference. If the document do
 A Promise resolved once the data has been successfully written to the backend (note that it won't resolve while you're offline).
 */
 export const setDoc = ((
-	reference: FirelordFirestore.DocumentReference,
-	data: FirelordFirestore.DocumentData,
-	options?: FirelordFirestore.SetOptions
+	reference: FirelordFirestore.OriDocumentReference,
+	data: FirelordFirestore.OriDocumentData,
+	options?: FirelordFirestore.OriSetOptions
 ) => {
 	const ref = options
 		? setDoc_(reference, data, options)

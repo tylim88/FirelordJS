@@ -27,9 +27,9 @@ export const flatten = <T extends Record<string, unknown>>(object: T) => {
 
 export const isFirestore = (
 	value: unknown
-): value is FirelordFirestore.Firestore => {
-	const v = value as Partial<FirelordFirestore.FirestoreGet>
-	const e = value as Partial<FirelordFirestore.FirestoreTesting>
+): value is FirelordFirestore.OriFirestore => {
+	const v = value as Partial<FirelordFirestore.OriFirestoreGet>
+	const e = value as Partial<FirelordFirestore.OriFirestoreTesting>
 	return (
 		v?.type === 'firestore' || v?.type === 'firestore-lite' || !!e?.useEmulator
 	)

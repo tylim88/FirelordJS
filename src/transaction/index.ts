@@ -43,7 +43,7 @@ The function to execute within the transaction context.
 If the transaction completed successfully or was explicitly aborted (the updateFunction returned a failed promise), the promise returned by the updateFunction is returned here. Otherwise, if the transaction failed, a rejected promise with the corresponding failure error is returned.
 */
 	<T>(
-		firestore: FirelordFirestore.Firestore,
+		firestore: FirelordFirestore.OriFirestore,
 		updateFunction: (transaction: Transaction) => Promise<T>
 	): Promise<T>
 	/** 

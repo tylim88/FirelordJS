@@ -13,7 +13,7 @@ Unlike transactions, write batches are persisted offline and therefore are prefe
 A WriteBatch that can be used to atomically execute multiple writes.
  */
 export const writeBatch = (
-	firestore?: FirelordFirestore.Firestore
+	firestore?: FirelordFirestore.OriFirestore
 ): WriteBatch => {
 	const batch = writeBatch_(
 		// @ts-expect-error

@@ -1,9 +1,9 @@
 import { FirelordFirestore, TransactionUpdate } from '../types'
 import { flatten } from '../utils'
 
-export const updateCreator = ((transaction: FirelordFirestore.Transaction) =>
+export const updateCreator = ((transaction: FirelordFirestore.OriTransaction) =>
 	(
-		reference: FirelordFirestore.DocumentReference,
+		reference: FirelordFirestore.OriDocumentReference,
 		data: Record<string, unknown>
 	) => {
 		const ref = transaction.update(
@@ -13,5 +13,5 @@ export const updateCreator = ((transaction: FirelordFirestore.Transaction) =>
 		)
 		return ref
 	}) as unknown as (
-	transaction: FirelordFirestore.Transaction
+	transaction: FirelordFirestore.OriTransaction
 ) => TransactionUpdate

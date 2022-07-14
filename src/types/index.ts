@@ -1,5 +1,5 @@
 export * from './metaTypeCreator'
-export * from './firelordFirestore'
+export * from './ori'
 export * from './set'
 export * from './error'
 export * from './partialNoUndefinedAndNoUnknownMember'

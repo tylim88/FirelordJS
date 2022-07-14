@@ -10,12 +10,12 @@ import {
 
 export const isOptions = (
 	arg:
-		| ((error: FirelordFirestore.FirestoreError) => void)
+		| ((error: FirelordFirestore.OriFirestoreError) => void)
 		| (() => void)
-		| FirelordFirestore.SnapshotListenOptions
+		| FirelordFirestore.OriSnapshotListenOptions
 		| undefined
-): arg is FirelordFirestore.SnapshotListenOptions => {
-	const v = arg as Partial<FirelordFirestore.SnapshotListenOptions>
+): arg is FirelordFirestore.OriSnapshotListenOptions => {
+	const v = arg as Partial<FirelordFirestore.OriSnapshotListenOptions>
 	return v?.includeMetadataChanges !== undefined // includeMetadataChanges is boolean, so check for undefined
 }
 
@@ -23,8 +23,8 @@ export const onSnapshot: OnSnapshot = (
 	reference,
 	onNext,
 	onError,
-	onCompletion?: (() => void) | FirelordFirestore.SnapshotListenOptions,
-	options?: FirelordFirestore.SnapshotListenOptions
+	onCompletion?: (() => void) | FirelordFirestore.OriSnapshotListenOptions,
+	options?: FirelordFirestore.OriSnapshotListenOptions
 ) => {
 	const newOnError = isOptions(onError) ? undefined : onError
 	const newOncCompletion = isOptions(onCompletion) ? undefined : onCompletion
@@ -34,14 +34,14 @@ export const onSnapshot: OnSnapshot = (
 		(isOptions(onCompletion) ? onCompletion : undefined)
 
 	return newOptions
-		? onSnapshot_(reference as FirelordFirestore.Query, newOptions, {
+		? onSnapshot_(reference as FirelordFirestore.OriQuery, newOptions, {
 				// @ts-expect-error
 				next: onNext,
 				error: newOnError,
 				complete: newOncCompletion,
 		  })
 		: onSnapshot_(
-				reference as FirelordFirestore.Query,
+				reference as FirelordFirestore.OriQuery,
 				// @ts-expect-error
 				onNext,
 				newOnError,
@@ -76,10 +76,10 @@ type OnSnapshot = {
 				? DocumentSnapshot<T>
 				: QuerySnapshot<T>
 		) => void,
-		onError?: (error: FirelordFirestore.FirestoreError) => void,
+		onError?: (error: FirelordFirestore.OriFirestoreError) => void,
 		onCompletion?: () => void,
-		options?: FirelordFirestore.SnapshotListenOptions
-	): FirelordFirestore.Unsubscribe
+		options?: FirelordFirestore.OriSnapshotListenOptions
+	): FirelordFirestore.OriUnsubscribe
 	/**
 	 * Attaches a listener for `DocumentSnapshot` events. You may either pass
 	 * individual `onNext` and `onError` callbacks or pass a single observer
@@ -104,9 +104,9 @@ type OnSnapshot = {
 				? DocumentSnapshot<T>
 				: QuerySnapshot<T>
 		) => void,
-		onError?: (error: FirelordFirestore.FirestoreError) => void,
-		options?: FirelordFirestore.SnapshotListenOptions
-	): FirelordFirestore.Unsubscribe
+		onError?: (error: FirelordFirestore.OriFirestoreError) => void,
+		options?: FirelordFirestore.OriSnapshotListenOptions
+	): FirelordFirestore.OriUnsubscribe
 	/**
 	 * Attaches a listener for `DocumentSnapshot` events. You may either pass
 	 * individual `onNext` and `onError` callbacks or pass a single observer
@@ -129,6 +129,6 @@ type OnSnapshot = {
 				? DocumentSnapshot<T>
 				: QuerySnapshot<T>
 		) => void,
-		options?: FirelordFirestore.SnapshotListenOptions
-	): FirelordFirestore.Unsubscribe
+		options?: FirelordFirestore.OriSnapshotListenOptions
+	): FirelordFirestore.OriUnsubscribe
 }

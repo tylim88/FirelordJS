@@ -1,9 +1,9 @@
 import { FirelordFirestore, WriteBatchUpdate } from '../types'
 import { flatten } from '../utils'
 
-export const updateCreator = ((writeBatch: FirelordFirestore.WriteBatch) =>
+export const updateCreator = ((writeBatch: FirelordFirestore.OriWriteBatch) =>
 	(
-		reference: FirelordFirestore.DocumentReference,
+		reference: FirelordFirestore.OriDocumentReference,
 		data: Record<string, unknown>
 	) => {
 		const ref = writeBatch.update(
@@ -13,5 +13,5 @@ export const updateCreator = ((writeBatch: FirelordFirestore.WriteBatch) =>
 		)
 		return ref
 	}) as unknown as (
-	writeBatch: FirelordFirestore.WriteBatch
+	writeBatch: FirelordFirestore.OriWriteBatch
 ) => WriteBatchUpdate

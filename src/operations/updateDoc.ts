@@ -14,7 +14,7 @@ import { flatten } from '../utils'
 	A Promise resolved once the data has been successfully written to the backend (note that it won't resolve while you're offline). 
 */
 export const updateDoc = ((
-	reference: FirelordFirestore.DocumentReference,
+	reference: FirelordFirestore.OriDocumentReference,
 	data: Record<string, unknown>
 ) => {
 	const ref =
