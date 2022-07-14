@@ -63,7 +63,7 @@ export namespace FirelordFirestore {
 	export type OriQueryDocumentSnapshot<T = OriDocumentData> =
 		import('firebase/firestore').QueryDocumentSnapshot<T>
 
-	export type DocumentSnapshot<T extends OriDocumentData = OriDocumentData> =
+	export type OriDocumentSnapshot<T extends OriDocumentData = OriDocumentData> =
 		import('firebase/firestore').DocumentSnapshot<T>
 
 	export type OriDocumentChange<T = OriDocumentData> =
