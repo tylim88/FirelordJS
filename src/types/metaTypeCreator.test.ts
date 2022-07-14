@@ -1,5 +1,5 @@
 import { MetaTypeCreator, MetaType } from './metaTypeCreator'
-import { FirelordFirestore } from './ori'
+import { OriTimestamp } from './ori'
 import { ErrorNullBanned, ErrorUnionInvolveObjectType } from './error'
 import {
 	ArrayUnionOrRemove,
@@ -43,11 +43,11 @@ describe('test Firelord type', () => {
 						d: { e: false | undefined } | undefined
 						f:
 							| {
-									g: FirelordFirestore.OriTimestamp | null | undefined
+									g: OriTimestamp | null | undefined
 									h: 2 | undefined
 							  }[]
 							| undefined
-						j: FirelordFirestore.OriTimestamp | null | undefined
+						j: OriTimestamp | null | undefined
 						k: DocumentReference<MetaType> | null | undefined
 				  }
 				| undefined
@@ -64,14 +64,14 @@ describe('test Firelord type', () => {
 				}
 				f:
 					| {
-							g: Date | FirelordFirestore.OriTimestamp | null
+							g: Date | OriTimestamp | null
 							h: 2
 					  }[]
 					| ArrayUnionOrRemove<{
-							g: Date | FirelordFirestore.OriTimestamp | null
+							g: Date | OriTimestamp | null
 							h: 2
 					  }>
-				j: ServerTimestamp | null | Date | FirelordFirestore.OriTimestamp
+				j: ServerTimestamp | null | Date | OriTimestamp
 				k: DocumentReference<MetaType> | null
 			}
 			h: string
@@ -87,14 +87,14 @@ describe('test Firelord type', () => {
 				}
 				f:
 					| {
-							g: FirelordFirestore.OriTimestamp | Date | null
+							g: OriTimestamp | Date | null
 							h: 2
 					  }[]
 					| ArrayUnionOrRemove<{
-							g: FirelordFirestore.OriTimestamp | Date | null
+							g: OriTimestamp | Date | null
 							h: 2
 					  }>
-				j: ServerTimestamp | null | Date | FirelordFirestore.OriTimestamp
+				j: ServerTimestamp | null | Date | OriTimestamp
 				k: DocumentReference<MetaType> | null
 				'd.e': false
 			}
@@ -106,14 +106,14 @@ describe('test Firelord type', () => {
 			}
 			'b.f':
 				| {
-						g: FirelordFirestore.OriTimestamp | Date | null
+						g: OriTimestamp | Date | null
 						h: 2
 				  }[]
 				| ArrayUnionOrRemove<{
-						g: FirelordFirestore.OriTimestamp | Date | null
+						g: OriTimestamp | Date | null
 						h: 2
 				  }>
-			'b.j': ServerTimestamp | null | Date | FirelordFirestore.OriTimestamp
+			'b.j': ServerTimestamp | null | Date | OriTimestamp
 			'b.k': DocumentReference<MetaType> | null
 			'b.d.e': false
 		}
@@ -128,10 +128,10 @@ describe('test Firelord type', () => {
 				'd.e': false
 				f:
 					| {
-							g: FirelordFirestore.OriTimestamp | Date | null
+							g: OriTimestamp | Date | null
 							h: 2
 					  }[]
-				j: FirelordFirestore.OriTimestamp | Date | null
+				j: OriTimestamp | Date | null
 				k: DocumentReference<MetaType> | null
 			}
 			h: string
@@ -142,10 +142,10 @@ describe('test Firelord type', () => {
 			}
 			'b.f':
 				| {
-						g: FirelordFirestore.OriTimestamp | Date | null
+						g: OriTimestamp | Date | null
 						h: 2
 				  }[]
-			'b.j': FirelordFirestore.OriTimestamp | Date | null
+			'b.j': OriTimestamp | Date | null
 			'b.k': DocumentReference<MetaType> | null
 			'b.d.e': false
 		}
@@ -191,11 +191,11 @@ describe('test Firelord type', () => {
 
 				f:
 					| {
-							g: FirelordFirestore.OriTimestamp | null | undefined
+							g: OriTimestamp | null | undefined
 							h: 2 | undefined
 					  }[]
 					| undefined
-				j: FirelordFirestore.OriTimestamp | null | undefined
+				j: OriTimestamp | null | undefined
 				k: DocumentReference<MetaType> | null | undefined
 			}
 			h: string | undefined | null
@@ -211,11 +211,11 @@ describe('test Firelord type', () => {
 				}
 				f:
 					| {
-							g: Date | FirelordFirestore.OriTimestamp | null
+							g: Date | OriTimestamp | null
 							h: 2
 					  }[]
 					| ArrayUnionOrRemove<{
-							g: Date | FirelordFirestore.OriTimestamp | null
+							g: Date | OriTimestamp | null
 							h: 2
 					  }>
 				j: ServerTimestamp | null
@@ -235,11 +235,11 @@ describe('test Firelord type', () => {
 				'd.e': false
 				f:
 					| {
-							g: FirelordFirestore.OriTimestamp | Date | null
+							g: OriTimestamp | Date | null
 							h: 2
 					  }[]
 					| ArrayUnionOrRemove<{
-							g: FirelordFirestore.OriTimestamp | Date | null
+							g: OriTimestamp | Date | null
 							h: 2
 					  }>
 				j: ServerTimestamp | null
@@ -249,11 +249,11 @@ describe('test Firelord type', () => {
 			i: number | Increment
 			'b.f':
 				| {
-						g: FirelordFirestore.OriTimestamp | Date | null
+						g: OriTimestamp | Date | null
 						h: 2
 				  }[]
 				| ArrayUnionOrRemove<{
-						g: FirelordFirestore.OriTimestamp | Date | null
+						g: OriTimestamp | Date | null
 						h: 2
 				  }>
 			'b.c': 'a'
@@ -275,10 +275,10 @@ describe('test Firelord type', () => {
 				'd.e': false
 				f:
 					| {
-							g: FirelordFirestore.OriTimestamp | Date | null
+							g: OriTimestamp | Date | null
 							h: 2
 					  }[]
-				j: FirelordFirestore.OriTimestamp | Date | null
+				j: OriTimestamp | Date | null
 				k: DocumentReference<MetaType> | null
 			}
 			h: string | null
@@ -290,10 +290,10 @@ describe('test Firelord type', () => {
 			'b.d.e': false
 			'b.f':
 				| {
-						g: FirelordFirestore.OriTimestamp | Date | null
+						g: OriTimestamp | Date | null
 						h: 2
 				  }[]
-			'b.j': FirelordFirestore.OriTimestamp | Date | null
+			'b.j': OriTimestamp | Date | null
 			'b.k': DocumentReference<MetaType> | null
 		}
 
@@ -340,11 +340,11 @@ describe('test Firelord type', () => {
 				d: { e: false | ErrorNullBanned }
 				f:
 					| {
-							g: FirelordFirestore.OriTimestamp | ErrorNullBanned
+							g: OriTimestamp | ErrorNullBanned
 							h: 2 | ErrorNullBanned
 					  }[]
 					| ErrorNullBanned
-				j: FirelordFirestore.OriTimestamp | ErrorNullBanned
+				j: OriTimestamp | ErrorNullBanned
 				k: DocumentReference<MetaType> | ErrorNullBanned
 			}
 			h: string | ErrorNullBanned
@@ -357,12 +357,12 @@ describe('test Firelord type', () => {
 				d: { e: false | ErrorNullBanned }
 				f:
 					| {
-							g: Date | FirelordFirestore.OriTimestamp | ErrorNullBanned
+							g: Date | OriTimestamp | ErrorNullBanned
 							h: 2 | ErrorNullBanned
 					  }[]
 					| ErrorNullBanned
 					| ArrayUnionOrRemove<{
-							g: FirelordFirestore.OriTimestamp | Date | ErrorNullBanned
+							g: OriTimestamp | Date | ErrorNullBanned
 							h: ErrorNullBanned | 2
 					  }>
 				j: ServerTimestamp | ErrorNullBanned
@@ -382,11 +382,11 @@ describe('test Firelord type', () => {
 				f:
 					| ErrorNullBanned
 					| {
-							g: FirelordFirestore.OriTimestamp | Date | ErrorNullBanned
+							g: OriTimestamp | Date | ErrorNullBanned
 							h: 2 | ErrorNullBanned
 					  }[]
 					| ArrayUnionOrRemove<{
-							g: FirelordFirestore.OriTimestamp | Date | ErrorNullBanned
+							g: OriTimestamp | Date | ErrorNullBanned
 							h: 2 | ErrorNullBanned
 					  }>
 				j: ServerTimestamp | ErrorNullBanned
@@ -401,11 +401,11 @@ describe('test Firelord type', () => {
 			'b.f':
 				| ErrorNullBanned
 				| {
-						g: FirelordFirestore.OriTimestamp | Date | ErrorNullBanned
+						g: OriTimestamp | Date | ErrorNullBanned
 						h: 2 | ErrorNullBanned
 				  }[]
 				| ArrayUnionOrRemove<{
-						g: FirelordFirestore.OriTimestamp | Date | ErrorNullBanned
+						g: OriTimestamp | Date | ErrorNullBanned
 						h: 2 | ErrorNullBanned
 				  }>
 			h: string | ErrorNullBanned
@@ -424,13 +424,13 @@ describe('test Firelord type', () => {
 				f:
 					| ErrorNullBanned
 					| {
-							g: Date | FirelordFirestore.OriTimestamp | ErrorNullBanned
+							g: Date | OriTimestamp | ErrorNullBanned
 							h: ErrorNullBanned | 2
 					  }[]
-				j: Date | FirelordFirestore.OriTimestamp | ErrorNullBanned
+				j: Date | OriTimestamp | ErrorNullBanned
 				k: DocumentReference<MetaType> | ErrorNullBanned
 			}
-			'b.j': Date | FirelordFirestore.OriTimestamp | ErrorNullBanned
+			'b.j': Date | OriTimestamp | ErrorNullBanned
 			'b.c': 'a' | ErrorNullBanned
 			'b.d': {
 				e: false | ErrorNullBanned
@@ -439,7 +439,7 @@ describe('test Firelord type', () => {
 			'b.f':
 				| ErrorNullBanned
 				| {
-						g: Date | FirelordFirestore.OriTimestamp | ErrorNullBanned
+						g: Date | OriTimestamp | ErrorNullBanned
 						h: ErrorNullBanned | 2
 				  }[]
 			h: string | ErrorNullBanned
@@ -483,11 +483,11 @@ describe('test Firelord type', () => {
 				d: ErrorUnionInvolveObjectType
 				f:
 					| {
-							g: FirelordFirestore.OriTimestamp | null
+							g: OriTimestamp | null
 							h: 2
 					  }[]
 					| undefined
-				j: FirelordFirestore.OriTimestamp | null | undefined
+				j: OriTimestamp | null | undefined
 				k: DocumentReference<MetaType> | null | undefined
 			}
 
@@ -502,20 +502,15 @@ describe('test Firelord type', () => {
 				d: ErrorUnionInvolveObjectType
 				f:
 					| {
-							g: Date | FirelordFirestore.OriTimestamp | null
+							g: Date | OriTimestamp | null
 							h: 2
 					  }[]
 					| ArrayUnionOrRemove<{
-							g: Date | FirelordFirestore.OriTimestamp | null
+							g: Date | OriTimestamp | null
 							h: 2
 					  }>
 					| DeleteField
-				j:
-					| ServerTimestamp
-					| null
-					| Date
-					| FirelordFirestore.OriTimestamp
-					| DeleteField
+				j: ServerTimestamp | null | Date | OriTimestamp | DeleteField
 				k: DocumentReference<MetaType> | null | DeleteField
 			}
 			h: string | DeleteField
@@ -529,42 +524,32 @@ describe('test Firelord type', () => {
 				d: ErrorUnionInvolveObjectType
 				f:
 					| {
-							g: FirelordFirestore.OriTimestamp | Date | null
+							g: OriTimestamp | Date | null
 							h: 2
 					  }[]
 					| ArrayUnionOrRemove<{
-							g: FirelordFirestore.OriTimestamp | Date | null
+							g: OriTimestamp | Date | null
 							h: 2
 					  }>
 					| DeleteField
-				j:
-					| ServerTimestamp
-					| null
-					| Date
-					| FirelordFirestore.OriTimestamp
-					| DeleteField
+				j: ServerTimestamp | null | Date | OriTimestamp | DeleteField
 				k: DocumentReference<MetaType> | null | DeleteField
 			}
 			h: string | DeleteField
 			i: number | null | Increment | DeleteField
 			'b.f':
 				| {
-						g: FirelordFirestore.OriTimestamp | Date | null
+						g: OriTimestamp | Date | null
 						h: 2
 				  }[]
 				| ArrayUnionOrRemove<{
-						g: FirelordFirestore.OriTimestamp | Date | null
+						g: OriTimestamp | Date | null
 						h: 2
 				  }>
 				| DeleteField
 			'b.c': 'a' | DeleteField
 			'b.d': ErrorUnionInvolveObjectType
-			'b.j':
-				| ServerTimestamp
-				| null
-				| Date
-				| FirelordFirestore.OriTimestamp
-				| DeleteField
+			'b.j': ServerTimestamp | null | Date | OriTimestamp | DeleteField
 			'b.k': DocumentReference<MetaType> | null | DeleteField
 		}
 
@@ -575,10 +560,10 @@ describe('test Firelord type', () => {
 				d: ErrorUnionInvolveObjectType
 				f:
 					| {
-							g: FirelordFirestore.OriTimestamp | Date | null
+							g: OriTimestamp | Date | null
 							h: 2
 					  }[]
-				j: FirelordFirestore.OriTimestamp | Date | null
+				j: OriTimestamp | Date | null
 				k: DocumentReference<MetaType> | null
 			}
 			h: string
@@ -587,11 +572,11 @@ describe('test Firelord type', () => {
 			'b.d': ErrorUnionInvolveObjectType
 			'b.f':
 				| {
-						g: FirelordFirestore.OriTimestamp | Date | null
+						g: OriTimestamp | Date | null
 						h: 2
 				  }[]
 
-			'b.j': FirelordFirestore.OriTimestamp | Date | null
+			'b.j': OriTimestamp | Date | null
 			'b.k': DocumentReference<MetaType> | null
 		}
 

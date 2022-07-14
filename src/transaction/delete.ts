@@ -1,16 +1,13 @@
 import {
-	FirelordFirestore,
+	OriDocumentReference,
+	OriTransaction,
 	TransactionDelete,
 	DocumentReference,
 	MetaType,
 } from '../types'
 
-export const deleteCreator = ((transaction: FirelordFirestore.OriTransaction) =>
+export const deleteCreator = ((transaction: OriTransaction) =>
 	(reference: DocumentReference<MetaType>) => {
-		const ref = transaction.delete(
-			reference as unknown as FirelordFirestore.OriDocumentReference
-		)
+		const ref = transaction.delete(reference as unknown as OriDocumentReference)
 		return ref
-	}) as unknown as (
-	transaction: FirelordFirestore.OriTransaction
-) => TransactionDelete
+	}) as unknown as (transaction: OriTransaction) => TransactionDelete

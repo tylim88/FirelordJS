@@ -1,10 +1,16 @@
-import { FirelordFirestore, WriteBatchSet } from '../types'
+import {
+	OriWriteBatch,
+	OriDocumentReference,
+	OriDocumentData,
+	OriSetOptions,
+	WriteBatchSet,
+} from '../types'
 
-export const setCreator = ((writeBatch: FirelordFirestore.OriWriteBatch) =>
+export const setCreator = ((writeBatch: OriWriteBatch) =>
 	(
-		reference: FirelordFirestore.OriDocumentReference,
-		data: FirelordFirestore.OriDocumentData,
-		options?: FirelordFirestore.OriSetOptions
+		reference: OriDocumentReference,
+		data: OriDocumentData,
+		options?: OriSetOptions
 	) => {
 		const ref = options
 			? writeBatch.set(reference, data, options)
@@ -12,4 +18,4 @@ export const setCreator = ((writeBatch: FirelordFirestore.OriWriteBatch) =>
 		return ref
 	}) as unknown as setCreator
 
-type setCreator = (writeBatch: FirelordFirestore.OriWriteBatch) => WriteBatchSet
+type setCreator = (writeBatch: OriWriteBatch) => WriteBatchSet

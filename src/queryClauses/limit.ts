@@ -4,14 +4,14 @@ import {
 } from 'firebase/firestore'
 import {
 	LimitConstraint,
-	FirelordFirestore,
+	OriQueryConstraint,
 	ErrorLimitInvalidNumber,
 } from '../types'
 
 export const limitCreator =
 	<Type extends 'limit' | 'limitToLast'>(
 		type: Type,
-		clause: (limit: number) => FirelordFirestore.OriQueryConstraint
+		clause: (limit: number) => OriQueryConstraint
 	) =>
 	<Value extends number>(
 		limit: Value extends 0

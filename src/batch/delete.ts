@@ -1,9 +1,7 @@
-import { FirelordFirestore, WriteBatchDelete } from '../types'
+import { OriWriteBatch, OriDocumentReference, WriteBatchDelete } from '../types'
 
-export const deleteCreator = ((writeBatch: FirelordFirestore.OriWriteBatch) =>
-	(reference: FirelordFirestore.OriDocumentReference) => {
+export const deleteCreator = ((writeBatch: OriWriteBatch) =>
+	(reference: OriDocumentReference) => {
 		const ref = writeBatch.delete(reference)
 		return ref
-	}) as unknown as (
-	writeBatch: FirelordFirestore.OriWriteBatch
-) => WriteBatchDelete
+	}) as unknown as (writeBatch: OriWriteBatch) => WriteBatchDelete

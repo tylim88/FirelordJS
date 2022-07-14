@@ -1,7 +1,7 @@
 import { setCreator } from './set'
 import { updateCreator } from './update'
 import { deleteCreator } from './delete'
-import { FirelordFirestore, WriteBatch } from '../types'
+import { OriFirestore, WriteBatch } from '../types'
 import { writeBatch as writeBatch_, getFirestore } from 'firebase/firestore'
 
 /**
@@ -12,9 +12,7 @@ Unlike transactions, write batches are persisted offline and therefore are prefe
 @returns
 A WriteBatch that can be used to atomically execute multiple writes.
  */
-export const writeBatch = (
-	firestore?: FirelordFirestore.OriFirestore
-): WriteBatch => {
+export const writeBatch = (firestore?: OriFirestore): WriteBatch => {
 	const batch = writeBatch_(
 		// @ts-expect-error
 		firestore || getFirestore() // ! type messed up, after adding firestore of testing type, weird

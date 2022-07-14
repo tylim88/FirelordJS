@@ -1,11 +1,11 @@
-import { FirelordFirestore, Get } from '../types'
+import { OriTransaction, Get, OriDocumentReference } from '../types'
 
 export const getCreator =
-	(transaction: FirelordFirestore.OriTransaction): Get =>
+	(transaction: OriTransaction): Get =>
 	// @ts-expect-error
 	async reference => {
 		const ref = await transaction.get(
-			reference as unknown as FirelordFirestore.OriDocumentReference
+			reference as unknown as OriDocumentReference
 		)
 		return ref
 	}
