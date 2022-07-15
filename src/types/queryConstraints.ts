@@ -1,30 +1,32 @@
 import { MetaType } from './metaTypeCreator'
-import { FirelordFirestore } from './firelordFirestore'
+import {
+	OriWhereFilterOp,
+	OriQueryConstraint,
+	OriOrderByDirection,
+} from './ori'
 import { CursorType } from './cursor'
 
 export type WhereConstraint<
 	T extends MetaType,
 	FieldPath extends keyof T['compare'] & string,
-	OpStr extends FirelordFirestore.WhereFilterOp,
+	OpStr extends OriWhereFilterOp,
 	Value
 > = {
 	type: 'where'
 	fieldPath: FieldPath
 	opStr: OpStr
 	value: Value
-	ref: FirelordFirestore.QueryConstraint
+	ref: OriQueryConstraint
 }
 
 export type OrderByConstraint<
 	FieldPath extends string,
-	DirectionStr extends
-		| FirelordFirestore.OrderByDirection
-		| undefined = undefined
+	DirectionStr extends OriOrderByDirection | undefined = undefined
 > = {
 	type: 'orderBy'
 	fieldPath: FieldPath
 	directionStr: DirectionStr
-	ref: FirelordFirestore.QueryConstraint
+	ref: OriQueryConstraint
 }
 
 export type LimitConstraint<
@@ -33,7 +35,7 @@ export type LimitConstraint<
 > = {
 	type: Type
 	value: Value
-	ref: FirelordFirestore.QueryConstraint
+	ref: OriQueryConstraint
 }
 
 export type CursorConstraint<
@@ -42,19 +44,14 @@ export type CursorConstraint<
 > = {
 	type: Type
 	values: Values
-	ref: FirelordFirestore.QueryConstraint
+	ref: OriQueryConstraint
 }
 
 export type QueryConstraints<T extends MetaType> =
-	| WhereConstraint<
-			T,
-			keyof T['compare'] & string,
-			FirelordFirestore.WhereFilterOp,
-			unknown
-	  >
+	| WhereConstraint<T, keyof T['compare'] & string, OriWhereFilterOp, unknown>
 	| LimitConstraint<'limit' | 'limitToLast', number>
 	| CursorConstraint<CursorType, unknown[]>
 	| OrderByConstraint<
 			keyof T['compare'] & string,
-			FirelordFirestore.OrderByDirection | undefined
+			OriOrderByDirection | undefined
 	  >

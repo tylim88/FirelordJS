@@ -1,4 +1,4 @@
-import { FirelordFirestore } from './firelordFirestore'
+import { OriTimestamp } from './ori'
 import {
 	ErrorFieldValueInArray,
 	ErrorUnassignedAbleFieldValue,
@@ -129,10 +129,8 @@ type ReadConverterArray<
 				| (InArray extends true ? never : AllFieldsPossiblyUndefined)
 		: T extends FieldValues
 		? ErrorFieldValueInArray
-		: T extends Date | FirelordFirestore.Timestamp
-		?
-				| FirelordFirestore.Timestamp
-				| (InArray extends true ? never : AllFieldsPossiblyUndefined)
+		: T extends Date | OriTimestamp
+		? OriTimestamp | (InArray extends true ? never : AllFieldsPossiblyUndefined)
 		: T extends PossiblyReadAsUndefined
 		? InArray extends true
 			? ErrorPossiblyUndefinedAsArrayElement
@@ -162,8 +160,8 @@ type ReadConverter<T, AllFieldsPossiblyUndefined, BannedTypes> =
 							true
 					  >[]
 					| AllFieldsPossiblyUndefined
-			: T extends ServerTimestamp | Date | FirelordFirestore.Timestamp
-			? FirelordFirestore.Timestamp | AllFieldsPossiblyUndefined
+			: T extends ServerTimestamp | Date | OriTimestamp
+			? OriTimestamp | AllFieldsPossiblyUndefined
 			: T extends DeleteField | PossiblyReadAsUndefined
 			? undefined
 			: T extends UnassignedAbleFieldValue
@@ -186,8 +184,8 @@ type CompareConverterArray<T, BannedTypes> = NoDirectNestedArray<T> extends T
 		? CompareConverterArray<A, BannedTypes>[]
 		: T extends FieldValues
 		? ErrorFieldValueInArray
-		: T extends Date | FirelordFirestore.Timestamp
-		? FirelordFirestore.Timestamp | Date
+		: T extends Date | OriTimestamp
+		? OriTimestamp | Date
 		: T extends PossiblyReadAsUndefined
 		? never
 		: T extends Record<string, unknown>
@@ -200,8 +198,8 @@ type CompareConverterArray<T, BannedTypes> = NoDirectNestedArray<T> extends T
 type CompareConverter<T, BannedTypes> = NoDirectNestedArray<T> extends T
 	? T extends (infer A)[]
 		? CompareConverterArray<A, BannedTypes>[]
-		: T extends ServerTimestamp | Date | FirelordFirestore.Timestamp
-		? FirelordFirestore.Timestamp | Date
+		: T extends ServerTimestamp | Date | OriTimestamp
+		? OriTimestamp | Date
 		: T extends UnassignedAbleFieldValue
 		? ErrorUnassignedAbleFieldValue
 		: T extends PossiblyReadAsUndefined | DeleteField
@@ -218,8 +216,8 @@ type ArrayWriteConverter<T, BannedTypes> = NoDirectNestedArray<T> extends T
 		? ArrayWriteConverter<A, BannedTypes>[]
 		: T extends FieldValues
 		? ErrorFieldValueInArray
-		: T extends FirelordFirestore.Timestamp | Date
-		? FirelordFirestore.Timestamp | Date
+		: T extends OriTimestamp | Date
+		? OriTimestamp | Date
 		: T extends PossiblyReadAsUndefined
 		? never
 		: T extends Record<string, unknown>
@@ -244,8 +242,8 @@ type WriteConverter<T, BannedTypes> = NoDirectNestedArray<T> extends T
 		? DeleteField
 		: T extends UnassignedAbleFieldValue
 		? ErrorUnassignedAbleFieldValue
-		: T extends FirelordFirestore.Timestamp | Date
-		? FirelordFirestore.Timestamp | Date
+		: T extends OriTimestamp | Date
+		? OriTimestamp | Date
 		: T extends PossiblyReadAsUndefined
 		? never
 		: T extends Record<string, unknown>

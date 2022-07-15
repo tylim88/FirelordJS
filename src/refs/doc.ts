@@ -1,16 +1,11 @@
-import {
-	MetaType,
-	DocumentReference,
-	FirelordFirestore,
-	IsValidID,
-} from '../types'
+import { MetaType, DocumentReference, OriFirestore, IsValidID } from '../types'
 import { doc as doc_ } from 'firebase/firestore'
 import { isFirestore } from '../utils'
 
 // tested with update
 export const docCreator =
 	<T extends MetaType>(
-		fStore: FirelordFirestore.Firestore,
+		fStore: OriFirestore,
 		collectionPath: T['collectionPath']
 	): Doc<T> => // @ts-expect-error
 	(firestore, documentId) => {
@@ -51,7 +46,7 @@ type Doc<T extends MetaType> = {
 	 * @returns The `DocumentReference` instance.
 	 */
 	<DocumentId extends T['docID']>(
-		firestore: FirelordFirestore.Firestore,
+		firestore: OriFirestore,
 		documentID: DocumentId extends never
 			? DocumentId
 			: DocumentId extends IsValidID<DocumentId, 'Document', 'ID'>

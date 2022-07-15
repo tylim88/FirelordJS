@@ -1,5 +1,5 @@
 import { MetaType } from './metaTypeCreator'
-import { FirelordFirestore } from './firelordFirestore'
+import { OriWhereFilterOp, OriOrderByDirection } from './ori'
 import {
 	ErrorLimitToLastOrderBy,
 	ErrorWhereOrderByAndInEquality,
@@ -49,7 +49,7 @@ type ValueOfOnlyArrayOptStr = ArrayContainsAny
 type ElementOfOptStr = ArrayContains
 IsTrue<
 	IsSame<
-		FirelordFirestore.WhereFilterOp,
+		OriWhereFilterOp,
 		| InequalityOpStr
 		| ValueOfOptStr
 		| ArrayOfOptStr
@@ -65,10 +65,7 @@ type ValidateOrderByAndInequalityWhere<
 > = GetFirstInequalityWhere<T, AllQCs> extends infer W
 	? W extends WhereConstraint<T, string, InequalityOpStr, unknown>
 		? GetFirstOrderBy<T, AllQCs> extends infer O
-			? O extends OrderByConstraint<
-					string,
-					FirelordFirestore.OrderByDirection | undefined
-			  >
+			? O extends OrderByConstraint<string, OriOrderByDirection | undefined>
 				? IsSame<W['fieldPath'], O['fieldPath']> extends true
 					? true
 					: ErrorWhereOrderByAndInEquality<O['fieldPath'], W['fieldPath']>
@@ -92,17 +89,12 @@ export type QueryConstraintLimitation<
 					? Head
 					: Head extends OrderByConstraint<
 							string,
-							FirelordFirestore.OrderByDirection | undefined
+							OriOrderByDirection | undefined
 					  >
 					? OrderByConstraintLimitation<T, Head, AllQCs>
 					: Head extends LimitConstraint<'limitToLast', number>
 					? LimitToLastConstraintLimitation<T, Head, AllQCs>
-					: Head extends WhereConstraint<
-							T,
-							string,
-							FirelordFirestore.WhereFilterOp,
-							unknown
-					  >
+					: Head extends WhereConstraint<T, string, OriWhereFilterOp, unknown>
 					? WhereConstraintLimitation<T, Q, Head, PreviousQCs>
 					: Head extends CursorConstraint<CursorType, unknown[]>
 					? CursorConstraintLimitation<T, Head, PreviousQCs>
@@ -126,14 +118,11 @@ type ValidateCursorOrderBy<
 	Values extends unknown[],
 	AllOrderBy extends OrderByConstraint<
 		string,
-		FirelordFirestore.OrderByDirection | undefined
+		OriOrderByDirection | undefined
 	>[]
 > = Values extends [infer Head, ...infer Rest]
 	? AllOrderBy extends [infer H, ...infer R]
-		? H extends OrderByConstraint<
-				string,
-				FirelordFirestore.OrderByDirection | undefined
-		  >
+		? H extends OrderByConstraint<string, OriOrderByDirection | undefined>
 			? [
 					H['fieldPath'] extends __name__
 						? string extends Head
@@ -153,7 +142,7 @@ type ValidateCursorOrderBy<
 						Rest,
 						R extends OrderByConstraint<
 							string,
-							FirelordFirestore.OrderByDirection | undefined
+							OriOrderByDirection | undefined
 						>[]
 							? R
 							: []
@@ -191,10 +180,7 @@ type LimitToLastConstraintLimitation<
 // You can't order your query by a field included in an equality (==) or (in) clause.
 type ValidateOrderByEqualityWhere<
 	T extends MetaType,
-	U extends OrderByConstraint<
-		string,
-		FirelordFirestore.OrderByDirection | undefined
-	>,
+	U extends OrderByConstraint<string, OriOrderByDirection | undefined>,
 	AllQCs extends QueryConstraints<T>[]
 > = Extract<
 	GetAllWhereConstraint<T, AllQCs, never>,
@@ -205,10 +191,7 @@ type ValidateOrderByEqualityWhere<
 
 type OrderByConstraintLimitation<
 	T extends MetaType,
-	U extends OrderByConstraint<
-		string,
-		FirelordFirestore.OrderByDirection | undefined
-	>,
+	U extends OrderByConstraint<string, OriOrderByDirection | undefined>,
 	AllQCs extends QueryConstraints<T>[]
 > = ValidateOrderByEqualityWhere<T, U, AllQCs> extends false
 	? ErrorWhereOrderByEquality
@@ -217,12 +200,7 @@ type OrderByConstraintLimitation<
 // You can use at most one in, not-in, or array-contains-any clause per query. You can't combine in , not-in, and array-contains-any in the same query.
 type ValidateWhereNotInArrayContainsAny<
 	T extends MetaType,
-	U extends WhereConstraint<
-		T,
-		string,
-		FirelordFirestore.WhereFilterOp,
-		unknown
-	>,
+	U extends WhereConstraint<T, string, OriWhereFilterOp, unknown>,
 	PreviousQCs extends QueryConstraints<T>[]
 > = U['opStr'] extends In | NotIn | ArrayContainsAny
 	? Extract<
@@ -237,12 +215,7 @@ type ValidateWhereNotInArrayContainsAny<
 // You cannot use more than one '!=' filter. (not documented directly or indirectly)
 type ValidateWhereNotInNotEqual<
 	T extends MetaType,
-	U extends WhereConstraint<
-		T,
-		string,
-		FirelordFirestore.WhereFilterOp,
-		unknown
-	>,
+	U extends WhereConstraint<T, string, OriWhereFilterOp, unknown>,
 	PreviousQCs extends QueryConstraints<T>[]
 > = U['opStr'] extends NotIn
 	? Extract<
@@ -268,12 +241,7 @@ type ValidateWhereNotInNotEqual<
 // You can use at most one array-contains clause per query. You can't combine array-contains with array-contains-any.
 type ValidateWhereArrayContainsArrayContainsAny<
 	T extends MetaType,
-	U extends WhereConstraint<
-		T,
-		string,
-		FirelordFirestore.WhereFilterOp,
-		unknown
-	>,
+	U extends WhereConstraint<T, string, OriWhereFilterOp, unknown>,
 	PreviousQCs extends QueryConstraints<T>[]
 > = U['opStr'] extends ArrayContains
 	? Extract<
@@ -294,12 +262,7 @@ type ValidateWhereArrayContainsArrayContainsAny<
 // In a compound query, range (<, <=, >, >=) and not equals (!=, not-in) comparisons must all filter on the same field.
 type ValidateWhereInequalityOpStrSameField<
 	T extends MetaType,
-	U extends WhereConstraint<
-		T,
-		string,
-		FirelordFirestore.WhereFilterOp,
-		unknown
-	>,
+	U extends WhereConstraint<T, string, OriWhereFilterOp, unknown>,
 	PreviousQCs extends QueryConstraints<T>[]
 > = U['opStr'] extends InequalityOpStr
 	? Extract<
@@ -321,12 +284,7 @@ type ValidateWhereInequalityOpStrSameField<
 type WhereConstraintLimitation<
 	T extends MetaType,
 	Q extends Query<T> | CollectionReference<T>,
-	U extends WhereConstraint<
-		T,
-		string,
-		FirelordFirestore.WhereFilterOp,
-		unknown
-	>,
+	U extends WhereConstraint<T, string, OriWhereFilterOp, unknown>,
 	PreviousQCs extends QueryConstraints<T>[]
 > = ValidateWhereNotInArrayContainsAny<T, U, PreviousQCs> extends string
 	? ValidateWhereNotInArrayContainsAny<T, U, PreviousQCs>
@@ -391,10 +349,7 @@ type GetFirstOrderBy<
 	T extends MetaType,
 	QCs extends QueryConstraints<T>[]
 > = QCs extends [infer H, ...infer Rest]
-	? H extends OrderByConstraint<
-			string,
-			FirelordFirestore.OrderByDirection | undefined
-	  >
+	? H extends OrderByConstraint<string, OriOrderByDirection | undefined>
 		? H
 		: Rest extends QueryConstraints<T>[]
 		? GetFirstOrderBy<T, Rest>
@@ -406,17 +361,14 @@ type GetAllOrderBy<
 	QCs extends QueryConstraints<T>[],
 	AllOrderBy extends OrderByConstraint<
 		string,
-		FirelordFirestore.OrderByDirection | undefined
+		OriOrderByDirection | undefined
 	>[]
 > = QCs extends [infer H, ...infer Rest]
 	? Rest extends QueryConstraints<T>[]
 		? GetAllOrderBy<
 				T,
 				Rest,
-				H extends OrderByConstraint<
-					string,
-					FirelordFirestore.OrderByDirection | undefined
-				>
+				H extends OrderByConstraint<string, OriOrderByDirection | undefined>
 					? [...AllOrderBy, H]
 					: AllOrderBy
 		  >
@@ -429,7 +381,7 @@ type GetAllWhereConstraint<
 	WhereConstraintsAcc extends WhereConstraint<
 		T,
 		string,
-		FirelordFirestore.WhereFilterOp,
+		OriWhereFilterOp,
 		unknown
 	>
 > = QCs extends [infer H, ...infer R]
@@ -439,12 +391,7 @@ type GetAllWhereConstraint<
 				| GetAllWhereConstraint<
 						T,
 						R,
-						| (H extends WhereConstraint<
-								T,
-								string,
-								FirelordFirestore.WhereFilterOp,
-								unknown
-						  >
+						| (H extends WhereConstraint<T, string, OriWhereFilterOp, unknown>
 								? H
 								: never)
 						| WhereConstraintsAcc
@@ -455,7 +402,7 @@ type GetAllWhereConstraint<
 type GetAllWhereConstraintOpStr<
 	T extends MetaType,
 	QCs extends QueryConstraints<T>[],
-	OpStrAcc extends FirelordFirestore.WhereFilterOp
+	OpStrAcc extends OriWhereFilterOp
 > = QCs extends [infer H, ...infer R]
 	? R extends QueryConstraints<T>[]
 		?
@@ -463,12 +410,7 @@ type GetAllWhereConstraintOpStr<
 				| GetAllWhereConstraintOpStr<
 						T,
 						R,
-						| (H extends WhereConstraint<
-								T,
-								string,
-								FirelordFirestore.WhereFilterOp,
-								unknown
-						  >
+						| (H extends WhereConstraint<T, string, OriWhereFilterOp, unknown>
 								? H['opStr']
 								: never)
 						| OpStrAcc

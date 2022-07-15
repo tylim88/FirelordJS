@@ -117,7 +117,7 @@ FirelordJS has:
 
 - The lowest learning curve (API is nearly identical to the original API).
 - The lowest technical debt (easiest to revert to the original API).
-- The best type safety (let me know if you found anything that has better type safety).
+- The best type safety\*\*.
 - The only library that capable of type against runtime errors.
 - Possibly also the smallest.
 
@@ -125,7 +125,13 @@ It is what you are looking at: the Master of Fire.
 
 Support [@firebase/rules-unit-testing](https://firelordjs.com/tests)
 
-The development code, built code and published code are all tested in CI.
+What is tested:
+
+- Development code: check correctness
+- Built code: check compiler setting
+- Published code are all tested in CI: check package.json entry point
+
+\*\* I am confident it is the best. If you found something better, I will buy you 10 cups of coffee and 100 cups of coffee if you can create something better.
 
 ## Contribution
 

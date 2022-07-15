@@ -1,5 +1,10 @@
 import { MetaType } from './metaTypeCreator'
-import { FirelordFirestore } from './firelordFirestore'
+import {
+	OriSnapshotMetadata,
+	OriSnapshotOptions,
+	OriSnapshotListenOptions,
+	OriDocumentChangeType,
+} from './ori'
 import {
 	UnionReadServerTimestampWithNullFlatten,
 	UnionReadServerTimestampWithNull,
@@ -11,7 +16,7 @@ export interface DocumentSnapshot<T extends MetaType> {
 	 *  Metadata about the `DocumentSnapshot`, including information about its
 	 *  source and local modifications.
 	 */
-	readonly metadata: FirelordFirestore.SnapshotMetadata
+	readonly metadata: OriSnapshotMetadata
 	/**
 	 * Returns whether or not the data exists. True if the document exists.
 	 */
@@ -30,7 +35,7 @@ export interface DocumentSnapshot<T extends MetaType> {
 	 * @returns An `Object` containing all fields in the document or `undefined` if
 	 * the document doesn't exist.
 	 */
-	data: <SnapshotOptions extends FirelordFirestore.SnapshotOptions = never>(
+	data: <SnapshotOptions extends OriSnapshotOptions = never>(
 		options?: SnapshotOptions
 	) => UnionReadServerTimestampWithNull<T, SnapshotOptions> | undefined
 	/**
@@ -54,7 +59,7 @@ export interface DocumentSnapshot<T extends MetaType> {
 			T,
 			SnapshotOptions
 		>,
-		SnapshotOptions extends FirelordFirestore.SnapshotOptions = never
+		SnapshotOptions extends OriSnapshotOptions = never
 	>(
 		fieldPath: FieldPath,
 		options?: SnapshotOptions
@@ -76,7 +81,7 @@ export interface QuerySnapshot<T extends MetaType> {
 	 * Metadata about this snapshot, concerning its source and if it has local
 	 * modifications.
 	 */
-	readonly metadata: FirelordFirestore.SnapshotMetadata
+	readonly metadata: OriSnapshotMetadata
 	/**
 	 * The query on which you called `get` or `onSnapshot` in order to get this
 	 * `QuerySnapshot`.
@@ -108,9 +113,7 @@ export interface QuerySnapshot<T extends MetaType> {
 	 * changes (i.e. only `DocumentSnapshot.metadata` changed) should trigger
 	 * snapshot events.
 	 */
-	docChanges(
-		options?: FirelordFirestore.SnapshotListenOptions
-	): Array<DocumentChange<T>>
+	docChanges(options?: OriSnapshotListenOptions): Array<DocumentChange<T>>
 }
 
 export interface QueryDocumentSnapshot<T extends MetaType>
@@ -128,14 +131,14 @@ export interface QueryDocumentSnapshot<T extends MetaType>
 	 * have not yet been set to their final value).
 	 * @returns An `Object` containing all fields in the document.
 	 */
-	data: <SnapshotOptions extends FirelordFirestore.SnapshotOptions = never>(
+	data: <SnapshotOptions extends OriSnapshotOptions = never>(
 		options?: SnapshotOptions
 	) => UnionReadServerTimestampWithNull<T, SnapshotOptions>
 }
 
 export interface DocumentChange<T extends MetaType> {
 	/** The type of change ('added', 'modified', or 'removed'). */
-	readonly type: FirelordFirestore.DocumentChangeType
+	readonly type: OriDocumentChangeType
 	/** The document affected by this change. */
 	readonly doc: QueryDocumentSnapshot<T>
 	/**

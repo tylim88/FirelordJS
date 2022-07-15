@@ -1,7 +1,7 @@
 import { where as where_ } from 'firebase/firestore'
 import {
 	WhereConstraint,
-	FirelordFirestore,
+	OriWhereFilterOp,
 	DocumentId,
 	__name__,
 	MetaType,
@@ -22,7 +22,7 @@ import {
 export const where = <
 	T extends MetaType,
 	FieldPath extends (keyof T['writeFlatten'] & string) | DocumentId,
-	OpStr extends FirelordFirestore.WhereFilterOp,
+	OpStr extends OriWhereFilterOp,
 	Value
 >(
 	fieldPath: FieldPath extends __name__ ? ErrorWhere__name__ : FieldPath,

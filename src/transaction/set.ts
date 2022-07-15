@@ -1,10 +1,16 @@
-import { FirelordFirestore, TransactionSet } from '../types'
+import {
+	OriTransaction,
+	OriDocumentReference,
+	OriDocumentData,
+	TransactionSet,
+	OriSetOptions,
+} from '../types'
 
-export const setCreator = ((transaction: FirelordFirestore.Transaction) =>
+export const setCreator = ((transaction: OriTransaction) =>
 	(
-		reference: FirelordFirestore.DocumentReference,
-		data: FirelordFirestore.DocumentData,
-		options?: FirelordFirestore.SetOptions
+		reference: OriDocumentReference,
+		data: OriDocumentData,
+		options?: OriSetOptions
 	) => {
 		const ref = options
 			? transaction.set(reference, data, options)
@@ -12,4 +18,4 @@ export const setCreator = ((transaction: FirelordFirestore.Transaction) =>
 		return ref
 	}) as unknown as setCreator
 
-type setCreator = (transaction: FirelordFirestore.Transaction) => TransactionSet
+type setCreator = (transaction: OriTransaction) => TransactionSet

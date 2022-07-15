@@ -1,5 +1,5 @@
 import { MetaType } from './metaTypeCreator'
-import { FirelordFirestore } from './firelordFirestore'
+import { OriFirestoreGet } from './ori'
 import { Get } from './get'
 import { TransactionSet, WriteBatchSet } from './set'
 import { TransactionUpdate, WriteBatchUpdate } from './update'
@@ -12,7 +12,7 @@ export interface DocumentReference<T extends MetaType> {
 	 * The {@link Firestore} instance the document is in.
 	 * This is useful for performing transactions, for example.
 	 */
-	readonly firestore: FirelordFirestore.FirestoreGet
+	readonly firestore: OriFirestoreGet
 	/**
 	 * The document's identifier within its collection.
 	 */
@@ -54,7 +54,7 @@ export interface Query<T extends MetaType> {
 	 * The `Firestore` instance for the Firestore database (useful for performing
 	 * transactions, etc.).
 	 */
-	readonly firestore: FirelordFirestore.FirestoreGet
+	readonly firestore: OriFirestoreGet
 }
 
 export interface Transaction {

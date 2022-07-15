@@ -1,5 +1,5 @@
 import { updateDoc as updateDoc_ } from 'firebase/firestore'
-import { FirelordFirestore, Update } from '../types'
+import { OriDocumentReference, Update } from '../types'
 import { flatten } from '../utils'
 
 /**
@@ -14,7 +14,7 @@ import { flatten } from '../utils'
 	A Promise resolved once the data has been successfully written to the backend (note that it won't resolve while you're offline). 
 */
 export const updateDoc = ((
-	reference: FirelordFirestore.DocumentReference,
+	reference: OriDocumentReference,
 	data: Record<string, unknown>
 ) => {
 	const ref =
