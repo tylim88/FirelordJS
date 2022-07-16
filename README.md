@@ -147,7 +147,7 @@ What is tested:
 
 5. You can also work on the [documentation](https://github.com/tylim88/FirelordJSDoc).
 
-6. You can help to implement the exact same type logics for (NodeJS Admin version)[https://github.com/tylim88/Firelord], the admin version is still using the old logics.
+6. You can help to implement the exact same type logics for [NodeJS Admin version](https://github.com/tylim88/Firelord), the admin version is still using the old logics.
 
    Note that there is no V9 for admin, so we need to rewrite the runtime wrapper for it to looks like V9. We must reuse the type logics and tests code for consistency.
 

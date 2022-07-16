@@ -7,6 +7,6 @@ export const collectionGroupCreator =
 		return collectionGroup_(
 			// @ts-expect-error
 			firestore || fStore, // ! type messed up, after adding firestore of testing type, weird
-			collectionID as string
+			collectionID
 		) as unknown as Query<T>
 	}

@@ -10,6 +10,6 @@ export const collectionCreator =
 		return collection_(
 			// @ts-expect-error
 			firestore || fStore, // ! type messed up, after adding firestore of testing type, weird
-			collectionPath as string
+			collectionPath
 		) as unknown as CollectionReference<T>
 	}
