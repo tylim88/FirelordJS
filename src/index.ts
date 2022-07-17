@@ -1,13 +1,13 @@
 import { getFirestore } from 'firebase/firestore'
 import {
 	MetaType,
-	OriFirestore,
 	IsValidID,
 	GetNumberOfSlash,
 	ErrorNumberOfForwardSlashIsNotEqual,
 	DocumentReference,
 	CollectionReference,
 	Query,
+	FirestoreAndFirestoreTesting,
 } from './types'
 import { docCreator, collectionCreator, collectionGroupCreator } from './refs'
 
@@ -24,7 +24,7 @@ import { docCreator, collectionCreator, collectionGroupCreator } from './refs'
  DocumentReference, CollectionReference and CollectionGroupReference instance.
  */
 export const getFirelord =
-	<T extends MetaType>(firestore?: OriFirestore) =>
+	<T extends MetaType>(firestore?: FirestoreAndFirestoreTesting) =>
 	<CollectionPath extends T['collectionPath'] = T['collectionPath']>(
 		collectionPath: CollectionPath extends never
 			? CollectionPath
@@ -61,7 +61,7 @@ export type FirelordRef<T extends MetaType> = Readonly<{
 				: IsValidID<DocumentId, 'Document', 'ID'>
 		): DocumentReference<T>
 		<DocumentId_1 extends T['docID']>(
-			firestore: OriFirestore,
+			firestore: FirestoreAndFirestoreTesting,
 			documentID: DocumentId_1 extends never
 				? DocumentId_1
 				: DocumentId_1 extends IsValidID<DocumentId_1, 'Document', 'ID'>
@@ -69,8 +69,10 @@ export type FirelordRef<T extends MetaType> = Readonly<{
 				: IsValidID<DocumentId_1, 'Document', 'ID'>
 		): DocumentReference<T>
 	}
-	collection: (firestore?: OriFirestore | undefined) => CollectionReference<T>
-	collectionGroup: (firestore?: OriFirestore | undefined) => Query<T>
+	collection: (
+		firestore?: FirestoreAndFirestoreTesting
+	) => CollectionReference<T>
+	collectionGroup: (firestore?: FirestoreAndFirestoreTesting) => Query<T>
 }>
 
 export {

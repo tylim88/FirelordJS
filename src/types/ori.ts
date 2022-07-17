@@ -1,7 +1,6 @@
 import { RulesTestContext } from '@firebase/rules-unit-testing'
-export type OriFirestore = OriFirestoreGet | OriFirestoreTesting
 
-export type OriFirestoreGet = ReturnType<OriFirebaseFirestore['getFirestore']>
+export type OriFirestore = ReturnType<OriFirebaseFirestore['getFirestore']>
 
 export type OriFirestoreTesting = ReturnType<RulesTestContext['firestore']>
 

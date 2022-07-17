@@ -25,7 +25,10 @@ describe('test refEqual', () => {
 		expect(
 			refEqual(
 				colRef(),
-				colRef(getFirestore()) as unknown as CollectionReference<User>
+				collection_(
+					getFirestore(),
+					colRef().path
+				) as unknown as CollectionReference<User>
 			)
 		).toBe(true)
 	})
