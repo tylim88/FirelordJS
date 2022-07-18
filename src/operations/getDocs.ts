@@ -3,7 +3,7 @@ import {
 	getDocsFromCache as getDocsFromCache_,
 	getDocsFromServer as getDocsFromServer_,
 } from 'firebase/firestore'
-import { MetaType, Query, QuerySnapshot } from '../types'
+import { MetaType, Query, QuerySnapshot, OriQuery } from '../types'
 
 /**
  * Executes the query and returns the results as a `QuerySnapshot`.
@@ -16,10 +16,7 @@ import { MetaType, Query, QuerySnapshot } from '../types'
  * @returns A `Promise` that will be resolved with the results of the query.
  */
 export const getDocs = <T extends MetaType>(query: Query<T>) => {
-	return getDocs_(
-		// @ts-expect-error
-		query
-	) as unknown as Promise<QuerySnapshot<T>>
+	return getDocs_(query as OriQuery) as unknown as Promise<QuerySnapshot<T>>
 }
 
 /**
@@ -29,10 +26,9 @@ export const getDocs = <T extends MetaType>(query: Query<T>) => {
  * @returns A `Promise` that will be resolved with the results of the query.
  */
 export const getDocsFromCache = <T extends MetaType>(query: Query<T>) => {
-	return getDocsFromCache_(
-		// @ts-expect-error
-		query
-	) as unknown as Promise<QuerySnapshot<T>>
+	return getDocsFromCache_(query as OriQuery) as unknown as Promise<
+		QuerySnapshot<T>
+	>
 }
 
 /**
@@ -42,8 +38,7 @@ export const getDocsFromCache = <T extends MetaType>(query: Query<T>) => {
  * @returns A `Promise` that will be resolved with the results of the query.
  */
 export const getDocsFromServer = <T extends MetaType>(query: Query<T>) => {
-	return getDocsFromServer_(
-		// @ts-expect-error
-		query
-	) as unknown as Promise<QuerySnapshot<T>>
+	return getDocsFromServer_(query as OriQuery) as unknown as Promise<
+		QuerySnapshot<T>
+	>
 }

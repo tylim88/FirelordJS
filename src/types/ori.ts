@@ -1,30 +1,10 @@
 import { RulesTestContext } from '@firebase/rules-unit-testing'
 
-export type OriFirestore = ReturnType<OriFirebaseFirestore['getFirestore']>
+export type OriFirestore = ReturnType<OriFirebaseFirestore['getFirestore']> // ! OriFirebaseFirestore['Firestore'] doesn't work even though they are the exact same type???
 
 export type OriFirestoreTesting = ReturnType<RulesTestContext['firestore']>
 
 export type OriFirebaseFirestore = typeof import('firebase/firestore')
-
-export type OriDoc = OriFirebaseFirestore['doc']
-
-export type OriCollection = OriFirebaseFirestore['collection']
-
-export type OriCollectionGroup = OriFirebaseFirestore['collectionGroup']
-
-export type OriSetDoc = OriFirebaseFirestore['setDoc']
-
-export type OriGetDoc = OriFirebaseFirestore['getDoc']
-
-export type OriAddDoc = OriFirebaseFirestore['addDoc']
-
-export type OriDeleteDoc = OriFirebaseFirestore['deleteDoc']
-
-export type OriUpdateDoc = OriFirebaseFirestore['updateDoc']
-
-export type OriRunTransaction = OriFirebaseFirestore['runTransaction']
-
-export type OriFieldValue = import('firebase/firestore').FieldValue
 
 export type OriDocumentData = import('firebase/firestore').DocumentData
 

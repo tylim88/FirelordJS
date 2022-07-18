@@ -38,7 +38,7 @@ type abc2 = MetaTypeCreator<
 	'abc',
 	string,
 	null, // no parent
-	{ allFieldsPossiblyUndefined: true }
+	{ allFieldsPossiblyReadAsUndefined: true }
 >
 
 const docRef2 = getFirelord<abc2>()('abc').doc('efg')

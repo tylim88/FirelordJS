@@ -1,20 +1,15 @@
 import { MetaType } from './metaTypeCreator'
 import {
-	OriSnapshotMetadata,
-	OriSnapshotOptions,
-	OriSnapshotListenOptions,
-	OriDocumentChangeType,
-} from './ori'
+	SnapshotMetadata,
+	SnapshotOptions,
+	SnapshotListenOptions,
+	DocumentChangeType,
+} from './alias'
 import {
 	UnionReadServerTimestampWithNullFlatten,
 	UnionReadServerTimestampWithNull,
 } from './unionReadTimestampWithNull'
 import { DocumentReference, Query } from './ref'
-
-export type SnapshotMetadata = OriSnapshotMetadata
-export type SnapshotOptions = OriSnapshotOptions
-export type SnapshotListenOptions = OriSnapshotListenOptions
-export type DocumentChangeType = OriDocumentChangeType
 
 export interface DocumentSnapshot<T extends MetaType> {
 	/**

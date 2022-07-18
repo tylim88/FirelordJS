@@ -43,15 +43,17 @@ export type MetaTypeCreator<
 	DocID extends string = string,
 	Parent extends MetaType | null = null,
 	Settings extends {
-		allFieldsPossiblyUndefined?: boolean
+		allFieldsPossiblyReadAsUndefined?: boolean
 		banNull?: boolean
-	} = { allFieldsPossiblyUndefined: false; banNull: false }
+	} = { allFieldsPossiblyReadAsUndefined: false; banNull: false }
 > = {
 	base: Base
 	read: {
 		[J in keyof RecursiveReplaceUnionInvolveObjectTypeWithErrorMsg<Base>]-?: ReadConverter<
 			RecursiveReplaceUnionInvolveObjectTypeWithErrorMsg<Base>[J],
-			Settings['allFieldsPossiblyUndefined'] extends true ? undefined : never,
+			Settings['allFieldsPossiblyReadAsUndefined'] extends true
+				? undefined
+				: never,
 			Settings['banNull'] extends true ? null : never
 		>
 	}
@@ -119,18 +121,25 @@ export type MetaTypeCreator<
 
 type ReadConverterArray<
 	T,
-	AllFieldsPossiblyUndefined,
+	allFieldsPossiblyReadAsUndefined,
 	BannedTypes,
 	InArray extends boolean
 > = NoDirectNestedArray<T> extends T
 	? T extends (infer A)[]
 		?
-				| ReadConverterArray<A, AllFieldsPossiblyUndefined, BannedTypes, true>[]
-				| (InArray extends true ? never : AllFieldsPossiblyUndefined)
+				| ReadConverterArray<
+						A,
+						allFieldsPossiblyReadAsUndefined,
+						BannedTypes,
+						true
+				  >[]
+				| (InArray extends true ? never : allFieldsPossiblyReadAsUndefined)
 		: T extends FieldValues
 		? ErrorFieldValueInArray
 		: T extends Date | OriTimestamp
-		? OriTimestamp | (InArray extends true ? never : AllFieldsPossiblyUndefined)
+		?
+				| OriTimestamp
+				| (InArray extends true ? never : allFieldsPossiblyReadAsUndefined)
 		: T extends PossiblyReadAsUndefined
 		? InArray extends true
 			? ErrorPossiblyUndefinedAsArrayElement
@@ -140,28 +149,30 @@ type ReadConverterArray<
 				| {
 						[K in keyof T]-?: ReadConverterArray<
 							T[K],
-							AllFieldsPossiblyUndefined,
+							allFieldsPossiblyReadAsUndefined,
 							BannedTypes,
 							false
 						>
 				  }
-				| (InArray extends true ? never : AllFieldsPossiblyUndefined)
-		: NoUndefinedAndBannedTypes<T, BannedTypes> | AllFieldsPossiblyUndefined
-	: NoUndefinedAndBannedTypes<T, BannedTypes> | AllFieldsPossiblyUndefined
+				| (InArray extends true ? never : allFieldsPossiblyReadAsUndefined)
+		:
+				| NoUndefinedAndBannedTypes<T, BannedTypes>
+				| allFieldsPossiblyReadAsUndefined
+	: NoUndefinedAndBannedTypes<T, BannedTypes> | allFieldsPossiblyReadAsUndefined
 
-type ReadConverter<T, AllFieldsPossiblyUndefined, BannedTypes> =
+type ReadConverter<T, allFieldsPossiblyReadAsUndefined, BannedTypes> =
 	NoDirectNestedArray<T> extends T
 		? T extends (infer A)[]
 			?
 					| ReadConverterArray<
 							A,
-							AllFieldsPossiblyUndefined,
+							allFieldsPossiblyReadAsUndefined,
 							BannedTypes,
 							true
 					  >[]
-					| AllFieldsPossiblyUndefined
+					| allFieldsPossiblyReadAsUndefined
 			: T extends ServerTimestamp | Date | OriTimestamp
-			? OriTimestamp | AllFieldsPossiblyUndefined
+			? OriTimestamp | allFieldsPossiblyReadAsUndefined
 			: T extends DeleteField | PossiblyReadAsUndefined
 			? undefined
 			: T extends UnassignedAbleFieldValue
@@ -171,13 +182,17 @@ type ReadConverter<T, AllFieldsPossiblyUndefined, BannedTypes> =
 					| {
 							[K in keyof T]-?: ReadConverter<
 								T[K],
-								AllFieldsPossiblyUndefined,
+								allFieldsPossiblyReadAsUndefined,
 								BannedTypes
 							>
 					  }
-					| AllFieldsPossiblyUndefined
-			: NoUndefinedAndBannedTypes<T, BannedTypes> | AllFieldsPossiblyUndefined
-		: NoUndefinedAndBannedTypes<T, BannedTypes> | AllFieldsPossiblyUndefined
+					| allFieldsPossiblyReadAsUndefined
+			:
+					| NoUndefinedAndBannedTypes<T, BannedTypes>
+					| allFieldsPossiblyReadAsUndefined
+		:
+				| NoUndefinedAndBannedTypes<T, BannedTypes>
+				| allFieldsPossiblyReadAsUndefined
 
 type CompareConverterArray<T, BannedTypes> = NoDirectNestedArray<T> extends T
 	? T extends (infer A)[]

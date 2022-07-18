@@ -19,5 +19,5 @@ export const addDoc = <T extends MetaType>(
 		// @ts-expect-error
 		reference,
 		data
-	) as unknown as Promise<DocumentReference<T>>
+	) as Promise<DocumentReference<T>>
 }

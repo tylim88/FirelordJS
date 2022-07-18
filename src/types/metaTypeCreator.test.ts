@@ -33,7 +33,7 @@ describe('test Firelord type', () => {
 			'A',
 			string,
 			never,
-			{ allFieldsPossiblyUndefined: true }
+			{ allFieldsPossiblyReadAsUndefined: true }
 		>
 		type ExpectedRead = {
 			a: 1 | null | undefined

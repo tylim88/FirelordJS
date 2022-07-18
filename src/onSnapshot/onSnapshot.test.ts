@@ -44,7 +44,7 @@ describe('test onSnapshot', () => {
 			)
 		})
 	})
-	it('test one doc functionality and type with options', done => {
+	it('test one doc functionality and type', done => {
 		const docRef = userRef.doc('onSnapshotWithOptionsOneDocTest')
 		const data = generateRandomData()
 		expect.hasAssertions()
@@ -61,14 +61,11 @@ describe('test onSnapshot', () => {
 				},
 				() => {
 					//
-				},
-				() => {
-					//
 				}
 			)
 		})
 	})
-	it('test naked query functionality and type', done => {
+	it('test naked query functionality and type with options', done => {
 		const docId = 'onSnapshotNakedQueryTest'
 		const docRef = userRef.doc(docId)
 		const data = generateRandomData()

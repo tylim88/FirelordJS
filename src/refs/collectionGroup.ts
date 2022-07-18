@@ -9,7 +9,7 @@ export const collectionGroupCreator =
 	(firestore?: FirestoreAndFirestoreTesting) => {
 		return collectionGroup_(
 			// @ts-expect-error
-			firestore || fStore, // ! type messed up, after adding firestore of testing type, weird
+			firestore || fStore, // ! testing messed up the type, weird
 			collectionID
 		) as Query<T>
 	}

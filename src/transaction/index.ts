@@ -15,7 +15,7 @@ export const runTransaction: RunTransaction = (firestore, updateFunction) => {
 	const callback = isFirestore(firestore) ? updateFunction : firestore
 	return runTransaction_(
 		// @ts-expect-error
-		fStore, // ! type messed up, after adding firestore of testing type, weird
+		fStore, // ! testing messed up the type, weird
 
 		async transaction => {
 			const set = setCreator(transaction)
