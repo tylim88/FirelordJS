@@ -1,10 +1,13 @@
 import { MetaType } from './metaTypeCreator'
-import { OriFirestoreGet } from './ori'
+import { OriFirestore, OriFirestoreTesting } from './ori'
 import { Get } from './get'
 import { TransactionSet, WriteBatchSet } from './set'
 import { TransactionUpdate, WriteBatchUpdate } from './update'
 import { TransactionDelete, WriteBatchDelete } from './delete'
 
+export type Firestore = OriFirestore
+export type FirestoreTesting = OriFirestoreTesting
+export type FirestoreAndFirestoreTesting = Firestore | FirestoreTesting
 export interface DocumentReference<T extends MetaType> {
 	/** The type of this Firestore reference. */
 	readonly type: 'document'
@@ -12,7 +15,7 @@ export interface DocumentReference<T extends MetaType> {
 	 * The {@link Firestore} instance the document is in.
 	 * This is useful for performing transactions, for example.
 	 */
-	readonly firestore: OriFirestoreGet
+	readonly firestore: Firestore
 	/**
 	 * The document's identifier within its collection.
 	 */
@@ -54,7 +57,7 @@ export interface Query<T extends MetaType> {
 	 * The `Firestore` instance for the Firestore database (useful for performing
 	 * transactions, etc.).
 	 */
-	readonly firestore: OriFirestoreGet
+	readonly firestore: Firestore
 }
 
 export interface Transaction {

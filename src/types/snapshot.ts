@@ -11,12 +11,17 @@ import {
 } from './unionReadTimestampWithNull'
 import { DocumentReference, Query } from './ref'
 
+export type SnapshotMetadata = OriSnapshotMetadata
+export type SnapshotOptions = OriSnapshotOptions
+export type SnapshotListenOptions = OriSnapshotListenOptions
+export type DocumentChangeType = OriDocumentChangeType
+
 export interface DocumentSnapshot<T extends MetaType> {
 	/**
 	 *  Metadata about the `DocumentSnapshot`, including information about its
 	 *  source and local modifications.
 	 */
-	readonly metadata: OriSnapshotMetadata
+	readonly metadata: SnapshotMetadata
 	/**
 	 * Returns whether or not the data exists. True if the document exists.
 	 */
@@ -35,9 +40,9 @@ export interface DocumentSnapshot<T extends MetaType> {
 	 * @returns An `Object` containing all fields in the document or `undefined` if
 	 * the document doesn't exist.
 	 */
-	data: <SnapshotOptions extends OriSnapshotOptions = never>(
-		options?: SnapshotOptions
-	) => UnionReadServerTimestampWithNull<T, SnapshotOptions> | undefined
+	data: <U extends SnapshotOptions = never>(
+		options?: U
+	) => UnionReadServerTimestampWithNull<T, U> | undefined
 	/**
 	 * Retrieves the field specified by `fieldPath`. Returns `undefined` if the
 	 * document or field doesn't exist.
@@ -55,17 +60,12 @@ export interface DocumentSnapshot<T extends MetaType> {
 	 * field exists in the document.
 	 */
 	get<
-		FieldPath extends keyof UnionReadServerTimestampWithNullFlatten<
-			T,
-			SnapshotOptions
-		>,
-		SnapshotOptions extends OriSnapshotOptions = never
+		FieldPath extends keyof UnionReadServerTimestampWithNullFlatten<T, U>,
+		U extends SnapshotOptions = never
 	>(
 		fieldPath: FieldPath,
-		options?: SnapshotOptions
-	):
-		| UnionReadServerTimestampWithNullFlatten<T, SnapshotOptions>[FieldPath]
-		| undefined
+		options?: U
+	): UnionReadServerTimestampWithNullFlatten<T, U>[FieldPath] | undefined
 	/**
 	 * Property of the `DocumentSnapshot` that provides the document's ID.
 	 */
@@ -81,7 +81,7 @@ export interface QuerySnapshot<T extends MetaType> {
 	 * Metadata about this snapshot, concerning its source and if it has local
 	 * modifications.
 	 */
-	readonly metadata: OriSnapshotMetadata
+	readonly metadata: SnapshotMetadata
 	/**
 	 * The query on which you called `get` or `onSnapshot` in order to get this
 	 * `QuerySnapshot`.
@@ -113,7 +113,7 @@ export interface QuerySnapshot<T extends MetaType> {
 	 * changes (i.e. only `DocumentSnapshot.metadata` changed) should trigger
 	 * snapshot events.
 	 */
-	docChanges(options?: OriSnapshotListenOptions): Array<DocumentChange<T>>
+	docChanges(options?: SnapshotListenOptions): Array<DocumentChange<T>>
 }
 
 export interface QueryDocumentSnapshot<T extends MetaType>
@@ -131,14 +131,14 @@ export interface QueryDocumentSnapshot<T extends MetaType>
 	 * have not yet been set to their final value).
 	 * @returns An `Object` containing all fields in the document.
 	 */
-	data: <SnapshotOptions extends OriSnapshotOptions = never>(
-		options?: SnapshotOptions
-	) => UnionReadServerTimestampWithNull<T, SnapshotOptions>
+	data: <U extends SnapshotOptions = never>(
+		options?: U
+	) => UnionReadServerTimestampWithNull<T, U>
 }
 
 export interface DocumentChange<T extends MetaType> {
 	/** The type of change ('added', 'modified', or 'removed'). */
-	readonly type: OriDocumentChangeType
+	readonly type: DocumentChangeType
 	/** The document affected by this change. */
 	readonly doc: QueryDocumentSnapshot<T>
 	/**
