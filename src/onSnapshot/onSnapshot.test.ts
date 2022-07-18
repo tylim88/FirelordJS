@@ -61,9 +61,6 @@ describe('test onSnapshot', () => {
 				},
 				() => {
 					//
-				},
-				() => {
-					//
 				}
 			)
 		})

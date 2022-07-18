@@ -19,7 +19,7 @@
 		"test": "firebase emulators:exec --only firestore \"rm -rf coverage && jest --forceExit\"",
 		"parcel": "npm un firebase && npm i firebase && rm -rf dist && tsc --emitDeclarationOnly true && parcel build && npm i -D firebase",
 		"build": "rm -rf dist && tsc",
-		"link": "npm link && npm link firelordjs",
+		"link": "npm unlink firelordjs && npm link && npm link firelordjs",
 		"dev": "---------------------dev------------------------",
 		"d-link": "npm run build && npm run link",
 		"d-test": "tsc && npm test",

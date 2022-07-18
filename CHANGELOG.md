@@ -3,6 +3,7 @@
 ## v1.5.0 19-July-2022
 
 - rename setting `allFieldsPossiblyUndefined` as `allFieldsPossiblyReadAsUndefined`
+- remove onSnapshot onCompletion parameter
 
 ## v1.3.0 6-May-2022
 
