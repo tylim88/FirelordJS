@@ -1,6 +1,6 @@
 import { RulesTestContext } from '@firebase/rules-unit-testing'
 
-export type OriFirestore = ReturnType<OriFirebaseFirestore['getFirestore']>
+export type OriFirestore = ReturnType<OriFirebaseFirestore['getFirestore']> // ! OriFirebaseFirestore['Firestore'] doesn't work even though they are the exact same type???
 
 export type OriFirestoreTesting = ReturnType<RulesTestContext['firestore']>
 

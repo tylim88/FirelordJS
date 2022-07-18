@@ -17,7 +17,7 @@ export const writeBatch = (
 ): WriteBatch => {
 	const batch = writeBatch_(
 		// @ts-expect-error
-		firestore || getFirestore() // ! type messed up, after adding firestore of testing type, weird
+		firestore || getFirestore()
 	)
 	return Object.freeze({
 		commit: () => batch.commit(),

@@ -18,7 +18,7 @@ export const docCreator =
 		const docId = isFirestore(firestore) ? documentId : firestore
 		return doc_(
 			// @ts-expect-error
-			fs, // ! type messed up, after adding firestore of testing type, weird
+			fs, // ! testing messed up the type, weird
 			collectionPath + '/' + docId
 		) as DocumentReference<T>
 	}

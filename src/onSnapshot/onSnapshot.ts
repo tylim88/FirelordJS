@@ -30,7 +30,7 @@ export const onSnapshot: OnSnapshot = (
 	options?: OriSnapshotListenOptions
 ) => {
 	const newOnError = isOptions(onError) ? undefined : onError
-	const newOncCompletion = isOptions(onCompletion) ? undefined : onCompletion
+	const newOnCompletion = isOptions(onCompletion) ? undefined : onCompletion
 	const newOptions =
 		options ||
 		(isOptions(onError) ? onError : undefined) ||
@@ -41,14 +41,14 @@ export const onSnapshot: OnSnapshot = (
 				// @ts-expect-error
 				next: onNext,
 				error: newOnError,
-				complete: newOncCompletion,
+				complete: newOnCompletion,
 		  })
 		: onSnapshot_(
 				reference as OriQuery,
 				// @ts-expect-error
 				onNext,
 				newOnError,
-				newOncCompletion
+				newOnCompletion
 		  )
 }
 

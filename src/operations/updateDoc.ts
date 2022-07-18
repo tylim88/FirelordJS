@@ -19,6 +19,6 @@ export const updateDoc = ((
 ) => {
 	const ref =
 		// @ts-expect-error
-		updateDoc_(reference, flatten(data)) // ! type messed up, after adding firestore of testing type, weird
+		updateDoc_(reference, flatten(data)) // ! testing messed up the type, weird
 	return ref
 }) as unknown as Update

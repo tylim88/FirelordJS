@@ -3,7 +3,8 @@ import {
 	DocumentReference,
 	PartialNoUndefinedAndNoUnknownMemberNoEmptyMember,
 } from '../types'
-import { Transaction, WriteBatch } from './ref'
+import { Transaction } from './transaction'
+import { WriteBatch } from './WriteBatch'
 
 export type UpdateCreator<U> = <
 	T extends MetaType,

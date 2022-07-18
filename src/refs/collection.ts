@@ -13,7 +13,7 @@ export const collectionCreator =
 	(firestore?: FirestoreAndFirestoreTesting) => {
 		return collection_(
 			// @ts-expect-error
-			firestore || fStore, // ! type messed up, after adding firestore of testing type, weird
+			firestore || fStore, // ! testing messed up the type, weird
 			collectionPath
 		) as CollectionReference<T>
 	}
