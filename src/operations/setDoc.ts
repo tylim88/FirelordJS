@@ -15,16 +15,12 @@ Writes to the document referred to by this DocumentReference. If the document do
 
 @param options - An object to configure the set behavior.
 
-@returns
-A Promise resolved once the data has been successfully written to the backend (note that it won't resolve while you're offline).
+@returns A Promise resolved once the data has been successfully written to the backend (note that it won't resolve while you're offline).
 */
 export const setDoc = ((
 	reference: OriDocumentReference,
 	data: OriDocumentData,
 	options?: OriSetOptions
 ) => {
-	const ref = options
-		? setDoc_(reference, data, options)
-		: setDoc_(reference, data)
-	return ref
-}) as unknown as Set // const setDoc:Set = .... type mismatched though
+	return options ? setDoc_(reference, data, options) : setDoc_(reference, data)
+}) as Set // const setDoc:Set = .... type mismatched though

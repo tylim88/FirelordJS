@@ -6,9 +6,11 @@ import {
 	OriFirestoreError,
 	OriSnapshotListenOptions,
 	OriQuery,
-	OriUnsubscribe,
+	Unsubscribe,
 	DocumentSnapshot,
 	QuerySnapshot,
+	FirestoreError,
+	SnapshotListenOptions,
 } from '../types'
 
 export const isOptions = (
@@ -79,10 +81,10 @@ type OnSnapshot = {
 				? DocumentSnapshot<T>
 				: QuerySnapshot<T>
 		) => void,
-		onError?: (error: OriFirestoreError) => void,
+		onError?: (error: FirestoreError) => void,
 		onCompletion?: () => void,
-		options?: OriSnapshotListenOptions
-	): OriUnsubscribe
+		options?: SnapshotListenOptions
+	): Unsubscribe
 	/**
 	 * Attaches a listener for `DocumentSnapshot` events. You may either pass
 	 * individual `onNext` and `onError` callbacks or pass a single observer
@@ -107,9 +109,9 @@ type OnSnapshot = {
 				? DocumentSnapshot<T>
 				: QuerySnapshot<T>
 		) => void,
-		onError?: (error: OriFirestoreError) => void,
-		options?: OriSnapshotListenOptions
-	): OriUnsubscribe
+		onError?: (error: FirestoreError) => void,
+		options?: SnapshotListenOptions
+	): Unsubscribe
 	/**
 	 * Attaches a listener for `DocumentSnapshot` events. You may either pass
 	 * individual `onNext` and `onError` callbacks or pass a single observer
@@ -132,6 +134,6 @@ type OnSnapshot = {
 				? DocumentSnapshot<T>
 				: QuerySnapshot<T>
 		) => void,
-		options?: OriSnapshotListenOptions
-	): OriUnsubscribe
+		options?: SnapshotListenOptions
+	): Unsubscribe
 }

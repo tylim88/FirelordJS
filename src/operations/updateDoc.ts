@@ -10,15 +10,12 @@ import { flatten } from '../utils'
 	@param data
 	An object containing the fields and values with which to update the document. Fields can contain dots to reference nested fields within the document.
 	
-	@returns
-	A Promise resolved once the data has been successfully written to the backend (note that it won't resolve while you're offline). 
+	@returns A Promise resolved once the data has been successfully written to the backend (note that it won't resolve while you're offline). 
 */
 export const updateDoc = ((
 	reference: OriDocumentReference,
 	data: Record<string, unknown>
 ) => {
-	const ref =
-		// @ts-expect-error
-		updateDoc_(reference, flatten(data)) // ! testing messed up the type, weird
-	return ref
-}) as unknown as Update
+	// @ts-expect-error
+	return updateDoc_(reference, flatten(data))
+}) as Update

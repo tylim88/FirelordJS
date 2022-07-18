@@ -45,12 +45,7 @@ export const where = <
 		fieldPath: fieldPath as string,
 		opStr,
 		value,
-		ref: where_(
-			// @ts-expect-error
-			fieldPath,
-			opStr,
-			newValue
-		),
+		ref: where_(fieldPath as string, opStr, newValue),
 	} as WhereConstraint<
 		T,
 		FieldPath extends DocumentId ? __name__ : FieldPath,

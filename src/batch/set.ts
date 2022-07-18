@@ -6,8 +6,8 @@ import {
 	WriteBatchSet,
 } from '../types'
 
-export const setCreator = ((writeBatch: OriWriteBatch) =>
-	(
+export const setCreator = (writeBatch: OriWriteBatch) =>
+	((
 		reference: OriDocumentReference,
 		data: OriDocumentData,
 		options?: OriSetOptions
@@ -16,6 +16,4 @@ export const setCreator = ((writeBatch: OriWriteBatch) =>
 			? writeBatch.set(reference, data, options)
 			: writeBatch.set(reference, data)
 		return ref
-	}) as unknown as setCreator
-
-type setCreator = (writeBatch: OriWriteBatch) => WriteBatchSet
+	}) as WriteBatchSet

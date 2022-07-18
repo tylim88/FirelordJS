@@ -3,7 +3,7 @@ import {
 	getDocFromCache as getDocFromCache_,
 	getDocFromServer as getDocFromServer_,
 } from 'firebase/firestore'
-import { Get } from '../types'
+import { Get, OriDocumentReference, DocumentSnapshot, MetaType } from '../types'
 /**
 Reads the document referred to by this DocumentReference.
 
@@ -14,13 +14,9 @@ Note: getDoc() attempts to provide up-to-date data when possible by waiting for 
 @returns
 A Promise resolved with a DocumentSnapshot containing the current document contents.
 */
-// @ts-expect-error
-export const getDoc: Get = reference => {
-	return getDoc_(
-		// @ts-expect-error
-		reference
-	)
-}
+export const getDoc: Get = ((reference: OriDocumentReference) => {
+	return getDoc_(reference) as Promise<DocumentSnapshot<MetaType>>
+}) as Get
 
 /**
  * Reads the document referred to by this `DocumentReference` from cache.
@@ -29,13 +25,9 @@ export const getDoc: Get = reference => {
  * @returns A `Promise` resolved with a `DocumentSnapshot` containing the
  * current document contents.
  */
-// @ts-expect-error
-export const getDocFromCache: Get = reference => {
-	return getDocFromCache_(
-		// @ts-expect-error
-		reference
-	)
-}
+export const getDocFromCache = ((reference: OriDocumentReference) => {
+	return getDocFromCache_(reference) as Promise<DocumentSnapshot<MetaType>>
+}) as Get
 /**
  * Reads the document referred to by this `DocumentReference` from the server.
  * Returns an error if the network is not available.
@@ -43,10 +35,6 @@ export const getDocFromCache: Get = reference => {
  * @returns A `Promise` resolved with a `DocumentSnapshot` containing the
  * current document contents.
  */
-// @ts-expect-error
-export const getDocFromServer: Get = async reference => {
-	return getDocFromServer_(
-		// @ts-expect-error
-		reference
-	)
-}
+export const getDocFromServer = ((reference: OriDocumentReference) => {
+	return getDocFromServer_(reference) as Promise<DocumentSnapshot<MetaType>>
+}) as Get
