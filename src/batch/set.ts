@@ -5,6 +5,7 @@ import {
 	OriSetOptions,
 	WriteBatchSet,
 } from '../types'
+import { removeFieldValueInhomogeneousProps } from '../fieldValue'
 
 export const setCreator = (writeBatch: OriWriteBatch) =>
 	((
@@ -12,8 +13,9 @@ export const setCreator = (writeBatch: OriWriteBatch) =>
 		data: OriDocumentData,
 		options?: OriSetOptions
 	) => {
-		const ref = options
-			? writeBatch.set(reference, data, options)
-			: writeBatch.set(reference, data)
-		return ref
+		return writeBatch.set(
+			reference,
+			removeFieldValueInhomogeneousProps(data),
+			options || {}
+		)
 	}) as WriteBatchSet

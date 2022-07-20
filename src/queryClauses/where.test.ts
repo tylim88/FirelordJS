@@ -64,14 +64,14 @@ describe('test query ref', () => {
 			query(
 				ref,
 				// @ts-expect-error
-				where(documentId(), '>=', 1)
+				where(documentId(), '>=', 1) // documentId must be string else throw
 			)
 		).toThrow()
 		expect(() =>
 			query(
 				ref,
 				// @ts-expect-error
-				where(documentId(), '>=', 'a/b/c')
+				where(documentId(), '>=', 'a/b/c') // documentId must contain no segment
 			)
 		).toThrow()
 	})

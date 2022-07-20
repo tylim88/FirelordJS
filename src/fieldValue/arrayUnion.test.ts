@@ -32,7 +32,11 @@ describe('test arrayUnion', () => {
 		}
 	})
 	it('test with no arg', async () => {
-		await updateDoc(docRef, { a: arrayUnion() })
+		await updateDoc(docRef, {
+			a:
+				// @ts-expect-error
+				arrayUnion(),
+		})
 		const docSnap = await getDoc(docRef)
 		const data = docSnap.data()
 		expect(data).not.toBe(undefined)

@@ -83,7 +83,7 @@ export type PartialNoUndefinedAndNoUnknownMemberNoEmptyMember<
 							AllowEmptyMember
 					  >
 					: T[K]
-				: T[K] extends (infer BaseKeyElement)[] | ArrayUnionOrRemove
+				: T[K] extends (infer BaseKeyElement)[] | ArrayUnionOrRemove<unknown>
 				? Data[K] extends (infer DataKeyElement)[]
 					? Data[K] extends never[] // https://stackoverflow.com/questions/71193522/typescript-inferred-never-is-not-never
 						? T[K]

@@ -141,15 +141,13 @@ What is tested:
 
 2. Simplify type logic and remove dead code.
 
-3. Utilizing the latest Typescript feature, like [extends Constraints on infer Type Variables](https://devblogs.microsoft.com/typescript/announcing-typescript-4-7/#extends-constraints-on-infer-type-variables) to reduce code length.
+3. Cache Firebase Tools in Github Action.
 
-4. Improve tests.
+4. Utilizing the latest Typescript feature, like [extends Constraints on infer Type Variables](https://devblogs.microsoft.com/typescript/announcing-typescript-4-7/#extends-constraints-on-infer-type-variables) to reduce code length.
 
-5. You can also work on the [documentation](https://github.com/tylim88/FirelordJSDoc).
+5. Improve tests, currently need more cursor and limit tests(simple test that I skipped).
 
-6. You can help to implement the exact same type logics for [NodeJS Admin version](https://github.com/tylim88/Firelord), the admin version is still using the old logics.
-
-   Note that there is no V9 for admin, so we need to rewrite the runtime wrapper for it to looks like V9. We must reuse the type logics and tests code for consistency.
+6. You can also work on the [documentation](https://github.com/tylim88/FirelordJSDoc).
 
 7. Looking for a challenge? Then you can try to implement `mandatory field type`:
 
