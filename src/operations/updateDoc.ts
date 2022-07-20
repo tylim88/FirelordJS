@@ -1,7 +1,7 @@
 import { updateDoc as updateDoc_ } from 'firebase/firestore'
 import { OriDocumentReference, Update } from '../types'
 import { flatten } from '../utils'
-
+import { removeFieldValueInhomogeneousProps } from '../fieldValue'
 /**
 	Updates fields in the document referred to by the specified DocumentReference. The update will fail if applied to a document that does not exist.
 
@@ -17,5 +17,8 @@ export const updateDoc = ((
 	data: Record<string, unknown>
 ) => {
 	// @ts-expect-error
-	return updateDoc_(reference, flatten(data))
+	return updateDoc_(
+		reference,
+		flatten(removeFieldValueInhomogeneousProps(data))
+	)
 }) as Update

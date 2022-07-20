@@ -5,7 +5,7 @@ import {
 	Set,
 } from '../types'
 import { setDoc as setDoc_ } from 'firebase/firestore'
-
+import { removeFieldValueInhomogeneousProps } from '../fieldValue'
 /**
 Writes to the document referred to by this DocumentReference. If the document does not yet exist, it will be created.
 
@@ -22,5 +22,9 @@ export const setDoc = ((
 	data: OriDocumentData,
 	options?: OriSetOptions
 ) => {
-	return options ? setDoc_(reference, data, options) : setDoc_(reference, data)
-}) as Set // const setDoc:Set = .... type mismatched though
+	return setDoc_(
+		reference,
+		removeFieldValueInhomogeneousProps(data),
+		options || {}
+	)
+}) as Set

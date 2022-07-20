@@ -59,3 +59,5 @@ export type OriWhereFilterOp = import('firebase/firestore').WhereFilterOp
 export type OriGeoPoint = OriFirebaseFirestore['GeoPoint']
 
 export type OriTimestamp = import('firebase/firestore').Timestamp
+
+export type OriFieldValue = import('firebase/firestore').FieldValue

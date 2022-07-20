@@ -79,7 +79,8 @@ export type ErrorWhere__name__ =
 	"Error: Dont use ( __name__ ) directly as where's field path, use documentId() sentinel field path instead."
 export type ErrorCursor__name__ =
 	'Error: detected type is string, please do const assertion'
-
+export type ErrorArrayFieldValueEmpty =
+	'Error: arrayUnion and arrayRemove need at least 1 argument'
 export type ErrorMsgs =
 	| ErrorUndefined
 	| ErrorNullBanned
@@ -114,6 +115,7 @@ export type ErrorMsgs =
 	| ErrorWhere__name__
 	| ErrorWhereNoNeverEmptyArray
 	| ErrorCursor__name__
+	| ErrorArrayFieldValueEmpty
 
 export type ReplaceErrorMsgsWithNever<T> = T extends ErrorMsgs ? never : T // ! not yet implemented anywhere
 

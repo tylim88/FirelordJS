@@ -1,6 +1,6 @@
 import { addDoc as addDoc_ } from 'firebase/firestore'
 import { MetaType, CollectionReference, DocumentReference } from '../types'
-
+import { removeFieldValueInhomogeneousProps } from '../fieldValue'
 /** 
 	Add a new document to specified CollectionReference with the given data, assigning it a document ID automatically.
 
@@ -18,6 +18,6 @@ export const addDoc = <T extends MetaType>(
 	return addDoc_(
 		// @ts-expect-error
 		reference,
-		data
+		removeFieldValueInhomogeneousProps(data)
 	) as Promise<DocumentReference<T>>
 }
