@@ -119,6 +119,7 @@ FirelordJS has:
 - The lowest technical debt (easiest to revert to the original API).
 - The best type safety\*\*.
 - The only library that capable of type against runtime errors.
+- Effortless solutions for [Firestore quirks](https://firelordjs.com/highlights/about).
 - Possibly also the smallest.
 
 It is what you are looking at: the Master of Fire.

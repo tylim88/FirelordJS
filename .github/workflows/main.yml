@@ -14,6 +14,18 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - run: npm i -g firebase-tools
       - run: npm i
+      - run: npm run lint --fix
+      - run: npm run pretty-quick
+      - run: npm test
+        env:
+          PROJECT_ID: ${{ secrets.PROJECT_ID }}
+      - run: npm run build
+      - run: npm run link
+      - run: npm run b-tsc
+      - run: npm run b-test
+        env:
+          PROJECT_ID: ${{ secrets.PROJECT_ID }}
+      - uses: codecov/codecov-action@v2
       - run: npm run build
       - run: npm publish || true
         env:
