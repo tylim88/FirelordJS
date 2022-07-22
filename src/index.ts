@@ -60,13 +60,13 @@ export type FirelordRef<T extends MetaType> = Readonly<{
 				? T['docID']
 				: IsValidID<DocumentId, 'Document', 'ID'>
 		): DocumentReference<T>
-		<DocumentId_1 extends T['docID']>(
+		<DocumentId extends T['docID']>(
 			firestore: FirestoreAndFirestoreTesting,
-			documentID: DocumentId_1 extends never
-				? DocumentId_1
-				: DocumentId_1 extends IsValidID<DocumentId_1, 'Document', 'ID'>
+			documentID: DocumentId extends never
+				? DocumentId
+				: DocumentId extends IsValidID<DocumentId, 'Document', 'ID'>
 				? T['docID']
-				: IsValidID<DocumentId_1, 'Document', 'ID'>
+				: IsValidID<DocumentId, 'Document', 'ID'>
 		): DocumentReference<T>
 	}
 	collection: (
