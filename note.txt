@@ -3,19 +3,20 @@ newly discovered runtime error
 1. delete field not on top level of update(dot notation considered as top level) & set
 2. merge field path invalid if there is no such field in data
 3. merge must be true to delete field 
-4. direct array
+4. direct array: [[]]
 5. using limitToLast without at least one orderBy (clause order in query doesn't matter)
 6. comparing direct array in query (this is prevented naturally by type engine)
 7. cursor with has x number of arguments must has at least x number of orderBy clause come before that cursor
 8. cannot use more than one '!=' filter (not documented directly or indirectly)
 9. When querying a collection group by documentId(), the value provided must result in a valid document path, and should has an odd number of segments (1).
 10. When querying a collection by documentId(), you must provide a plain document ID, but 'sandbox/a/b/c' contains a '/' character.
+11. cursor cannot accept empty array 
 
-new info 
+info 
 1. new limit/limitToLast clause will override old limit/limitToLast clause in query
-2. new cursor will override old cursor
+2. new cursor will override old cursor <-- no longer true, it actually works
 3. serverTimestamp is possibly null if it haven't resolved https://stackoverflow.com/questions/47771044/firestore-timestamp-getting-null
-4. firestore cannot store Nan
+4. firestore cannot store Nan and undefined
 
 limitation
 1. unable to union object type with other type except possibly undefined <- not exactly limitation but something that you shouldn't do
@@ -23,18 +24,3 @@ limitation
 4. working with documentId and where require to assert the value as const.
 5. no Record<number, any>
 
-anything where the input has nothing to do with document data type, is directly exported by FirelordJS without any change, they are:
-- loadBundle
-- clearIndexedDbPersistence
-- connectFirestoreEmulator
-- disableNetwork
-- enableIndexedDbPersistence
-- enableMultiTabIndexedDbPersistence
-- enableNetwork
-- onSnapshotsInSync
-- namedQuery
-
-new features:
-1. prevent naked empty array in where clause <-- easy, done
-2. stop user from using error message as value <-- easy but need to implement in many place, probably too unnecessary
-3. absolute member <-- difficult but can be very useful, for example updateAt timestamp

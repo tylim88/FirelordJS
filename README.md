@@ -160,7 +160,9 @@ What is tested:
 
    If you want to work on this, come to me first to discuss the implementation strategy, I will provide all information you need to carry out this commit.
 
-8. Or just spread the word. 🙂
+8. Support tuple and Record<number, unknown> type.
+
+9. Or just spread the word. 🙂
 
 ## Related Projects
 

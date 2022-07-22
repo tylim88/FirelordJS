@@ -1,5 +1,10 @@
 # HISTORY
 
+## v 1.6.0 22-July-2022
+
+- cursor now will not accept empty argument
+- cursor now handle empty argument in runtime
+
 ## v1.5.0 19-July-2022
 
 - rename setting `allFieldsPossiblyUndefined` as `allFieldsPossiblyReadAsUndefined`

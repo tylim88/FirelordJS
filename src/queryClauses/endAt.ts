@@ -1,5 +1,6 @@
 import { endAt as endAt_ } from 'firebase/firestore'
 import { Cursor } from '../types'
+import { handleEmptyArray } from './utils'
 /**
  * Creates a {@link QueryConstraint} that modifies the result set to end at the
  * provided document (exclusive). The ending position is relative to the order
@@ -14,7 +15,7 @@ import { Cursor } from '../types'
 export const endAt: Cursor<'endAt'> = (...snapshotOrFieldValues) => {
 	return {
 		type: 'endAt',
-		values: snapshotOrFieldValues,
+		values: handleEmptyArray(snapshotOrFieldValues),
 		ref: endAt_(...snapshotOrFieldValues),
 	}
 }

@@ -1,5 +1,6 @@
 import { endBefore as endBefore_ } from 'firebase/firestore'
 import { Cursor } from '../types'
+import { handleEmptyArray } from './utils'
 /**
  * Creates a {@link QueryConstraint} that modifies the result set to end before the
  * provided document (exclusive). The starting position is relative to the order
@@ -14,7 +15,7 @@ import { Cursor } from '../types'
 export const endBefore: Cursor<'endBefore'> = (...snapshotOrFieldValues) => {
 	return {
 		type: 'endBefore',
-		values: snapshotOrFieldValues,
+		values: handleEmptyArray(snapshotOrFieldValues),
 		ref: endBefore_(...snapshotOrFieldValues),
 	}
 }
