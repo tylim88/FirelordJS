@@ -81,6 +81,7 @@ export type ErrorCursor__name__ =
 	'Error: detected type is string, please do const assertion'
 export type ErrorArrayFieldValueEmpty =
 	'Error: arrayUnion and arrayRemove need at least 1 argument'
+export type ErrorEmptyCursor = 'Error: cursor need at least 1 argument.'
 export type ErrorMsgs =
 	| ErrorUndefined
 	| ErrorNullBanned
@@ -116,6 +117,7 @@ export type ErrorMsgs =
 	| ErrorWhereNoNeverEmptyArray
 	| ErrorCursor__name__
 	| ErrorArrayFieldValueEmpty
+	| ErrorEmptyCursor
 
 export type ReplaceErrorMsgsWithNever<T> = T extends ErrorMsgs ? never : T // ! not yet implemented anywhere
 

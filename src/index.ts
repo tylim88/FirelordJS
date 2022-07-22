@@ -78,6 +78,7 @@ export type FirelordRef<T extends MetaType> = Readonly<{
 export {
 	Timestamp,
 	GeoPoint,
+	Bytes,
 	getFirestore,
 	terminate,
 	initializeFirestore,
@@ -90,8 +91,10 @@ export {
 	enableNetwork,
 	onSnapshotsInSync,
 	namedQuery,
-	Bytes,
+	waitForPendingWrites,
+	CACHE_SIZE_UNLIMITED,
 } from 'firebase/firestore'
+
 export * from './batch'
 export * from './transaction'
 export * from './fieldValue'
@@ -101,6 +104,7 @@ export * from './operations'
 export * from './queryClauses'
 export { query } from './refs'
 export * from './equal'
+
 export type {
 	MetaType,
 	MetaTypeCreator,
@@ -114,4 +118,3 @@ export type {
 	QuerySnapshot,
 	QueryDocumentSnapshot,
 } from './types'
-export * as Types from './types'

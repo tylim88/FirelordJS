@@ -7,6 +7,7 @@ import {
 	MetaType,
 	ErrorWhere__name__,
 } from '../types'
+import crypto from 'crypto'
 
 /**
  * Creates a {@link QueryConstraint} that enforces that documents must contain the
@@ -36,7 +37,7 @@ export const where = <
 		newValue.length === 0
 	) {
 		newValue = [
-			'This is a very long string to prevent collision: %$GE&^G^*(N Y(&*T^VR&%R&^TN&*^RMN$BEDF^R%TFG%I%TFDH%(UI<)(UKJ^HGFEC#DR^T*&#$%(<RGFESAXSCVBGNHM(&%T^BTNRV%ITB^TJNTN^T^*T',
+			crypto.randomUUID() + crypto.randomUUID() + crypto.randomUUID(),
 		] as typeof newValue
 	}
 
