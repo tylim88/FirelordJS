@@ -212,10 +212,10 @@ describe('test whether works with rules-unit-testing', () => {
 		const d2 = generateRandomData()
 		const d3 = generateRandomData()
 		const d4 = generateRandomData()
-		const p1 = setDoc(userRef.doc('1'), d1)
-		const p2 = setDoc(userRef.doc('2'), d2)
-		const p3 = setDoc(userRef.doc('3'), d3)
-		const p4 = setDoc(userRef.doc('4'), d4)
+		const p1 = setDoc(userRef.doc('emulatorCursorTest1'), d1)
+		const p2 = setDoc(userRef.doc('emulatorCursorTest2'), d2)
+		const p3 = setDoc(userRef.doc('emulatorCursorTest3'), d3)
+		const p4 = setDoc(userRef.doc('emulatorCursorTest4'), d4)
 
 		await Promise.all([p1, p2, p3, p4])
 

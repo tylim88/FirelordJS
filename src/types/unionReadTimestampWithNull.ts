@@ -1,4 +1,3 @@
-import { IsTrue } from './utils'
 import { MetaType } from './metaTypeCreator'
 import { OriSnapshotOptions } from './ori'
 import { ServerTimestamp } from './fieldValue'
@@ -6,13 +5,7 @@ import { ObjectFlattenRead } from './objectFlatten'
 
 type None = 'none'
 type Previous = 'previous'
-type NoneAndPrevious = None | Previous
-
-// this is a controlled type that make sure 'none' | 'previous' is part of SnapshotOptions['serverTimestamps']
-// if firestore change the object literal type then we would know
-IsTrue<
-	NoneAndPrevious extends OriSnapshotOptions['serverTimestamps'] ? true : false
->()
+export type NoneAndPrevious = None | Previous
 
 export type RecursiveUnionReadServerTimestampWithNull<T, Read> =
 	T extends ServerTimestamp

@@ -1,6 +1,6 @@
 import { startAfter as startAfter_ } from 'firebase/firestore'
 import { Cursor } from '../types'
-import { handleEmptyArray } from './utils'
+
 /**
  * Creates a {@link QueryConstraint} that modifies the result set to start after the
  * provided document (exclusive). The starting position is relative to the order
@@ -15,7 +15,7 @@ import { handleEmptyArray } from './utils'
 export const startAfter: Cursor<'startAfter'> = (...snapshotOrFieldValues) => {
 	return {
 		type: 'startAfter',
-		values: handleEmptyArray(snapshotOrFieldValues),
+		values: snapshotOrFieldValues,
 		ref: startAfter_(...snapshotOrFieldValues),
 	}
 }

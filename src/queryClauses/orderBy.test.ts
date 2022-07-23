@@ -177,7 +177,7 @@ it('Too many arguments provided to startAt/startAfter/endAt/endBefore(). The num
 		limit(1),
 		startAt(1),
 		// @ts-expect-error
-		endAt(1, 'topLevel/FirelordTest/Users/123')
+		endAt(1, 'topLevel/Firelor1dTest/Users/123' as const)
 	)
 
 	query(
@@ -185,8 +185,19 @@ it('Too many arguments provided to startAt/startAfter/endAt/endBefore(). The num
 		orderBy('a.b.c'),
 		orderBy('__name__'),
 		limit(1),
-		startAt(1), // @ts-expect-error
-		endAt(UserQueryDocumentSnapshot, 'a/123')
+		startAt(1),
+		// @ts-expect-error
+		endAt(UserQueryDocumentSnapshot, 'a/123' as const)
+	)
+
+	query(
+		ref,
+		orderBy('a.b.c'),
+		orderBy('__name__'),
+		limit(1),
+		startAt(1),
+		// @ts-expect-error
+		endAt(UserQueryDocumentSnapshot, `topLevel/FirelordTest/Users/123`)
 	)
 })
 it('Too many arguments provided to startAt/startAfter/endAt/endBefore(). The number of arguments must be less than or equal to the number of orderBy() clauses, positive case', () => {
@@ -234,7 +245,7 @@ it('Too many arguments provided to startAt/startAfter/endAt/endBefore(). The num
 		orderBy('__name__'),
 		limit(1),
 		startAt(1),
-		endAt(1, `topLevel/FirelordTest/Users/123` as const)
+		endAt(1, `topLevel/FirelordTest/Users/123`)
 	)
 
 	query(
@@ -244,13 +255,5 @@ it('Too many arguments provided to startAt/startAfter/endAt/endBefore(). The num
 		limit(1),
 		startAt(UserDocumentSnapshot),
 		endAt(1, new Date())
-	)
-	query(
-		ref,
-		orderBy('a.b.c'),
-		orderBy('__name__'),
-		limit(1),
-		startAt(1),
-		endAt(UserQueryDocumentSnapshot, `topLevel/FirelordTest/Users/123` as const)
 	)
 })

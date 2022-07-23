@@ -43,6 +43,26 @@ export const query = <
 	return query_(
 		// @ts-expect-error
 		query,
-		...queryConstraints.map(qc => qc.ref)
+		...queryConstraints.reduce((acc, qc) => {
+			const type = qc.type
+			if (
+				type === 'startAt' ||
+				type === 'startAfter' ||
+				type === 'endAt' ||
+				type === 'endBefore'
+			) {
+				qc.values.length !== 0 &&
+					acc.push(
+						// @ts-expect-error
+						qc.ref
+					)
+			} else {
+				acc.push(
+					// @ts-expect-error
+					qc.ref
+				)
+			}
+			return acc
+		}, [] as QueryConstraints<AddSentinelFieldPathToCompare<T>>[])
 	) as Query<T>
 }

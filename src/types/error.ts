@@ -41,7 +41,7 @@ export type ErrorEmptyUpdate = 'Error: Update data is an empty object literal'
 export type ErrorPossiblyUndefinedAsArrayElement =
 	`Error: You cannot assign PossiblyUndefined as array element, eg: ( PossiblyUndefined[] ), you can however indirectly assign PossiblyUndefined in array, eg: < { a : number | PossiblyUndefined }[] >`
 export type ErrorMoreThanOnceDocSnapshotInCursor =
-	'Error: If Document Snapshot exist in cursor, there can be only one and only Document Snapshot in the argument'
+	'Error: If cursors has a DocumentSnapshot(or QueryDocumentSnapshot) argument, then DocumentSnapshot(or QueryDocumentSnapshot) should be the one and only argument'
 export type ErrorLimitInvalidNumber =
 	'Error: do not use negative, 0 or decimal value'
 export type ErrorLimitToLastOrderBy =
@@ -82,6 +82,7 @@ export type ErrorCursor__name__ =
 export type ErrorArrayFieldValueEmpty =
 	'Error: arrayUnion and arrayRemove need at least 1 argument'
 export type ErrorEmptyCursor = 'Error: cursor need at least 1 argument.'
+
 export type ErrorMsgs =
 	| ErrorUndefined
 	| ErrorNullBanned

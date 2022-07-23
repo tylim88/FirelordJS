@@ -1,6 +1,6 @@
 import { startAt as startAt_ } from 'firebase/firestore'
 import { Cursor } from '../types'
-import { handleEmptyArray } from './utils'
+
 /**
  * Creates a {@link QueryConstraint} that modifies the result set to start at the
  * provided document (exclusive). The starting position is relative to the order
@@ -15,7 +15,7 @@ import { handleEmptyArray } from './utils'
 export const startAt: Cursor<'startAt'> = (...snapshotOrFieldValues) => {
 	return {
 		type: 'startAt',
-		values: handleEmptyArray(snapshotOrFieldValues),
+		values: snapshotOrFieldValues,
 		ref: startAt_(...snapshotOrFieldValues),
 	}
 }

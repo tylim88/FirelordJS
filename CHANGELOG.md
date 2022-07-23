@@ -1,5 +1,11 @@
 # HISTORY
 
+## v 1.6.3 23-July-2022
+
+- no longer replace empty array of cursor with unique value as it will affect query result
+- if the cursor has 0 argument (empty array rest parameter), it is removed from the query reference instead
+- cursor now treat QueryDocumentSnapshot like DocumentSnapshot: if the argument of cursors is QueryDocumentSnapshot, it should be the one and only argument.
+
 ## v 1.6.0 22-July-2022
 
 - cursor now will not accept empty argument
