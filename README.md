@@ -165,6 +165,26 @@ What is tested:
 
 9. Or just spread the word. 🙂
 
+## Why Not Merge Firelord and FirelordJS?
+
+The idea behind merging is code reuse and reduce maintenance, but there are technical reasons that make merging a terrible idea.
+
+1. V8 and V9 do not share the same behavior. One example is V9 `arrayUnion` and `arrayRemove` able to accept empty array argument, but this is not possible in V8 and will result in runtime exception. To solve this we need extra code for V8 wrapper and the logic become dead code in environment that use V9 wrapper. This is not a big deal, it adds negligible amount of code, but it tells us is, we cannot assume V8 and V9 are the same.
+
+2. Mutually exclusive APIs. For example admin is more powerful and has APIs like `create`, `getAll` and `listCollections`; while web has cache related APIs like `getDocFromCache`, `getDocFromServer` and `enableIndexedDbPersistence`. It is not possible to export everything.
+
+3. Mutually inclusive API with platform dependent parameter. For example, admin's `delete` and `update` has extra parameter: `precondition` while web's `onSnapshots` has `snapshotListerOptions` parameter and `documentSnapshot.data` has `snapshotOptions` parameter. Even though we can ignore those parameters under the hood if it runs in the irrelevant environment, developer would still able to see it via type hint or JSDoc, which can be confusing.
+
+4. FirelordJS wraps V9 into type safe V9 and Firelord wraps V8 into type safe V9. So the wrapping logics are different, which mean merging will add significant amount of code.
+
+5. Both libraries import original types from original SDKs to keep internal type safe. If we merge both library, then we would have 2 set of original types.
+
+So that is why merging could do more harm than good in this case, especially point 2 and 3 which are detrimental to developer experience. Firelord is not simply a copy and paste of FirelordJS, there are a lot of details need to be taken care of.
+
+One of the core principal of the libraries is to preserve originality, if we went for absolute unified interface, then we need to give up a lot.
+
+TLDR: they look the same, but they are not the same.
+
 ## Related Projects
 
 1. [Firelord](https://github.com/tylim88/Firelord) - Typescript wrapper for Firestore Admin
