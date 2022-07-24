@@ -22,6 +22,7 @@ describe('test cursor emptiness', () => {
 			// ! cursor should accept only tuple
 			const arrNever: never[] = []
 			const arrNumber: number[] = []
+			const arr: [] = []
 			// @ts-expect-error
 			endAt()
 			// @ts-expect-error
@@ -30,6 +31,14 @@ describe('test cursor emptiness', () => {
 			startAfter()
 			// @ts-expect-error
 			startAt()
+			// @ts-expect-error
+			endAt(...arr)
+			// @ts-expect-error
+			endBefore(...arr)
+			// @ts-expect-error
+			startAfter(...arr)
+			// @ts-expect-error
+			startAt(...arr)
 			// @ts-expect-error
 			endAt(...arrNever)
 			// @ts-expect-error
