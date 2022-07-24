@@ -12,7 +12,7 @@ import {
 	PossiblyReadAsUndefined,
 	DeleteField,
 } from './fieldValue'
-import { DocumentReference } from './ref'
+import { DocumentReference } from './refs'
 import { IsTrue, IsSame, IsEqual } from './utils'
 import { Parent, User } from '../utilForTests'
 

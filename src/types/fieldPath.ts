@@ -1,6 +1,6 @@
 import { MetaType } from './metaTypeCreator'
 import { StrictOmit } from './utils'
-import { DocumentReference, Query, CollectionReference } from './ref'
+import { DocumentReference, Query, CollectionReference } from './refs'
 import { IsValidID, GetNumberOfSlash } from './validID'
 import {
 	ErrorNumberOfForwardSlashIsNotEqual,

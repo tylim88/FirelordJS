@@ -1,5 +1,5 @@
 import { MetaType } from './metaTypeCreator'
-import { DocumentReference } from './ref'
+import { DocumentReference } from './refs'
 import { DocumentSnapshot } from './snapshot'
 /**
 Reads the document referred to by this DocumentReference.

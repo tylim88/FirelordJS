@@ -7,6 +7,7 @@ import {
 	OriFirestoreTesting,
 	OriUnsubscribe,
 	OriFirestoreError,
+	OriDocumentData,
 } from './ori'
 export type Firestore = OriFirestore
 export type FirestoreTesting = OriFirestoreTesting
@@ -17,3 +18,4 @@ export type SnapshotListenOptions = OriSnapshotListenOptions
 export type DocumentChangeType = OriDocumentChangeType
 export type Unsubscribe = OriUnsubscribe
 export type FirestoreError = OriFirestoreError
+export type DocumentData = OriDocumentData

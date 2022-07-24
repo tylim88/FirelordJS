@@ -22,7 +22,7 @@ import {
 	CursorConstraint,
 	LimitConstraint,
 } from './queryConstraints'
-import { Query, CollectionReference } from './ref'
+import { Query, CollectionReference } from './refs'
 import {
 	GetCorrectDocumentIdBasedOnRef,
 	RemoveSentinelFieldPathFromCompare,

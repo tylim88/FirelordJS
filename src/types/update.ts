@@ -1,15 +1,11 @@
-import {
-	MetaType,
-	DocumentReference,
-	PartialNoUndefinedAndNoUnknownMemberNoEmptyMember,
-} from '../types'
+import { PartialNoUndefinedAndNoUnknownMemberNoEmptyMember } from './partialNoUndefinedAndNoUnknownMember'
+import { DocumentReference } from './refs'
+import { DocumentData } from './alias'
 import { Transaction } from './transaction'
-import { WriteBatch } from './WriteBatch'
+import { WriteBatch } from './batch'
+import { MetaType } from './metaTypeCreator'
 
-export type UpdateCreator<U> = <
-	T extends MetaType,
-	Data extends import('@firebase/firestore').DocumentData
->(
+export type UpdateCreator<U> = <T extends MetaType, Data extends DocumentData>(
 	reference: DocumentReference<T>,
 	data: Data extends never
 		? Data
