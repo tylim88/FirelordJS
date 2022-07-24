@@ -1,7 +1,5 @@
 newly discovered runtime error
 
-4. direct array: [[]]
-5. using limitToLast without at least one orderBy (clause order in query doesn't matter)
 11. cursor cannot accept empty array 
 
 

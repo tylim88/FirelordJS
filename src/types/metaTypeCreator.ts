@@ -124,8 +124,9 @@ type ReadConverterArray<
 	allFieldsPossiblyReadAsUndefined,
 	BannedTypes,
 	InArray extends boolean
-> = NoDirectNestedArray<T> extends T
-	? T extends (infer A)[]
+> = NoDirectNestedArray<
+	T,
+	T extends (infer A)[]
 		?
 				| ReadConverterArray<
 						A,
@@ -158,11 +159,12 @@ type ReadConverterArray<
 		:
 				| NoUndefinedAndBannedTypes<T, BannedTypes>
 				| allFieldsPossiblyReadAsUndefined
-	: NoUndefinedAndBannedTypes<T, BannedTypes> | allFieldsPossiblyReadAsUndefined
+>
 
 type ReadConverter<T, allFieldsPossiblyReadAsUndefined, BannedTypes> =
-	NoDirectNestedArray<T> extends T
-		? T extends (infer A)[]
+	NoDirectNestedArray<
+		T,
+		T extends (infer A)[]
 			?
 					| ReadConverterArray<
 							A,
@@ -190,12 +192,11 @@ type ReadConverter<T, allFieldsPossiblyReadAsUndefined, BannedTypes> =
 			:
 					| NoUndefinedAndBannedTypes<T, BannedTypes>
 					| allFieldsPossiblyReadAsUndefined
-		:
-				| NoUndefinedAndBannedTypes<T, BannedTypes>
-				| allFieldsPossiblyReadAsUndefined
+	>
 
-type CompareConverterArray<T, BannedTypes> = NoDirectNestedArray<T> extends T
-	? T extends (infer A)[]
+type CompareConverterArray<T, BannedTypes> = NoDirectNestedArray<
+	T,
+	T extends (infer A)[]
 		? CompareConverterArray<A, BannedTypes>[]
 		: T extends FieldValues
 		? ErrorFieldValueInArray
@@ -208,10 +209,11 @@ type CompareConverterArray<T, BannedTypes> = NoDirectNestedArray<T> extends T
 				[K in keyof T]-?: CompareConverterArray<T[K], BannedTypes>
 		  }
 		: NoUndefinedAndBannedTypes<T, BannedTypes>
-	: NoUndefinedAndBannedTypes<T, BannedTypes>
+>
 
-type CompareConverter<T, BannedTypes> = NoDirectNestedArray<T> extends T
-	? T extends (infer A)[]
+type CompareConverter<T, BannedTypes> = NoDirectNestedArray<
+	T,
+	T extends (infer A)[]
 		? CompareConverterArray<A, BannedTypes>[]
 		: T extends ServerTimestamp | Date | OriTimestamp
 		? OriTimestamp | Date
@@ -224,10 +226,11 @@ type CompareConverter<T, BannedTypes> = NoDirectNestedArray<T> extends T
 				[K in keyof T]-?: CompareConverter<T[K], BannedTypes>
 		  }
 		: NoUndefinedAndBannedTypes<T, BannedTypes>
-	: NoUndefinedAndBannedTypes<T, BannedTypes>
+>
 
-type ArrayWriteConverter<T, BannedTypes> = NoDirectNestedArray<T> extends T
-	? T extends (infer A)[]
+type ArrayWriteConverter<T, BannedTypes> = NoDirectNestedArray<
+	T,
+	T extends (infer A)[]
 		? ArrayWriteConverter<A, BannedTypes>[]
 		: T extends FieldValues
 		? ErrorFieldValueInArray
@@ -240,10 +243,11 @@ type ArrayWriteConverter<T, BannedTypes> = NoDirectNestedArray<T> extends T
 				[K in keyof T]-?: ArrayWriteConverter<T[K], BannedTypes>
 		  }
 		: NoUndefinedAndBannedTypes<T, BannedTypes>
-	: NoUndefinedAndBannedTypes<T, BannedTypes>
+>
 
-type WriteConverter<T, BannedTypes> = NoDirectNestedArray<T> extends T
-	? T extends (infer A)[]
+type WriteConverter<T, BannedTypes> = NoDirectNestedArray<
+	T,
+	T extends (infer A)[]
 		?
 				| ArrayWriteConverter<A, BannedTypes>[]
 				| ArrayUnionOrRemove<ArrayWriteConverter<A, BannedTypes>>
@@ -266,4 +270,4 @@ type WriteConverter<T, BannedTypes> = NoDirectNestedArray<T> extends T
 				[K in keyof T]-?: WriteConverter<T[K], BannedTypes>
 		  }
 		: NoUndefinedAndBannedTypes<T, BannedTypes>
-	: NoUndefinedAndBannedTypes<T, BannedTypes>
+>

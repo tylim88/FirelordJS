@@ -1,5 +1,9 @@
 # HISTORY
 
+## v 1.6.5 24-July-2022
+
+- fix direct nested array prevention not working
+
 ## v 1.6.4 23-July-2022
 
 - export create (admin only)

@@ -1,6 +1,10 @@
 import { MetaTypeCreator, MetaType } from './metaTypeCreator'
 import { OriTimestamp } from './ori'
-import { ErrorNullBanned, ErrorUnionInvolveObjectType } from './error'
+import {
+	ErrorNullBanned,
+	ErrorUnionInvolveObjectType,
+	ErrorDirectNested,
+} from './error'
 import {
 	ArrayUnionOrRemove,
 	Increment,
@@ -584,6 +588,56 @@ describe('test Firelord type', () => {
 		type Write = A['write']
 		type WriteFlatten = A['writeFlatten']
 		type Compare = A['compare']
+
+		IsTrue<IsSame<ExpectedRead, Read>>()
+		IsTrue<IsSame<ExpectedWrite, Write>>()
+		IsTrue<IsEqual<ExpectedWriteFlatten, WriteFlatten>>()
+		IsTrue<IsEqual<ExpectedCompare, Compare>>()
+	})
+	it('no direct array test', () => {
+		type A = MetaTypeCreator<
+			{
+				a: [][]
+				b: string[][]
+				c: never[][]
+				d: [[]]
+			},
+			'a',
+			string
+		>
+
+		type Read = A['read']
+		type Write = A['write']
+		type WriteFlatten = A['writeFlatten']
+		type Compare = A['compare']
+
+		type ExpectedRead = {
+			a: ErrorDirectNested
+			b: ErrorDirectNested
+			c: ErrorDirectNested
+			d: ErrorDirectNested
+		}
+
+		type ExpectedCompare = {
+			a: ErrorDirectNested
+			b: ErrorDirectNested
+			c: ErrorDirectNested
+			d: ErrorDirectNested
+		}
+
+		type ExpectedWrite = {
+			a: ErrorDirectNested
+			b: ErrorDirectNested
+			c: ErrorDirectNested
+			d: ErrorDirectNested
+		}
+
+		type ExpectedWriteFlatten = {
+			a: ErrorDirectNested
+			b: ErrorDirectNested
+			c: ErrorDirectNested
+			d: ErrorDirectNested
+		}
 
 		IsTrue<IsSame<ExpectedRead, Read>>()
 		IsTrue<IsSame<ExpectedWrite, Write>>()

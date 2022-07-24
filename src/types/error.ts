@@ -133,6 +133,6 @@ export type NoUndefinedAndBannedTypes<Data, BannedTypes> =
 		? never
 		: Data
 
-export type NoDirectNestedArray<Data> = Data extends unknown[][]
+export type NoDirectNestedArray<Data, Output> = Data extends unknown[][]
 	? ErrorDirectNested
-	: Data
+	: Output
