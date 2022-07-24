@@ -1,16 +1,9 @@
 newly discovered runtime error
 
-1. delete field not on top level of update(dot notation considered as top level) & set
-2. merge field path invalid if there is no such field in data
-3. merge must be true to delete field 
 4. direct array: [[]]
 5. using limitToLast without at least one orderBy (clause order in query doesn't matter)
-6. comparing direct array in query (this is prevented naturally by type engine)
-7. cursor with has x number of arguments must has at least x number of orderBy clause come before that cursor
-8. cannot use more than one '!=' filter (not documented directly or indirectly)
-9. When querying a collection group by documentId(), the value provided must result in a valid document path, and should has an odd number of segments (1).
-10. When querying a collection by documentId(), you must provide a plain document ID, but 'sandbox/a/b/c' contains a '/' character.
 11. cursor cannot accept empty array 
+
 
 info 
 1. new limit/limitToLast clause will override old limit/limitToLast clause in query

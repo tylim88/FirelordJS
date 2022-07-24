@@ -16,7 +16,14 @@ import {
 	DocumentReference,
 } from '../types'
 import { query } from '../refs'
-import { where, orderBy, endAt, startAt } from '../queryClauses'
+import {
+	where,
+	orderBy,
+	endAt,
+	startAt,
+	limit,
+	limitToLast,
+} from '../queryClauses'
 import { snapshotEqual } from '../equal'
 
 initializeApp()
@@ -143,7 +150,7 @@ describe('test getDocs', () => {
 		expect(querySnap.docs.length).toBe(0)
 	})
 
-	it('cursor test', async () => {
+	it('cursor and limit test', async () => {
 		const d1 = generateRandomData()
 		const d2 = generateRandomData()
 		const d3 = generateRandomData()
@@ -155,7 +162,7 @@ describe('test getDocs', () => {
 
 		await Promise.all([p1, p2, p3, p4])
 
-		expect.assertions(2)
+		expect.assertions(5)
 
 		const p5 = getDocs(
 			query(userRef.collectionGroup(), orderBy('age'), endAt(d3.age as number))
@@ -180,6 +187,29 @@ describe('test getDocs', () => {
 			}
 		})
 
-		await Promise.all([p5, p6])
+		const p7 = getDocs(
+			query(userRef.collectionGroup(), limit(1), limit(4))
+		).then(querySnapshot => {
+			expect(querySnapshot.docs.length).toBe(4)
+		})
+
+		const p8 = getDocs(
+			query(
+				userRef.collectionGroup(),
+				orderBy('age'),
+				limitToLast(4),
+				limitToLast(1)
+			)
+		).then(querySnapshot => {
+			expect(querySnapshot.docs.length).toBe(1)
+		})
+
+		const p9 = getDocs(
+			query(userRef.collectionGroup(), orderBy('age'), limit(4), limitToLast(1))
+		).then(querySnapshot => {
+			expect(querySnapshot.docs.length).toBe(1)
+		})
+
+		await Promise.all([p5, p6, p7, p8, p9])
 	})
 })

@@ -1,5 +1,9 @@
 # HISTORY
 
+## v 1.6.4 23-July-2022
+
+- export create (admin only)
+
 ## v 1.6.3 23-July-2022
 
 - no longer replace empty array of cursor with unique value as it will affect query result
