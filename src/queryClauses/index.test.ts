@@ -3,7 +3,7 @@ import { endBefore } from './endBefore'
 import { startAfter } from './startAfter'
 import { startAt } from './startAt'
 import { orderBy } from './orderBy'
-import { getDocs, setDoc } from '../operations'
+import { getDocs, setDoc, deleteDoc } from '../operations'
 import {
 	userRefCreator,
 	initializeApp,
@@ -59,7 +59,7 @@ describe('test cursor emptiness', () => {
 	})
 	it('test handle empty argument', async () => {
 		const arr: string[] = []
-		setDoc(docRef, generateRandomData())
+		await setDoc(docRef, generateRandomData())
 		const p1 = getDocs(
 			query(
 				colRef,
@@ -94,11 +94,13 @@ describe('test cursor emptiness', () => {
 		)
 		const result = (await Promise.all([p1, p2, p3, p4])).reduce(
 			(acc, querySnapshot) => {
+				console.log(querySnapshot.docs)
 				acc.push(querySnapshot.docs.length === 1)
 				return acc
 			},
 			[] as boolean[]
 		)
 		expect(result).toEqual([true, true, true, true])
+		await deleteDoc(docRef)
 	})
 })
