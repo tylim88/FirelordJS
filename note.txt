@@ -1,17 +1,12 @@
 newly discovered runtime error
 
-11. cursor cannot accept empty array 
+1. firestore cannot store Nan and undefined
 
 
 info 
-1. new limit/limitToLast clause will override old limit/limitToLast clause in query
-2. new cursor will override old cursor <-- no longer true, it actually works
+2. new cursor will override old cursor
 3. serverTimestamp is possibly null if it haven't resolved https://stackoverflow.com/questions/47771044/firestore-timestamp-getting-null
-4. firestore cannot store Nan and undefined
 
 limitation
 1. unable to union object type with other type except possibly undefined <- not exactly limitation but something that you shouldn't do
-3. no autocomplete for where's value.
-4. working with documentId and where require to assert the value as const.
-5. no Record<number, any>
 
