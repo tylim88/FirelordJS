@@ -94,7 +94,6 @@ describe('test cursor emptiness', () => {
 		)
 		const result = (await Promise.all([p1, p2, p3, p4])).reduce(
 			(acc, querySnapshot) => {
-				console.log(querySnapshot.docs)
 				acc.push(querySnapshot.docs.length === 1)
 				return acc
 			},
