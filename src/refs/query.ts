@@ -6,6 +6,7 @@ import {
 	QueryConstraints,
 	QueryConstraintLimitation,
 	AddSentinelFieldPathToCompare,
+	IsEqual,
 	AddSentinelFieldPathToCompareHighLevel,
 } from '../types'
 
@@ -25,9 +26,9 @@ export const query = <
 >(
 	query: Q extends never
 		? Q
-		: Q extends Query<T>
+		: IsEqual<Q, Query<T>> extends true
 		? Query<T>
-		: Q extends CollectionReference<T>
+		: IsEqual<Q, CollectionReference<T>> extends true
 		? CollectionReference<T>
 		: never, // has to code this way to infer T perfectly without union Query<T> | CollectionReference<T>
 	...queryConstraints: QC extends never

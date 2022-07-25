@@ -1,5 +1,5 @@
 import { increment as increment_ } from 'firebase/firestore'
-import { Increment, incrementSymbol } from '../types'
+import { Increment } from '../types'
 
 /**
 Returns a special value that can be used with @firebase/firestore/lite#(setDoc:1) or * @firebase/firestore/lite#(updateDoc:1) that tells the server to increment the field's current value by the given value.
@@ -15,6 +15,5 @@ The FieldValue sentinel for use in a call to setDoc() or updateDoc()
  */
 export const increment = (n: number) => {
 	const ref = increment_(n) as Increment
-	ref['Firelord.FieldValue'] = incrementSymbol
 	return ref
 }

@@ -1,6 +1,5 @@
 import { ArrayUnionOrRemove } from '../types'
 const arrayFieldValue: keyof ArrayUnionOrRemove<unknown> = `Firelord.ArrayFieldValue`
-const fieldValue: keyof ArrayUnionOrRemove<unknown> = `Firelord.FieldValue`
 
 // remove the property that make field value type inhomogeneous
 // also remove the data props if the array field value is empty(if not runtime error)
@@ -16,12 +15,6 @@ export const removeFieldValueInhomogeneousProps = <
 			)[arrayFieldValue]
 			if (isArrayFieldValueExist) {
 				delete (object[prop] as Record<string, unknown[]>)[arrayFieldValue]
-			}
-			const isFieldValueExist = (object[prop] as Record<string, unknown[]>)[
-				fieldValue
-			]
-			if (isFieldValueExist) {
-				delete (object[prop] as Record<string, unknown[]>)[fieldValue]
 			}
 
 			const isZero = isArrayFieldValueExist?.length === 0

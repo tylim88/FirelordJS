@@ -24,7 +24,7 @@ export interface DocumentReference<T extends MetaType> {
 	get parent(): CollectionReference<T>
 }
 
-export interface CollectionReference<T extends MetaType> {
+export interface CollectionReference<T extends MetaType> extends Query<T> {
 	/** The type of this Firestore reference. */
 	readonly type: 'collection'
 	/** The collection's identifier. */

@@ -1,13 +1,14 @@
 import { MetaType } from './metaTypeCreator'
-import { StrictOmit } from './utils'
+import { StrictOmit, IsEqual } from './utils'
 import { DocumentReference, Query, CollectionReference } from './refs'
 import { IsValidID, GetNumberOfSlash } from './validID'
 import {
 	ErrorNumberOfForwardSlashIsNotEqual,
 	ErrorPleaseDoConstAssertion,
 } from './error'
+import { DocumentIdSymbol } from './unique'
 export interface DocumentId {
-	'Firelord.FieldPath': 'DocumentId'
+	'Firelord.FieldPath': DocumentIdSymbol
 }
 
 export type AddSentinelFieldPathToCompare<T extends MetaType> = StrictOmit<
@@ -22,9 +23,9 @@ export type AddSentinelFieldPathToCompare<T extends MetaType> = StrictOmit<
 export type AddSentinelFieldPathToCompareHighLevel<
 	T extends MetaType,
 	Q extends Query<T> | CollectionReference<T>
-> = Q extends Query<T>
+> = IsEqual<Query<AddSentinelFieldPathToCompare<T>>, Q> extends true
 	? Query<AddSentinelFieldPathToCompare<T>>
-	: Q extends CollectionReference<T>
+	: IsEqual<CollectionReference<T>, Q> extends true
 	? CollectionReference<AddSentinelFieldPathToCompare<T>>
 	: never // impossible route
 
@@ -44,13 +45,13 @@ export type GetCorrectDocumentIdBasedOnRef<
 	Value
 > = FieldPath extends __name__
 	? Value extends string
-		? Q extends CollectionReference<T>
+		? IsEqual<CollectionReference<T>, Q> extends true
 			? string extends Value
 				? ErrorPleaseDoConstAssertion
 				: Value extends T['docID']
 				? IsValidID<Value, 'Document', 'ID'>
 				: T['docID']
-			: Q extends Query<T>
+			: IsEqual<Query<AddSentinelFieldPathToCompare<T>>, Q> extends true
 			? string extends Value
 				? ErrorPleaseDoConstAssertion
 				: GetNumberOfSlash<Value> extends GetNumberOfSlash<T['docPath']> // checking number of slash is a must, because the docID type most likely is string, and will accept any string
