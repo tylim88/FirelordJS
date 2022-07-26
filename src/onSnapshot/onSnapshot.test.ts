@@ -33,7 +33,7 @@ describe('test onSnapshot', () => {
 		])
 	})
 	it('test isOption', () => {
-		expect(isOptions({})).toBe(false)
+		expect(isOptions({})).toBe(false) // ! why {} not cause type error?
 		expect(isOptions({ includeMetadataChanges: false })).toBe(true)
 		expect(isOptions({ includeMetadataChanges: true })).toBe(true)
 	})

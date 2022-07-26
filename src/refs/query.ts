@@ -21,7 +21,7 @@ import {
  */
 export const query = <
 	T extends MetaType,
-	Q extends Query<T> | CollectionReference<T>,
+	Q extends Query<T>,
 	QC extends QueryConstraints<AddSentinelFieldPathToCompare<T>>[]
 >(
 	query: Q extends never
@@ -30,7 +30,7 @@ export const query = <
 		? Query<T>
 		: IsEqual<Q, CollectionReference<T>> extends true
 		? CollectionReference<T>
-		: never, // has to code this way to infer T perfectly without union Query<T> | CollectionReference<T>
+		: never, // has to code this way to infer T perfectly
 	...queryConstraints: QC extends never
 		? QC
 		: QueryConstraintLimitation<

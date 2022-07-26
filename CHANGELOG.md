@@ -1,5 +1,9 @@
 # HISTORY
 
+## v 1.6.6 27-July-2022
+
+- replace Query<T> | CollectionReference<T> with Query<T>
+
 ## v 1.6.5 24-July-2022
 
 - fix direct nested array prevention not working
