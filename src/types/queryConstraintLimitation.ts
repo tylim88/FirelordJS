@@ -22,7 +22,7 @@ import {
 	CursorConstraint,
 	LimitConstraint,
 } from './queryConstraints'
-import { Query, CollectionReference } from './refs'
+import { Query } from './refs'
 import {
 	GetCorrectDocumentIdBasedOnRef,
 	RemoveSentinelFieldPathFromCompare,
@@ -76,7 +76,7 @@ type ValidateOrderByAndInequalityWhere<
 
 export type QueryConstraintLimitation<
 	T extends MetaType,
-	Q extends Query<T> | CollectionReference<T>,
+	Q extends Query<T>,
 	RestQCs extends QueryConstraints<T>[],
 	PreviousQCs extends QueryConstraints<T>[],
 	AllQCs extends QueryConstraints<T>[]
@@ -283,7 +283,7 @@ type ValidateWhereInequalityOpStrSameField<
 
 type WhereConstraintLimitation<
 	T extends MetaType,
-	Q extends Query<T> | CollectionReference<T>,
+	Q extends Query<T>,
 	U extends WhereConstraint<T, string, OriWhereFilterOp, unknown>,
 	PreviousQCs extends QueryConstraints<T>[]
 > = ValidateWhereNotInArrayContainsAny<T, U, PreviousQCs> extends string
