@@ -13,9 +13,7 @@ import { query } from '../refs'
 import { limit, limitToLast } from './limit'
 
 initializeApp()
-const userRef = userRefCreator('ForCursorTest')
-const docRef = userRef.doc('cursorEmptyTest')
-const colRef = userRef.collection()
+
 describe('test cursor emptiness', () => {
 	it('test block empty argument, fail test', () => {
 		;() => {
@@ -59,6 +57,9 @@ describe('test cursor emptiness', () => {
 		}
 	})
 	it('test handle empty argument', async () => {
+		const userRef = userRefCreator('ForCursorTest')
+		const docRef = userRef.doc('cursorEmptyTest')
+		const colRef = userRef.collection()
 		const arr: string[] = []
 		await setDoc(docRef, generateRandomData())
 		const p1 = getDocs(
@@ -105,6 +106,7 @@ describe('test cursor emptiness', () => {
 	})
 
 	it('cursor and limit test', async () => {
+		const userRef = userRefCreator()
 		const d1 = generateRandomData()
 		const d2 = generateRandomData()
 		const d3 = generateRandomData()
