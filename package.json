@@ -21,7 +21,7 @@
 		"build": "rm -rf dist && tsc",
 		"link": "npm unlink firelordjs && npm link && npm link firelordjs",
 		"babel": "babel-node -x .ts -- src/fieldPath/documentId.ts",
-		"jest": "jest src/queryClauses/index.test.ts --forceExit",
+		"jest": "jest src/refs/collectionGroup.test.ts --forceExit",
 		"commit": "git commit --no-verify",
 		"dev": "---------------------dev------------------------",
 		"d-link": "npm run build && npm run link",
