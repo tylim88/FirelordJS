@@ -124,7 +124,7 @@ FirelordJS has:
 
 It is what you are looking at: the Master of Fire.
 
-Support [@firebase/rules-unit-testing](https://firelordjs.com/tests)
+Support [@firebase/rules-unit-testing and emulator](https://firelordjs.com/tests)
 
 What is tested:
 
