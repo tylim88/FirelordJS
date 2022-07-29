@@ -132,7 +132,10 @@ What is tested:
 - Built code: check compiler setting
 - Published code are all tested in CI: check package.json entry point
 
-\*\* I am confident it is the best. If you found something better, I will buy you 10 cups of coffee and 100 cups of coffee if you can create something better.
+\*\* I am confident it has the best type safe and nothing come close to it. I also put money in my words, I will buy you [x cups of coffee](https://www.buymeacoffee.com/) if you
+
+1. found something better: 50 cups
+2. make something better: 500 cups
 
 ## Contribution
 
