@@ -1,7 +1,7 @@
 import {
 	ObjectFlattenHybrid,
-	FirestoreAndFirestoreTesting,
 	Firestore,
+	Firestore_,
 	FirestoreTesting,
 } from './types'
 
@@ -30,10 +30,8 @@ export const flatten = <T extends Record<string, unknown>>(object: T) => {
 	return obj as ObjectFlattenHybrid<T>
 }
 
-export const isFirestore = (
-	value: unknown
-): value is FirestoreAndFirestoreTesting => {
-	const v = value as Partial<Firestore>
+export const isFirestore = (value: unknown): value is Firestore => {
+	const v = value as Partial<Firestore_>
 	const e = value as Partial<FirestoreTesting>
 	return (
 		v?.type === 'firestore' || v?.type === 'firestore-lite' || !!e?.useEmulator

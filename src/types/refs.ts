@@ -1,14 +1,14 @@
 import { MetaType } from './metaTypeCreator'
-import { Firestore } from './alias'
+import { Firestore_ } from './alias'
 
 export interface DocumentReference<T extends MetaType> {
 	/** The type of this Firestore reference. */
 	readonly type: 'document'
 	/**
-	 * The {@link Firestore} instance the document is in.
+	 * The {@link Firestore_} instance the document is in.
 	 * This is useful for performing transactions, for example.
 	 */
-	readonly firestore: Firestore
+	readonly firestore: Firestore_
 	/**
 	 * The document's identifier within its collection.
 	 */
@@ -50,5 +50,5 @@ export interface Query<T extends MetaType> {
 	 * The `Firestore` instance for the Firestore database (useful for performing
 	 * transactions, etc.).
 	 */
-	readonly firestore: Firestore
+	readonly firestore: Firestore_
 }

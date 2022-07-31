@@ -2,7 +2,7 @@ import { Get } from './get'
 import { TransactionSet } from './set'
 import { TransactionUpdate } from './update'
 import { TransactionDelete } from './delete'
-import { FirestoreAndFirestoreTesting } from './alias'
+import { Firestore } from './alias'
 
 export interface Transaction {
 	/**
@@ -63,7 +63,7 @@ The function to execute within the transaction context.
 If the transaction completed successfully or was explicitly aborted (the updateFunction returned a failed promise), the promise returned by the updateFunction is returned here. Otherwise, if the transaction failed, a rejected promise with the corresponding failure error is returned.
 */
 	<T>(
-		firestore: FirestoreAndFirestoreTesting,
+		firestore: Firestore,
 		updateFunction: (transaction: Transaction) => Promise<T>
 	): Promise<T>
 	/** 

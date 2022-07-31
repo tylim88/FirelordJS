@@ -9,9 +9,9 @@ import {
 	OriFirestoreError,
 	OriDocumentData,
 } from './ori'
-export type Firestore = OriFirestore
+export type Firestore_ = OriFirestore
 export type FirestoreTesting = OriFirestoreTesting
-export type FirestoreAndFirestoreTesting = Firestore | FirestoreTesting
+export type Firestore = Firestore_ | FirestoreTesting
 export type SnapshotMetadata = OriSnapshotMetadata
 export type SnapshotOptions = OriSnapshotOptions
 export type SnapshotListenOptions = OriSnapshotListenOptions

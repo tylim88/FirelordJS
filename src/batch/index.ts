@@ -1,7 +1,7 @@
 import { setCreator } from './set'
 import { updateCreator } from './update'
 import { deleteCreator } from './delete'
-import { FirestoreAndFirestoreTesting, WriteBatch } from '../types'
+import { Firestore, WriteBatch } from '../types'
 import { writeBatch as writeBatch_, getFirestore } from 'firebase/firestore'
 
 /**
@@ -12,9 +12,7 @@ Unlike transactions, write batches are persisted offline and therefore are prefe
 @returns
 A WriteBatch that can be used to atomically execute multiple writes.
  */
-export const writeBatch = (
-	firestore?: FirestoreAndFirestoreTesting
-): WriteBatch => {
+export const writeBatch = (firestore?: Firestore): WriteBatch => {
 	const batch = writeBatch_(
 		// @ts-expect-error
 		firestore || getFirestore()

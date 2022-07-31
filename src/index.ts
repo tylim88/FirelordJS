@@ -7,7 +7,7 @@ import {
 	DocumentReference,
 	CollectionReference,
 	Query,
-	FirestoreAndFirestoreTesting,
+	Firestore,
 } from './types'
 import { docCreator, collectionCreator, collectionGroupCreator } from './refs'
 
@@ -24,7 +24,7 @@ import { docCreator, collectionCreator, collectionGroupCreator } from './refs'
  DocumentReference, CollectionReference and CollectionGroupReference instance.
  */
 export const getFirelord =
-	<T extends MetaType>(firestore?: FirestoreAndFirestoreTesting) =>
+	<T extends MetaType>(firestore?: Firestore) =>
 	<CollectionPath extends T['collectionPath'] = T['collectionPath']>(
 		collectionPath: CollectionPath extends never
 			? CollectionPath
@@ -61,7 +61,7 @@ export type FirelordRef<T extends MetaType> = Readonly<{
 				: IsValidID<DocumentId, 'Document', 'ID'>
 		): DocumentReference<T>
 		<DocumentId extends T['docID']>(
-			firestore: FirestoreAndFirestoreTesting,
+			firestore: Firestore,
 			documentID: DocumentId extends never
 				? DocumentId
 				: DocumentId extends IsValidID<DocumentId, 'Document', 'ID'>
@@ -69,10 +69,8 @@ export type FirelordRef<T extends MetaType> = Readonly<{
 				: IsValidID<DocumentId, 'Document', 'ID'>
 		): DocumentReference<T>
 	}
-	collection: (
-		firestore?: FirestoreAndFirestoreTesting
-	) => CollectionReference<T>
-	collectionGroup: (firestore?: FirestoreAndFirestoreTesting) => Query<T>
+	collection: (firestore?: Firestore) => CollectionReference<T>
+	collectionGroup: (firestore?: Firestore) => Query<T>
 }>
 
 export {

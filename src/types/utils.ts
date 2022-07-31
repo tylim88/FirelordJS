@@ -23,7 +23,11 @@ export type IsSame<T, U> = (<G>() => G extends T ? 1 : 2) extends <
 	? true
 	: false
 
-export type IsEqual<T, U> = T extends U ? (U extends T ? true : false) : false
+export type IsEqual<T, U> = T[] extends U[]
+	? U[] extends T[]
+		? true
+		: false
+	: false
 
 export type OddNumber<
 	X extends number,
