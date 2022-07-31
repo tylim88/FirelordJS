@@ -126,15 +126,15 @@ It is what you are looking at: the Master of Fire.
 
 Support [@firebase/rules-unit-testing and emulator](https://firelordjs.com/tests)
 
-What is tested:
+What is tested in CI:
 
-- Development code: check correctness
+- Development code: check logic correctness
 - Built code: check compiler setting
-- Published code are all tested in CI: check package.json entry point
+- Published code: check package.json entry point
 
 \*\* I am confident it has the best type safe and nothing come close to it.
 
-I also put money in my words, I will buy you [x cups of coffee](https://www.buymeacoffee.com/) if you:
+Since I am claiming it is the best, I need to put money in my words and I will buy you [x cups of coffee](https://www.buymeacoffee.com/) if you:
 
 1. found something better: 50 cups
 2. make something better: 500 cups
@@ -147,11 +147,11 @@ I also put money in my words, I will buy you [x cups of coffee](https://www.buym
 
 2. Simplify type logic and remove dead code.
 
-3. Cache Firebase Tools in Github Action.
+3. Speed up the test like cache Firebase Tools in Github Action.
 
 4. Utilizing the latest Typescript feature, like [extends Constraints on infer Type Variables](https://devblogs.microsoft.com/typescript/announcing-typescript-4-7/#extends-constraints-on-infer-type-variables) to reduce code length.
 
-5. Improve tests, currently need more cursor and limit tests(simple test that I skipped).
+5. Cover more tests, currently need more cursor and limit tests.
 
 6. You can also work on the [documentation](https://github.com/tylim88/FirelordJSDoc).
 
@@ -170,11 +170,11 @@ I also put money in my words, I will buy you [x cups of coffee](https://www.buym
 
 9. Or just spread the word. 🙂
 
-## Why Not Merge Firelord and FirelordJS?
+## Why Not Merge Firelord, FirelordJS and FirelordRN?
 
 The idea behind merging is code reuse and reduce maintenance, but there are technical reasons that make merging a terrible idea.
 
-1. V8 and V9 do not share the same behavior. One example is V9 `arrayUnion` and `arrayRemove` able to accept empty array argument, but this is not possible in V8 and will result in runtime exception. To solve this we need extra code for V8 wrapper and the logic become dead code in environment that use V9 wrapper. This is not a big deal, it adds negligible amount of code, but it tells us is, we cannot assume V8 and V9 are the same.
+1. V8 and V9 do not share the same behavior. One example is V9 `arrayUnion` and `arrayRemove` able to accept empty array argument, but this is not possible in V8 and will result in runtime exception. To solve this we need extra code for V8 wrapper thus the logic become dead code in environment that use V9 wrapper. This is not a big deal, it adds negligible amount of code, but what it tells us is, we cannot assume V8 and V9 are the same.
 
 2. Mutually exclusive APIs. For example admin is more powerful and has APIs like `create`, `getAll` and `listCollections`; while web has cache related APIs like `getDocFromCache`, `getDocFromServer` and `enableIndexedDbPersistence`. It is not possible to export everything.
 
@@ -184,11 +184,17 @@ The idea behind merging is code reuse and reduce maintenance, but there are tech
 
 5. Both libraries import original types from original SDKs to keep internal type safe. If we merge both library, then we would have 2 set of original types.
 
+6. Some tests are also different, for example FirelordJS need to test against `@firebase/rules-unit-testing` but Firelord don't have to.
+
 So that is why merging could do more harm than good in this case, especially point 2 and 3 which are detrimental to developer experience. Firelord is not simply a copy and paste of FirelordJS, there are a lot of details need to be taken care of.
 
 One of the core principal of the libraries is to preserve originality, if we went for absolute unified interface, then we need to give up a lot.
 
 TLDR: they look the same, but they are not the same.
+
+As for FirelordRN:
+
+7. FirelordRN is similar to V8 interface, thus it utilizes Firelord runtime wrapper. But since it is client side, it utilizes the interface of FirelordJS (however some parameters is missing, like `Document.Snapshot.data` method is missing parameter `SnapshotOptions`, which make it similar to Firelord instead because admin also doesn't have this parameter.). So FirelordRN is a mix of Firelord and FirelordJS, with its own quirks (@react-native-firebase/firestore also seem to mess up the `Query` type).
 
 ## Related Projects
 
