@@ -132,12 +132,10 @@ What is tested in CI:
 - Built code: check compiler setting
 - Published code: check package.json entry point
 
-\*\* I am confident it has the best type safe and nothing come close to it.
-
-Since I am claiming it is the best, I need to put money in my words and I will buy you [x cups of coffee](https://www.buymeacoffee.com/) if you:
+\*\* I am confident it has the best type safe and nothing come close to it. Since I am claiming it is the best, I will put money in my words and I will buy you [x cups of coffee](https://www.buymeacoffee.com/) if you:
 
 1. found something better: 50 cups
-2. make something better: 500 cups
+2. created something better: 500 cups
 
 ## Contribution
 
