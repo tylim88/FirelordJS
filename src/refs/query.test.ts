@@ -70,7 +70,7 @@ describe('test query ref', () => {
 		query(ref, where('a.b.c', 'not-in', [2]), limit(1), where('a.b.c', '<', 2))
 	})
 
-	it('If you include a filter with a range comparison (<, <=, >, >=), your first ordering must be on the same field, negative case', () => {
+	it('If you include a filter with an inequality  ( <, <=, !=, not-in, >, or >=), your first ordering must be on the same field, negative case', () => {
 		expect(() =>
 			query(
 				ref,
@@ -83,7 +83,7 @@ describe('test query ref', () => {
 			query(
 				ref,
 				// @ts-expect-error
-				where('age', '>=', 2),
+				where('age', '>', 2),
 				orderBy('a.i')
 			)
 		).toThrow()
@@ -93,14 +93,14 @@ describe('test query ref', () => {
 				// @ts-expect-error
 				orderBy('a.i'),
 				limit(1),
-				where('age', '>=', 2)
+				where('age', '<=', 2)
 			)
 		).toThrow()
 		expect(() =>
 			query(
 				ref,
 				// @ts-expect-error
-				where('age', '>=', 2),
+				where('age', '!=', 2),
 				limit(1),
 				orderBy('a.i')
 			)
@@ -109,7 +109,7 @@ describe('test query ref', () => {
 			query(
 				ref,
 				// @ts-expect-error
-				where('a.b.c', '>=', 1),
+				where('a.b.c', '<', 1),
 				limit(1),
 				orderBy('__name__')
 			)
@@ -118,14 +118,14 @@ describe('test query ref', () => {
 			query(
 				ref,
 				// @ts-expect-error
-				where(documentId(), '>=', 'a'),
+				where(documentId(), 'not-in', ['a']),
 				limit(1),
 				orderBy('a.i')
 			)
 		).toThrow()
 	})
 
-	it('If you include a filter with a range comparison (<, <=, >, >=), your first ordering must be on the same field, positive case', () => {
+	it('If you include a filter with an inequality  ( <, <=, !=, not-in, >, or >=), your first ordering must be on the same field, positive case', () => {
 		query(ref, orderBy('age'), where('age', '>=', 2))
 		query(ref, where('a.k', '>=', new Date()), orderBy('a.k'))
 		query(
