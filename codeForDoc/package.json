@@ -6,7 +6,7 @@
 	"scripts": {
 		"uninstall": "rm -rf node_modules && rm -rf package-lock.json",
 		"reinstall": "npm run uninstall && npm i",
-		"test": "firebase emulators:exec --only firestore \"rm -rf coverage && jest --forceExit\""
+		"test": "firebase emulators:exec --only firestore \"rm -rf coverage && jest\""
 	},
 	"author": "",
 	"license": "ISC",
