@@ -192,7 +192,7 @@ TLDR: they look the same, but they are not the same.
 
 As for FirelordRN:
 
-7. FirelordRN is similar to V8 interface, thus it utilizes Firelord runtime wrapper. But since it is client side, it utilizes the interface of FirelordJS (however some parameters is missing, like `Document.Snapshot.data` method is missing parameter `SnapshotOptions`, which make it similar to Firelord instead because admin also doesn't have this parameter.). So FirelordRN is a mix of Firelord and FirelordJS, with its own quirks (@react-native-firebase/firestore also seem to mess up the `Query` type).
+7. FirelordRN interface is similar to V8 interface, thus the runtime wrapping logic is similar to Firelord. And since we want V9 interface, it utilizes the interface of FirelordJS (however some parameters is missing, like `Document.Snapshot.data` method is missing parameter `SnapshotOptions`, which make it similar to Firelord instead because admin doesn't have this parameter.). So FirelordRN is a mix of Firelord and FirelordJS, plus its own quirks (@react-native-firebase/firestore also seem to mess up the `Query` type). Also running tests are also totally different in FirelordRN.
 
 ## Related Projects
 
