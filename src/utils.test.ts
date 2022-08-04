@@ -48,7 +48,7 @@ describe('test flatten', () => {
 	it('test empty', () => {
 		expect(flatten({})).toEqual({})
 	})
-	it('test isOption', () => {
+	it('test isFirestore', () => {
 		expect(isFirestore({})).toBe(false)
 		expect(isFirestore({ type: 'firest1ore' })).toBe(false)
 		expect(isFirestore({ type: 'firestore' })).toBe(true)
