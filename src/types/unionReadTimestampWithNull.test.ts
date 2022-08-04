@@ -1,5 +1,5 @@
 import { IsTrue } from './utils'
-import { OriSnapshotOptions } from './ori'
+import { SnapshotOptions } from './ori'
 import { NoneAndPrevious } from './unionReadTimestampWithNull'
 
 describe('test unionReadTimestampWithNull', () => {
@@ -7,9 +7,7 @@ describe('test unionReadTimestampWithNull', () => {
 		// this is a controlled type that make sure 'none' | 'previous' is part of SnapshotOptions['serverTimestamps']
 		// if firestore change the object literal type then we would know
 		IsTrue<
-			NoneAndPrevious extends OriSnapshotOptions['serverTimestamps']
-				? true
-				: false
+			NoneAndPrevious extends SnapshotOptions['serverTimestamps'] ? true : false
 		>()
 	})
 })

@@ -1,5 +1,5 @@
 import { MetaType } from './metaTypeCreator'
-import { OriSnapshotOptions } from './ori'
+import { SnapshotOptions } from './ori'
 import { ServerTimestamp } from './fieldValue'
 import { ObjectFlattenRead } from './objectFlatten'
 
@@ -24,15 +24,15 @@ export type RecursiveUnionReadServerTimestampWithNull<T, Read> =
 
 export type UnionReadServerTimestampWithNull<
 	T extends MetaType,
-	SnapshotOptions extends OriSnapshotOptions = { serverTimestamps: None }
-> = SnapshotOptions['serverTimestamps'] extends NoneAndPrevious // default type is never, but default value is also none, so it is ok
+	SnapshotOptions_ extends SnapshotOptions = { serverTimestamps: None }
+> = SnapshotOptions_['serverTimestamps'] extends NoneAndPrevious // default type is never, but default value is also none, so it is ok
 	? RecursiveUnionReadServerTimestampWithNull<T['write'], T['read']>
 	: T['read']
 
 export type UnionReadServerTimestampWithNullFlatten<
 	T extends MetaType,
-	SnapshotOptions extends OriSnapshotOptions = { serverTimestamps: None }
-> = SnapshotOptions['serverTimestamps'] extends NoneAndPrevious
+	SnapshotOptions_ extends SnapshotOptions = { serverTimestamps: None }
+> = SnapshotOptions_['serverTimestamps'] extends NoneAndPrevious
 	? RecursiveUnionReadServerTimestampWithNull<
 			T['writeFlatten'],
 			ObjectFlattenRead<T['read']>

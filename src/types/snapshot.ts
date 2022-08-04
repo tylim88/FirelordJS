@@ -4,7 +4,7 @@ import {
 	SnapshotOptions,
 	SnapshotListenOptions,
 	DocumentChangeType,
-} from './alias'
+} from './ori'
 import {
 	UnionReadServerTimestampWithNullFlatten,
 	UnionReadServerTimestampWithNull,

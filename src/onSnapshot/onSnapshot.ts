@@ -1,28 +1,27 @@
 import { onSnapshot as onSnapshot_ } from 'firebase/firestore'
 import {
-	OriFirestoreError,
-	OriSnapshotListenOptions,
-	OriQuery,
 	FirestoreError,
+	SnapshotListenOptions,
+	OriQuery,
 	OnSnapshot,
 } from '../types'
 
 export const isOptions = (
 	arg:
-		| ((error: OriFirestoreError) => void)
+		| ((error: FirestoreError) => void)
 		| (() => void)
-		| OriSnapshotListenOptions
+		| SnapshotListenOptions
 		| undefined
-): arg is OriSnapshotListenOptions => {
-	const v = arg as Partial<OriSnapshotListenOptions>
+): arg is SnapshotListenOptions => {
+	const v = arg as Partial<SnapshotListenOptions>
 	return v?.includeMetadataChanges !== undefined // includeMetadataChanges is boolean, so check for undefined
 }
 
 export const onSnapshot: OnSnapshot = (
 	reference,
 	onNext,
-	onError?: ((error: FirestoreError) => void) | OriSnapshotListenOptions,
-	options?: OriSnapshotListenOptions
+	onError?: ((error: FirestoreError) => void) | SnapshotListenOptions,
+	options?: SnapshotListenOptions
 ) => {
 	const newOnError = isOptions(onError) ? undefined : onError
 	const newOptions = options || (isOptions(onError) ? onError : undefined)

@@ -1,6 +1,6 @@
 import {
 	OriDocumentReference,
-	OriDocumentData,
+	DocumentData,
 	OriSetOptions,
 	Set,
 } from '../types'
@@ -19,7 +19,7 @@ Writes to the document referred to by this DocumentReference. If the document do
 */
 export const setDoc = ((
 	reference: OriDocumentReference,
-	data: OriDocumentData,
+	data: DocumentData,
 	options?: OriSetOptions
 ) => {
 	return setDoc_(

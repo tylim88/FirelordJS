@@ -1,7 +1,7 @@
 import {
 	OriTransaction,
 	OriDocumentReference,
-	OriDocumentData,
+	DocumentData,
 	TransactionSet,
 	OriSetOptions,
 } from '../types'
@@ -9,7 +9,7 @@ import { removeFieldValueInhomogeneousProps } from '../fieldValue'
 export const setCreator = (transaction: OriTransaction) =>
 	((
 		reference: OriDocumentReference,
-		data: OriDocumentData,
+		data: DocumentData,
 		options?: OriSetOptions
 	) => {
 		return transaction.set(

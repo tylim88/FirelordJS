@@ -1,6 +1,6 @@
 import { IsTrue, IsSame } from './utils'
 import { DocumentSnapshot } from './snapshot'
-import { OriSnapshotMetadata } from './ori'
+import { SnapshotMetadata } from './ori'
 import { User } from '../utilForTests'
 
 const documentSnapshot = 1 as unknown as DocumentSnapshot<User>
@@ -41,7 +41,7 @@ it('test snapshot metadata type', () => {
 	;() => {
 		const target = documentSnapshot.metadata
 		type A = typeof target
-		type B = OriSnapshotMetadata
+		type B = SnapshotMetadata
 		IsTrue<IsSame<A, B>>()
 	}
 })
