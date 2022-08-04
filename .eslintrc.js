@@ -21,7 +21,7 @@ module.exports = {
 		'import/named': 'off',
 		'import/no-unresolved': 'off',
 		'@typescript-eslint/explicit-module-boundary-types': 'off', // explicit function return type
-		'@typescript-eslint/no-explicit-any': 'error',
+		'@typescript-eslint/no-explicit-any': 'off',
 		camelcase: 'off',
 		'@typescript-eslint/ban-ts-comment': 'off',
 		'@typescript-eslint/no-namespace': 'off',

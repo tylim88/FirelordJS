@@ -82,6 +82,8 @@ export type ErrorCursor__name__ =
 export type ErrorArrayFieldValueEmpty =
 	'Error: arrayUnion and arrayRemove need at least 1 argument'
 export type ErrorEmptyCursor = 'Error: cursor need at least 1 argument.'
+export type ErrorCursorNoArray =
+	'Error: cursor rest parameter must be tuple type, not array type. Use const assertion to transform array type to tuple type'
 
 export type ErrorMsgs =
 	| ErrorUndefined
@@ -119,6 +121,7 @@ export type ErrorMsgs =
 	| ErrorCursor__name__
 	| ErrorArrayFieldValueEmpty
 	| ErrorEmptyCursor
+	| ErrorCursorNoArray
 
 export type ReplaceErrorMsgsWithNever<T> = T extends ErrorMsgs ? never : T // ! not yet implemented anywhere
 
