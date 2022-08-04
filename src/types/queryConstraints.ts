@@ -1,32 +1,28 @@
 import { MetaType } from './metaTypeCreator'
-import {
-	OriWhereFilterOp,
-	OriQueryConstraint,
-	OriOrderByDirection,
-} from './ori'
+import { WhereFilterOp, QueryConstraint, OrderByDirection } from './ori'
 import { CursorType } from './cursor'
 
 export type WhereConstraint<
 	T extends MetaType,
 	FieldPath extends keyof T['compare'] & string,
-	OpStr extends OriWhereFilterOp,
+	OpStr extends WhereFilterOp,
 	Value
 > = {
 	type: 'where'
 	fieldPath: FieldPath
 	opStr: OpStr
 	value: Value
-	ref: OriQueryConstraint
+	ref: QueryConstraint
 }
 
 export type OrderByConstraint<
 	FieldPath extends string,
-	DirectionStr extends OriOrderByDirection | undefined = undefined
+	DirectionStr extends OrderByDirection | undefined = undefined
 > = {
 	type: 'orderBy'
 	fieldPath: FieldPath
 	directionStr: DirectionStr
-	ref: OriQueryConstraint
+	ref: QueryConstraint
 }
 
 export type LimitConstraint<
@@ -35,7 +31,7 @@ export type LimitConstraint<
 > = {
 	type: Type
 	value: Value
-	ref: OriQueryConstraint
+	ref: QueryConstraint
 }
 
 export type CursorConstraint<
@@ -44,14 +40,11 @@ export type CursorConstraint<
 > = {
 	type: Type
 	values: Values
-	ref: OriQueryConstraint
+	ref: QueryConstraint
 }
 
 export type QueryConstraints<T extends MetaType> =
-	| WhereConstraint<T, keyof T['compare'] & string, OriWhereFilterOp, unknown>
+	| WhereConstraint<T, keyof T['compare'] & string, WhereFilterOp, unknown>
 	| LimitConstraint<'limit' | 'limitToLast', number>
 	| CursorConstraint<CursorType, unknown[]>
-	| OrderByConstraint<
-			keyof T['compare'] & string,
-			OriOrderByDirection | undefined
-	  >
+	| OrderByConstraint<keyof T['compare'] & string, OrderByDirection | undefined>

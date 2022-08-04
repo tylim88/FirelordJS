@@ -18,12 +18,22 @@ export type SnapshotOptions = import('firebase/firestore').SnapshotOptions
 
 export type SnapshotMetadata = import('firebase/firestore').SnapshotMetadata
 
-export type OriQueryConstraint = import('firebase/firestore').QueryConstraint
+export type QueryConstraint = import('firebase/firestore').QueryConstraint
 
 export type SnapshotListenOptions =
 	import('firebase/firestore').SnapshotListenOptions
 
 export type Unsubscribe = import('firebase/firestore').Unsubscribe
+
+export type DocumentChangeType = import('firebase/firestore').DocumentChangeType
+
+export type OrderByDirection = import('firebase/firestore').OrderByDirection
+
+export type WhereFilterOp = import('firebase/firestore').WhereFilterOp
+
+export type GeoPoint = OriFirebaseFirestore['GeoPoint']
+
+export type Timestamp = import('firebase/firestore').Timestamp
 
 export type OriDocumentReference<T extends DocumentData = DocumentData> =
 	import('firebase/firestore').DocumentReference<T>
@@ -46,18 +56,8 @@ export type OriDocumentSnapshot<T extends DocumentData = DocumentData> =
 export type OriDocumentChange<T = DocumentData> =
 	import('firebase/firestore').DocumentChange<T>
 
-export type DocumentChangeType = import('firebase/firestore').DocumentChangeType
-
 export type OriWriteBatch = import('firebase/firestore').WriteBatch
 
 export type OriTransaction = import('firebase/firestore').Transaction
-
-export type OriOrderByDirection = 'asc' | 'desc'
-
-export type OriWhereFilterOp = import('firebase/firestore').WhereFilterOp
-
-export type OriGeoPoint = OriFirebaseFirestore['GeoPoint']
-
-export type OriTimestamp = import('firebase/firestore').Timestamp
 
 export type OriFieldValue = import('firebase/firestore').FieldValue

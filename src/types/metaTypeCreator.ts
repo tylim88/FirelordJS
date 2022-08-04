@@ -1,4 +1,4 @@
-import { OriTimestamp } from './ori'
+import { Timestamp } from './ori'
 import {
 	ErrorFieldValueInArray,
 	ErrorUnassignedAbleFieldValue,
@@ -137,9 +137,9 @@ type ReadConverterArray<
 				| (InArray extends true ? never : allFieldsPossiblyReadAsUndefined)
 		: T extends FieldValues
 		? ErrorFieldValueInArray
-		: T extends Date | OriTimestamp
+		: T extends Date | Timestamp
 		?
-				| OriTimestamp
+				| Timestamp
 				| (InArray extends true ? never : allFieldsPossiblyReadAsUndefined)
 		: T extends PossiblyReadAsUndefined
 		? InArray extends true
@@ -173,8 +173,8 @@ type ReadConverter<T, allFieldsPossiblyReadAsUndefined, BannedTypes> =
 							true
 					  >[]
 					| allFieldsPossiblyReadAsUndefined
-			: T extends ServerTimestamp | Date | OriTimestamp
-			? OriTimestamp | allFieldsPossiblyReadAsUndefined
+			: T extends ServerTimestamp | Date | Timestamp
+			? Timestamp | allFieldsPossiblyReadAsUndefined
 			: T extends DeleteField | PossiblyReadAsUndefined
 			? undefined
 			: T extends UnassignedAbleFieldValue
@@ -200,8 +200,8 @@ type CompareConverterArray<T, BannedTypes> = NoDirectNestedArray<
 		? CompareConverterArray<A, BannedTypes>[]
 		: T extends FieldValues
 		? ErrorFieldValueInArray
-		: T extends Date | OriTimestamp
-		? OriTimestamp | Date
+		: T extends Date | Timestamp
+		? Timestamp | Date
 		: T extends PossiblyReadAsUndefined
 		? never
 		: T extends Record<string, unknown>
@@ -215,8 +215,8 @@ type CompareConverter<T, BannedTypes> = NoDirectNestedArray<
 	T,
 	T extends (infer A)[]
 		? CompareConverterArray<A, BannedTypes>[]
-		: T extends ServerTimestamp | Date | OriTimestamp
-		? OriTimestamp | Date
+		: T extends ServerTimestamp | Date | Timestamp
+		? Timestamp | Date
 		: T extends UnassignedAbleFieldValue
 		? ErrorUnassignedAbleFieldValue
 		: T extends PossiblyReadAsUndefined | DeleteField
@@ -234,8 +234,8 @@ type ArrayWriteConverter<T, BannedTypes> = NoDirectNestedArray<
 		? ArrayWriteConverter<A, BannedTypes>[]
 		: T extends FieldValues
 		? ErrorFieldValueInArray
-		: T extends OriTimestamp | Date
-		? OriTimestamp | Date
+		: T extends Timestamp | Date
+		? Timestamp | Date
 		: T extends PossiblyReadAsUndefined
 		? never
 		: T extends Record<string, unknown>
@@ -261,8 +261,8 @@ type WriteConverter<T, BannedTypes> = NoDirectNestedArray<
 		? DeleteField
 		: T extends UnassignedAbleFieldValue
 		? ErrorUnassignedAbleFieldValue
-		: T extends OriTimestamp | Date
-		? OriTimestamp | Date
+		: T extends Timestamp | Date
+		? Timestamp | Date
 		: T extends PossiblyReadAsUndefined
 		? never
 		: T extends Record<string, unknown>

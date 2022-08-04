@@ -1,5 +1,5 @@
 import { MetaType } from './metaTypeCreator'
-import { OriWhereFilterOp, OriOrderByDirection } from './ori'
+import { WhereFilterOp, OrderByDirection } from './ori'
 import {
 	ErrorLimitToLastOrderBy,
 	ErrorWhereOrderByAndInEquality,
@@ -49,7 +49,7 @@ type ValueOfOnlyArrayOptStr = ArrayContainsAny
 type ElementOfOptStr = ArrayContains
 IsTrue<
 	IsSame<
-		OriWhereFilterOp,
+		WhereFilterOp,
 		| InequalityOpStr
 		| ValueOfOptStr
 		| ArrayOfOptStr
@@ -65,7 +65,7 @@ type ValidateOrderByAndInequalityWhere<
 > = GetFirstInequalityWhere<T, AllQCs> extends infer W
 	? W extends WhereConstraint<T, string, InequalityOpStr, unknown>
 		? GetFirstOrderBy<T, AllQCs> extends infer O
-			? O extends OrderByConstraint<string, OriOrderByDirection | undefined>
+			? O extends OrderByConstraint<string, OrderByDirection | undefined>
 				? IsSame<W['fieldPath'], O['fieldPath']> extends true
 					? true
 					: ErrorWhereOrderByAndInEquality<O['fieldPath'], W['fieldPath']>
@@ -87,14 +87,11 @@ export type QueryConstraintLimitation<
 		? [
 				Head extends LimitConstraint<'limit', number>
 					? Head
-					: Head extends OrderByConstraint<
-							string,
-							OriOrderByDirection | undefined
-					  >
+					: Head extends OrderByConstraint<string, OrderByDirection | undefined>
 					? OrderByConstraintLimitation<T, Head, AllQCs>
 					: Head extends LimitConstraint<'limitToLast', number>
 					? LimitToLastConstraintLimitation<T, Head, AllQCs>
-					: Head extends WhereConstraint<T, string, OriWhereFilterOp, unknown>
+					: Head extends WhereConstraint<T, string, WhereFilterOp, unknown>
 					? WhereConstraintLimitation<T, Q, Head, PreviousQCs>
 					: Head extends CursorConstraint<CursorType, unknown[]>
 					? CursorConstraintLimitation<T, Head, PreviousQCs>
@@ -116,13 +113,10 @@ export type QueryConstraintLimitation<
 type ValidateCursorOrderBy<
 	T extends MetaType,
 	Values extends unknown[],
-	AllOrderBy extends OrderByConstraint<
-		string,
-		OriOrderByDirection | undefined
-	>[]
+	AllOrderBy extends OrderByConstraint<string, OrderByDirection | undefined>[]
 > = Values extends [infer Head, ...infer Rest]
 	? AllOrderBy extends [infer H, ...infer R]
-		? H extends OrderByConstraint<string, OriOrderByDirection | undefined>
+		? H extends OrderByConstraint<string, OrderByDirection | undefined>
 			? [
 					H['fieldPath'] extends __name__
 						? string extends Head
@@ -140,10 +134,7 @@ type ValidateCursorOrderBy<
 					...ValidateCursorOrderBy<
 						T,
 						Rest,
-						R extends OrderByConstraint<
-							string,
-							OriOrderByDirection | undefined
-						>[]
+						R extends OrderByConstraint<string, OrderByDirection | undefined>[]
 							? R
 							: []
 					>
@@ -180,7 +171,7 @@ type LimitToLastConstraintLimitation<
 // You can't order your query by a field included in an equality (==) or (in) clause.
 type ValidateOrderByEqualityWhere<
 	T extends MetaType,
-	U extends OrderByConstraint<string, OriOrderByDirection | undefined>,
+	U extends OrderByConstraint<string, OrderByDirection | undefined>,
 	AllQCs extends QueryConstraints<T>[]
 > = Extract<
 	GetAllWhereConstraint<T, AllQCs, never>,
@@ -191,7 +182,7 @@ type ValidateOrderByEqualityWhere<
 
 type OrderByConstraintLimitation<
 	T extends MetaType,
-	U extends OrderByConstraint<string, OriOrderByDirection | undefined>,
+	U extends OrderByConstraint<string, OrderByDirection | undefined>,
 	AllQCs extends QueryConstraints<T>[]
 > = ValidateOrderByEqualityWhere<T, U, AllQCs> extends false
 	? ErrorWhereOrderByEquality
@@ -200,7 +191,7 @@ type OrderByConstraintLimitation<
 // You can use at most one in, not-in, or array-contains-any clause per query. You can't combine in , not-in, and array-contains-any in the same query.
 type ValidateWhereNotInArrayContainsAny<
 	T extends MetaType,
-	U extends WhereConstraint<T, string, OriWhereFilterOp, unknown>,
+	U extends WhereConstraint<T, string, WhereFilterOp, unknown>,
 	PreviousQCs extends QueryConstraints<T>[]
 > = U['opStr'] extends In | NotIn | ArrayContainsAny
 	? Extract<
@@ -215,7 +206,7 @@ type ValidateWhereNotInArrayContainsAny<
 // You cannot use more than one '!=' filter. (not documented directly or indirectly)
 type ValidateWhereNotInNotEqual<
 	T extends MetaType,
-	U extends WhereConstraint<T, string, OriWhereFilterOp, unknown>,
+	U extends WhereConstraint<T, string, WhereFilterOp, unknown>,
 	PreviousQCs extends QueryConstraints<T>[]
 > = U['opStr'] extends NotIn
 	? Extract<
@@ -241,7 +232,7 @@ type ValidateWhereNotInNotEqual<
 // You can use at most one array-contains clause per query. You can't combine array-contains with array-contains-any.
 type ValidateWhereArrayContainsArrayContainsAny<
 	T extends MetaType,
-	U extends WhereConstraint<T, string, OriWhereFilterOp, unknown>,
+	U extends WhereConstraint<T, string, WhereFilterOp, unknown>,
 	PreviousQCs extends QueryConstraints<T>[]
 > = U['opStr'] extends ArrayContains
 	? Extract<
@@ -262,7 +253,7 @@ type ValidateWhereArrayContainsArrayContainsAny<
 // In a compound query, range (<, <=, >, >=) and not equals (!=, not-in) comparisons must all filter on the same field.
 type ValidateWhereInequalityOpStrSameField<
 	T extends MetaType,
-	U extends WhereConstraint<T, string, OriWhereFilterOp, unknown>,
+	U extends WhereConstraint<T, string, WhereFilterOp, unknown>,
 	PreviousQCs extends QueryConstraints<T>[]
 > = U['opStr'] extends InequalityOpStr
 	? Extract<
@@ -284,7 +275,7 @@ type ValidateWhereInequalityOpStrSameField<
 type WhereConstraintLimitation<
 	T extends MetaType,
 	Q extends Query<T>,
-	U extends WhereConstraint<T, string, OriWhereFilterOp, unknown>,
+	U extends WhereConstraint<T, string, WhereFilterOp, unknown>,
 	PreviousQCs extends QueryConstraints<T>[]
 > = ValidateWhereNotInArrayContainsAny<T, U, PreviousQCs> extends string
 	? ValidateWhereNotInArrayContainsAny<T, U, PreviousQCs>
@@ -349,7 +340,7 @@ type GetFirstOrderBy<
 	T extends MetaType,
 	QCs extends QueryConstraints<T>[]
 > = QCs extends [infer H, ...infer Rest]
-	? H extends OrderByConstraint<string, OriOrderByDirection | undefined>
+	? H extends OrderByConstraint<string, OrderByDirection | undefined>
 		? H
 		: Rest extends QueryConstraints<T>[]
 		? GetFirstOrderBy<T, Rest>
@@ -359,16 +350,13 @@ type GetFirstOrderBy<
 type GetAllOrderBy<
 	T extends MetaType,
 	QCs extends QueryConstraints<T>[],
-	AllOrderBy extends OrderByConstraint<
-		string,
-		OriOrderByDirection | undefined
-	>[]
+	AllOrderBy extends OrderByConstraint<string, OrderByDirection | undefined>[]
 > = QCs extends [infer H, ...infer Rest]
 	? Rest extends QueryConstraints<T>[]
 		? GetAllOrderBy<
 				T,
 				Rest,
-				H extends OrderByConstraint<string, OriOrderByDirection | undefined>
+				H extends OrderByConstraint<string, OrderByDirection | undefined>
 					? [...AllOrderBy, H]
 					: AllOrderBy
 		  >
@@ -378,12 +366,7 @@ type GetAllOrderBy<
 type GetAllWhereConstraint<
 	T extends MetaType,
 	QCs extends QueryConstraints<T>[],
-	WhereConstraintsAcc extends WhereConstraint<
-		T,
-		string,
-		OriWhereFilterOp,
-		unknown
-	>
+	WhereConstraintsAcc extends WhereConstraint<T, string, WhereFilterOp, unknown>
 > = QCs extends [infer H, ...infer R]
 	? R extends QueryConstraints<T>[]
 		?
@@ -391,7 +374,7 @@ type GetAllWhereConstraint<
 				| GetAllWhereConstraint<
 						T,
 						R,
-						| (H extends WhereConstraint<T, string, OriWhereFilterOp, unknown>
+						| (H extends WhereConstraint<T, string, WhereFilterOp, unknown>
 								? H
 								: never)
 						| WhereConstraintsAcc
@@ -402,7 +385,7 @@ type GetAllWhereConstraint<
 type GetAllWhereConstraintOpStr<
 	T extends MetaType,
 	QCs extends QueryConstraints<T>[],
-	OpStrAcc extends OriWhereFilterOp
+	OpStrAcc extends WhereFilterOp
 > = QCs extends [infer H, ...infer R]
 	? R extends QueryConstraints<T>[]
 		?
@@ -410,7 +393,7 @@ type GetAllWhereConstraintOpStr<
 				| GetAllWhereConstraintOpStr<
 						T,
 						R,
-						| (H extends WhereConstraint<T, string, OriWhereFilterOp, unknown>
+						| (H extends WhereConstraint<T, string, WhereFilterOp, unknown>
 								? H['opStr']
 								: never)
 						| OpStrAcc
