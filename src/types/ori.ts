@@ -1,10 +1,10 @@
 import { RulesTestContext } from '@firebase/rules-unit-testing'
 
-export type Firestore_ = ReturnType<OriFirebaseFirestore['getFirestore']> // ! OriFirebaseFirestore['Firestore'] doesn't work even though they are the exact same type???
+export type Firestore_ = ReturnType<FirebaseFirestore['getFirestore']> // ! OriFirebaseFirestore['Firestore'] doesn't work even though they are the exact same type???
 
 export type FirestoreTesting = ReturnType<RulesTestContext['firestore']>
 
-export type OriFirebaseFirestore = typeof import('firebase/firestore')
+export type FirebaseFirestore = typeof import('firebase/firestore')
 
 export type Firestore = Firestore_ | FirestoreTesting
 
@@ -31,7 +31,7 @@ export type OrderByDirection = import('firebase/firestore').OrderByDirection
 
 export type WhereFilterOp = import('firebase/firestore').WhereFilterOp
 
-export type GeoPoint = OriFirebaseFirestore['GeoPoint']
+export type GeoPoint = FirebaseFirestore['GeoPoint']
 
 export type Timestamp = import('firebase/firestore').Timestamp
 
