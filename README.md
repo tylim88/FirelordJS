@@ -139,7 +139,7 @@ What is tested in CI:
 
 ## Contribution
 
-(The lower it goes, the harder it is)
+Simple:
 
 1. For starter, you can refactor files in `src/types` folder, especially `src/types/queryConstraintLimitation.ts`.
 
@@ -153,20 +153,22 @@ What is tested in CI:
 
 6. You can also work on the [documentation](https://github.com/tylim88/FirelordJSDoc).
 
-7. Looking for a challenge? Then you can try to implement `mandatory field type`:
+Hard:
 
-   - It is a special type that assign (with union) to object member.
-   - Members with such type become `required` even in `update` operations(all members in update operations are partial by default).
+1. Looking for a challenge? Then you can try to implement `mandatory field type`:
 
-   Practical usage is something like `updatedAt` member that keep track of document last updated time.
+- It is a special type that assign (with union) to object member.
+- Members with such type become `required` even in `update` operations(all members in update operations are partial by default).
 
-   Basically just turn an optional member into a required member but due to inner complexity, this is not going to be easy.
+  Practical usage is something like `updatedAt` member that keep track of document last updated time.
 
-   If you want to work on this, come to me first to discuss the implementation strategy, I will provide all information you need to carry out this commit.
+  Basically just turn an optional member into a required member but due to inner complexity, this is not going to be easy.
 
-8. Support tuple and Record<number, unknown> type.
+  If you want to work on this, come to me first to discuss the implementation strategy, I will provide all information you need to carry out this commit.
 
-9. Or just spread the word. 🙂
+2. Support tuple and Record<number, unknown> type.
+
+3. Query Constraint type affect Read type.
 
 ## Why Not Merge Firelord, FirelordJS and FirelordRN?
 

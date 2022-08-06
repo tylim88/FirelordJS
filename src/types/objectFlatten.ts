@@ -1,6 +1,5 @@
 import { FieldValues } from './fieldValue'
 
-// https://javascript.plainenglish.io/using-firestore-with-more-typescript-8058b6a88674
 type DeepKeyHybridInner<
 	T,
 	K extends keyof T,
