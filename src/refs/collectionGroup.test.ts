@@ -12,6 +12,7 @@ initializeApp()
 const docRef = userRefCreator().doc('testCollectionGroupWithDocumentId')
 const colGroupRef = userRefCreator().collectionGroup()
 const data = generateRandomData()
+
 describe('test collection with documentId', () => {
 	it(`Invalid query. When querying a collection group by documentId(), the value provided must result in a valid document path, but 'testCollectionWithDocumentId' is not because it has an odd number of segments (x), positive test`, async () => {
 		await setDoc(docRef, data)

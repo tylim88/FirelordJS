@@ -18,14 +18,12 @@ export const docCreator =
 		) as DocumentReference<T>
 	}
 
-type Doc<T extends MetaType> = {
+export type Doc<T extends MetaType> = {
 	/**
 	 * Gets a `DocumentReference` instance that refers to the document at the
 	 * specified absolute path.
 	 *
-	 * @param path - A slash-separated path to a document.
-	 * @throws If the final path has an odd number of segments and does not point to
-	 * a document.
+	 * @param documentId - A document ID. ID is not path, ID is the last segment of the path.
 	 * @returns The `DocumentReference` instance.
 	 */
 	<DocumentId extends T['docID']>(
@@ -40,9 +38,7 @@ type Doc<T extends MetaType> = {
 	 * specified absolute path.
 	 *
 	 * @param firestore - A reference to the root `Firestore` instance.
-	 * @param path - A slash-separated path to a document.
-	 * @throws If the final path has an odd number of segments and does not point to
-	 * a document.
+	 * @param documentId - A document ID. ID is not path, ID is the last segment of the path.
 	 * @returns The `DocumentReference` instance.
 	 */
 	<DocumentId extends T['docID']>(
