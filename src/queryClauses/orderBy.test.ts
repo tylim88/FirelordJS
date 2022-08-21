@@ -234,7 +234,7 @@ describe('test query ref', () => {
 			orderBy('__name__'),
 			limit(1),
 			startAt(1),
-			endAt(1, `topLevel/FirelordTest/Users/123`)
+			endAt(1, `topLevel/FirelordTest/Users/123` as const) // ! error without as const but still pass tsc check!!!
 		)
 
 		query(

@@ -1,9 +1,4 @@
-import {
-	ObjectFlattenHybrid,
-	Firestore,
-	Firestore_,
-	FirestoreTesting,
-} from './types'
+import { ObjectFlatten, Firestore, Firestore_, FirestoreTesting } from './types'
 
 // for update
 export const flatten = <T extends Record<string, unknown>>(object: T) => {
@@ -27,7 +22,7 @@ export const flatten = <T extends Record<string, unknown>>(object: T) => {
 
 	flat(object, '')
 
-	return obj as ObjectFlattenHybrid<T>
+	return obj as ObjectFlatten<T>
 }
 
 export const isFirestore = (value: unknown): value is Firestore => {

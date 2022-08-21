@@ -17,7 +17,7 @@ import {
 	ServerTimestamp,
 	PossiblyReadAsUndefined,
 } from './fieldValue'
-import { ObjectFlattenHybrid } from './objectFlatten'
+import { ObjectFlatten } from './objectFlatten'
 import {
 	RecursiveExcludePossiblyUndefinedFieldValue,
 	RecursiveReplaceUnionInvolveObjectTypeWithErrorMsg,
@@ -69,12 +69,12 @@ export type MetaTypeCreator<
 		>
 	}
 	writeFlatten: {
-		[J in keyof ObjectFlattenHybrid<
+		[J in keyof ObjectFlatten<
 			RecursiveReplaceUnionInvolveObjectTypeWithErrorMsg<
 				RecursiveExcludePossiblyUndefinedFieldValue<Base>
 			>
 		>]-?: WriteConverter<
-			ObjectFlattenHybrid<
+			ObjectFlatten<
 				RecursiveReplaceUnionInvolveObjectTypeWithErrorMsg<
 					RecursiveExcludePossiblyUndefinedFieldValue<Base>
 				>
@@ -83,12 +83,12 @@ export type MetaTypeCreator<
 		>
 	}
 	compare: {
-		[J in keyof ObjectFlattenHybrid<
+		[J in keyof ObjectFlatten<
 			RecursiveReplaceUnionInvolveObjectTypeWithErrorMsg<
 				RecursiveExcludePossiblyUndefinedFieldValue<Base>
 			>
 		>]-?: CompareConverter<
-			ObjectFlattenHybrid<
+			ObjectFlatten<
 				RecursiveReplaceUnionInvolveObjectTypeWithErrorMsg<
 					RecursiveExcludePossiblyUndefinedFieldValue<Base>
 				>

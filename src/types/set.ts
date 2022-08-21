@@ -4,7 +4,7 @@ import {
 	PartialNoUndefinedAndNoUnknownMemberNoEmptyMember,
 	RecursivelyReplaceDeleteFieldWithErrorMsg,
 } from './partialNoUndefinedAndNoUnknownMember'
-import { DeepKeyHybrid } from './objectFlatten'
+import { DeepKey } from './objectFlatten'
 import { Transaction } from './transaction'
 import { WriteBatch } from './batch'
 
@@ -17,7 +17,7 @@ type SetCreator<U> = <
 				merge: boolean
 		  }
 		| {
-				mergeFields: DeepKeyHybrid<Data, 'write'>[]
+				mergeFields: DeepKey<Data, 'write'>[]
 		  }
 		| undefined = undefined
 >(
@@ -29,14 +29,14 @@ type SetCreator<U> = <
 						merge: true
 				  }
 				| {
-						mergeFields: DeepKeyHybrid<Data, 'write'>[]
+						mergeFields: DeepKey<Data, 'write'>[]
 				  }
 		? PartialNoUndefinedAndNoUnknownMemberNoEmptyMember<
 				T['write'],
 				Data,
 				SetOptions extends { merge: boolean }
 					? SetOptions['merge']
-					: SetOptions extends { mergeFields: DeepKeyHybrid<Data, 'write'>[] }
+					: SetOptions extends { mergeFields: DeepKey<Data, 'write'>[] }
 					? SetOptions['mergeFields']
 					: false,
 				false

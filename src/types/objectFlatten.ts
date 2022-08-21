@@ -1,9 +1,9 @@
 import { FieldValues } from './fieldValue'
 
-type DeepKeyHybridInner<
+export type DeepKey<
 	T,
-	K extends keyof T,
-	Mode extends 'read' | 'write'
+	Mode extends 'read' | 'write',
+	K extends keyof T = keyof T
 > = K extends string
 	? // ! this line is not needed because FieldValues does not extends Record<string, unknown>
 	  // ! however removing it cause error in normal setDoc operation when dealing with array field value
@@ -13,38 +13,33 @@ type DeepKeyHybridInner<
 		? K
 		: T[K] extends Record<string, unknown>
 		? Mode extends 'write'
-			? K | `${K}.${DeepKeyHybridInner<T[K], keyof T[K], Mode>}`
-			: `${K}.${DeepKeyHybridInner<T[K], keyof T[K], Mode>}`
+			? K | `${K}.${DeepKey<T[K], Mode>}`
+			: `${K}.${DeepKey<T[K], Mode>}`
 		: K
 	: never // impossible route
 
-export type DeepKeyHybrid<
+type DeepValue<
 	T,
-	Mode extends 'read' | 'write'
-> = DeepKeyHybridInner<T, keyof T, Mode>
-
-type DeepValueHybrid<
-	T,
-	P extends DeepKeyHybrid<T, Mode>,
+	P extends DeepKey<T, Mode>,
 	Mode extends 'read' | 'write'
 > = P extends `${infer K}.${infer Rest}`
 	? K extends keyof T
-		? Rest extends DeepKeyHybrid<T[K], Mode>
-			? DeepValueHybrid<T[K], Rest, Mode>
+		? Rest extends DeepKey<T[K], Mode>
+			? DeepValue<T[K], Rest, Mode>
 			: never // impossible route
 		: never // impossible route
 	: P extends keyof T
 	? T[P]
 	: never // impossible route
 
-export type ObjectFlattenHybrid<Data> = Data extends Record<string, unknown>
+export type ObjectFlatten<Data> = Data extends Record<string, unknown>
 	? {
-			[K in DeepKeyHybrid<Data, 'write'>]-?: ObjectFlattenHybrid<
-				DeepValueHybrid<Data, K, 'write'>
+			[K in DeepKey<Data, 'write'>]-?: ObjectFlatten<
+				DeepValue<Data, K, 'write'>
 			>
 	  }
 	: Data
 
-export type ObjectFlattenRead<Read extends Record<string, unknown>> = {
-	[K in DeepKeyHybrid<Read, 'read'>]: DeepValueHybrid<Read, K, 'read'>
+export type ObjectFlattenShallow<Read extends Record<string, unknown>> = {
+	[K in DeepKey<Read, 'read'>]: DeepValue<Read, K, 'read'>
 }

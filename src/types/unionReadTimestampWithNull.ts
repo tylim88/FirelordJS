@@ -1,7 +1,7 @@
 import { MetaType } from './metaTypeCreator'
 import { SnapshotOptions } from './ori'
 import { ServerTimestamp } from './fieldValue'
-import { ObjectFlattenRead } from './objectFlatten'
+import { ObjectFlattenShallow } from './objectFlatten'
 
 type None = 'none'
 type Previous = 'previous'
@@ -35,6 +35,6 @@ export type UnionReadServerTimestampWithNullFlatten<
 > = SnapshotOptions_['serverTimestamps'] extends NoneAndPrevious
 	? RecursiveUnionReadServerTimestampWithNull<
 			T['writeFlatten'],
-			ObjectFlattenRead<T['read']>
+			ObjectFlattenShallow<T['read']>
 	  >
-	: ObjectFlattenRead<T['read']>
+	: ObjectFlattenShallow<T['read']>
