@@ -10,7 +10,7 @@ import {
 import crypto from 'crypto'
 
 /**
- * Creates a {@link QueryConstraint} that enforces that documents must contain the
+ * Creates a  QueryConstraint that enforces that documents must contain the
  * specified field and that the value should satisfy the relation constraint
  * provided.
  *
@@ -18,7 +18,7 @@ import crypto from 'crypto'
  * @param opStr - The operation string (e.g "&lt;", "&lt;=", "==", "&lt;",
  *   "&lt;=", "!=").
  * @param value - The value for comparison
- * @returns The created {@link Query}.
+ * @returns The created Query.
  */
 export const where = <
 	T extends MetaType,
