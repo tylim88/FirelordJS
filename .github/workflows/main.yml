@@ -30,7 +30,7 @@ jobs:
       - run: npm run b-test
         env:
           PROJECT_ID: ${{ secrets.PROJECT_ID }}
-      - uses: codecov/codecov-action@v2
+      - uses: codecov/codecov-action@v3
       - run: npm run build
       - run: npm publish || true
         env:
