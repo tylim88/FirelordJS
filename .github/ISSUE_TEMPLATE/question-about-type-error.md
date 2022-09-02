@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-FirelordJS is a sophisticated type check library. Despite being designed to be easy to learn (similar API to the official SDK), the library will complain over the slightest type error (which is the whole point: extreme type safety)
+This is a sophisticated type check library. Despite being designed to be easy to learn (similar API to the official SDK), the library will complain over the slightest type error (which is the whole point: extreme type safety)
 
 Users may have a hard time trying to figure out what triggers the error and how to solve
 
