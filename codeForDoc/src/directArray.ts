@@ -10,16 +10,16 @@ type a = MetaTypeCreator<
 	string
 >
 const docRef = getFirelord<a>()('a').doc('1')
-//
-//
-//
-//
-//
-//
-//
-//
-//
 setDoc(docRef, {
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 	// @ts-expect-error
 	a: [[]], // type a is "Error: Direct Nested Array is not a valid Firestore type"
 	// @ts-expect-error
