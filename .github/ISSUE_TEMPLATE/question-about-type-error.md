@@ -13,7 +13,7 @@ Users may have a hard time trying to figure out what triggers the error and how 
 
 Some errors require you to have a comprehensive understanding of Firestore or Typescript.
 
-We understand that not everybody can dig into every detail, so you can open an issue requesting clarification on how to solve the error.
+We understand that not everybody can dig into every detail, you can open an issue requesting clarification on how to solve certain errors.
 
 All we need to know is:
 1. your Meta Type
