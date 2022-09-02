@@ -139,7 +139,7 @@ What is tested in the CI:
 
 ## Running The Source Code
 
-Run `npm run reinstall`, then create a `.env` in the root directory and give it the content `PROJECT_ID: your-firebase-project-id`.
+Run `npm run reinstall`, then create a `.env` in the project root directory and give it the content `PROJECT_ID: your-firebase-project-id`.
 
 ## Related Projects
 
