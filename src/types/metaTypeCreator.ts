@@ -1,4 +1,4 @@
-import { Timestamp } from './ori'
+import { Timestamp } from './alias'
 import {
 	ErrorFieldValueInArray,
 	ErrorUnassignedAbleFieldValue,

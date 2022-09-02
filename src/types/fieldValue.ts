@@ -1,4 +1,4 @@
-import { OriFieldValue } from './ori'
+import { OriFieldValue } from './alias'
 import {
 	ServerTimestampSymbol,
 	DeleteFieldSymbol,

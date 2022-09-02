@@ -1,5 +1,5 @@
 import { MetaTypeCreator, MetaType } from './metaTypeCreator'
-import { Timestamp } from './ori'
+import { Timestamp } from './alias'
 import {
 	ErrorNullBanned,
 	ErrorUnionInvolveObjectType,

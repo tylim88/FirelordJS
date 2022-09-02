@@ -1,5 +1,5 @@
 export * from './metaTypeCreator'
-export * from './ori'
+export * from './alias'
 export * from './set'
 export * from './error'
 export * from './partialNoUndefinedAndNoUnknownMember'

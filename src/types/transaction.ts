@@ -2,7 +2,7 @@ import { Get } from './get'
 import { TransactionSet } from './set'
 import { TransactionUpdate } from './update'
 import { TransactionDelete } from './delete'
-import { Firestore } from './ori'
+import { Firestore } from './alias'
 
 export interface Transaction {
 	/**

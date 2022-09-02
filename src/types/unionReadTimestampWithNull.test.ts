@@ -1,5 +1,5 @@
 import { IsTrue } from './utils'
-import { SnapshotOptions } from './ori'
+import { SnapshotOptions } from './alias'
 import { NoneAndPrevious } from './unionReadTimestampWithNull'
 
 describe('test unionReadTimestampWithNull', () => {

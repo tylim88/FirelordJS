@@ -1,6 +1,6 @@
 import { IsTrue, IsSame } from './utils'
 import { DocumentSnapshot } from './snapshot'
-import { SnapshotMetadata } from './ori'
+import { SnapshotMetadata } from './alias'
 import { User } from '../utilForTests'
 
 const documentSnapshot = 1 as unknown as DocumentSnapshot<User>

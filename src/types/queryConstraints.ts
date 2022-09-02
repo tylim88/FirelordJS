@@ -1,5 +1,5 @@
 import { MetaType } from './metaTypeCreator'
-import { WhereFilterOp, QueryConstraint, OrderByDirection } from './ori'
+import { WhereFilterOp, QueryConstraint, OrderByDirection } from './alias'
 import { CursorType } from './cursor'
 
 export type WhereConstraint<

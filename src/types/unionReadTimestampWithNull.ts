@@ -1,5 +1,5 @@
 import { MetaType } from './metaTypeCreator'
-import { SnapshotOptions } from './ori'
+import { SnapshotOptions } from './alias'
 import { ServerTimestamp } from './fieldValue'
 import { ObjectFlattenShallow } from './objectFlatten'
 

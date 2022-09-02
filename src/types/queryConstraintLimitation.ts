@@ -1,5 +1,5 @@
 import { MetaType } from './metaTypeCreator'
-import { WhereFilterOp, OrderByDirection } from './ori'
+import { WhereFilterOp, OrderByDirection } from './alias'
 import {
 	ErrorLimitToLastOrderBy,
 	ErrorWhereOrderByAndInEquality,
