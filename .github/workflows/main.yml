@@ -12,6 +12,11 @@ jobs:
           cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
           registry-url: 'https://registry.npmjs.org'
+      - name: Cache firebase emulators
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/firebase/emulators
+          key: ${{ runner.os }}-firebase-emulators-${{ hashFiles('~/.cache/firebase/emulators/**') }}
       - run: npm i -g firebase-tools
       - run: npm i
       - run: npm run lint --fix
