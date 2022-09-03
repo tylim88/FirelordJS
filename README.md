@@ -139,7 +139,17 @@ What is tested in the CI:
 
 ## Running The Source Code
 
-Run `npm run reinstall`, then create a `.env` in the project root directory and give it the content `PROJECT_ID: your-firebase-project-id`.
+For those who want to study this respository:
+
+Run `npm run reinstall`, then create a `.env` in the project root directory and add this line: 
+```
+PROJECT_ID: your-firebase-project-id
+```
+
+then run:
+1. `npm run d-test` to test development code.
+2. `npm run d-b-test` to test built code.
+3. `npm run d-p-test` to test published code.
 
 ## Related Projects
 
