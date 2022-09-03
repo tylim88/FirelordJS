@@ -31,7 +31,7 @@ export const dummy = async () => {
 				const data = docSnapshot.data()
 			})
 		},
-		error => {}, // optional, you can skip this error callback and move options to here instead
+		error => {}, // optional, you can skip this onError callback and move options to here instead
 		{ includeMetadataChanges: false } // optional, options
 	)
 }
