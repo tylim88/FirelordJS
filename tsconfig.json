@@ -14,7 +14,8 @@
 		"outDir": "dist",
 		"noUncheckedIndexedAccess": true,
 		"removeComments": false,
-		"resolveJsonModule": true
+		"resolveJsonModule": true,
+		"noEmit": true
 	},
 	"include": ["src/**/*"]
 }
