@@ -137,24 +137,6 @@ What is tested in the CI:
 1. found something better: 50 cups
 2. created something better: 500 cups
 
-## Running The Source Code
-
-If you are curious about how thing works and want to try it out:
-
-Run `npm i`, then create a `.env` file in the project root directory and add this line: 
-
-```
-PROJECT_ID: your-firebase-project-id
-```
-
-Place a copy the `.env` file into `codeForDoc` directory, then run:
-
-1. `npm run d-test` to test development code.
-2. `npm run d-b-test` to test built code.
-3. `npm run d-p-test` to test published code.
-
-This library test against both emulator and real Firestore, so please allow read and write in your Firestore rule.
-
 ## Related Projects
 
 1. [Firelord](https://github.com/tylim88/Firelord) - Typescript wrapper for Firestore Admin
