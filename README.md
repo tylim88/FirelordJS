@@ -137,6 +137,10 @@ What is tested in the CI:
 1. found something better: 50 cups
 2. created something better: 500 cups
 
+## Contributing
+
+Read [here](https://firelordjs.com/miscellaneous/contributing)
+
 ## Related Projects
 
 1. [Firelord](https://github.com/tylim88/Firelord) - Typescript wrapper for Firestore Admin
