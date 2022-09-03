@@ -1,7 +1,6 @@
-import { getFirelord } from 'firelordjs'
+import { getFirelord, getFirestore } from 'firelordjs'
 import { initializeApp } from 'firebase/app'
 import { Example } from './dataType'
-import { getFirestore } from 'firebase/firestore'
 
 initializeApp({
 	apiKey: '### FIREBASE API KEY ###',
