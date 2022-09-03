@@ -153,6 +153,8 @@ Place a copy the `.env` file into `codeForDoc` directory, then run:
 2. `npm run d-b-test` to test built code.
 3. `npm run d-p-test` to test published code.
 
+This library test against both emulator and real Firestore, so please allow read and write in your Firestore rule.
+
 ## Related Projects
 
 1. [Firelord](https://github.com/tylim88/Firelord) - Typescript wrapper for Firestore Admin
