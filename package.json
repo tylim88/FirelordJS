@@ -27,7 +27,7 @@
 		"d-link": "npm run build && npm run link",
 		"d-test": "tsc && npm test",
 		"d-b-test": "npm run d-link && npm run b-uninstall && npm run b-tsc &&  npm run b-test",
-		"d-p-test": "npm run p-reinstall && npm run p-test",
+		"d-p-test": "npm run p-reinstall && npm run p-tsc && npm run p-test",
 		"d-pub": "npm run build && npm publish --tag beta",
 		"built": "-------------test built file-----------------------",
 		"b-tsc": "tsc -p tsconfig.doc.json",
