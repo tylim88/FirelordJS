@@ -1,6 +1,6 @@
 import { getFirelord, getFirestore } from 'firelordjs'
 import { initializeApp } from 'firebase/app'
-import { Example } from './dataType'
+import { Example } from './define_meta_type'
 
 const app = initializeApp({
 	projectId: '### PROJECT ID ###',

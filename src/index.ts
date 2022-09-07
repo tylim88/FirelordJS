@@ -95,8 +95,8 @@ export {
 	CACHE_SIZE_UNLIMITED,
 } from 'firebase/firestore'
 
-export * from './batch'
-export * from './transaction'
+export * from './writeBatch'
+export * from './runTransaction'
 export * from './fieldValue'
 export * from './fieldPath'
 export * from './onSnapshot'

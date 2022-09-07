@@ -15,7 +15,7 @@ import {
 	FirelordRef,
 	MetaTypeCreator,
 } from 'firelordjs'
-import firebasejson from '../firebase.json'
+import firebasejson from '../../../firebase.json'
 
 const port = firebasejson.emulators.firestore.port
 type User = MetaTypeCreator<{ name: string; age: number }, 'User', string>

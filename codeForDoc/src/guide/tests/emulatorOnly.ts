@@ -12,7 +12,7 @@ import {
 	MetaTypeCreator,
 } from 'firelordjs'
 import { initializeApp } from 'firebase/app'
-import firebasejson from '../firebase.json'
+import firebasejson from '../../../firebase.json'
 
 initializeApp({
 	apiKey: 'AIza....', // Auth / General Use

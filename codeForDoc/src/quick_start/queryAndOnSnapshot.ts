@@ -1,4 +1,4 @@
-import { example } from './init'
+import { example } from './create_firelord_ref'
 import {
 	getDocs,
 	query,
