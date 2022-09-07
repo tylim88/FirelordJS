@@ -1,5 +1,5 @@
 import { arrayRemove as arrayRemove_ } from 'firebase/firestore'
-import { ArrayUnionOrRemove, ErrorArrayFieldValueEmpty } from '../types'
+import { ArrayRemoveOrUnion } from '../types'
 
 /**
  * Returns a special value that can be used with {@link (setDoc:1)} or {@link
@@ -12,10 +12,11 @@ import { ArrayUnionOrRemove, ErrorArrayFieldValueEmpty } from '../types'
  * @returns The `FieldValue` sentinel for use in a call to `setDoc()` or
  * `updateDoc()`
  */
-export const arrayRemove = <Elements extends unknown[]>(
-	...elements: Elements extends [] ? [ErrorArrayFieldValueEmpty] : Elements
-) => {
-	const ref = arrayRemove_(...elements) as ArrayUnionOrRemove<Elements[number]>
+// @ts-expect-error
+export const arrayRemove: ArrayRemoveOrUnion = (...elements) => {
+	const ref = arrayRemove_(...elements)
+	// @ts-expect-error
 	ref['Firelord.ArrayFieldValue'] = elements
+
 	return ref
 }
