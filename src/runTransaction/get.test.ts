@@ -1,5 +1,5 @@
 import { getCreator } from './get'
-import { Get, IsTrue, IsSame } from '../types'
+import { GetDoc, IsTrue, IsSame } from '../types'
 import { userRefCreator } from '../utilForTests'
 import { runTransaction } from '.'
 
@@ -7,7 +7,7 @@ import { runTransaction } from '.'
 describe('test get transaction', () => {
 	it('test whether the return type is correct', () => {
 		type A = ReturnType<typeof getCreator>
-		type B = Get
+		type B = GetDoc
 		IsTrue<IsSame<A, B>>()
 	})
 	it('test return data type and functionality', () => {

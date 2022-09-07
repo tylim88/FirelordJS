@@ -1,12 +1,11 @@
-import { MetaType, Firestore, Query } from '../types'
+import { CollectionGroupCreator } from '../types'
 import { collectionGroup as collectionGroup_ } from 'firebase/firestore'
 
-export const collectionGroupCreator =
-	<T extends MetaType>(fStore: Firestore, collectionID: T['collectionID']) =>
-	(firestore?: Firestore) => {
+export const collectionGroupCreator: CollectionGroupCreator =
+	(fStore, collectionID) => (firestore?) => {
 		return collectionGroup_(
 			// @ts-expect-error
-			firestore || fStore, // ! testing messed up the type, weird
+			firestore || fStore,
 			collectionID
-		) as Query<T>
+		)
 	}

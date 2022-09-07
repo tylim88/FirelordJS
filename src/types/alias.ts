@@ -35,6 +35,8 @@ export type GeoPoint = FirebaseFirestore['GeoPoint']
 
 export type Timestamp = import('firebase/firestore').Timestamp
 
+export type TransactionOptions = import('firebase/firestore').TransactionOptions
+
 export type OriDocumentReference<T extends DocumentData = DocumentData> =
 	import('firebase/firestore').DocumentReference<T>
 

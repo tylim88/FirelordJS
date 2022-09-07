@@ -1,9 +1,16 @@
-import { Get } from './get'
+import { GetDoc } from './getDoc'
 import { TransactionSet } from './set'
 import { TransactionUpdate } from './update'
 import { TransactionDelete } from './delete'
-import { Firestore } from './alias'
+import { Firestore, TransactionOptions } from './alias'
 
+/**
+ * A reference to a transaction.
+ *
+ * The `Transaction` object passed to a transaction's `updateFunction` provides
+ * the methods to read and write data within the transaction context. See
+ * {@link runTransaction}.
+ */
 export interface Transaction {
 	/**
 	 * Reads the document referenced by the provided {@link DocumentReference}.
@@ -11,7 +18,7 @@ export interface Transaction {
 	 * @param documentRef - A reference to the document to be read.
 	 * @returns A `DocumentSnapshot` with the read data.
 	 */
-	get: Get
+	get: GetDoc
 	/**
 	 * Writes to the document referred to by the provided {@link
 	 * DocumentReference}. If the document does not exist yet, it will be created.
@@ -48,34 +55,13 @@ export interface Transaction {
 }
 
 export type RunTransaction = {
-	/** 
-Executes the given updateFunction and then attempts to commit the changes applied within the transaction. If any document read within the transaction has changed, Cloud Firestore retries the updateFunction. If it fails to commit after 5 attempts, the transaction fails.
-
-The maximum number of writes allowed in a single transaction is 500.
-
-@param firestore
-A reference to the Firestore database to run this transaction against. If no value is provided.
-
-@param updateFunction
-The function to execute within the transaction context.
-
-@returns
-If the transaction completed successfully or was explicitly aborted (the updateFunction returned a failed promise), the promise returned by the updateFunction is returned here. Otherwise, if the transaction failed, a rejected promise with the corresponding failure error is returned.
-*/
 	<T>(
 		firestore: Firestore,
-		updateFunction: (transaction: Transaction) => Promise<T>
+		updateFunction: (transaction: Transaction) => Promise<T>,
+		options?: TransactionOptions
 	): Promise<T>
-	/** 
-Executes the given updateFunction and then attempts to commit the changes applied within the transaction. If any document read within the transaction has changed, Cloud Firestore retries the updateFunction. If it fails to commit after 5 attempts, the transaction fails.
-
-The maximum number of writes allowed in a single transaction is 500.
-
-@param updateFunction
-The function to execute within the transaction context.
-
-@returns
-If the transaction completed successfully or was explicitly aborted (the updateFunction returned a failed promise), the promise returned by the updateFunction is returned here. Otherwise, if the transaction failed, a rejected promise with the corresponding failure error is returned.
-*/
-	<T>(updateFunction: (transaction: Transaction) => Promise<T>): Promise<T>
+	<T>(
+		updateFunction: (transaction: Transaction) => Promise<T>,
+		options?: TransactionOptions
+	): Promise<T>
 }

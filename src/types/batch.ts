@@ -2,6 +2,14 @@ import { WriteBatchSet } from './set'
 import { WriteBatchUpdate } from './update'
 import { WriteBatchDelete } from './delete'
 
+/**
+ * A write batch, used to perform multiple writes as a single atomic unit.
+ *
+ * A `WriteBatch` object can be acquired by calling {@link writeBatch}. It
+ * provides methods for adding writes to the write batch. None of the writes
+ * will be committed (or visible locally) until {@link WriteBatch.commit} is
+ * called.
+ */
 export interface WriteBatch {
 	/**
 	 * Writes to the document referred to by the provided {@link

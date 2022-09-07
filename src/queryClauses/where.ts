@@ -1,13 +1,5 @@
 import { where as where_ } from 'firebase/firestore'
-import {
-	WhereConstraint,
-	WhereFilterOp,
-	DocumentId,
-	__name__,
-	MetaType,
-	ErrorWhere__name__,
-} from '../types'
-import crypto from 'crypto'
+import { Where } from '../types'
 
 /**
  * Creates a  QueryConstraint that enforces that documents must contain the
@@ -20,16 +12,8 @@ import crypto from 'crypto'
  * @param value - The value for comparison
  * @returns The created Query.
  */
-export const where = <
-	T extends MetaType,
-	FieldPath extends (keyof T['writeFlatten'] & string) | DocumentId,
-	OpStr extends WhereFilterOp,
-	Value
->(
-	fieldPath: FieldPath extends __name__ ? ErrorWhere__name__ : FieldPath,
-	opStr: OpStr,
-	value: Value
-) => {
+// @ts-expect-error
+export const where: Where = (fieldPath, opStr, value) => {
 	let newValue = value
 	if (
 		Array.isArray(newValue) &&
@@ -37,20 +21,20 @@ export const where = <
 		newValue.length === 0
 	) {
 		newValue = [
-			crypto.randomUUID() + crypto.randomUUID() + crypto.randomUUID(),
+			'712zy78yn73x8y037zym83y1x82y3n8cy38u89zul,98kup3c289	2unp38yn8nyz83ym073`yzmo7cyun8z90 ,u2e8 u28n3eyu1xy87xy327cbp1327xn',
 		] as typeof newValue
 	}
 
 	return {
 		type: 'where',
-		fieldPath: fieldPath as string,
+		fieldPath,
 		opStr,
 		value,
-		ref: where_(fieldPath as string, opStr, newValue),
-	} as WhereConstraint<
-		T,
-		FieldPath extends DocumentId ? __name__ : FieldPath,
-		OpStr,
-		Value
-	>
+		ref: where_(
+			// @ts-expect-error
+			fieldPath,
+			opStr,
+			newValue
+		),
+	}
 }

@@ -2,31 +2,15 @@ import {
 	limit as limit_,
 	limitToLast as limitToLast_,
 } from 'firebase/firestore'
-import {
-	LimitConstraint,
-	QueryConstraint,
-	ErrorLimitInvalidNumber,
-} from '../types'
+import { LimitCreator } from '../types'
 
-export const limitCreator =
-	<Type extends 'limit' | 'limitToLast'>(
-		type: Type,
-		clause: (limit: number) => QueryConstraint
-	) =>
-	<Value extends number>(
-		limit: Value extends 0
-			? ErrorLimitInvalidNumber
-			: number extends Value
-			? Value
-			: Value extends infer R
-			? `${R & number}` extends `-${number}` | `${number}.${number}`
-				? ErrorLimitInvalidNumber
-				: Value
-			: never // impossible route
-	): LimitConstraint<Type, Value> => {
+export const limitCreator: LimitCreator =
+	(type, clause) =>
+	// @ts-expect-error
+	limit => {
 		return {
 			type,
-			value: limit as Value,
+			value: limit,
 			ref: clause(limit),
 		}
 	}

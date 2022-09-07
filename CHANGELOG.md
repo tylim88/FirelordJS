@@ -1,5 +1,16 @@
 # HISTORY
 
+## v 1.7.0 7-Sept-2022
+
+important updates
+
+- fix missing in code documentation
+- housekeeping in code documentation
+- refactor types
+- add new argument TransactionOptions to runTransaction
+- add peerDependencies field to package.json
+- remove the need of crypto module (this module may causes a lot of issues because it is a nodejs module)
+
 ## v 1.6.6 27-July-2022
 
 - replace Query<T> | CollectionReference<T> with Query<T>

@@ -1,6 +1,6 @@
-import { OriTransaction, Get, OriDocumentReference } from '../types'
+import { OriTransaction, GetDoc, OriDocumentReference } from '../types'
 
 export const getCreator = (transaction: OriTransaction) =>
 	((reference: OriDocumentReference) => {
 		return transaction.get(reference) as unknown
-	}) as Get
+	}) as GetDoc

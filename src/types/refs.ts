@@ -1,6 +1,11 @@
 import { MetaType } from './metaTypeCreator'
 import { Firestore_ } from './alias'
 
+/**
+ * A `DocumentReference` refers to a document location in a Firestore database
+ * and can be used to write, read, or listen to the location. The document at
+ * the referenced location may or may not exist.
+ */
 export interface DocumentReference<T extends MetaType> {
 	/** The type of this Firestore reference. */
 	readonly type: 'document'
@@ -24,6 +29,10 @@ export interface DocumentReference<T extends MetaType> {
 	get parent(): CollectionReference<T>
 }
 
+/**
+ * A `CollectionReference` object can be used for adding documents, getting
+ * document references, and querying for documents (using {@link query}).
+ */
 export interface CollectionReference<T extends MetaType> extends Query<T> {
 	/** The type of this Firestore reference. */
 	readonly type: 'collection'

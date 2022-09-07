@@ -11,6 +11,15 @@ import {
 } from './unionReadTimestampWithNull'
 import { DocumentReference, Query } from './refs'
 
+/**
+ * A `DocumentSnapshot` contains data read from a document in your Firestore
+ * database. The data can be extracted with `.data()` or `.get(<field>)` to
+ * get a specific field.
+ *
+ * For a `DocumentSnapshot` that points to a non-existing document, any data
+ * access will return 'undefined'. You can use the `exists()` method to
+ * explicitly verify a document's existence.
+ */
 export interface DocumentSnapshot<T extends MetaType> {
 	/**
 	 *  Metadata about the `DocumentSnapshot`, including information about its
@@ -71,6 +80,13 @@ export interface DocumentSnapshot<T extends MetaType> {
 	get ref(): DocumentReference<T>
 }
 
+/**
+ * A `QuerySnapshot` contains zero or more `DocumentSnapshot` objects
+ * representing the results of a query. The documents can be accessed as an
+ * array via the `docs` property or enumerated using the `forEach` method. The
+ * number of documents can be determined via the `empty` and `size`
+ * properties.
+ */
 export interface QuerySnapshot<T extends MetaType> {
 	/**
 	 * Metadata about this snapshot, concerning its source and if it has local
@@ -111,6 +127,17 @@ export interface QuerySnapshot<T extends MetaType> {
 	docChanges(options?: SnapshotListenOptions): Array<DocumentChange<T>>
 }
 
+/**
+ * A `QueryDocumentSnapshot` contains data read from a document in your
+ * Firestore database as part of a query. The document is guaranteed to exist
+ * and its data can be extracted with `.data()` or `.get(<field>)` to get a
+ * specific field.
+ *
+ * A `QueryDocumentSnapshot` offers the same API surface as a
+ * `DocumentSnapshot`. Since query results contain only existing documents, the
+ * `exists` property will always be true and `data()` will never return
+ * 'undefined'.
+ */
 export interface QueryDocumentSnapshot<T extends MetaType>
 	extends DocumentSnapshot<T> {
 	/**
@@ -130,6 +157,11 @@ export interface QueryDocumentSnapshot<T extends MetaType>
 		options?: U
 	) => UnionReadServerTimestampWithNull<T, U>
 }
+
+/**
+ * A `DocumentChange` represents a change to the documents matching a query.
+ * It contains the document affected and the type of change that occurred.
+ */
 
 export interface DocumentChange<T extends MetaType> {
 	/** The type of change ('added', 'modified', or 'removed'). */
