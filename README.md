@@ -118,7 +118,7 @@ FirelordJS has:
 - The lowest learning curve (API is nearly identical to the original API).
 - The lowest technical debt (easiest to revert to the original API).
 - The best type safety\*\*.
-- **The only library capable of [typing against](https://firelordjs.com/highlights/query) Firestore limitations**.
+- **The only library capable of [typing against](https://firelordjs.com/highlights/query_rule_typing) Firestore limitations**.
 - Effortless solutions for [Firestore quirks](https://firelordjs.com/highlights/about).
 - Possibly also the smallest.
 
@@ -139,7 +139,7 @@ What is tested in the CI:
 
 ## Contributing
 
-Read [here](https://firelordjs.com/miscellaneous/contributing)
+Read [here](https://firelordjs.com/contributing)
 
 ## Related Projects
 
