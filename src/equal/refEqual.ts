@@ -1,5 +1,5 @@
 import { refEqual as refEqual_ } from 'firebase/firestore'
-import { DocumentReference, CollectionReference, MetaType } from '../types'
+import { RefEqual } from '../types'
 
 /**
  * Returns true if the provided references are equal.
@@ -9,13 +9,7 @@ import { DocumentReference, CollectionReference, MetaType } from '../types'
  * @returns true if the references point to the same location in the same
  * Firestore database.
  */
-export const refEqual = <
-	T extends DocumentReference<MetaType> | CollectionReference<MetaType>,
-	U extends T
->(
-	left: T,
-	right: U
-) => {
+export const refEqual: RefEqual = (left, right) => {
 	return refEqual_(
 		// @ts-expect-error
 		left,

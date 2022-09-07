@@ -1,5 +1,5 @@
 import { queryEqual as queryEqual_ } from 'firebase/firestore'
-import { MetaType, Query } from '../types'
+import { QueryEqual } from '../types'
 
 /**
  * Returns true if the provided queries point to the same collection and apply
@@ -10,7 +10,7 @@ import { MetaType, Query } from '../types'
  * @returns true if the references point to the same location in the same
  * Firestore database.
  */
-export const queryEqual = (left: Query<MetaType>, right: Query<MetaType>) => {
+export const queryEqual: QueryEqual = (left, right) => {
 	return queryEqual_(
 		// @ts-expect-error
 		left,

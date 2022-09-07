@@ -1,5 +1,5 @@
 import { snapshotEqual as snapshotEqual_ } from 'firebase/firestore'
-import { DocumentSnapshot, QuerySnapshot, MetaType } from '../types'
+import { SnapshotEqual } from '../types'
 
 /**
  * Returns true if the provided snapshots are equal.
@@ -8,16 +8,7 @@ import { DocumentSnapshot, QuerySnapshot, MetaType } from '../types'
  * @param right - A snapshot to compare.
  * @returns true if the snapshots are equal.
  */
-export const snapshotEqual = <
-	T extends DocumentSnapshot<any> | QuerySnapshot<any>,
-	U extends T
->(
-	left: T,
-	right: U
-) => {
-	return snapshotEqual_(
-		// @ts-expect-error
-		left as DocumentSnapshot<MetaType>,
-		right as DocumentSnapshot<MetaType>
-	)
+export const snapshotEqual: SnapshotEqual = (left, right) => {
+	// @ts-expect-error
+	return snapshotEqual_(left, right)
 }
