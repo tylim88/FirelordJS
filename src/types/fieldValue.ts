@@ -1,11 +1,16 @@
 import { OriFieldValue } from './alias'
-import {
-	ServerTimestampSymbol,
-	DeleteFieldSymbol,
-	IncrementSymbol,
-	PossiblyReadAsUndefinedSymbol,
-	ArraySymbol,
-} from './unique'
+
+declare const serverTimestampSymbol: unique symbol
+declare const deleteFieldSymbol: unique symbol
+declare const incrementSymbol: unique symbol
+declare const possiblyReadAsUndefinedSymbol: unique symbol
+declare const arraySymbol: unique symbol
+
+export type ServerTimestampSymbol = typeof serverTimestampSymbol
+export type DeleteFieldSymbol = typeof deleteFieldSymbol
+export type IncrementSymbol = typeof incrementSymbol
+export type PossiblyReadAsUndefinedSymbol = typeof possiblyReadAsUndefinedSymbol
+export type ArraySymbol = typeof arraySymbol
 
 export declare class FieldValue<T> {
 	protected constructor()

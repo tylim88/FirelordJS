@@ -1,5 +1,11 @@
 # HISTORY
 
+## v 1.7.4 8-Sept-2022
+
+- reduce compiled size
+- further simplify typing
+- update eslint
+
 ## v 1.7.0 7-Sept-2022
 
 important updates

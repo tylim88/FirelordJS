@@ -1,12 +1,14 @@
-import { OriWriteBatch, OriDocumentReference, WriteBatchUpdate } from '../types'
+import { OriWriteBatch, WriteBatchUpdate } from '../types'
 import { flatten } from '../utils'
 import { removeFieldValueInhomogeneousProps } from '../fieldValue'
 
-export const updateCreator = (writeBatch: OriWriteBatch) =>
-	((reference: OriDocumentReference, data: Record<string, unknown>) => {
+export const updateCreator =
+	(writeBatch: OriWriteBatch): WriteBatchUpdate =>
+	// @ts-expect-error
+	(reference, data) => {
 		return writeBatch.update(
-			reference,
 			// @ts-expect-error
+			reference,
 			flatten(removeFieldValueInhomogeneousProps(data))
 		)
-	}) as WriteBatchUpdate
+	}

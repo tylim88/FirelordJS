@@ -17,12 +17,7 @@ import { GetDoc } from '../types'
  * current document contents.
  */
 // @ts-expect-error
-export const getDoc: GetDoc = reference => {
-	return getDoc_(
-		// @ts-expect-error
-		reference
-	)
-}
+export const getDoc: GetDoc = getDoc_
 
 /**
  * Reads the document referred to by this `DocumentReference` from cache.
@@ -32,12 +27,7 @@ export const getDoc: GetDoc = reference => {
  * current document contents.
  */
 // @ts-expect-error
-export const getDocFromCache: GetDoc = reference => {
-	return getDocFromCache_(
-		// @ts-expect-error
-		reference
-	)
-}
+export const getDocFromCache: GetDoc = getDocFromCache_
 
 /**
  * Reads the document referred to by this `DocumentReference` from the server.
@@ -47,9 +37,4 @@ export const getDocFromCache: GetDoc = reference => {
  * current document contents.
  */
 // @ts-expect-error
-export const getDocFromServer: GetDoc = reference => {
-	return getDocFromServer_(
-		// @ts-expect-error
-		reference
-	)
-}
+export const getDocFromServer: GetDoc = getDocFromServer_

@@ -16,12 +16,7 @@ import { GetDocs } from '../types'
  * @returns A `Promise` that will be resolved with the results of the query.
  */
 // @ts-expect-error
-export const getDocs: GetDocs = query => {
-	return getDocs_(
-		// @ts-expect-error
-		query
-	)
-}
+export const getDocs: GetDocs = getDocs_
 
 /**
  * Executes the query and returns the results as a `QuerySnapshot` from cache.
@@ -30,12 +25,7 @@ export const getDocs: GetDocs = query => {
  * @returns A `Promise` that will be resolved with the results of the query.
  */
 // @ts-expect-error
-export const getDocsFromCache: GetDocs = query => {
-	return getDocsFromCache_(
-		// @ts-expect-error
-		query
-	)
-}
+export const getDocsFromCache: GetDocs = getDocsFromCache_
 
 /**
  * Executes the query and returns the results as a `QuerySnapshot` from the
@@ -44,9 +34,4 @@ export const getDocsFromCache: GetDocs = query => {
  * @returns A `Promise` that will be resolved with the results of the query.
  */
 // @ts-expect-error
-export const getDocsFromServer: GetDocs = query => {
-	return getDocsFromServer_(
-		// @ts-expect-error
-		query
-	)
-}
+export const getDocsFromServer: GetDocs = getDocsFromServer_

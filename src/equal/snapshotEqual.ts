@@ -8,7 +8,5 @@ import { SnapshotEqual } from '../types'
  * @param right - A snapshot to compare.
  * @returns true if the snapshots are equal.
  */
-export const snapshotEqual: SnapshotEqual = (left, right) => {
-	// @ts-expect-error
-	return snapshotEqual_(left, right)
-}
+// @ts-expect-error
+export const snapshotEqual: SnapshotEqual = snapshotEqual_

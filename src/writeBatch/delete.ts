@@ -1,6 +1,11 @@
-import { OriWriteBatch, OriDocumentReference, WriteBatchDelete } from '../types'
+import { OriWriteBatch, WriteBatchDelete } from '../types'
 
-export const deleteCreator = (writeBatch: OriWriteBatch) =>
-	((reference: OriDocumentReference) => {
-		return writeBatch.delete(reference)
-	}) as WriteBatchDelete
+export const deleteCreator =
+	(writeBatch: OriWriteBatch): WriteBatchDelete =>
+	// @ts-expect-error
+	reference => {
+		return writeBatch.delete(
+			// @ts-expect-error
+			reference
+		)
+	}

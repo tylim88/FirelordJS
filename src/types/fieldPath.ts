@@ -6,7 +6,10 @@ import {
 	ErrorNumberOfForwardSlashIsNotEqual,
 	ErrorPleaseDoConstAssertion,
 } from './error'
-import { DocumentIdSymbol } from './unique'
+
+declare const documentIdSymbol: unique symbol
+export type DocumentIdSymbol = typeof documentIdSymbol
+
 export interface DocumentId {
 	'Firelord.FieldPath': DocumentIdSymbol
 }

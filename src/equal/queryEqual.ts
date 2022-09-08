@@ -10,10 +10,5 @@ import { QueryEqual } from '../types'
  * @returns true if the references point to the same location in the same
  * Firestore database.
  */
-export const queryEqual: QueryEqual = (left, right) => {
-	return queryEqual_(
-		// @ts-expect-error
-		left,
-		right
-	)
-}
+// @ts-expect-error
+export const queryEqual: QueryEqual = queryEqual_

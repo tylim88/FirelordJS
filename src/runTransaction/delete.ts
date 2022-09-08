@@ -1,10 +1,11 @@
-import {
-	OriDocumentReference,
-	OriTransaction,
-	TransactionDelete,
-} from '../types'
+import { OriTransaction, TransactionDelete } from '../types'
 
-export const deleteCreator = (transaction: OriTransaction) =>
-	((reference: OriDocumentReference) => {
-		return transaction.delete(reference) as unknown
-	}) as TransactionDelete
+export const deleteCreator =
+	(transaction: OriTransaction): TransactionDelete =>
+	// @ts-expect-error
+	reference => {
+		return transaction.delete(
+			// @ts-expect-error
+			reference
+		)
+	}

@@ -9,10 +9,5 @@ import { RefEqual } from '../types'
  * @returns true if the references point to the same location in the same
  * Firestore database.
  */
-export const refEqual: RefEqual = (left, right) => {
-	return refEqual_(
-		// @ts-expect-error
-		left,
-		right
-	)
-}
+// @ts-expect-error
+export const refEqual: RefEqual = refEqual_
