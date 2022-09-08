@@ -1,23 +1,17 @@
 {
 	"name": "firelordjs",
-	"version": "1.7.4",
+	"version": "1.7.5",
 	"description": "🔥 Extremely High Precision Typescript Wrapper for Firestore Web, Providing Unparalleled Type Safe and Dev Experience",
 	"source": "src/index.ts",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
-	"targets": {
-		"types": false,
-		"main": {
-			"optimize": true
-		}
-	},
 	"scripts": {
 		"reinstall": "rm -rf node_modules && rm -rf package-lock.json && npm i && npx husky install",
 		"tsc": "tsc",
 		"lint": "eslint . --ext .ts --fix",
 		"pretty-quick": "pretty-quick --stage",
 		"test": "firebase emulators:exec --only firestore \"rm -rf coverage && jest\"",
-		"parcel": "npm un firebase && npm i firebase && npm run build --emitDeclarationOnly && parcel build && npm i -D firebase",
+		"rollup": "rm -rf dist && rollup -c",
 		"build": "rm -rf dist && tsc -p tsconfig.prod.json",
 		"link": "npm unlink firelordjs && npm link && npm link firelordjs",
 		"babel": "babel-node -x .ts -- src/fieldPath/documentId.ts",
@@ -64,6 +58,7 @@
 		"@babel/preset-env": "^7.17.10",
 		"@babel/preset-typescript": "^7.16.7",
 		"@firebase/rules-unit-testing": "^2.0.2",
+		"@rollup/plugin-typescript": "^8.5.0",
 		"@types/jest": "^27.5.0",
 		"@types/lodash": "^4.14.182",
 		"@types/shelljs": "^0.8.11",
@@ -81,10 +76,11 @@
 		"husky": "^8.0.1",
 		"jest": "^28.1.0",
 		"lodash": "^4.17.21",
-		"parcel": "^2.5.0",
 		"pick-random": "^3.0.0",
 		"prettier": "^2.6.2",
 		"pretty-quick": "^3.1.3",
+		"rollup": "^2.79.0",
+		"rollup-plugin-terser": "^7.0.2",
 		"shelljs": "^0.8.5",
 		"tsdoc": "^0.0.4",
 		"typescript": "^4.8.2"
