@@ -15,7 +15,7 @@ export const orderBy: OrderBy = (fieldPath, directionStr?) => {
 	return {
 		type: 'orderBy',
 		fieldPath,
-		directionStr: directionStr,
+		directionStr,
 		ref: orderBy_(fieldPath, directionStr),
 	}
 }

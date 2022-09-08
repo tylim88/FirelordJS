@@ -7,6 +7,6 @@ export type OrderBy = <
 	FieldPath extends keyof T['compare'] & string,
 	DirectionStr extends OrderByDirection | undefined = undefined
 >(
-	fieldPath: FieldPath extends never ? FieldPath : FieldPath,
-	directionStr?: DirectionStr extends never ? DirectionStr : DirectionStr
+	fieldPath: FieldPath,
+	directionStr?: DirectionStr
 ) => OrderByConstraint<FieldPath, DirectionStr>

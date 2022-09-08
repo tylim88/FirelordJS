@@ -7,16 +7,12 @@ import {
 	CollectionReference,
 	Query,
 	Firestore,
-} from './types'
-import {
-	docCreator,
-	collectionCreator,
-	collectionGroupCreator,
 	Doc,
-} from './refs'
+} from './types'
+import { docCreator, collectionCreator, collectionGroupCreator } from './refs'
 
 /**
- Gets a FirelordReference instance that refers to the doc, collection, and collectionGroup at the specified absolute path.
+ Gets a function that returns FirelordReference instance that refers to the doc, collection, and collectionGroup at the specified absolute path.
  
  @param firestore 
  Optional. A reference to the Firestore database. If no value is provided, default Firestore instance is used. 
@@ -26,18 +22,7 @@ import {
  */
 export const getFirelord =
 	<T extends MetaType>(firestore?: Firestore): Ref<T> =>
-	<CollectionPath extends T['collectionPath'] = T['collectionPath']>(
-		collectionPath: CollectionPath extends never
-			? CollectionPath
-			: GetNumberOfSlash<CollectionPath> extends GetNumberOfSlash<
-					T['collectionPath']
-			  >
-			? IsValidID<CollectionPath, 'Collection', 'Path'>
-			: ErrorNumberOfForwardSlashIsNotEqual<
-					GetNumberOfSlash<T['collectionPath']>,
-					GetNumberOfSlash<CollectionPath>
-			  >
-	): FirelordRef<T> => {
+	collectionPath => {
 		const fStore = firestore || getFirestore()
 		const doc = docCreator<T>(fStore, collectionPath)
 		const collection = collectionCreator<T>(fStore, collectionPath)

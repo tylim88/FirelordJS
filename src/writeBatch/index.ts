@@ -12,6 +12,9 @@ import { writeBatch as writeBatch_, getFirestore } from 'firebase/firestore'
  * Unlike transactions, write batches are persisted offline and therefore are
  * preferable when you don't need to condition your writes on read data.
  *
+ * @param firestore Optional, a reference to the Firestore database.
+ * If no value is provided, default Firestore instance is used.
+ *
  * @returns A {@link WriteBatch} that can be used to atomically execute multiple
  * writes.
  */
