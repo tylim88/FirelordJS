@@ -18,10 +18,10 @@ export const isOptions = (
 }
 
 /**
- * listen to multiple documents or single document
+ * listen to query or single document
  *
  * ======================================
- * listen to multiple documents
+ * listen to query
  * ======================================
  * Attaches a listener for `QuerySnapshot` events. You may either pass
  * individual `onNext` and `onError` callbacks or pass a single observer

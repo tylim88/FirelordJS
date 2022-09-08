@@ -31,7 +31,16 @@ export const dummy = async () => {
 				const data = docSnapshot.data()
 			})
 		},
-		error => {}, // optional, you can skip this onError callback and move options to here instead
-		{ includeMetadataChanges: false } // optional, options
+		error => {},
+		{ includeMetadataChanges: false }
+	)
+
+	const unsub2 = onSnapshot(
+		example.doc('abc'),
+		documentSnapshot => {
+			const data = documentSnapshot.data()
+		},
+		error => {},
+		{ includeMetadataChanges: true }
 	)
 }
