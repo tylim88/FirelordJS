@@ -19,16 +19,13 @@ import {
  Gets a FirelordReference instance that refers to the doc, collection, and collectionGroup at the specified absolute path.
  
  @param firestore 
- Optional. A reference to the Firestore database. If no value is provided, default Firestore instance is used.
+ Optional. A reference to the Firestore database. If no value is provided, default Firestore instance is used. 
+ If value is provided, the provided value is the new default instances(for this ref only).
  
- @param path 
- A slash-separated full path to a collection.
- 
- @returns 
- DocumentReference, CollectionReference and CollectionGroupReference instance.
+ @returns function that return object literal contains DocumentReference, CollectionReference and CollectionGroupReference instance.
  */
 export const getFirelord =
-	<T extends MetaType>(firestore?: Firestore) =>
+	<T extends MetaType>(firestore?: Firestore): Ref<T> =>
 	<CollectionPath extends T['collectionPath'] = T['collectionPath']>(
 		collectionPath: CollectionPath extends never
 			? CollectionPath
@@ -54,6 +51,30 @@ export const getFirelord =
 			collectionGroup,
 		})
 	}
+
+/**
+ Gets a FirelordReference instance that refers to the doc, collection, and collectionGroup at the specified absolute path.
+ 
+ @param collectionPath 
+ A slash-separated full path to a collection.
+ 
+ @returns 
+ DocumentReference, CollectionReference and CollectionGroupReference instance.
+ */
+export type Ref<T extends MetaType> = <
+	CollectionPath extends T['collectionPath'] = T['collectionPath']
+>(
+	collectionPath: CollectionPath extends never
+		? CollectionPath
+		: GetNumberOfSlash<CollectionPath> extends GetNumberOfSlash<
+				T['collectionPath']
+		  >
+		? IsValidID<CollectionPath, 'Collection', 'Path'>
+		: ErrorNumberOfForwardSlashIsNotEqual<
+				GetNumberOfSlash<T['collectionPath']>,
+				GetNumberOfSlash<CollectionPath>
+		  >
+) => FirelordRef<T>
 
 export type FirelordRef<T extends MetaType> = Readonly<{
 	doc: Doc<T>
