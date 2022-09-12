@@ -1,8 +1,8 @@
 ---
 name: Bug report
 about: Create a report to help us improve
-title: ''
-labels: ''
+title: "[BUG] title"
+labels: bug
 assignees: ''
 
 ---
@@ -12,10 +12,12 @@ A clear and concise description of what the bug is.
 
 **To Reproduce**
 Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
+1. What is your Meta Type
+2. What operation you run into problem?
+3. What is the library version
+
+**Actual behavior**
+A clear and concise description of what happened.
 
 **Expected behavior**
 A clear and concise description of what you expected to happen.
