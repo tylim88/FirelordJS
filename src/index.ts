@@ -30,11 +30,11 @@ export const getFirelord =
 			fStore,
 			collectionPath.split('/').pop() as string
 		)
-		return Object.freeze({
+		return {
 			doc,
 			collection,
 			collectionGroup,
-		})
+		}
 	}
 
 /**

@@ -23,10 +23,10 @@ export const writeBatch = (firestore?: Firestore): WriteBatch => {
 		// @ts-expect-error
 		firestore || getFirestore()
 	)
-	return Object.freeze({
+	return {
 		commit: () => batch.commit(),
 		set: setCreator(batch),
 		update: updateCreator(batch),
 		delete: deleteCreator(batch),
-	})
+	}
 }
