@@ -1,13 +1,23 @@
 import { CollectionCreator } from '../types'
 import { collection as collection_ } from 'firebase/firestore'
+import { buildPathFromColIDsAndDocIDs } from './utils'
+import { isFirestore } from '../utils'
 
 export const collectionCreator: CollectionCreator =
-	(fStore, collectionPath) =>
+	(fStore, ...collectionIDs) =>
 	// @ts-expect-error
-	(firestore?) => {
+	(firestore, ...documentIDs) => {
+		const fs = isFirestore(firestore) ? firestore : fStore
+		const docIDs = isFirestore(firestore)
+			? documentIDs
+			: [firestore, ...documentIDs]
 		return collection_(
 			// @ts-expect-error
-			firestore || fStore,
-			collectionPath
+			fs,
+			buildPathFromColIDsAndDocIDs({
+				collectionIDs,
+				// @ts-expect-error
+				documentIDs: docIDs,
+			})
 		)
 	}

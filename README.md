@@ -137,6 +137,10 @@ What is tested in the CI:
 1. found something better: 50 cups
 2. created something better: 500 cups
 
+## Have Questions?
+
+[Just Ask](https://github.com/tylim88/FirelordJS/discussions)
+
 ## Contributing
 
 Read [here](https://firelordjs.com/contributing)

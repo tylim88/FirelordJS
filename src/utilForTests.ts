@@ -53,7 +53,7 @@ export type User = MetaTypeCreator<
 	Parent
 >
 export const userRefCreator = (arg: Parent['docID'] = 'FirelordTest') =>
-	getFirelord<User>()(`topLevel/${arg}/Users`)
+	getFirelord<User>(`topLevel`, `Users`)
 
 export const generateRandomData = (): User['write'] => {
 	const beenTo = (pick([[{ China: ['Guangdong'] }], [{ US: ['california'] }]], {
