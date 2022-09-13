@@ -37,7 +37,7 @@ describe('test whether works with rules-unit-testing', () => {
 				email: 'alice@example.com',
 			})
 			.firestore()
-		userRef = getFirelord<User>(testEnvFirestore)('User')
+		userRef = getFirelord<User>(testEnvFirestore, 'User')
 	})
 	afterAll(() => {
 		testEnv.cleanup()

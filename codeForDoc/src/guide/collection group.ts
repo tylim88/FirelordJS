@@ -7,7 +7,7 @@ type Parent = MetaTypeCreator<
 	'a',
 	string
 >
-const firelordParent = getFirelord<Parent>()
+const firelordParent = getFirelord<Parent>
 const ParentCollectionGroupQuery = firelordParent('a').collectionGroup()
 
 type Child = MetaTypeCreator<
@@ -18,11 +18,9 @@ type Child = MetaTypeCreator<
 	string,
 	Parent
 >
-const firelordChild = getFirelord<Child>()
+const firelordChild = getFirelord<Child>
 
-const ChildCollectionGroupQuery = firelordChild(
-	'a/putAnyStringHere/b'
-).collectionGroup()
+const ChildCollectionGroupQuery = firelordChild('a', 'b').collectionGroup()
 
 const a = [1, 2, 3].forEach(i => {
 	exports[i]

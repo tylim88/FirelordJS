@@ -22,9 +22,11 @@ type Child = MetaTypeCreator<
 //
 //
 //
-const firelordRef = getFirelord<Child>()(
+const firelordRef = getFirelord<Child>(
 	// @ts-expect-error
-	'parent//child'
+	'parent',
+	'child',
+	'abc'
 )
 //
 //
@@ -33,9 +35,10 @@ const firelordRef = getFirelord<Child>()(
 //
 //
 //
-const firelordRef2 = getFirelord<Child>()(
+const firelordRef2 = getFirelord<Child>(
 	// @ts-expect-error
-	'par222ent/abc/ch333ild'
+	'par222ent',
+	'ch333ild'
 )
 
 type read = Child['read']
@@ -74,12 +77,15 @@ type abc = MetaTypeCreator<
 //
 //
 //
-const collectionReferenceParent =
-	getFirelord<Child>()('parent/abc/child').collection().parent
+const collectionReferenceParent = getFirelord<Child>(
+	'parent',
+	'child'
+).collection('abc').parent
 
-const collectionReferenceParentTypeCasted = getFirelord<Child>()(
-	'parent/abc/child'
-).collection().parent as unknown as DocumentReference<Parent>
+const collectionReferenceParentTypeCasted = getFirelord<Child>(
+	'parent',
+	'child'
+).collection('abc').parent as unknown as DocumentReference<Parent>
 //
 //
 //

@@ -12,7 +12,7 @@ type a = MetaTypeCreator<
 	'a',
 	string
 >
-const colRef = getFirelord<a>()('a').collection()
+const colRef = getFirelord<a>('a').collection()
 //
 //
 //

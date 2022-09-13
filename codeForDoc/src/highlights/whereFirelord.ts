@@ -23,9 +23,9 @@ type Child = MetaTypeCreator<
 	string,
 	Parent
 >
-const firelordRef = getFirelord<Child>()('parent/abc/child')
-const colRef = firelordRef.collection()
-const groupRef = getFirelord<Child>()('parent/abc/child').collectionGroup()
+const firelordRef = getFirelord<Child>('parent', 'child')
+const colRef = firelordRef.collection('abc')
+const groupRef = getFirelord<Child>('parent', 'child').collectionGroup()
 //
 //
 //

@@ -8,6 +8,4 @@ const app = initializeApp({
 
 export const db = getFirestore()
 
-export const firelordExample = getFirelord<Example>()
-
-export const example = firelordExample('SomeCollectionName')
+export const example = getFirelord<Example>('SomeCollectionName')

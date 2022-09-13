@@ -5,28 +5,17 @@ type Example = MetaTypeCreator<
 		a: number
 	},
 	'colName',
-	string
+	`${string}12345`
 >
 
-type ExampleChild = MetaTypeCreator<
-	{
-		b: string
-	},
-	'childColName',
-	string,
-	Example
->
-
-const someDocId = 'someDocId'
+const suffix = 12345
 //
 //
 //
 //
-const exampleChild = getFirelord<ExampleChild>()(
+const docRef = getFirelord<Example>('colName').doc(
 	// @ts-expect-error
-	'colName' + someDocId + 'childColName'
+	'a' + suffix
 ) // type error, type is string!
 
-const exampleChild2 = getFirelord<ExampleChild>()(
-	`colName/${someDocId}/childColName`
-) // ok, type is `colName/someDocId/childColName`!
+const docRef2 = getFirelord<Example>('colName').doc(`a${suffix}`) // type error, type is string!

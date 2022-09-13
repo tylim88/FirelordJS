@@ -28,12 +28,15 @@ initializeApp()
 const port = firebasejson.emulators.firestore.port
 const firestore = getFirestore()
 connectFirestoreEmulator(firestore, 'localhost', port)
-const userRef = getFirelord<User>(firestore)('topLevel/FirelordTest/Users')
+const userRef = getFirelord<User>(firestore, 'topLevel', 'Users')
 
 describe('test whether works with emulator', () => {
 	it('test updateDoc, setDoc, and delete field', async () => {
 		const data = generateRandomData()
-		const ref = userRef.doc('updateDocEmulatorSpecificFieldTestCase')
+		const ref = userRef.doc(
+			'FirelordTest',
+			'updateDocEmulatorSpecificFieldTestCase'
+		)
 		await setDoc(ref, data)
 		const date = new Date()
 		const arr = [{ g: false, h: date, m: 9 }]
@@ -50,7 +53,7 @@ describe('test whether works with emulator', () => {
 	})
 	it('test addDoc and deleteDoc', async () => {
 		const data = generateRandomData()
-		const ref = userRef.collection()
+		const ref = userRef.collection('FirelordTest')
 		const docRef = await addDoc(ref, data)
 		await readThenCompareWithWriteData(data, docRef)
 		await deleteDoc(docRef)
@@ -60,7 +63,7 @@ describe('test whether works with emulator', () => {
 
 	it('test getDocs', async () => {
 		const docId = 'getDocsEmulatorWithOptionsQueryTest'
-		const docRef = userRef.doc(docId)
+		const docRef = userRef.doc('FirelordTest', docId)
 		const data = generateRandomData()
 		await setDoc(docRef, data)
 		expect.hasAssertions()
@@ -82,12 +85,15 @@ describe('test whether works with emulator', () => {
 
 	it('test onSnapshot', done => {
 		const docId = 'onSnapshotEmulatorWithOptionQueryTest'
-		const docRef = userRef.doc(docId)
+		const docRef = userRef.doc('FirelordTest', docId)
 		const data = generateRandomData()
 		expect.hasAssertions()
 		setDoc(docRef, data).then(() => {
 			const unsub = onSnapshot(
-				query(userRef.collection(), where('a.b.c', '==', data.a.b.c as number)),
+				query(
+					userRef.collection('FirelordTest'),
+					where('a.b.c', '==', data.a.b.c as number)
+				),
 				async querySnapshot => {
 					const queryDocumentSnapshot = querySnapshot.docs.filter(
 						doc => doc.id === docId
@@ -109,7 +115,10 @@ describe('test whether works with emulator', () => {
 	})
 	it('test transaction, update, delete field', async () => {
 		const data = generateRandomData()
-		const ref = userRef.doc('updateTransactionEmulatorSpecificFieldTestCase')
+		const ref = userRef.doc(
+			'FirelordTest',
+			'updateTransactionEmulatorSpecificFieldTestCase'
+		)
 		await setDoc(ref, data)
 		const date = new Date()
 		const arr = [{ g: false, h: date, m: 9 }]
@@ -127,7 +136,10 @@ describe('test whether works with emulator', () => {
 		await readThenCompareWithWriteData(data, ref)
 	})
 	it('test transaction delete', async () => {
-		const docRef = userRef.doc('setTransactionEmulatorTestCaseRead')
+		const docRef = userRef.doc(
+			'FirelordTest',
+			'setTransactionEmulatorTestCaseRead'
+		)
 		const data = generateRandomData()
 		await setDoc(docRef, data)
 		await runTransaction(async transaction => {
@@ -137,7 +149,10 @@ describe('test whether works with emulator', () => {
 		expect(docSnap.exists()).toBe(false)
 	})
 	it('test transaction read functionality', async () => {
-		const docRef = userRef.doc('setTransactionEmulatorTestCaseRead')
+		const docRef = userRef.doc(
+			'FirelordTest',
+			'setTransactionEmulatorTestCaseRead'
+		)
 		const data = generateRandomData()
 		await setDoc(docRef, data)
 		await runTransaction(async transaction => {
@@ -148,7 +163,10 @@ describe('test whether works with emulator', () => {
 	it('test batch update, delete field', async () => {
 		const batch = writeBatch()
 		const data = generateRandomData()
-		const ref = userRef.doc('updateBatchEmulatorSpecificFieldTestCase')
+		const ref = userRef.doc(
+			'FirelordTest',
+			'updateBatchEmulatorSpecificFieldTestCase'
+		)
 		await setDoc(ref, data)
 		const date = new Date()
 		const arr = [{ g: false, h: date, m: 9 }]
@@ -166,7 +184,7 @@ describe('test whether works with emulator', () => {
 	})
 	it('test batch delete functionality', async () => {
 		const batch = writeBatch()
-		const docRef = userRef.doc('setBatchEmulatorTestCaseRead')
+		const docRef = userRef.doc('FirelordTest', 'setBatchEmulatorTestCaseRead')
 		const data = generateRandomData()
 		await setDoc(docRef, data)
 		batch.delete(docRef)
@@ -176,7 +194,7 @@ describe('test whether works with emulator', () => {
 	})
 	it('test batch set functionality', async () => {
 		const batch = writeBatch()
-		const ref = userRef.doc('setBatchEmulatorTestMergeCase')
+		const ref = userRef.doc('FirelordTest', 'setBatchEmulatorTestMergeCase')
 		const data = generateRandomData()
 		await setDoc(ref, data)
 		batch.set(ref, { a: { b: { f: [] } } }, { mergeFields: ['a.b.f'] })

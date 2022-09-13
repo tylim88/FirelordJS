@@ -9,7 +9,7 @@ type a = MetaTypeCreator<
 	'a',
 	string
 >
-const docRef = getFirelord<a>()('a').doc('1')
+const docRef = getFirelord<a>('a').doc('1')
 setDoc(docRef, {
 	//
 	//

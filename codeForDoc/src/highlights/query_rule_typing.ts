@@ -19,7 +19,7 @@ type abc = MetaTypeCreator<
 	string
 >
 
-const ref = getFirelord<abc>()('abc').collection()
+const ref = getFirelord<abc>('abc').collection()
 //
 //
 //
