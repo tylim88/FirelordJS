@@ -3,7 +3,7 @@ import { DocumentId, IsTrue, IsSame, DocumentReference } from '../types'
 import { query } from '../refs'
 import { where } from '../queryClauses'
 import {
-	userRefCreator,
+	userRef,
 	initializeApp,
 	generateRandomData,
 	compareWriteDataWithDocSnapData,
@@ -11,9 +11,9 @@ import {
 } from '../utilForTests'
 import { setDoc, getDocs } from '../operations'
 initializeApp()
-const user = userRefCreator()
+const user = userRef
 const collectionGroupRef = user.collectionGroup()
-const collectionRef = user.collection()
+const collectionRef = user.collection('FirelordTest')
 const fullDocPath = 'topLevel/FirelordTest/Users/a' as const
 const incorrectFullDocPath = 'topLevel/FirelordTest/Use2rs/a' as const
 const incorrectSlashDocPath = 'topLevel/FirelordTest/Users/a/b' as const
@@ -50,8 +50,14 @@ describe('test document id type', () => {
 	it('test correct input', () => {
 		query(collectionGroupRef, where(documentId(), '==', fullDocPath))
 		query(collectionRef, where(documentId(), '!=', 'a' as const))
-		query(collectionGroupRef, where(documentId(), '==', user.doc('abc')))
-		query(collectionRef, where(documentId(), '!=', user.doc('abc')))
+		query(
+			collectionGroupRef,
+			where(documentId(), '==', user.doc('FirelordTest', 'abc'))
+		)
+		query(
+			collectionRef,
+			where(documentId(), '!=', user.doc('FirelordTest', 'abc'))
+		)
 	})
 
 	it('test incorrect input (swap)', () => {
@@ -139,7 +145,7 @@ describe('test document id type', () => {
 	it('test functionality', async () => {
 		const docID = 'TestDocumentID' as const
 		const data = generateRandomData()
-		const docRef = user.doc(docID)
+		const docRef = user.doc('FirelordTest', docID)
 		await setDoc(docRef, data)
 		const query1 = query(collectionRef, where(documentId(), '==', docID))
 		const query2 = query(
@@ -165,7 +171,7 @@ describe('test document id type', () => {
 	it('test functionality with document reference', async () => {
 		const docID = 'TestDocumentIDWithDocRef' as const
 		const data = generateRandomData()
-		const docRef = user.doc(docID) // as DocumentReference<Parent>
+		const docRef = user.doc('FirelordTest', docID) // as DocumentReference<Parent>
 		await setDoc(docRef, data)
 		const query1 = query(collectionRef, where(documentId(), '==', docRef))
 		const query2 = query(collectionGroupRef, where(documentId(), '==', docRef))

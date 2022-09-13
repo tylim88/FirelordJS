@@ -9,9 +9,11 @@ export type DocCreator = <T extends MetaType>(
 ) => Doc<T>
 
 export type Doc<T extends MetaType> = {
-	(documentID: GetOddOrEvenSegments<T['docPath'], false>): DocumentReference<T>
+	(
+		...documentIDs: GetOddOrEvenSegments<T['docPath'], false>
+	): DocumentReference<T>
 	(
 		firestore: Firestore,
-		documentID: GetOddOrEvenSegments<T['docPath'], false>
+		...documentIDs: GetOddOrEvenSegments<T['docPath'], false>
 	): DocumentReference<T>
 }

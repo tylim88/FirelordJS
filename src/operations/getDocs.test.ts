@@ -3,7 +3,7 @@ import {
 	generateRandomData,
 	compareWriteDataWithDocSnapData,
 	initializeApp,
-	userRefCreator,
+	userRef,
 	User,
 } from '../utilForTests'
 import { setDoc } from './setDoc'
@@ -20,7 +20,6 @@ import { where } from '../queryClauses'
 import { snapshotEqual } from '../equal'
 
 initializeApp()
-const userRef = userRefCreator()
 const queryTest = async (
 	shareQuery: Query<User>,
 	docId: string,
@@ -85,18 +84,18 @@ const queryTest = async (
 describe('test getDocs', () => {
 	it('test naked query functionality and type', async () => {
 		const docId = 'getDocsNakedQueryTest'
-		const docRef = userRef.doc(docId)
+		const docRef = userRef.doc('FirelordTest', docId)
 		const data = generateRandomData()
-		const shareQuery = query(userRef.collection())
+		const shareQuery = query(userRef.collection('FirelordTest'))
 		await queryTest(shareQuery, docId, data, docRef)
 	})
 
 	it('test query functionality and type with clause', async () => {
 		const docId = 'getDocsWithOptionsQueryTest'
-		const docRef = userRef.doc(docId)
+		const docRef = userRef.doc('FirelordTest', docId)
 		const data = generateRandomData()
 		const shareQuery = query(
-			userRef.collection(),
+			userRef.collection('FirelordTest'),
 			where('a.b.c', '==', data.a.b.c as number)
 		)
 		await queryTest(shareQuery, docId, data, docRef)
@@ -104,7 +103,7 @@ describe('test getDocs', () => {
 
 	it('test collection group', async () => {
 		const docId = 'getDocsWithOptionsQueryTest'
-		const docRef = userRef.doc(docId)
+		const docRef = userRef.doc('FirelordTest', docId)
 		const data = generateRandomData()
 		const shareQuery = query(
 			userRef.collectionGroup(),

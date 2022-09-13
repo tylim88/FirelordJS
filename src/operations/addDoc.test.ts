@@ -3,7 +3,7 @@ import { deleteDoc } from './deleteDoc'
 import { getDoc } from './getDoc'
 
 import {
-	userRefCreator,
+	userRef,
 	initializeApp,
 	generateRandomData,
 	readThenCompareWithWriteData,
@@ -12,11 +12,13 @@ import {
 import { IsSame, IsTrue, DocumentReference } from '../types'
 
 initializeApp()
-const userRef = userRefCreator()
 describe('test addDoc', () => {
 	it('check return type', () => {
 		;async () => {
-			const docRef = await addDoc(userRef.collection(), generateRandomData())
+			const docRef = await addDoc(
+				userRef.collection('FirelordTest'),
+				generateRandomData()
+			)
 			type A = typeof docRef
 			type B = DocumentReference<User>
 			IsTrue<IsSame<A, B>>()
@@ -24,7 +26,7 @@ describe('test addDoc', () => {
 	})
 	it('test wrong type', () => {
 		;() =>
-			addDoc(userRef.collection(), {
+			addDoc(userRef.collection('FirelordTest'), {
 				// @ts-expect-error
 				beenTo: [{}],
 				// @ts-expect-error
@@ -46,7 +48,7 @@ describe('test addDoc', () => {
 	})
 	it('test functionality', async () => {
 		const data = generateRandomData()
-		const ref = userRef.collection()
+		const ref = userRef.collection('FirelordTest')
 		const docRef = await addDoc(ref, data)
 		await readThenCompareWithWriteData(data, docRef)
 		await deleteDoc(docRef)

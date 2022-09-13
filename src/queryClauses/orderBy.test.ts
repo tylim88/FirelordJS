@@ -1,7 +1,7 @@
 import { query } from '../refs'
 import { orderBy } from './orderBy'
 import { limit, limitToLast } from './limit'
-import { userRefCreator, initializeApp, User, Parent } from '../utilForTests'
+import { userRef, initializeApp, User, Parent } from '../utilForTests'
 import { endBefore } from './endBefore'
 import { startAfter } from './startAfter'
 import { startAt } from './startAt'
@@ -9,8 +9,7 @@ import { endAt } from './endAt'
 import { QueryDocumentSnapshot, DocumentSnapshot } from '../types'
 
 initializeApp()
-const user = userRefCreator()
-const ref = user.collectionGroup()
+const ref = userRef.collectionGroup()
 const ParentDocumentSnapshot = 1 as unknown as DocumentSnapshot<Parent>
 const ParentQueryDocumentSnapshot =
 	1 as unknown as QueryDocumentSnapshot<Parent>

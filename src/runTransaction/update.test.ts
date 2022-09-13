@@ -1,7 +1,7 @@
 import { runTransaction } from '.'
 
 import {
-	userRefCreator,
+	userRef,
 	initializeApp,
 	generateRandomData,
 	readThenCompareWithWriteData,
@@ -12,7 +12,7 @@ import { deleteField } from '../fieldValue'
 import { updateCreator } from './update'
 
 initializeApp()
-const userRef = userRefCreator()
+const userRef = userRef()
 
 describe('test update transaction', () => {
 	it('test whether the return type is correct', () => {

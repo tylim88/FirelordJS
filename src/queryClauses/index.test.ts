@@ -4,11 +4,7 @@ import { startAfter } from './startAfter'
 import { startAt } from './startAt'
 import { orderBy } from './orderBy'
 import { getDocs, setDoc, deleteDoc } from '../operations'
-import {
-	userRefCreator,
-	initializeApp,
-	generateRandomData,
-} from '../utilForTests'
+import { userRef, initializeApp, generateRandomData } from '../utilForTests'
 import { query } from '../refs'
 import { limit, limitToLast } from './limit'
 
@@ -57,7 +53,7 @@ describe('test cursor emptiness', () => {
 		}
 	})
 	it('test handle empty argument', async () => {
-		const userRef = userRefCreator('ForCursorTest')
+		const userRef = userRef('ForCursorTest')
 		const docRef = userRef.doc('cursorEmptyTest')
 		const colRef = userRef.collection()
 		const arr: string[] = []
@@ -106,7 +102,7 @@ describe('test cursor emptiness', () => {
 	})
 
 	it('cursor and limit test', async () => {
-		const userRef = userRefCreator()
+		const userRef = userRef()
 		const d1 = generateRandomData()
 		const d2 = generateRandomData()
 		const d3 = generateRandomData()

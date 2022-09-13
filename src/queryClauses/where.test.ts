@@ -1,11 +1,10 @@
 import { query } from '../refs'
 import { where } from './where'
-import { userRefCreator, initializeApp } from '../utilForTests'
+import { userRef, initializeApp } from '../utilForTests'
 import { documentId } from '../fieldPath'
 
 initializeApp()
-const user = userRefCreator()
-const ref = user.collectionGroup()
+const ref = userRef.collectionGroup()
 
 // runtime is tested on getDocs and onSnapshot
 describe('test query ref', () => {
