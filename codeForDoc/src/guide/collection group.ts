@@ -1,4 +1,6 @@
-import { MetaTypeCreator, getFirelord } from 'firelordjs'
+import { MetaTypeCreator, getFirelord, getFirestore } from 'firelordjs'
+
+const db = getFirestore()
 
 type Parent = MetaTypeCreator<
 	{
@@ -8,7 +10,7 @@ type Parent = MetaTypeCreator<
 	string
 >
 const firelordParent = getFirelord<Parent>
-const ParentCollectionGroupQuery = firelordParent('a').collectionGroup()
+const ParentCollectionGroupQuery = firelordParent(db, 'a').collectionGroup()
 
 type Child = MetaTypeCreator<
 	{
@@ -20,7 +22,7 @@ type Child = MetaTypeCreator<
 >
 const firelordChild = getFirelord<Child>
 
-const ChildCollectionGroupQuery = firelordChild('a', 'b').collectionGroup()
+const ChildCollectionGroupQuery = firelordChild(db, 'a', 'b').collectionGroup()
 
 const a = [1, 2, 3].forEach(i => {
 	exports[i]

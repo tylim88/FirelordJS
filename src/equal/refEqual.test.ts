@@ -12,10 +12,7 @@ const colRef = userRef.collection
 describe('test refEqual', () => {
 	it('test equal', () => {
 		expect(
-			refEqual(
-				docRef(getFirestore(), 'FirelordTest', 'abc'),
-				docRef('FirelordTest', 'abc')
-			)
+			refEqual(docRef('FirelordTest', 'abc'), docRef('FirelordTest', 'abc'))
 		).toBe(true)
 		expect(
 			refEqual(
@@ -26,9 +23,7 @@ describe('test refEqual', () => {
 				) as unknown as DocumentReference<User>
 			)
 		).toBe(true)
-		expect(
-			refEqual(colRef(getFirestore(), 'FirelordTest'), colRef('FirelordTest'))
-		).toBe(true)
+		expect(refEqual(colRef('FirelordTest'), colRef('FirelordTest'))).toBe(true)
 		expect(
 			refEqual(
 				colRef('FirelordTest'),
@@ -45,7 +40,7 @@ describe('test refEqual', () => {
 		).toBe(false)
 		expect(
 			refEqual(
-				docRef(getFirestore(), 'FirelordTest', 'abc'),
+				docRef('FirelordTest', 'abc'),
 				doc_(
 					getFirestore(),
 					'topLevel/FirelordTest/Users/ab1'

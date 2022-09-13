@@ -15,7 +15,6 @@ import {
 	increment,
 } from '../fieldValue'
 import { Update, IsTrue, IsSame, ErrorUnknownMember } from '../types'
-import { getFirestore } from 'firebase/firestore'
 
 initializeApp()
 // type test here include all type test of batch and transaction because it is the same type
@@ -208,11 +207,7 @@ describe('test updateDoc', () => {
 	})
 	it('test functionality with overload', async () => {
 		await writeThenReadTest(async data => {
-			const ref = userRef.doc(
-				getFirestore(),
-				'FirelordTest',
-				'updateDocTestCase'
-			)
+			const ref = userRef.doc('FirelordTest', 'updateDocTestCase')
 			await setDoc(ref, generateRandomData())
 			await updateDoc(ref, data)
 			return ref

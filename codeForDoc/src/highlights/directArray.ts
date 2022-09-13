@@ -1,4 +1,4 @@
-import { setDoc, MetaTypeCreator, getFirelord } from 'firelordjs'
+import { setDoc, MetaTypeCreator, getFirelord, getFirestore } from 'firelordjs'
 type a = MetaTypeCreator<
 	{
 		a: [][]
@@ -9,7 +9,7 @@ type a = MetaTypeCreator<
 	'a',
 	string
 >
-const docRef = getFirelord<a>('a').doc('1')
+const docRef = getFirelord<a>(getFirestore(), 'a').doc('1')
 setDoc(docRef, {
 	//
 	//

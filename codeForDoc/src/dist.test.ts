@@ -23,7 +23,7 @@ import {
 } from 'firelordjs'
 
 initializeApp()
-const userRef = getFirelord<User>('topLevel', 'Users')
+const userRef = getFirelord<User>(getFirestore(), 'topLevel', 'Users')
 describe('dist files test', () => {
 	it('test updateDoc, setDoc, and delete field', async () => {
 		const data = generateRandomData()

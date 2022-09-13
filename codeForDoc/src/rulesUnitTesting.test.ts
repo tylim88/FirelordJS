@@ -87,7 +87,7 @@ describe('test whether works with rules-unit-testing', () => {
 		expect.hasAssertions()
 		const querySnapshot = await getDocs(
 			query(
-				userRef.collectionGroup(firestore),
+				userRef.collectionGroup(),
 				where('a.b.c', '==', data.a.b.c as number)
 			)
 		)

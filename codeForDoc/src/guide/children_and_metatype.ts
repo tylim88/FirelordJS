@@ -1,4 +1,11 @@
-import { MetaTypeCreator, getFirelord, DocumentReference } from 'firelordjs'
+import {
+	MetaTypeCreator,
+	getFirelord,
+	DocumentReference,
+	getFirestore,
+} from 'firelordjs'
+
+const db = getFirestore()
 
 type Parent = MetaTypeCreator<
 	{
@@ -23,9 +30,10 @@ type Child = MetaTypeCreator<
 //
 //
 const firelordRef = getFirelord<Child>(
-	// @ts-expect-error
+	db,
 	'parent',
 	'child',
+	// @ts-expect-error
 	'abc'
 )
 //
@@ -36,6 +44,7 @@ const firelordRef = getFirelord<Child>(
 //
 //
 const firelordRef2 = getFirelord<Child>(
+	db,
 	// @ts-expect-error
 	'par222ent',
 	'ch333ild'
@@ -78,11 +87,13 @@ type abc = MetaTypeCreator<
 //
 //
 const collectionReferenceParent = getFirelord<Child>(
+	db,
 	'parent',
 	'child'
 ).collection('abc').parent
 
 const collectionReferenceParentTypeCasted = getFirelord<Child>(
+	db,
 	'parent',
 	'child'
 ).collection('abc').parent as unknown as DocumentReference<Parent>

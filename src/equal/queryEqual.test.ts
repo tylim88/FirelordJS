@@ -6,7 +6,7 @@ import { where, orderBy } from '../queryClauses'
 
 initializeApp()
 const colRef = userRef.collection('FirelordTest')
-const colRef2 = userRef.collection(getFirestore(), 'FirelordTest')
+const colRef2 = userRef.collection('FirelordTest')
 const groupRef = userRef.collectionGroup
 describe('test queryEqual', () => {
 	it('test equal', () => {
@@ -37,7 +37,7 @@ describe('test queryEqual', () => {
 		expect(
 			queryEqual(
 				query(groupRef(), where('a.b.c', '==', 1)),
-				query(groupRef(getFirestore()), where('age', '==', 1))
+				query(groupRef(), where('age', '==', 1))
 			)
 		).toBe(false)
 		expect(

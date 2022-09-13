@@ -3,6 +3,7 @@ import {
 	MetaTypeCreator,
 	getFirelord,
 	ServerTimestamp,
+	getFirestore,
 } from 'firelordjs'
 
 type abc = MetaTypeCreator<
@@ -17,7 +18,7 @@ type abc = MetaTypeCreator<
 	string
 >
 
-const docRef = getFirelord<abc>('abc').doc('efg')
+const docRef = getFirelord<abc>(getFirestore(), 'abc').doc('efg')
 
 getDoc(docRef).then(docSnapshot => {
 	const data = docSnapshot.data({ serverTimestamps: 'none' })

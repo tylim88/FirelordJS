@@ -3,6 +3,6 @@ import { Firestore } from './alias'
 import { Query } from './refs'
 
 export type CollectionGroupCreator = <T extends MetaType>(
-	fStore: Firestore | undefined,
+	fStore: Firestore,
 	collectionID: T['collectionID']
-) => (firestore?: Firestore) => Query<T>
+) => () => Query<T>

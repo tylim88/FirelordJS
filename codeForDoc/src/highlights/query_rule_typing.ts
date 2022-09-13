@@ -7,7 +7,10 @@ import {
 	startAfter,
 	endBefore,
 	endAt,
+	getFirestore,
 } from 'firelordjs'
+
+const db = getFirestore()
 
 type abc = MetaTypeCreator<
 	{
@@ -19,7 +22,7 @@ type abc = MetaTypeCreator<
 	string
 >
 
-const ref = getFirelord<abc>('abc').collection()
+const ref = getFirelord<abc>(db, 'abc').collection()
 //
 //
 //

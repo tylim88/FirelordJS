@@ -13,6 +13,7 @@ import {
 	ServerTimestamp,
 	DeleteField,
 	DocumentSnapshot,
+	getFirestore,
 } from 'firelordjs'
 import { initializeApp as initializeApp_ } from 'firebase/app'
 import pick from 'pick-random'
@@ -56,7 +57,7 @@ export type User = MetaTypeCreator<
 	string,
 	Parent
 >
-export const userRef = getFirelord<User>(`topLevel`, `Users`)
+export const userRef = getFirelord<User>(getFirestore(), `topLevel`, `Users`)
 
 export const generateRandomData = (): User['write'] => {
 	const beenTo = (pick([[{ China: ['Guangdong'] }], [{ US: ['california'] }]], {

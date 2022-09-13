@@ -28,7 +28,7 @@ initializeApp()
 const port = firebasejson.emulators.firestore.port
 const firestore = getFirestore()
 connectFirestoreEmulator(firestore, 'localhost', port)
-const userRef = getFirelord<User>('topLevel', 'Users')
+const userRef = getFirelord<User>(getFirestore(), 'topLevel', 'Users')
 
 describe('test whether works with emulator', () => {
 	it('test updateDoc, setDoc, and delete field', async () => {

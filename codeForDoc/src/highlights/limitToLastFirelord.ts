@@ -4,6 +4,7 @@ import {
 	MetaTypeCreator,
 	getFirelord,
 	orderBy,
+	getFirestore,
 } from 'firelordjs'
 type a = MetaTypeCreator<
 	{
@@ -12,7 +13,7 @@ type a = MetaTypeCreator<
 	'a',
 	string
 >
-const colRef = getFirelord<a>('a').collection()
+const colRef = getFirelord<a>(getFirestore(), 'a').collection()
 //
 //
 //

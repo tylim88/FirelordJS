@@ -3,6 +3,7 @@ import { initializeApp, User } from './utilForTests'
 import { getFirestore } from 'firebase/firestore'
 
 initializeApp()
+const db = getFirestore()
 
 type parent = MetaTypeCreator<
 	{
@@ -28,32 +29,37 @@ type Child = MetaTypeCreator<
 describe('test', () => {
 	it('test pass', () => {
 		;() => {
-			getFirelord<User>(`topLevel`, `Users`)
-			getFirelord<Child>('parent', 'child')
+			getFirelord<User>(db, `topLevel`, `Users`)
+			getFirelord<Child>(db, 'parent', 'child')
 		}
 	})
 	it('test incorrect collection', () => {
 		;() => {
 			getFirelord<User>(
+				db,
 				// @ts-expect-error
 				`topLe1vel`,
 				`Users`
 			)
 			getFirelord<User>(
+				db,
 				`topLevel`,
 				// @ts-expect-error
 				`Use1rs`
 			)
 			getFirelord<Child>(
+				db,
 				// @ts-expect-error
 				'paraent',
 				'child'
 			).collection('abc')
 
 			getFirelord<Child>(
-				// @ts-expect-error
+				db,
 				'parent',
 				'abc',
+				// @ts-expect-error
+
 				'child'
 			)
 		}
