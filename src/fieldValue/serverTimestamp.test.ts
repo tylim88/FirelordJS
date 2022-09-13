@@ -9,7 +9,7 @@ describe('test serverTimestamp', () => {
 	const ref =
 		getFirelord<
 			MetaTypeCreator<{ a: ServerTimestamp }, 'serverTimestamp', string>
-		>()('serverTimestamp')
+		>('serverTimestamp')
 	const docRef = ref.doc('serverTimestamp')
 	it('test with set', async () => {
 		await setDoc(docRef, { a: serverTimestamp() })

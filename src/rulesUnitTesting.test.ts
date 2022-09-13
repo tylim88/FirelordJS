@@ -47,14 +47,14 @@ describe('test whether works with rules-unit-testing', () => {
 				email: 'alice@example.com',
 			})
 			.firestore()
-		userRef = getFirelord<User>(firestore)('topLevel/FirelordTest/Users')
+		userRef = getFirelord<User>(firestore, 'topLevel', 'Users')
 	})
 	afterAll(() => {
 		testEnv.cleanup()
 	})
 	it('test updateDoc, setDoc, and delete field', async () => {
 		const data = generateRandomData()
-		const ref = userRef.doc('updateDocSpecificFieldTestCase')
+		const ref = userRef.doc('FirelordTest', 'updateDocSpecificFieldTestCase')
 		await setDoc(ref, data)
 		const date = new Date()
 		const arr = [{ g: false, h: date, m: 9 }]
@@ -71,7 +71,7 @@ describe('test whether works with rules-unit-testing', () => {
 	})
 	it('test addDoc and deleteDoc', async () => {
 		const data = generateRandomData()
-		const ref = userRef.collection()
+		const ref = userRef.collection('FirelordTest')
 		const docRef = await addDoc(ref, data)
 		await readThenCompareWithWriteData(data, docRef)
 		await deleteDoc(docRef)
@@ -81,7 +81,7 @@ describe('test whether works with rules-unit-testing', () => {
 
 	it('test getDocs', async () => {
 		const docId = 'getDocsWithOptionsQueryTest'
-		const docRef = userRef.doc(docId)
+		const docRef = userRef.doc('FirelordTest', docId)
 		const data = generateRandomData()
 		await setDoc(docRef, data)
 		expect.hasAssertions()
@@ -103,12 +103,15 @@ describe('test whether works with rules-unit-testing', () => {
 
 	it('test onSnapshot', done => {
 		const docId = 'onSnapshotWithOptionQueryTest'
-		const docRef = userRef.doc(docId)
+		const docRef = userRef.doc('FirelordTest', docId)
 		const data = generateRandomData()
 		expect.hasAssertions()
 		setDoc(docRef, data).then(() => {
 			const unsub = onSnapshot(
-				query(userRef.collection(), where('a.b.c', '==', data.a.b.c as number)),
+				query(
+					userRef.collection('FirelordTest'),
+					where('a.b.c', '==', data.a.b.c as number)
+				),
 				async querySnapshot => {
 					const queryDocumentSnapshot = querySnapshot.docs.filter(
 						doc => doc.id === docId
@@ -130,7 +133,10 @@ describe('test whether works with rules-unit-testing', () => {
 	})
 	it('test transaction, update, delete field', async () => {
 		const data = generateRandomData()
-		const ref = userRef.doc('updateTransactionSpecificFieldTestCase')
+		const ref = userRef.doc(
+			'FirelordTest',
+			'updateTransactionSpecificFieldTestCase'
+		)
 		await setDoc(ref, data)
 		const date = new Date()
 		const arr = [{ g: false, h: date, m: 9 }]
@@ -148,7 +154,7 @@ describe('test whether works with rules-unit-testing', () => {
 		await readThenCompareWithWriteData(data, ref)
 	})
 	it('test transaction delete', async () => {
-		const docRef = userRef.doc('setTransactionTestCaseRead')
+		const docRef = userRef.doc('FirelordTest', 'setTransactionTestCaseRead')
 		const data = generateRandomData()
 		await setDoc(docRef, data)
 		await runTransaction(firestore, async transaction => {
@@ -158,7 +164,7 @@ describe('test whether works with rules-unit-testing', () => {
 		expect(docSnap.exists()).toBe(false)
 	})
 	it('test transaction read functionality', async () => {
-		const docRef = userRef.doc('setTransactionTestCaseRead')
+		const docRef = userRef.doc('FirelordTest', 'setTransactionTestCaseRead')
 		const data = generateRandomData()
 		await setDoc(docRef, data)
 		await runTransaction(firestore, async transaction => {
@@ -169,7 +175,7 @@ describe('test whether works with rules-unit-testing', () => {
 	it('test batch update, delete field', async () => {
 		const batch = writeBatch(firestore)
 		const data = generateRandomData()
-		const ref = userRef.doc('updateBatchSpecificFieldTestCase')
+		const ref = userRef.doc('FirelordTest', 'updateBatchSpecificFieldTestCase')
 		await setDoc(ref, data)
 		const date = new Date()
 		const arr = [{ g: false, h: date, m: 9 }]
@@ -187,7 +193,7 @@ describe('test whether works with rules-unit-testing', () => {
 	})
 	it('test batch delete functionality', async () => {
 		const batch = writeBatch(firestore)
-		const docRef = userRef.doc('setBatchTestCaseRead')
+		const docRef = userRef.doc('FirelordTest', 'setBatchTestCaseRead')
 		const data = generateRandomData()
 		await setDoc(docRef, data)
 		batch.delete(docRef)
@@ -197,7 +203,7 @@ describe('test whether works with rules-unit-testing', () => {
 	})
 	it('test batch set functionality', async () => {
 		const batch = writeBatch(firestore)
-		const ref = userRef.doc('setBatchTestMergeCase')
+		const ref = userRef.doc('FirelordTest', 'setBatchTestMergeCase')
 		const data = generateRandomData()
 		await setDoc(ref, data)
 		batch.set(ref, { a: { b: { f: [] } } }, { mergeFields: ['a.b.f'] })

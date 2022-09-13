@@ -32,7 +32,7 @@ type A = MetaTypeCreator<
 >
 
 describe('test deleteField', () => {
-	const A = getFirelord<A>()('A')
+	const A = getFirelord<A>('A')
 	const docRef = A.doc('deleteFieldTest')
 
 	it('test read type', () => {

@@ -28,41 +28,45 @@ type Child = MetaTypeCreator<
 describe('test', () => {
 	it('test pass', () => {
 		;() => {
-			getFirelord<User>()(`topLevel/FirelordTest/Users`)
-			getFirelord<Child>()('parent/123/child')
+			getFirelord<User>(`topLevel`, `Users`)
+			getFirelord<Child>('parent', 'child')
 		}
 	})
 	it('test incorrect collection', () => {
 		;() => {
-			getFirelord<User>()(
+			getFirelord<User>(
 				// @ts-expect-error
-				`topLevel//Users`
+				`topLe1vel`,
+				`Users`
 			)
-			getFirelord<User>()(
+			getFirelord<User>(
+				`topLevel`,
 				// @ts-expect-error
-				`topLevel/123/Users`
+				`Use1rs`
 			)
-			getFirelord<Child>()(
+			getFirelord<Child>(
 				// @ts-expect-error
-				'parent//child'
-			).collection()
+				'paraent',
+				'child'
+			).collection('abc')
 
-			getFirelord<Child>()(
+			getFirelord<Child>(
 				// @ts-expect-error
-				'parent/123/456/child'
+				'parent',
+				'abc',
+				'child'
 			)
 		}
 	})
 	it('test collection path type', () => {
 		;() => {
-			getFirelord<User>(getFirestore())(
+			getFirelord<User>(getFirestore(), `topLevel`, `Users`).collection(
 				// @ts-expect-error
-				`topLevel/FirelordTest1/Users`
+				'abc'
 			)
-			const userRef = getFirelord<User>()(
+			const userRef =
 				// @ts-expect-error
-				'User1s'
-			)
+				getFirelord<User>('User1s')
 			userRef.doc(
 				// @ts-expect-error
 				123

@@ -4,7 +4,7 @@ import { Firestore } from './alias'
 import { GetOddOrEvenSegments } from './utils'
 
 export type DocCreator = <T extends MetaType>(
-	fStore: Firestore,
+	fStore: Firestore | undefined,
 	...collectionIDs: string[]
 ) => Doc<T>
 

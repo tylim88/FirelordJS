@@ -1,5 +1,5 @@
 import { DocCreator } from '../types'
-import { doc as doc_ } from 'firebase/firestore'
+import { doc as doc_, getFirestore } from 'firebase/firestore'
 import { isFirestore } from '../utils'
 import { buildPathFromColIDsAndDocIDs } from './utils'
 
@@ -13,7 +13,7 @@ export const docCreator: DocCreator =
 			: [firestore, ...documentIds]
 		return doc_(
 			// @ts-expect-error
-			fs,
+			fs || getFirestore(),
 			buildPathFromColIDsAndDocIDs({
 				collectionIDs,
 				// @ts-expect-error

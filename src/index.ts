@@ -1,4 +1,3 @@
-import { getFirestore } from 'firebase/firestore'
 import {
 	MetaType,
 	Query,
@@ -17,19 +16,19 @@ import { isFirestore } from './utils'
  * @returns Creator function of DocumentReference, CollectionReference and CollectionGroupReference.
  */
 export const getFirelord: GetFirelord = (firestore, ...collectionIDs) => {
-	const fStore = isFirestore(firestore) ? firestore : getFirestore()
+	const fStore = isFirestore(firestore) ? firestore : undefined
 	const colIDs = isFirestore(firestore)
 		? collectionIDs
 		: [firestore, ...collectionIDs]
 	const doc = docCreator(
 		fStore,
 		// @ts-expect-error
-		colIDs
+		...colIDs
 	)
 	const collection = collectionCreator(
 		fStore,
 		// @ts-expect-error
-		colIDs
+		...colIDs
 	)
 	const collectionGroup = collectionGroupCreator(
 		fStore,

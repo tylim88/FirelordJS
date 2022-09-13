@@ -78,16 +78,18 @@ describe('test document id type', () => {
 	})
 
 	it('test incorrect input', () => {
-		query(
-			collectionGroupRef,
-			// @ts-expect-error
-			where(documentId(), '==', user.doc('abc') as DocumentReference<Parent>)
-		)
-
-		query(
-			collectionRef, // @ts-expect-error
-			where(documentId(), '!=', user.doc('abc') as DocumentReference<Parent>)
-		)
+		expect(() =>
+			query(
+				collectionGroupRef, // @ts-expect-error
+				where(documentId(), '==', user.doc('abc') as DocumentReference<Parent>)
+			)
+		).toThrow()
+		expect(() =>
+			query(
+				collectionRef, // @ts-expect-error
+				where(documentId(), '!=', user.doc('abc') as DocumentReference<Parent>)
+			)
+		).toThrow()
 
 		query(
 			collectionGroupRef,

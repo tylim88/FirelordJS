@@ -53,9 +53,8 @@ describe('test cursor emptiness', () => {
 		}
 	})
 	it('test handle empty argument', async () => {
-		const userRef = userRef('ForCursorTest')
-		const docRef = userRef.doc('cursorEmptyTest')
-		const colRef = userRef.collection()
+		const docRef = userRef.doc('ForCursorTest', 'cursorEmptyTest')
+		const colRef = userRef.collection('ForCursorTest')
 		const arr: string[] = []
 		await setDoc(docRef, generateRandomData())
 		const p1 = getDocs(
@@ -102,15 +101,14 @@ describe('test cursor emptiness', () => {
 	})
 
 	it('cursor and limit test', async () => {
-		const userRef = userRef()
 		const d1 = generateRandomData()
 		const d2 = generateRandomData()
 		const d3 = generateRandomData()
 		const d4 = generateRandomData()
-		const p1 = setDoc(userRef.doc('getDocsCursorTest1'), d1)
-		const p2 = setDoc(userRef.doc('getDocsCursorTest2'), d2)
-		const p3 = setDoc(userRef.doc('getDocsCursorTest3'), d3)
-		const p4 = setDoc(userRef.doc('getDocsCursorTest4'), d4)
+		const p1 = setDoc(userRef.doc('FirelordTest', 'getDocsCursorTest1'), d1)
+		const p2 = setDoc(userRef.doc('FirelordTest', 'getDocsCursorTest2'), d2)
+		const p3 = setDoc(userRef.doc('FirelordTest', 'getDocsCursorTest3'), d3)
+		const p4 = setDoc(userRef.doc('FirelordTest', 'getDocsCursorTest4'), d4)
 
 		await Promise.all([p1, p2, p3, p4])
 

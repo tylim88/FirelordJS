@@ -5,7 +5,7 @@ import { GetOddOrEvenSegments } from './utils'
 
 export type CollectionCreator = {
 	<T extends MetaType>(
-		fStore: Firestore,
+		fStore: Firestore | undefined,
 		...collectionIDs: string[]
 	): Collection<T>
 }
