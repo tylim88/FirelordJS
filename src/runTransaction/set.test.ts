@@ -28,7 +28,7 @@ describe('test set transaction and overloading', () => {
 			IsTrue<IsSame<typeof A, 1>>()
 		}
 	})
-	it('test set functionality, with db', async () => {
+	it('test set functionality and return, with db', async () => {
 		const docRef = userRefCreator().doc(
 			'FirelordTest',
 			'setTransactionTestCase'
@@ -44,11 +44,14 @@ describe('test set transaction and overloading', () => {
 		const data = generateRandomData()
 		const data2 = generateRandomData()
 		const data3 = generateRandomData()
-		await runTransaction(db, async transaction => {
+		const result = await runTransaction(db, async transaction => {
 			transaction.set(docRef, data)
 			transaction.set(docRef2, data2)
 			transaction.set(docRef3, data3)
+
+			return 123
 		})
+		expect(result).toBe(123)
 		await readThenCompareWithWriteData(data, docRef)
 		await readThenCompareWithWriteData(data2, docRef2)
 		await readThenCompareWithWriteData(data3, docRef3)

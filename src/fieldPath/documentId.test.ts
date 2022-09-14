@@ -206,7 +206,7 @@ describe('test document id type', () => {
 	it('test functionality with document reference', async () => {
 		const docID = 'TestDocumentIDWithDocRef' as const
 		const data = generateRandomData()
-		const docRef = userRef.doc('FirelordTest', docID) // as DocumentReference<Parent>
+		const docRef = userRef.doc('FirelordTest', docID)
 		await setDoc(docRef, data)
 		const query1 = query(collectionRef, where(documentId(), '==', docRef))
 		const query2 = query(collectionGroupRef, where(documentId(), '==', docRef))

@@ -1,5 +1,5 @@
 import { updateDoc } from './updateDoc'
-
+import { deleteDoc } from './deleteDoc'
 import {
 	userRefCreator,
 	initializeApp,
@@ -232,5 +232,19 @@ describe('test updateDoc', () => {
 		data.a.b.f = arr
 		data.a.b.c = num
 		await readThenCompareWithWriteData(data, ref)
+	})
+	it('test update non-existing doc', async () => {
+		const docRef = userRefCreator().doc('FirelordTest', 'updateEmptyData')
+		deleteDoc(docRef)
+		expect.assertions(1)
+		try {
+			await updateDoc(
+				docRef,
+				// @ts-expect-error
+				{}
+			)
+		} catch (e) {
+			expect(true).toBe(true)
+		}
 	})
 })
