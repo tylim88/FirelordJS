@@ -1,6 +1,6 @@
 import { getCreator } from './get'
 import { GetDoc, IsTrue, IsSame } from '../types'
-import { userRef } from '../utilForTests'
+import { userRefCreator } from '../utilForTests'
 import { runTransaction } from '.'
 
 // delete functionality test is tested in other integration test
@@ -14,7 +14,7 @@ describe('test get transaction', () => {
 		;() => {
 			runTransaction(transaction => {
 				return transaction
-					.get(userRef.doc('FirelordTest', '123'))
+					.get(userRefCreator().doc('FirelordTest', '123'))
 					.then(docSnap => {
 						const data = docSnap.data()
 						/*  eslint-disable @typescript-eslint/no-unused-vars */

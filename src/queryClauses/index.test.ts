@@ -4,7 +4,11 @@ import { startAfter } from './startAfter'
 import { startAt } from './startAt'
 import { orderBy } from './orderBy'
 import { getDocs, setDoc, deleteDoc } from '../operations'
-import { userRef, initializeApp, generateRandomData } from '../utilForTests'
+import {
+	userRefCreator,
+	initializeApp,
+	generateRandomData,
+} from '../utilForTests'
 import { query } from '../refs'
 import { limit, limitToLast } from './limit'
 
@@ -53,8 +57,8 @@ describe('test cursor emptiness', () => {
 		}
 	})
 	it('test handle empty argument', async () => {
-		const docRef = userRef.doc('ForCursorTest', 'cursorEmptyTest')
-		const colRef = userRef.collection('ForCursorTest')
+		const docRef = userRefCreator().doc('ForCursorTest', 'cursorEmptyTest')
+		const colRef = userRefCreator().collection('ForCursorTest')
 		const arr: string[] = []
 		await setDoc(docRef, generateRandomData())
 		const p1 = getDocs(
@@ -105,17 +109,33 @@ describe('test cursor emptiness', () => {
 		const d2 = generateRandomData()
 		const d3 = generateRandomData()
 		const d4 = generateRandomData()
-		const p1 = setDoc(userRef.doc('FirelordTest', 'getDocsCursorTest1'), d1)
-		const p2 = setDoc(userRef.doc('FirelordTest', 'getDocsCursorTest2'), d2)
-		const p3 = setDoc(userRef.doc('FirelordTest', 'getDocsCursorTest3'), d3)
-		const p4 = setDoc(userRef.doc('FirelordTest', 'getDocsCursorTest4'), d4)
+		const p1 = setDoc(
+			userRefCreator().doc('FirelordTest', 'getDocsCursorTest1'),
+			d1
+		)
+		const p2 = setDoc(
+			userRefCreator().doc('FirelordTest', 'getDocsCursorTest2'),
+			d2
+		)
+		const p3 = setDoc(
+			userRefCreator().doc('FirelordTest', 'getDocsCursorTest3'),
+			d3
+		)
+		const p4 = setDoc(
+			userRefCreator().doc('FirelordTest', 'getDocsCursorTest4'),
+			d4
+		)
 
 		await Promise.all([p1, p2, p3, p4])
 
 		expect.assertions(5)
 
 		const p5 = getDocs(
-			query(userRef.collectionGroup(), orderBy('age'), endAt(d3.age as number))
+			query(
+				userRefCreator().collectionGroup(),
+				orderBy('age'),
+				endAt(d3.age as number)
+			)
 		).then(querySnapshot => {
 			const doc = querySnapshot.docs[querySnapshot.docs.length - 1]
 			if (doc) {
@@ -125,7 +145,7 @@ describe('test cursor emptiness', () => {
 		})
 		const p6 = getDocs(
 			query(
-				userRef.collectionGroup(),
+				userRefCreator().collectionGroup(),
 				orderBy('age'),
 				startAt(d1.age as number)
 			)
@@ -138,14 +158,14 @@ describe('test cursor emptiness', () => {
 		})
 
 		const p7 = getDocs(
-			query(userRef.collectionGroup(), limit(1), limit(4))
+			query(userRefCreator().collectionGroup(), limit(1), limit(4))
 		).then(querySnapshot => {
 			expect(querySnapshot.docs.length).toBe(4)
 		})
 
 		const p8 = getDocs(
 			query(
-				userRef.collectionGroup(),
+				userRefCreator().collectionGroup(),
 				orderBy('age'),
 				limitToLast(4),
 				limitToLast(1)
@@ -155,7 +175,12 @@ describe('test cursor emptiness', () => {
 		})
 
 		const p9 = getDocs(
-			query(userRef.collectionGroup(), orderBy('age'), limit(4), limitToLast(1))
+			query(
+				userRefCreator().collectionGroup(),
+				orderBy('age'),
+				limit(4),
+				limitToLast(1)
+			)
 		).then(querySnapshot => {
 			expect(querySnapshot.docs.length).toBe(1)
 		})

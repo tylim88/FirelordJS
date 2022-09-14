@@ -1,7 +1,7 @@
 import { updateDoc } from './updateDoc'
 
 import {
-	userRef,
+	userRefCreator,
 	initializeApp,
 	writeThenReadTest,
 	generateRandomData,
@@ -26,7 +26,7 @@ describe('test updateDoc', () => {
 	})
 	it('test wrong type', () => {
 		;() =>
-			updateDoc(userRef.doc('FirelordTest', '123'), {
+			updateDoc(userRefCreator().doc('FirelordTest', '123'), {
 				// @ts-expect-error
 				beenTo: [{}],
 				// @ts-expect-error
@@ -39,7 +39,7 @@ describe('test updateDoc', () => {
 	})
 	it('test undefined type, should reject undefined', () => {
 		;() =>
-			updateDoc(userRef.doc('FirelordTest', '123'), {
+			updateDoc(userRefCreator().doc('FirelordTest', '123'), {
 				// @ts-expect-error
 				beenTo: undefined,
 				// @ts-expect-error
@@ -52,14 +52,14 @@ describe('test updateDoc', () => {
 	})
 	it('test missing member, missing should be fine', () => {
 		;() =>
-			updateDoc(userRef.doc('FirelordTest', '123'), {
+			updateDoc(userRefCreator().doc('FirelordTest', '123'), {
 				beenTo: [{ China: ['Guangdong'] }],
 				name: 'abc',
 				'a.b.c': increment(1),
 				'a.b.f': [],
 			})
 		;() =>
-			updateDoc(userRef.doc('FirelordTest', '123'), {
+			updateDoc(userRefCreator().doc('FirelordTest', '123'), {
 				role: 'visitor',
 				age: 1,
 				beenTo: [],
@@ -67,13 +67,13 @@ describe('test updateDoc', () => {
 	})
 	it('test missing member with wrong type', () => {
 		;() =>
-			updateDoc(userRef.doc('FirelordTest', '123'), {
+			updateDoc(userRefCreator().doc('FirelordTest', '123'), {
 				// @ts-expect-error
 				beenTo: [{ China: ['Guangd1ong'] }],
 				name: 'abc',
 			})
 		;() =>
-			updateDoc(userRef.doc('FirelordTest', '123'), {
+			updateDoc(userRefCreator().doc('FirelordTest', '123'), {
 				role: 'visitor',
 				// @ts-expect-error
 				ag2e: 1,
@@ -86,13 +86,13 @@ describe('test updateDoc', () => {
 
 	it('test unknown member', () => {
 		;() =>
-			updateDoc(userRef.doc('FirelordTest', '123'), {
+			updateDoc(userRefCreator().doc('FirelordTest', '123'), {
 				role: 'visitor',
 				// @ts-expect-error
 				[ag2e]: 1,
 			})
 		;() =>
-			updateDoc(userRef.doc('FirelordTest', '123'), {
+			updateDoc(userRefCreator().doc('FirelordTest', '123'), {
 				role: 'visitor',
 				// @ts-expect-error
 				[ag2e]: errorUnknownMember,
@@ -105,7 +105,7 @@ describe('test updateDoc', () => {
 		}
 		;() =>
 			updateDoc(
-				userRef.doc('FirelordTest', '123'),
+				userRefCreator().doc('FirelordTest', '123'),
 				// @ts-expect-error
 				stale
 			)
@@ -115,35 +115,35 @@ describe('test updateDoc', () => {
 		}
 		;() =>
 			updateDoc(
-				userRef.doc('FirelordTest', '123'),
+				userRefCreator().doc('FirelordTest', '123'),
 				// @ts-expect-error
 				stale2
 			)
 	})
 	it('test empty object literal data', () => {
 		// @ts-expect-error
-		;() => updateDoc(userRef.doc('123'), {})
+		;() => updateDoc(userRefCreator().doc('123'), {})
 		;() =>
-			updateDoc(userRef.doc('FirelordTest', '123'), {
+			updateDoc(userRefCreator().doc('FirelordTest', '123'), {
 				// @ts-expect-error
 				a: {},
 			})
 		;() =>
-			updateDoc(userRef.doc('FirelordTest', '123'), {
+			updateDoc(userRefCreator().doc('FirelordTest', '123'), {
 				a: {
 					// @ts-expect-error
 					i: {},
 				},
 			})
 		;() =>
-			updateDoc(userRef.doc('FirelordTest', '123'), {
+			updateDoc(userRefCreator().doc('FirelordTest', '123'), {
 				// @ts-expect-error
 				'a.i': {},
 			})
 	})
 	it('test hybrid correct type', () => {
 		;() =>
-			updateDoc(userRef.doc('FirelordTest', '123'), {
+			updateDoc(userRefCreator().doc('FirelordTest', '123'), {
 				role: 'visitor' as const,
 				age: increment(1),
 				a: { e: arrayUnion(...['1']), 'b.c': 1 },
@@ -152,21 +152,21 @@ describe('test updateDoc', () => {
 	})
 	it('test hybrid wrong type', () => {
 		;() =>
-			updateDoc(userRef.doc('FirelordTest', '123'), {
+			updateDoc(userRefCreator().doc('FirelordTest', '123'), {
 				role: 'visitor' as const,
 				age: 1,
 				// @ts-expect-error
 				a: { e: arrayUnion([1]) },
 			})
 		;() =>
-			updateDoc(userRef.doc('FirelordTest', '123'), {
+			updateDoc(userRefCreator().doc('FirelordTest', '123'), {
 				role: 'visitor' as const,
 				age: 1,
 				// @ts-expect-error
 				a: { 'e.h': arrayUnion(['abc']) },
 			})
 		;() =>
-			updateDoc(userRef.doc('FirelordTest', '123'), {
+			updateDoc(userRefCreator().doc('FirelordTest', '123'), {
 				role: 'visitor' as const,
 				age: 1,
 				// @ts-expect-error
@@ -183,7 +183,7 @@ describe('test updateDoc', () => {
 		}
 		;() =>
 			updateDoc(
-				userRef.doc('FirelordTest', '123'),
+				userRefCreator().doc('FirelordTest', '123'),
 				// @ts-expect-error
 				withUnknownMember
 			)
@@ -192,14 +192,14 @@ describe('test updateDoc', () => {
 		const withUnknownMember = { ...generateRandomData(), unknown: '123' }
 		;() =>
 			updateDoc(
-				userRef.doc('FirelordTest', '123'),
+				userRefCreator().doc('FirelordTest', '123'),
 				// @ts-expect-error
 				withUnknownMember
 			)
 	})
 	it('test functionality', async () => {
 		await writeThenReadTest(async data => {
-			const ref = userRef.doc('FirelordTest', 'updateDocTestCase')
+			const ref = userRefCreator().doc('FirelordTest', 'updateDocTestCase')
 			await setDoc(ref, generateRandomData())
 			await updateDoc(ref, data)
 			return ref
@@ -207,7 +207,7 @@ describe('test updateDoc', () => {
 	})
 	it('test functionality with overload', async () => {
 		await writeThenReadTest(async data => {
-			const ref = userRef.doc('FirelordTest', 'updateDocTestCase')
+			const ref = userRefCreator().doc('FirelordTest', 'updateDocTestCase')
 			await setDoc(ref, generateRandomData())
 			await updateDoc(ref, data)
 			return ref
@@ -215,7 +215,10 @@ describe('test updateDoc', () => {
 	})
 	it('test same path, delete field, in hybrid', async () => {
 		const data = generateRandomData()
-		const ref = userRef.doc('FirelordTest', 'updateDocSpecificFieldTestCase')
+		const ref = userRefCreator().doc(
+			'FirelordTest',
+			'updateDocSpecificFieldTestCase'
+		)
 		await setDoc(ref, data)
 		const date = new Date()
 		const arr = [{ g: false, h: date, m: 9 }]

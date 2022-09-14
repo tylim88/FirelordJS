@@ -1,11 +1,11 @@
 import { query } from './query'
 import { limit, orderBy, where } from '../queryClauses'
-import { userRef, initializeApp } from '../utilForTests'
+import { userRefCreator, initializeApp } from '../utilForTests'
 import { documentId } from '../fieldPath'
 import { Timestamp } from 'firebase/firestore'
 
 initializeApp()
-const ref = userRef.collectionGroup()
+const ref = userRefCreator().collectionGroup()
 const fullDocPath = 'topLevel/FirelordTest/Users/a' as const // https://stackoverflow.com/questions/71575344/typescript-stop-object-type-from-widening-generic/71575870#71575870
 describe('test query ref', () => {
 	it('In a compound query, range (<, <=, >, >=) and not equals (!=, not-in) comparisons must all filter on the same field, negative test', () => {

@@ -1,6 +1,6 @@
 import { writeBatch } from '.'
 import {
-	userRef,
+	userRefCreator,
 	initializeApp,
 	generateRandomData,
 	readThenCompareWithWriteData,
@@ -22,9 +22,9 @@ describe('test update batch', () => {
 	})
 	it('test full update functionality', async () => {
 		const batch = writeBatch(getFirestore())
-		const docRef = userRef.doc('FirelordTest', 'updateBatchTestCase')
-		const docRef2 = userRef.doc('FirelordTest', 'updateBatchTestCase2')
-		const docRef3 = userRef.doc('FirelordTest', 'updateBatchTestCase3')
+		const docRef = userRefCreator().doc('FirelordTest', 'updateBatchTestCase')
+		const docRef2 = userRefCreator().doc('FirelordTest', 'updateBatchTestCase2')
+		const docRef3 = userRefCreator().doc('FirelordTest', 'updateBatchTestCase3')
 		const data = generateRandomData()
 		const data2 = generateRandomData()
 		const data3 = generateRandomData()
@@ -44,7 +44,10 @@ describe('test update batch', () => {
 	it('test same path, delete field, in hybrid', async () => {
 		const batch = writeBatch()
 		const data = generateRandomData()
-		const ref = userRef.doc('FirelordTest', 'updateBatchSpecificFieldTestCase')
+		const ref = userRefCreator().doc(
+			'FirelordTest',
+			'updateBatchSpecificFieldTestCase'
+		)
 		await setDoc(ref, data)
 		const date = new Date()
 		const arr = [{ g: false, h: date, m: 9 }]

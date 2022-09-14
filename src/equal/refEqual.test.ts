@@ -4,11 +4,11 @@ import {
 	getFirestore,
 } from 'firebase/firestore'
 import { refEqual } from './refEqual'
-import { initializeApp, userRef, User } from '../utilForTests'
+import { initializeApp, userRefCreator, User } from '../utilForTests'
 import { DocumentReference, CollectionReference } from '../types'
 initializeApp()
-const docRef = userRef.doc
-const colRef = userRef.collection
+const docRef = userRefCreator().doc
+const colRef = userRefCreator().collection
 describe('test refEqual', () => {
 	it('test equal', () => {
 		expect(

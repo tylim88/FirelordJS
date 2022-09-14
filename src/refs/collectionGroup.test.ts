@@ -1,12 +1,19 @@
 import { getDocs, setDoc } from '../operations'
 import { where } from '../queryClauses'
-import { initializeApp, userRef, generateRandomData } from '../utilForTests'
+import {
+	initializeApp,
+	userRefCreator,
+	generateRandomData,
+} from '../utilForTests'
 import { query } from './query'
 import { documentId } from '../fieldPath'
 
 initializeApp()
-const docRef = userRef.doc('FirelordTest', 'testCollectionGroupWithDocumentId')
-const colGroupRef = userRef.collectionGroup()
+const docRef = userRefCreator().doc(
+	'FirelordTest',
+	'testCollectionGroupWithDocumentId'
+)
+const colGroupRef = userRefCreator().collectionGroup()
 const data = generateRandomData()
 
 describe('test collection with documentId', () => {

@@ -37,6 +37,6 @@ export type GetOddOrEvenSegments<
 	? T extends `${infer H extends string}/${infer R extends string}`
 		? GetOddOrEvenSegments<R, false, [...ACC, H]>
 		: [...ACC, T]
-	: T extends `${infer H extends string}/${infer R extends string}`
+	: T extends `${string}/${infer R extends string}`
 	? GetOddOrEvenSegments<R, true, ACC>
 	: ACC

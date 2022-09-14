@@ -3,7 +3,7 @@ import {
 	generateRandomData,
 	compareWriteDataWithDocSnapData,
 	initializeApp,
-	userRef,
+	userRefCreator,
 	User,
 } from '../utilForTests'
 import { setDoc, deleteDoc } from '../operations'
@@ -25,10 +25,10 @@ const docId4 = 'onSnapshotWithOptionQueryTest'
 describe('test onSnapshot', () => {
 	afterAll(async () => {
 		await Promise.all([
-			deleteDoc(userRef.doc('FirelordTest', docId1)),
-			deleteDoc(userRef.doc('FirelordTest', docId2)),
-			deleteDoc(userRef.doc('FirelordTest', docId3)),
-			deleteDoc(userRef.doc('FirelordTest', docId4)),
+			deleteDoc(userRefCreator().doc('FirelordTest', docId1)),
+			deleteDoc(userRefCreator().doc('FirelordTest', docId2)),
+			deleteDoc(userRefCreator().doc('FirelordTest', docId3)),
+			deleteDoc(userRefCreator().doc('FirelordTest', docId4)),
 		])
 	})
 	it('test isOption', () => {
@@ -37,7 +37,7 @@ describe('test onSnapshot', () => {
 		expect(isOptions({ includeMetadataChanges: true })).toBe(true)
 	})
 	it('test one doc functionality and type', done => {
-		const docRef = userRef.doc('FirelordTest', docId1)
+		const docRef = userRefCreator().doc('FirelordTest', docId1)
 		const data = generateRandomData()
 		expect.hasAssertions()
 		setDoc(docRef, data).then(() => {
@@ -56,7 +56,7 @@ describe('test onSnapshot', () => {
 		})
 	})
 	it('test one doc functionality and type', done => {
-		const docRef = userRef.doc('FirelordTest', docId2)
+		const docRef = userRefCreator().doc('FirelordTest', docId2)
 		const data = generateRandomData()
 		expect.hasAssertions()
 		setDoc(docRef, data).then(() => {
@@ -77,12 +77,12 @@ describe('test onSnapshot', () => {
 		})
 	})
 	it('test naked query functionality and type with options', done => {
-		const docRef = userRef.doc('FirelordTest', docId3)
+		const docRef = userRefCreator().doc('FirelordTest', docId3)
 		const data = generateRandomData()
 		expect.hasAssertions()
 		setDoc(docRef, data).then(() => {
 			const unsub = onSnapshot(
-				query(userRef.collection('FirelordTest')),
+				query(userRefCreator().collection('FirelordTest')),
 				async querySnapshot => {
 					type A = typeof querySnapshot
 					type B = QuerySnapshot<User>
@@ -108,13 +108,13 @@ describe('test onSnapshot', () => {
 		})
 	})
 	it('test query with option functionality and type', done => {
-		const docRef = userRef.doc('FirelordTest', docId4)
+		const docRef = userRefCreator().doc('FirelordTest', docId4)
 		const data = generateRandomData()
 		expect.hasAssertions()
 		setDoc(docRef, data).then(() => {
 			const unsub = onSnapshot(
 				query(
-					userRef.collection('FirelordTest'),
+					userRefCreator().collection('FirelordTest'),
 					where('a.b.c', '==', data.a.b.c as number)
 				),
 				async querySnapshot => {

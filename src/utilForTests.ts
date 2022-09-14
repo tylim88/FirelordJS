@@ -52,7 +52,7 @@ export type User = MetaTypeCreator<
 	string,
 	Parent
 >
-export const userRef = () =>
+export const userRefCreator = () =>
 	getFirelord<User>(getFirestore(), `topLevel`, `Users`)
 
 export const generateRandomData = (): User['write'] => {

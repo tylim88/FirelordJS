@@ -66,13 +66,14 @@ describe('test', () => {
 	})
 	it('test collection path type', () => {
 		;() => {
-			getFirelord<User>(getFirestore(), `topLevel`, `Users`).collection(
+			getFirelord<User>(db, `topLevel`, `Users`).collection(
 				// @ts-expect-error
 				'abc'
 			)
 			const userRef =
 				// @ts-expect-error
-				getFirelord<User>('User1s')
+				getFirelord<User>(db, 'User1s')
+
 			userRef.doc(
 				// @ts-expect-error
 				123

@@ -3,7 +3,7 @@ import { DocumentId, IsTrue, IsSame, DocumentReference } from '../types'
 import { query } from '../refs'
 import { where } from '../queryClauses'
 import {
-	userRef,
+	userRefCreator,
 	initializeApp,
 	generateRandomData,
 	compareWriteDataWithDocSnapData,
@@ -11,9 +11,9 @@ import {
 } from '../utilForTests'
 import { setDoc, getDocs } from '../operations'
 initializeApp()
-const user = userRef
-const collectionGroupRef = user.collectionGroup()
-const collectionRef = user.collection('FirelordTest')
+const userRef = userRefCreator()
+const collectionGroupRef = userRef.collectionGroup()
+const collectionRef = userRef.collection('FirelordTest')
 const fullDocPath = 'topLevel/FirelordTest/Users/a' as const
 const incorrectFullDocPath = 'topLevel/FirelordTest/Use2rs/a' as const
 const incorrectSlashDocPath = 'topLevel/FirelordTest/Users/a/b' as const
@@ -52,11 +52,11 @@ describe('test document id type', () => {
 		query(collectionRef, where(documentId(), '!=', 'a' as const))
 		query(
 			collectionGroupRef,
-			where(documentId(), '==', user.doc('FirelordTest', 'abc'))
+			where(documentId(), '==', userRef.doc('FirelordTest', 'abc'))
 		)
 		query(
 			collectionRef,
-			where(documentId(), '!=', user.doc('FirelordTest', 'abc'))
+			where(documentId(), '!=', userRef.doc('FirelordTest', 'abc'))
 		)
 	})
 
@@ -78,19 +78,28 @@ describe('test document id type', () => {
 	})
 
 	it('test incorrect input', () => {
-		expect(() =>
-			query(
-				collectionGroupRef, // @ts-expect-error
-				where(documentId(), '==', user.doc('abc') as DocumentReference<Parent>)
+		query(
+			collectionGroupRef, // @ts-expect-error
+			where(
+				documentId(),
+				'==',
+				userRef.doc(
+					'FirelordTest',
+					'abc'
+				) as unknown as DocumentReference<Parent>
 			)
-		).toThrow()
-		expect(() =>
-			query(
-				collectionRef, // @ts-expect-error
-				where(documentId(), '!=', user.doc('abc') as DocumentReference<Parent>)
+		)
+		query(
+			collectionRef, // @ts-expect-error
+			where(
+				documentId(),
+				'!=',
+				userRef.doc(
+					'FirelordTest',
+					'abc'
+				) as unknown as DocumentReference<Parent>
 			)
-		).toThrow()
-
+		)
 		query(
 			collectionGroupRef,
 			// @ts-expect-error
@@ -147,7 +156,7 @@ describe('test document id type', () => {
 	it('test functionality', async () => {
 		const docID = 'TestDocumentID' as const
 		const data = generateRandomData()
-		const docRef = user.doc('FirelordTest', docID)
+		const docRef = userRef.doc('FirelordTest', docID)
 		await setDoc(docRef, data)
 		const query1 = query(collectionRef, where(documentId(), '==', docID))
 		const query2 = query(
@@ -173,7 +182,7 @@ describe('test document id type', () => {
 	it('test functionality with document reference', async () => {
 		const docID = 'TestDocumentIDWithDocRef' as const
 		const data = generateRandomData()
-		const docRef = user.doc('FirelordTest', docID) // as DocumentReference<Parent>
+		const docRef = userRef.doc('FirelordTest', docID) // as DocumentReference<Parent>
 		await setDoc(docRef, data)
 		const query1 = query(collectionRef, where(documentId(), '==', docRef))
 		const query2 = query(collectionGroupRef, where(documentId(), '==', docRef))

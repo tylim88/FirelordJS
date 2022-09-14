@@ -1,5 +1,5 @@
 import {
-	userRef,
+	userRefCreator,
 	initializeApp,
 	readThenCompareWithWriteData,
 	generateRandomData,
@@ -20,9 +20,9 @@ describe('test set batch', () => {
 	})
 	it('test set functionality', async () => {
 		const batch = writeBatch(getFirestore())
-		const docRef = userRef.doc('FirelordTest', 'setBatchTestCase')
-		const docRef2 = userRef.doc('FirelordTest', 'setBatchTestCase2')
-		const docRef3 = userRef.doc('FirelordTest', 'setBatchTestCase3')
+		const docRef = userRefCreator().doc('FirelordTest', 'setBatchTestCase')
+		const docRef2 = userRefCreator().doc('FirelordTest', 'setBatchTestCase2')
+		const docRef3 = userRefCreator().doc('FirelordTest', 'setBatchTestCase3')
 		const data = generateRandomData()
 		const data2 = generateRandomData()
 		const data3 = generateRandomData()
@@ -36,7 +36,7 @@ describe('test set batch', () => {
 	})
 	it('test delete functionality', async () => {
 		const batch = writeBatch(getFirestore())
-		const docRef = userRef.doc('FirelordTest', 'setBatchTestCaseRead')
+		const docRef = userRefCreator().doc('FirelordTest', 'setBatchTestCaseRead')
 		const data = generateRandomData()
 		await setDoc(docRef, data)
 		batch.delete(docRef)
@@ -46,7 +46,7 @@ describe('test set batch', () => {
 	})
 	it('test merge true functionality', async () => {
 		const batch = writeBatch(getFirestore())
-		const ref = userRef.doc('FirelordTest', 'setBatchTestMergeCase')
+		const ref = userRefCreator().doc('FirelordTest', 'setBatchTestMergeCase')
 		const data = generateRandomData()
 		await setDoc(ref, data)
 		batch.set(ref, { a: { b: { f: [] } } }, { merge: true })
@@ -56,7 +56,7 @@ describe('test set batch', () => {
 	})
 	it('test merge field functionality', async () => {
 		const batch = writeBatch(getFirestore())
-		const ref = userRef.doc('FirelordTest', 'setBatchTestMergeCase')
+		const ref = userRefCreator().doc('FirelordTest', 'setBatchTestMergeCase')
 		const data = generateRandomData()
 		await setDoc(ref, data)
 		batch.set(ref, { a: { b: { f: [] } } }, { mergeFields: ['a.b.f'] })
@@ -66,7 +66,7 @@ describe('test set batch', () => {
 	})
 	it('test merge field empty functionality', async () => {
 		const batch = writeBatch(getFirestore())
-		const ref = userRef.doc('FirelordTest', 'setBatchTestMergeCase')
+		const ref = userRefCreator().doc('FirelordTest', 'setBatchTestMergeCase')
 		const data = generateRandomData()
 		await setDoc(ref, data)
 		batch.set(ref, { a: { b: { f: [] } } }, { mergeFields: [] })

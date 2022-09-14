@@ -1,13 +1,13 @@
-import { query as query_, getFirestore } from 'firebase/firestore'
+import { query as query_ } from 'firebase/firestore'
 import { query } from '../refs'
 import { queryEqual } from './queryEqual'
-import { initializeApp, userRef } from '../utilForTests'
+import { initializeApp, userRefCreator } from '../utilForTests'
 import { where, orderBy } from '../queryClauses'
 
 initializeApp()
-const colRef = userRef.collection('FirelordTest')
-const colRef2 = userRef.collection('FirelordTest')
-const groupRef = userRef.collectionGroup
+const colRef = userRefCreator().collection('FirelordTest')
+const colRef2 = userRefCreator().collection('FirelordTest')
+const groupRef = userRefCreator().collectionGroup
 describe('test queryEqual', () => {
 	it('test equal', () => {
 		expect(

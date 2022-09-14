@@ -57,7 +57,8 @@ export type User = MetaTypeCreator<
 	string,
 	Parent
 >
-export const userRef = getFirelord<User>(getFirestore(), `topLevel`, `Users`)
+export const userRefCreator = () =>
+	getFirelord<User>(getFirestore(), `topLevel`, `Users`)
 
 export const generateRandomData = (): User['write'] => {
 	const beenTo = (pick([[{ China: ['Guangdong'] }], [{ US: ['california'] }]], {

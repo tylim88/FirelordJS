@@ -3,7 +3,7 @@ import { deleteDoc } from './deleteDoc'
 import { getDoc } from './getDoc'
 
 import {
-	userRef,
+	userRefCreator,
 	initializeApp,
 	generateRandomData,
 	readThenCompareWithWriteData,
@@ -16,7 +16,7 @@ describe('test addDoc', () => {
 	it('check return type', () => {
 		;async () => {
 			const docRef = await addDoc(
-				userRef.collection('FirelordTest'),
+				userRefCreator().collection('FirelordTest'),
 				generateRandomData()
 			)
 			type A = typeof docRef
@@ -26,7 +26,7 @@ describe('test addDoc', () => {
 	})
 	it('test wrong type', () => {
 		;() =>
-			addDoc(userRef.collection('FirelordTest'), {
+			addDoc(userRefCreator().collection('FirelordTest'), {
 				// @ts-expect-error
 				beenTo: [{}],
 				// @ts-expect-error
@@ -40,7 +40,7 @@ describe('test addDoc', () => {
 	it('test missing member', () => {
 		;() =>
 			// @ts-expect-error
-			addDoc(userRef.collection(), {
+			addDoc(userRefCreator().collection(), {
 				beenTo: [{ China: ['Guangdong'] }],
 				name: 'abc',
 				role: 'visitor',
@@ -48,7 +48,7 @@ describe('test addDoc', () => {
 	})
 	it('test functionality', async () => {
 		const data = generateRandomData()
-		const ref = userRef.collection('FirelordTest')
+		const ref = userRefCreator().collection('FirelordTest')
 		const docRef = await addDoc(ref, data)
 		await readThenCompareWithWriteData(data, docRef)
 		await deleteDoc(docRef)

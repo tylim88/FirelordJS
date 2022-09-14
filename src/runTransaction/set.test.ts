@@ -1,5 +1,5 @@
 import {
-	userRef,
+	userRefCreator,
 	readThenCompareWithWriteData,
 	generateRandomData,
 	initializeApp,
@@ -29,9 +29,18 @@ describe('test set transaction and overloading', () => {
 		}
 	})
 	it('test set functionality, with db', async () => {
-		const docRef = userRef.doc('FirelordTest', 'setTransactionTestCase')
-		const docRef2 = userRef.doc('FirelordTest', 'setTransactionTestCase2')
-		const docRef3 = userRef.doc('FirelordTest', 'setTransactionTestCase3')
+		const docRef = userRefCreator().doc(
+			'FirelordTest',
+			'setTransactionTestCase'
+		)
+		const docRef2 = userRefCreator().doc(
+			'FirelordTest',
+			'setTransactionTestCase2'
+		)
+		const docRef3 = userRefCreator().doc(
+			'FirelordTest',
+			'setTransactionTestCase3'
+		)
 		const data = generateRandomData()
 		const data2 = generateRandomData()
 		const data3 = generateRandomData()
@@ -45,7 +54,10 @@ describe('test set transaction and overloading', () => {
 		await readThenCompareWithWriteData(data3, docRef3)
 	})
 	it('test read functionality, with options', async () => {
-		const docRef = userRef.doc('FirelordTest', 'setTransactionTestCaseRead')
+		const docRef = userRefCreator().doc(
+			'FirelordTest',
+			'setTransactionTestCaseRead'
+		)
 		const data = generateRandomData()
 		await setDoc(docRef, data)
 		await runTransaction(
@@ -57,7 +69,10 @@ describe('test set transaction and overloading', () => {
 		)
 	})
 	it('test delete functionality, with db and options', async () => {
-		const docRef = userRef.doc('FirelordTest', 'setTransactionTestCaseRead')
+		const docRef = userRefCreator().doc(
+			'FirelordTest',
+			'setTransactionTestCaseRead'
+		)
 		const data = generateRandomData()
 		await setDoc(docRef, data)
 		await runTransaction(
@@ -71,7 +86,10 @@ describe('test set transaction and overloading', () => {
 		expect(docSnap.exists()).toBe(false)
 	})
 	it('test merge true functionality', async () => {
-		const ref = userRef.doc('FirelordTest', 'setTransactionTestMergeCase')
+		const ref = userRefCreator().doc(
+			'FirelordTest',
+			'setTransactionTestMergeCase'
+		)
 		const data = generateRandomData()
 		await setDoc(ref, data)
 		await runTransaction(async transaction => {
@@ -81,7 +99,10 @@ describe('test set transaction and overloading', () => {
 		await readThenCompareWithWriteData(data, ref)
 	})
 	it('test merge field functionality', async () => {
-		const ref = userRef.doc('FirelordTest', 'setTransactionTestMergeCase')
+		const ref = userRefCreator().doc(
+			'FirelordTest',
+			'setTransactionTestMergeCase'
+		)
 		const data = generateRandomData()
 		await setDoc(ref, data)
 		await runTransaction(async transaction => {
@@ -91,7 +112,10 @@ describe('test set transaction and overloading', () => {
 		await readThenCompareWithWriteData(data, ref)
 	})
 	it('test merge field empty functionality', async () => {
-		const ref = userRef.doc('FirelordTest', 'setTransactionTestMergeCase')
+		const ref = userRefCreator().doc(
+			'FirelordTest',
+			'setTransactionTestMergeCase'
+		)
 		const data = generateRandomData()
 		await setDoc(ref, data)
 		await runTransaction(async transaction => {
