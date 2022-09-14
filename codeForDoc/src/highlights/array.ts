@@ -48,4 +48,6 @@ const docRef2 = getFirelord<b>()('a').collection()
 query(docRef2, where('x', 'array-contains', { y: 1, z: 'h' })) // ok
 query(docRef2, where('x', '==', [{ y: 1, z: 'h' }])) // ok
 // @ts-expect-error
-query(docRef2, where('x.y', '!=', 1)) // nested path is not possible
+query(docRef2, where('x', 'array-contains', { y: 1 })) // not ok, partial member!
+// @ts-expect-error
+query(docRef2, where('x', '==', [{ z: 'h' }])) // not ok, partial member!
