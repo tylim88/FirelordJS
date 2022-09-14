@@ -1,6 +1,6 @@
 # HISTORY
 
-## 2.0.0
+## 2.0.0 15-Sept-2022
 
 - new way to declare firelord ref
 - new interface for doc, collection and collection group
