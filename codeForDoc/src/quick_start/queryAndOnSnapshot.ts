@@ -21,7 +21,7 @@ export const dummy = async () => {
 
 	const unsub = onSnapshot(
 		query(
-			example.collection(),
+			example.collectionGroup(),
 			where('b.d', 'array-contains', { e: 'hello' }),
 			orderBy('f.g'),
 			startAfter(new Date())

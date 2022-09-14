@@ -11,7 +11,7 @@ type Parent = MetaTypeCreator<
 	{
 		a: number
 	},
-	'parent',
+	'columnIDLevel1',
 	string
 >
 
@@ -20,21 +20,46 @@ type Child = MetaTypeCreator<
 		a: 'a' | 'b' | 'c'
 		b: { c: number }
 	},
-	'child',
+	'columnIDLevel2',
 	string,
-	Parent
+	Parent // child's parent is Parent
 >
-//
-//
-//
-//
-//
-const firelordRef = getFirelord<Child>(
+
+type GrandChild = MetaTypeCreator<
+	{
+		e: { f: boolean }[]
+	},
+	'columnIDLevel3',
+	string,
+	Child // grandChild's parent is child
+>
+
+const firelordRef = getFirelord<GrandChild>(
 	db,
-	'parent',
-	'child',
+	'columnIDLevel1', // parent
+	'columnIDLevel2', // child
+	'columnIDLevel3' // grandChild
+)
+
+// full doc path is columnIDLevel1/docIDLevel1/columnIDLevel2/docIDLevel2/columnIDLevel3/docIDLevel3
+const docRef = firelordRef.doc('docIDLevel1', 'docIDLevel2', 'docIDLevel3')
+
+// full collection path is columnIDLevel1/docIDLevel1/columnIDLevel2/docIDLevel2/columnIDLevel3
+// full collection path don't need the last docID, in this case docIDLevel3
+const colRef = firelordRef.collection('docIDLevel1', 'docIDLevel2')
+
+// collection group don't need any argument regardless of descendant level.
+const colGroupRef = firelordRef.collectionGroup()
+
+const firelordRef2 = getFirelord<GrandChild>(
+	db,
+	'columnIDLevel1',
+	'columnIDLevel2',
+	//
+	//
+	//
 	// @ts-expect-error
-	'abc'
+	'unknownCollectionName'
 )
 //
 //
@@ -42,12 +67,16 @@ const firelordRef = getFirelord<Child>(
 //
 //
 //
-//
-const firelordRef2 = getFirelord<Child>(
+// @ts-expect-error
+const firelordRef3 = getFirelord<GrandChild>(
+	//
+	//
+	//
+	//
+	//
 	db,
-	// @ts-expect-error
-	'par222ent',
-	'ch333ild'
+	'columnIDLevel1',
+	'columnIDLevel2'
 )
 
 type read = Child['read']
@@ -56,59 +85,3 @@ type writeFlatten = Child['writeFlatten']
 type compare = Child['compare']
 
 type member = writeFlatten['b.c']
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-type abc = MetaTypeCreator<
-	{
-		a: { b: number } | { c: string }
-	},
-	'parent',
-	string
->
-//
-//
-//
-//
-//
-//
-//
-//
-//
-const collectionReferenceParent = getFirelord<Child>(
-	db,
-	'parent',
-	'child'
-).collection('abc').parent
-
-const collectionReferenceParentTypeCasted = getFirelord<Child>(
-	db,
-	'parent',
-	'child'
-).collection('abc').parent as unknown as DocumentReference<Parent>
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-type abc2 = MetaTypeCreator<Record<number, unknown>, 'parent', string>
