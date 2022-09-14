@@ -6,7 +6,7 @@ const app = initializeApp({
 	projectId: '### PROJECT ID ###',
 })
 
-export const db = getFirestore()
+export const db = getFirestore(app)
 
 export const example = getFirelord<Example>(
 	getFirestore(),
