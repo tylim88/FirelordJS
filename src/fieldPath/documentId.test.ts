@@ -17,7 +17,11 @@ const collectionRef = userRef.collection('FirelordTest')
 const fullDocPath = 'topLevel/FirelordTest/Users/a' as const
 const incorrectFullDocPath = 'topLevel/FirelordTest/Use2rs/a' as const
 const incorrectSlashDocPath = 'topLevel/FirelordTest/Users/a/b' as const
-
+const docRef = userRefCreator().doc(
+	'FirelordTest',
+	'testCollectionWithDocumentId'
+)
+const data = generateRandomData()
 // documentId is also tested in query for common test
 describe('test document id type', () => {
 	it('test return type', () => {
@@ -151,6 +155,26 @@ describe('test document id type', () => {
 		)
 		// @ts-expect-error
 		query(collectionRef, where(documentId(), '!=', 'a'))
+	})
+
+	it(`Invalid query. When querying a collection by documentId(), you must provide a plain document ID, but 'topLevel/FirelordTest/Users/testCollectionWithDocumentId' contains a '/' character, positive test`, async () => {
+		await setDoc(docRef, data)
+		const snapshot = await getDocs(
+			query(
+				collectionRef,
+				where(documentId(), '==', 'testCollectionWithDocumentId' as const)
+			)
+		)
+		expect(snapshot.docs[0]?.data().age).toBe(data.age)
+	})
+	it(`Invalid query. When querying a collection by documentId(), you must provide a plain document ID, but 'topLevel/FirelordTest/Users/testCollectionWithDocumentId' contains a '/' character, negative test`, async () => {
+		expect(() =>
+			query(
+				collectionRef,
+				// @ts-expect-error
+				where(documentId(), '==', docRef.path)
+			)
+		).toThrow()
 	})
 
 	it('test functionality', async () => {
