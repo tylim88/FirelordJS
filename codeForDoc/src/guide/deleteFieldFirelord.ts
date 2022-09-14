@@ -61,6 +61,7 @@ updateDoc(docRef2, {
 	//
 	//
 	//
+	//
 	// @ts-expect-error
 	a: [deleteField()], // @ts-expect-error
 	b: [{ c: deleteField() }],
