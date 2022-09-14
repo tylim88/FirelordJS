@@ -11,7 +11,7 @@ import { getFirestore } from 'firebase/firestore'
 import { WriteBatchUpdate, IsTrue, IsSame } from '../types'
 
 initializeApp()
-const userRef = userRefCreator()
+
 // dont need to add TYPE test code anymore, because it share the same type with basic operation where type tests are done
 // just need to test whether the return type is correct or not
 describe('test update batch', () => {
@@ -22,9 +22,9 @@ describe('test update batch', () => {
 	})
 	it('test full update functionality', async () => {
 		const batch = writeBatch(getFirestore())
-		const docRef = userRef.doc('updateBatchTestCase')
-		const docRef2 = userRef.doc('updateBatchTestCase2')
-		const docRef3 = userRef.doc('updateBatchTestCase3')
+		const docRef = userRefCreator().doc('FirelordTest', 'updateBatchTestCase')
+		const docRef2 = userRefCreator().doc('FirelordTest', 'updateBatchTestCase2')
+		const docRef3 = userRefCreator().doc('FirelordTest', 'updateBatchTestCase3')
 		const data = generateRandomData()
 		const data2 = generateRandomData()
 		const data3 = generateRandomData()
@@ -44,7 +44,10 @@ describe('test update batch', () => {
 	it('test same path, delete field, in hybrid', async () => {
 		const batch = writeBatch()
 		const data = generateRandomData()
-		const ref = userRef.doc('updateBatchSpecificFieldTestCase')
+		const ref = userRefCreator().doc(
+			'FirelordTest',
+			'updateBatchSpecificFieldTestCase'
+		)
 		await setDoc(ref, data)
 		const date = new Date()
 		const arr = [{ g: false, h: date, m: 9 }]

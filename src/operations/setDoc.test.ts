@@ -11,7 +11,6 @@ import { increment, arrayUnion, serverTimestamp } from '../fieldValue'
 import { Set, IsTrue, IsSame } from '../types'
 
 initializeApp()
-const userRef = userRefCreator()
 describe('test setDoc', () => {
 	it('test whether the return type is correct', () => {
 		type A = typeof setDoc
@@ -21,7 +20,7 @@ describe('test setDoc', () => {
 	it('test wrong type', () => {
 		;() =>
 			setDoc(
-				userRef.doc('123'),
+				userRefCreator().doc('FirelordTest', '123'),
 				{
 					// @ts-expect-error
 					beenTo: [{}],
@@ -37,7 +36,7 @@ describe('test setDoc', () => {
 				undefined
 			)
 		;() =>
-			setDoc(userRef.doc('123'), {
+			setDoc(userRefCreator().doc('FirelordTest', '123'), {
 				beenTo: [],
 				// @ts-expect-error
 				name: true,
@@ -67,7 +66,7 @@ describe('test setDoc', () => {
 	it('test missing member', () => {
 		;() =>
 			// @ts-expect-error
-			setDoc(userRef.doc('123'), {
+			setDoc(userRefCreator().doc('123'), {
 				beenTo: [{ China: ['Guangdong'] }],
 				name: 'abc',
 				role: 'visitor',
@@ -75,7 +74,7 @@ describe('test setDoc', () => {
 	})
 	it('test empty array', () => {
 		;() =>
-			setDoc(userRef.doc('123'), {
+			setDoc(userRefCreator().doc('FirelordTest', '123'), {
 				beenTo: [],
 				name: 'abc',
 				role: 'admin',
@@ -90,7 +89,7 @@ describe('test setDoc', () => {
 	})
 	it('test filled array', () => {
 		;() =>
-			setDoc(userRef.doc('123'), {
+			setDoc(userRefCreator().doc('FirelordTest', '123'), {
 				beenTo: [{ US: ['California', 'Hawaii'] }],
 				name: 'abc',
 				role: 'admin',
@@ -107,7 +106,7 @@ describe('test setDoc', () => {
 		const withUnknownMember = { ...generateRandomData(), unknown: '123' }
 		;() =>
 			setDoc(
-				userRef.doc('123'),
+				userRefCreator().doc('FirelordTest', '123'),
 				// @ts-expect-error
 				withUnknownMember
 			)
@@ -115,7 +114,7 @@ describe('test setDoc', () => {
 	it('test merge:false with missing type', () => {
 		;() =>
 			setDoc(
-				userRef.doc('123'),
+				userRefCreator().doc('FirelordTest', '123'),
 				{
 					beenTo: [{ US: ['California', 'Hawaii'] }],
 					name: 'abc',
@@ -137,7 +136,7 @@ describe('test setDoc', () => {
 	it('test merge:false with correct type', () => {
 		;() =>
 			setDoc(
-				userRef.doc('123'),
+				userRefCreator().doc('FirelordTest', '123'),
 				{
 					beenTo: [{ US: ['California', 'Hawaii'] }],
 					name: 'abc',
@@ -156,7 +155,7 @@ describe('test setDoc', () => {
 	it('test merge type with missing data type in non array, should pass', () => {
 		;() =>
 			setDoc(
-				userRef.doc('123'),
+				userRefCreator().doc('FirelordTest', '123'),
 				{
 					beenTo: [{ US: ['California', 'Hawaii'] }],
 					name: 'abc',
@@ -173,7 +172,7 @@ describe('test setDoc', () => {
 	it('test merge type with missing data type in array, should failed', () => {
 		;() =>
 			setDoc(
-				userRef.doc('123'),
+				userRefCreator().doc('FirelordTest', '123'),
 				{
 					beenTo: [{ US: ['California', 'Hawaii'] }],
 					name: 'abc',
@@ -194,7 +193,7 @@ describe('test setDoc', () => {
 	it('test merge field type with empty path', () => {
 		;() =>
 			setDoc(
-				userRef.doc('123'),
+				userRefCreator().doc('FirelordTest', '123'),
 				{
 					beenTo: [{ US: ['California', 'Hawaii'] }],
 					age: 30,
@@ -209,7 +208,7 @@ describe('test setDoc', () => {
 	it('test merge field type with correct path', () => {
 		;() =>
 			setDoc(
-				userRef.doc('123'),
+				userRefCreator().doc('FirelordTest', '123'),
 				{
 					beenTo: [{ US: ['California', 'Hawaii'] }],
 					age: 30,
@@ -226,7 +225,7 @@ describe('test setDoc', () => {
 	it('test merge field type with incorrect path', () => {
 		;() =>
 			setDoc(
-				userRef.doc('123'),
+				userRefCreator().doc('FirelordTest', '123'),
 				{
 					beenTo: [{ US: ['California', 'Hawaii'] }],
 					name: 'abc',
@@ -251,7 +250,7 @@ describe('test setDoc', () => {
 	})
 	it('test functionality', async () => {
 		await writeThenReadTest(async data => {
-			const ref = userRef.doc('setDocTestCase')
+			const ref = userRefCreator().doc('FirelordTest', 'setDocTestCase')
 			await setDoc(ref, data)
 
 			return ref
@@ -259,14 +258,17 @@ describe('test setDoc', () => {
 	})
 	it('test merge false functionality', async () => {
 		await writeThenReadTest(async data => {
-			const ref = userRef.doc('setDocTestCaseMergeFalse')
+			const ref = userRefCreator().doc(
+				'FirelordTest',
+				'setDocTestCaseMergeFalse'
+			)
 			await setDoc(ref, data, { merge: false })
 
 			return ref
 		})
 	})
 	it('test merge true functionality', async () => {
-		const ref = userRef.doc('setDocTestCaseMergeTrue')
+		const ref = userRefCreator().doc('FirelordTest', 'setDocTestCaseMergeTrue')
 		const data = generateRandomData()
 		await setDoc(ref, data)
 		await setDoc(ref, { a: { b: { f: [] } } }, { merge: true })
@@ -274,7 +276,7 @@ describe('test setDoc', () => {
 		await readThenCompareWithWriteData(data, ref)
 	})
 	it('test merge field functionality', async () => {
-		const ref = userRef.doc('setDocTestCaseMergeField')
+		const ref = userRefCreator().doc('FirelordTest', 'setDocTestCaseMergeField')
 		const data = generateRandomData()
 		await setDoc(ref, data)
 		await setDoc(ref, { a: { b: { f: [] } } }, { mergeFields: ['a.b.f'] })
@@ -282,7 +284,10 @@ describe('test setDoc', () => {
 		await readThenCompareWithWriteData(data, ref)
 	})
 	it('test merge field empty functionality', async () => {
-		const ref = userRef.doc('setDocTestCaseMergeFieldEmpty')
+		const ref = userRefCreator().doc(
+			'FirelordTest',
+			'setDocTestCaseMergeFieldEmpty'
+		)
 		const data = generateRandomData()
 		await setDoc(ref, data)
 		await setDoc(ref, { a: { b: { f: [] } } }, { mergeFields: [] })

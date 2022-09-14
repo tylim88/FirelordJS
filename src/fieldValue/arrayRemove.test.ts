@@ -1,4 +1,4 @@
-import { getFirelord } from '..'
+import { getFirelord, getFirestore } from '..'
 import { setDoc, getDoc, updateDoc } from '../operations'
 import { initializeApp } from '../utilForTests'
 import { MetaTypeCreator } from '../types'
@@ -6,10 +6,9 @@ import { arrayRemove } from './arrayRemove'
 
 initializeApp()
 describe('test arrayRemove', () => {
-	const ref =
-		getFirelord<MetaTypeCreator<{ a: number[] }, 'arrayRemove', string>>()(
-			'arrayRemove'
-		)
+	const ref = getFirelord<
+		MetaTypeCreator<{ a: number[] }, 'arrayRemove', string>
+	>(getFirestore(), 'arrayRemove')
 	const docRef = ref.doc('arrayRemove')
 	it('test with set', async () => {
 		await setDoc(docRef, { a: [-100, 100, 0] })

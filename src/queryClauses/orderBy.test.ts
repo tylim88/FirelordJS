@@ -9,8 +9,7 @@ import { endAt } from './endAt'
 import { QueryDocumentSnapshot, DocumentSnapshot } from '../types'
 
 initializeApp()
-const user = userRefCreator()
-const ref = user.collectionGroup()
+const ref = userRefCreator().collectionGroup()
 const ParentDocumentSnapshot = 1 as unknown as DocumentSnapshot<Parent>
 const ParentQueryDocumentSnapshot =
 	1 as unknown as QueryDocumentSnapshot<Parent>

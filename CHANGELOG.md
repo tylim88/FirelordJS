@@ -1,12 +1,19 @@
 # HISTORY
 
-## v 1.7.4 8-Sept-2022
+## 2.0.0 15-Sept-2022
+
+- new way to declare firelord ref
+- new interface for doc, collection and collection group
+- this is a big change, please read documentation for more details
+- add check for InvalidID (Cannot match the regular expression `__.*__`)
+
+## 1.7.4 8-Sept-2022
 
 - reduce compiled size
 - further simplify typing
 - update eslint
 
-## v 1.7.0 7-Sept-2022
+## 1.7.0 7-Sept-2022
 
 important updates
 
@@ -17,25 +24,25 @@ important updates
 - add peerDependencies field to package.json
 - remove the need of crypto module (this module may causes a lot of issues because it is a nodejs module)
 
-## v 1.6.6 27-July-2022
+## 1.6.6 27-July-2022
 
 - replace Query<T> | CollectionReference<T> with Query<T>
 
-## v 1.6.5 24-July-2022
+## 1.6.5 24-July-2022
 
 - fix direct nested array prevention not working
 
-## v 1.6.4 23-July-2022
+## 1.6.4 23-July-2022
 
 - export create (admin only)
 
-## v 1.6.3 23-July-2022
+## 1.6.3 23-July-2022
 
 - no longer replace empty array of cursor with unique value as it will affect query result
 - if the cursor has 0 argument (empty array rest parameter), it is removed from the query reference instead
 - cursor now treat QueryDocumentSnapshot like DocumentSnapshot: if the argument of cursors is QueryDocumentSnapshot, it should be the one and only argument.
 
-## v 1.6.0 22-July-2022
+## 1.6.0 22-July-2022
 
 - cursor now will not accept empty argument
 - cursor now handle empty argument in runtime

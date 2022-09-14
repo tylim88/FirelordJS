@@ -12,8 +12,6 @@ import { deleteField } from '../fieldValue'
 import { updateCreator } from './update'
 
 initializeApp()
-const userRef = userRefCreator()
-
 describe('test update transaction', () => {
 	it('test whether the return type is correct', () => {
 		type A = ReturnType<typeof updateCreator>
@@ -22,9 +20,18 @@ describe('test update transaction', () => {
 	})
 
 	it('test functionality', async () => {
-		const docRef = userRef.doc('updateTransactionTestCase')
-		const docRef2 = userRef.doc('updateTransactionTestCase2')
-		const docRef3 = userRef.doc('updateTransactionTestCase3')
+		const docRef = userRefCreator().doc(
+			'FirelordTest',
+			'updateTransactionTestCase'
+		)
+		const docRef2 = userRefCreator().doc(
+			'FirelordTest',
+			'updateTransactionTestCase2'
+		)
+		const docRef3 = userRefCreator().doc(
+			'FirelordTest',
+			'updateTransactionTestCase3'
+		)
 		const data = generateRandomData()
 		const data2 = generateRandomData()
 		const data3 = generateRandomData()
@@ -44,7 +51,10 @@ describe('test update transaction', () => {
 	})
 	it('test same path, delete field, in hybrid', async () => {
 		const data = generateRandomData()
-		const ref = userRef.doc('updateTransactionSpecificFieldTestCase')
+		const ref = userRefCreator().doc(
+			'FirelordTest',
+			'updateTransactionSpecificFieldTestCase'
+		)
 		await setDoc(ref, data)
 		const date = new Date()
 		const arr = [{ g: false, h: date, m: 9 }]

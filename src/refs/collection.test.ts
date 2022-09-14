@@ -1,35 +1,43 @@
-import { getDocs, setDoc } from '../operations'
-import { where } from '../queryClauses'
-import {
-	initializeApp,
-	userRefCreator,
-	generateRandomData,
-} from '../utilForTests'
-import { query } from './query'
-import { documentId } from '../fieldPath'
+import { initializeApp, grandChildRefCreator } from '../utilForTests'
 
 initializeApp()
-const docRef = userRefCreator().doc('testCollectionWithDocumentId')
-const colRef = userRefCreator().collection()
-const data = generateRandomData()
-describe('test collection with documentId', () => {
-	it(`Invalid query. When querying a collection by documentId(), you must provide a plain document ID, but 'topLevel/FirelordTest/Users/testCollectionWithDocumentId' contains a '/' character, positive test`, async () => {
-		await setDoc(docRef, data)
-		const snapshot = await getDocs(
-			query(
-				colRef,
-				where(documentId(), '==', 'testCollectionWithDocumentId' as const)
-			)
-		)
-		expect(snapshot.docs[0]?.data().age).toBe(data.age)
+
+const grandChildRef = grandChildRefCreator()
+
+describe('simple collection type test', () => {
+	it('test invalid doc ID, negative test', () => {
+		grandChildRef.collection('FirelordTest', 'ab')
+
+		grandChildRef.collection('FirelordTest', 'a.b')
+
+		grandChildRef.collection('FirelordTest', '_a._.b_')
 	})
-	it(`Invalid query. When querying a collection by documentId(), you must provide a plain document ID, but 'topLevel/FirelordTest/Users/testCollectionWithDocumentId' contains a '/' character, negative test`, async () => {
+
+	it('test invalid doc ID, negative test', () => {
 		expect(() =>
-			query(
-				colRef,
+			grandChildRef.collection(
+				'FirelordTest',
 				// @ts-expect-error
-				where(documentId(), '==', docRef.path)
+				'a/b'
 			)
 		).toThrow()
+
+		grandChildRef.collection(
+			'FirelordTest',
+			// @ts-expect-error
+			'.'
+		)
+
+		grandChildRef.collection(
+			'FirelordTest',
+			// @ts-expect-error
+			'a..b'
+		)
+
+		grandChildRef.collection(
+			'FirelordTest',
+			// @ts-expect-error
+			'__ab__'
+		)
 	})
 })

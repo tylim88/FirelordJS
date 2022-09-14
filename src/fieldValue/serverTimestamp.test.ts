@@ -1,4 +1,4 @@
-import { getFirelord } from '..'
+import { getFirelord, getFirestore } from '..'
 import { setDoc, getDoc } from '../operations'
 import { initializeApp } from '../utilForTests'
 import { MetaTypeCreator, ServerTimestamp } from '../types'
@@ -6,10 +6,9 @@ import { serverTimestamp } from './serverTimestamp'
 
 initializeApp()
 describe('test serverTimestamp', () => {
-	const ref =
-		getFirelord<
-			MetaTypeCreator<{ a: ServerTimestamp }, 'serverTimestamp', string>
-		>()('serverTimestamp')
+	const ref = getFirelord<
+		MetaTypeCreator<{ a: ServerTimestamp }, 'serverTimestamp', string>
+	>(getFirestore(), 'serverTimestamp')
 	const docRef = ref.doc('serverTimestamp')
 	it('test with set', async () => {
 		await setDoc(docRef, { a: serverTimestamp() })

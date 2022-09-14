@@ -29,18 +29,14 @@ export type IsEqual<T, U> = T[] extends U[]
 		: false
 	: false
 
-export type OddNumber<
-	X extends number,
-	Y extends unknown[] = [1],
-	Z extends number = never
-> = Y['length'] extends X
-	? Z | Y['length']
-	: OddNumber<X, [1, 1, ...Y], Z | Y['length']>
-
-export type EvenNumber<
-	X extends number,
-	Y extends unknown[] = [],
-	Z extends number = never
-> = Y['length'] extends X
-	? Z | Y['length']
-	: OddNumber<X, [1, 1, ...Y], Z | Y['length']>
+export type GetOddOrEvenSegments<
+	T extends string,
+	ToGet extends boolean = true,
+	ACC extends string[] = []
+> = ToGet extends true
+	? T extends `${infer H extends string}/${infer R extends string}`
+		? GetOddOrEvenSegments<R, false, [...ACC, H]>
+		: [...ACC, T]
+	: T extends `${string}/${infer R extends string}`
+	? GetOddOrEvenSegments<R, true, ACC>
+	: ACC

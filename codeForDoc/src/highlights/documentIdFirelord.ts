@@ -5,7 +5,10 @@ import {
 	where,
 	orderBy,
 	documentId,
+	getFirestore,
 } from 'firelordjs'
+
+const db = getFirestore()
 
 type Parent = MetaTypeCreator<
 	{
@@ -23,9 +26,9 @@ type Child = MetaTypeCreator<
 	string,
 	Parent
 >
-const firelordRef = getFirelord<Child>()('parent/abc/child')
-const colRef = firelordRef.collection()
-const groupRef = getFirelord<Child>()('parent/abc/child').collectionGroup()
+const firelordRef = getFirelord<Child>(db, 'parent', 'child')
+const colRef = firelordRef.collection('abc')
+const groupRef = getFirelord<Child>(db, 'parent', 'child').collectionGroup()
 //
 //
 //

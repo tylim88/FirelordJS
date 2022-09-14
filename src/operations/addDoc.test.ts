@@ -12,11 +12,13 @@ import {
 import { IsSame, IsTrue, DocumentReference } from '../types'
 
 initializeApp()
-const userRef = userRefCreator()
 describe('test addDoc', () => {
 	it('check return type', () => {
 		;async () => {
-			const docRef = await addDoc(userRef.collection(), generateRandomData())
+			const docRef = await addDoc(
+				userRefCreator().collection('FirelordTest'),
+				generateRandomData()
+			)
 			type A = typeof docRef
 			type B = DocumentReference<User>
 			IsTrue<IsSame<A, B>>()
@@ -24,7 +26,7 @@ describe('test addDoc', () => {
 	})
 	it('test wrong type', () => {
 		;() =>
-			addDoc(userRef.collection(), {
+			addDoc(userRefCreator().collection('FirelordTest'), {
 				// @ts-expect-error
 				beenTo: [{}],
 				// @ts-expect-error
@@ -38,7 +40,7 @@ describe('test addDoc', () => {
 	it('test missing member', () => {
 		;() =>
 			// @ts-expect-error
-			addDoc(userRef.collection(), {
+			addDoc(userRefCreator().collection(), {
 				beenTo: [{ China: ['Guangdong'] }],
 				name: 'abc',
 				role: 'visitor',
@@ -46,7 +48,7 @@ describe('test addDoc', () => {
 	})
 	it('test functionality', async () => {
 		const data = generateRandomData()
-		const ref = userRef.collection()
+		const ref = userRefCreator().collection('FirelordTest')
 		const docRef = await addDoc(ref, data)
 		await readThenCompareWithWriteData(data, docRef)
 		await deleteDoc(docRef)

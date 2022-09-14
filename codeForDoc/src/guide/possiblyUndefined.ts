@@ -4,7 +4,10 @@ import {
 	MetaTypeCreator,
 	getFirelord,
 	PossiblyReadAsUndefined,
+	getFirestore,
 } from 'firelordjs'
+
+const db = getFirestore()
 
 type abc = MetaTypeCreator<
 	{
@@ -15,7 +18,7 @@ type abc = MetaTypeCreator<
 	string
 >
 
-const docRef = getFirelord<abc>()('abc').doc('efg')
+const docRef = getFirelord<abc>(db, 'abc').doc('efg')
 
 getDoc(docRef).then(docSnap => {
 	//
@@ -41,7 +44,7 @@ type abc2 = MetaTypeCreator<
 	{ allFieldsPossiblyReadAsUndefined: true }
 >
 
-const docRef2 = getFirelord<abc2>()('abc').doc('efg')
+const docRef2 = getFirelord<abc2>(db, 'abc').doc('efg')
 
 getDoc(docRef2).then(docSnap => {
 	//
@@ -69,7 +72,7 @@ type abc3 = MetaTypeCreator<
 	string
 >
 
-const docRef3 = getFirelord<abc3>()('abc').doc('efg')
+const docRef3 = getFirelord<abc3>(db, 'abc').doc('efg')
 
 getDoc(docRef3).then(docSnap => {
 	const data = docSnap.data()
@@ -96,7 +99,7 @@ type abc4 = MetaTypeCreator<
 	string
 >
 
-const docRef4 = getFirelord<abc4>()('abc').doc('efg')
+const docRef4 = getFirelord<abc4>(db, 'abc').doc('efg')
 
 getDoc(docRef4).then(docSnap => {
 	const data = docSnap.data()
@@ -124,7 +127,7 @@ type abc5 = MetaTypeCreator<
 	string
 >
 
-const docRef5 = getFirelord<abc5>()('abc').doc('efg')
+const docRef5 = getFirelord<abc5>(db, 'abc').doc('efg')
 
 setDoc(docRef5, {
 	//

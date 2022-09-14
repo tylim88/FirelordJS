@@ -5,8 +5,7 @@ import { documentId } from '../fieldPath'
 import { Timestamp } from 'firebase/firestore'
 
 initializeApp()
-const user = userRefCreator()
-const ref = user.collectionGroup()
+const ref = userRefCreator().collectionGroup()
 const fullDocPath = 'topLevel/FirelordTest/Users/a' as const // https://stackoverflow.com/questions/71575344/typescript-stop-object-type-from-widening-generic/71575870#71575870
 describe('test query ref', () => {
 	it('In a compound query, range (<, <=, >, >=) and not equals (!=, not-in) comparisons must all filter on the same field, negative test', () => {

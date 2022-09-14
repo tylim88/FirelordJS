@@ -1,84 +1,62 @@
-import { getFirestore } from 'firebase/firestore'
 import {
 	MetaType,
-	IsValidID,
-	GetNumberOfSlash,
-	ErrorNumberOfForwardSlashIsNotEqual,
-	CollectionReference,
 	Query,
 	Firestore,
 	Doc,
+	Collection,
+	GetOddOrEvenSegments,
 } from './types'
 import { docCreator, collectionCreator, collectionGroupCreator } from './refs'
 
 /**
- Gets a function that returns FirelordReference instance that refers to the doc, collection, and collectionGroup at the specified absolute path.
- 
- @param firestore 
- Optional. A reference to the Firestore database. If no value is provided, default Firestore instance is used. 
- If value is provided, the provided value is the new default instances(for this ref only).
- 
- @returns function that return object literal contains DocumentReference, CollectionReference and CollectionGroupReference instance.
+ * Gets a FirelordReference instance that refers to the doc, collection, and collectionGroup at the specified absolute path.
+ * @param firestore - A reference to the root `Firestore` instance.
+ * @param collectionIDs - all the collectionID(s) needed to build this collection path.
+ * @returns Creator function of DocumentReference, CollectionReference and CollectionGroupReference.
  */
-export const getFirelord =
-	<T extends MetaType>(firestore?: Firestore): Ref<T> =>
-	collectionPath => {
-		const fStore = firestore || getFirestore()
-		const doc = docCreator<T>(fStore, collectionPath)
-		const collection = collectionCreator<T>(fStore, collectionPath)
-		const collectionGroup = collectionGroupCreator<T>(
-			fStore,
-			collectionPath.split('/').pop() as string
-		)
-		return {
-			doc,
-			collection,
-			collectionGroup,
-		}
+// @ts-expect-error
+export const getFirelord: GetFirelord = (firestore, ...collectionIDs) => {
+	const doc = docCreator(firestore, collectionIDs)
+	const collection = collectionCreator(firestore, collectionIDs)
+	const collectionGroup = collectionGroupCreator(
+		firestore,
+		collectionIDs[collectionIDs.length - 1]!
+	)
+	return {
+		doc,
+		collection,
+		collectionGroup,
 	}
+}
 
-/**
- Gets a FirelordReference instance that refers to the doc, collection, and collectionGroup at the specified absolute path.
- 
- @param collectionPath 
- A slash-separated full path to a collection.
- 
- @returns 
- DocumentReference, CollectionReference and CollectionGroupReference instance.
- */
-export type Ref<T extends MetaType> = <
-	CollectionPath extends T['collectionPath'] = T['collectionPath']
->(
-	collectionPath: CollectionPath extends never
-		? CollectionPath
-		: GetNumberOfSlash<CollectionPath> extends GetNumberOfSlash<
-				T['collectionPath']
-		  >
-		? IsValidID<CollectionPath, 'Collection', 'Path'>
-		: ErrorNumberOfForwardSlashIsNotEqual<
-				GetNumberOfSlash<T['collectionPath']>,
-				GetNumberOfSlash<CollectionPath>
-		  >
-) => FirelordRef<T>
+export type GetFirelord = {
+	<T extends MetaType>(
+		firestore: Firestore,
+		...collectionIDs: GetOddOrEvenSegments<T['collectionPath']>
+	): FirelordRef<T>
+}
 
 export type FirelordRef<T extends MetaType> = Readonly<{
+	/**
+	 * Gets a `DocumentReference` instance that refers to the document at the
+	 * specified absolute path.
+	 *
+	 * @param documentIds - all the docID(s) needed to build this document path.
+	 * @returns The `DocumentReference` instance.
+	 */
 	doc: Doc<T>
 	/**
-	 Gets a CollectionReference instance that refers to the collection at the specified absolute path.
-
-@param firestore — A reference to the root Firestore instance.
-
-@returns — The CollectionReference instance.
+	 * Gets a `CollectionReference` instance that refers to the collection at
+	 * the specified absolute path.
+	 *
+	 * @param documentIds - all the docID(s) needed to build this collection path.
+	 * @returns The `CollectionReference` instance.
 	 */
-	collection: (firestore?: Firestore) => CollectionReference<T>
+	collection: Collection<T>
 	/**
-	Creates and returns a new Query instance that includes all documents in the database that are contained in a collection or subcollection with the given collectionId.
-
-@param firestore — A reference to the root Firestore instance.
-
-@returns — The created Query.
+	 * @returns — The created Query.
 	 */
-	collectionGroup: (firestore?: Firestore) => Query<T>
+	collectionGroup: () => Query<T>
 }>
 
 export {

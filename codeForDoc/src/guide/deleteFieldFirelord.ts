@@ -6,7 +6,10 @@ import {
 	deleteField,
 	getDoc,
 	setDoc,
+	getFirestore,
 } from 'firelordjs'
+
+const db = getFirestore()
 
 type abc = MetaTypeCreator<
 	{
@@ -17,7 +20,7 @@ type abc = MetaTypeCreator<
 	string
 >
 
-const docRef = getFirelord<abc>()('abc').doc('efg')
+const docRef = getFirelord<abc>(db, 'abc').doc('efg')
 
 updateDoc(docRef, {
 	a: deleteField(), // can delete 'a'
@@ -47,9 +50,10 @@ type abc2 = MetaTypeCreator<
 	string
 >
 
-const docRef2 = getFirelord<abc2>()('abc').doc('efg')
+const docRef2 = getFirelord<abc2>(db, 'abc').doc('efg')
 
 updateDoc(docRef2, {
+	//
 	//
 	//
 	//
@@ -71,7 +75,7 @@ type abc3 = MetaTypeCreator<
 	string
 >
 
-const docRef3 = getFirelord<abc3>()('abc').doc('efg')
+const docRef3 = getFirelord<abc3>(db, 'abc').doc('efg')
 
 updateDoc(docRef3, {
 	//
@@ -87,7 +91,7 @@ type abc4 = MetaTypeCreator<
 	'abc',
 	string
 >
-const docRef4 = getFirelord<abc4>()('abc').doc('efg')
+const docRef4 = getFirelord<abc4>(db, 'abc').doc('efg')
 // =======set==========
 setDoc(docRef4, {
 	//

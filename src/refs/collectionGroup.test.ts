@@ -9,7 +9,10 @@ import { query } from './query'
 import { documentId } from '../fieldPath'
 
 initializeApp()
-const docRef = userRefCreator().doc('testCollectionGroupWithDocumentId')
+const docRef = userRefCreator().doc(
+	'FirelordTest',
+	'testCollectionGroupWithDocumentId'
+)
 const colGroupRef = userRefCreator().collectionGroup()
 const data = generateRandomData()
 

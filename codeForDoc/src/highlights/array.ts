@@ -16,7 +16,9 @@ type a = MetaTypeCreator<
 	'a',
 	string
 >
-const docRef = getFirelord<a>()('a').doc('1')
+
+const docRef = getFirelord<a>(getFirestore(), 'a').doc('1')
+
 setDoc(docRef, {
 	//
 	//
@@ -44,7 +46,9 @@ type b = MetaTypeCreator<
 	'a',
 	string
 >
-const docRef2 = getFirelord<b>()('a').collection()
+
+const docRef2 = getFirelord<b>(getFirestore(), 'a').collection()
+
 query(docRef2, where('x', 'array-contains', { y: 1, z: 'h' })) // ok
 query(docRef2, where('x', '==', [{ y: 1, z: 'h' }])) // ok
 // @ts-expect-error

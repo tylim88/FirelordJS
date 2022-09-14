@@ -1,4 +1,4 @@
-import { getFirelord } from '..'
+import { getFirelord, getFirestore } from '..'
 import { setDoc, getDoc, updateDoc } from '../operations'
 import { deleteField } from './deleteField'
 import { initializeApp } from '../utilForTests'
@@ -32,7 +32,7 @@ type A = MetaTypeCreator<
 >
 
 describe('test deleteField', () => {
-	const A = getFirelord<A>()('A')
+	const A = getFirelord<A>(getFirestore(), 'A')
 	const docRef = A.doc('deleteFieldTest')
 
 	it('test read type', () => {

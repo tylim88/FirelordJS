@@ -37,7 +37,7 @@ describe('test whether works with rules-unit-testing', () => {
 				email: 'alice@example.com',
 			})
 			.firestore()
-		userRef = getFirelord<User>(testEnvFirestore)('User')
+		userRef = getFirelord<User>(testEnvFirestore, 'User')
 	})
 	afterAll(() => {
 		testEnv.cleanup()
@@ -50,10 +50,7 @@ describe('test whether works with rules-unit-testing', () => {
 	})
 	it('test getDocs', async () => {
 		const querySnapshot = await getDocs(
-			query(
-				userRef.collectionGroup(testEnvFirestore),
-				where('name', '==', 'abc')
-			)
+			query(userRef.collectionGroup(), where('name', '==', 'abc'))
 		)
 		// do your assertion here...
 	})
@@ -62,7 +59,7 @@ describe('test whether works with rules-unit-testing', () => {
 		expect.hasAssertions()
 
 		const unsub = onSnapshot(
-			query(userRef.collection(testEnvFirestore), where('age', '>', 10)),
+			query(userRef.collection(), where('age', '>', 10)),
 			async querySnapshot => {
 				// do your assertion here...
 				unsub()

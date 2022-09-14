@@ -1,4 +1,4 @@
-import { getFirelord } from '..'
+import { getFirelord, getFirestore } from '..'
 import { setDoc, getDoc, updateDoc } from '../operations'
 import { initializeApp } from '../utilForTests'
 import { MetaTypeCreator } from '../types'
@@ -6,10 +6,10 @@ import { increment } from './increment'
 
 initializeApp()
 describe('test increment', () => {
-	const ref =
-		getFirelord<MetaTypeCreator<{ a: number }, 'increment', string>>()(
-			'increment'
-		)
+	const ref = getFirelord<MetaTypeCreator<{ a: number }, 'increment', string>>(
+		getFirestore(),
+		'increment'
+	)
 	const docRef = ref.doc('increment')
 	it('test with set', async () => {
 		await setDoc(docRef, { a: -100 })

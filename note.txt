@@ -10,3 +10,5 @@ info
 limitation
 1. unable to union object type with other type except possibly undefined <- not exactly limitation but something that you shouldn't do
 
+todo
+1. updateDoc deleteField custom error message

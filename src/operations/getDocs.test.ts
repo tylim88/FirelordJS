@@ -20,7 +20,6 @@ import { where } from '../queryClauses'
 import { snapshotEqual } from '../equal'
 
 initializeApp()
-const userRef = userRefCreator()
 const queryTest = async (
 	shareQuery: Query<User>,
 	docId: string,
@@ -85,18 +84,18 @@ const queryTest = async (
 describe('test getDocs', () => {
 	it('test naked query functionality and type', async () => {
 		const docId = 'getDocsNakedQueryTest'
-		const docRef = userRef.doc(docId)
+		const docRef = userRefCreator().doc('FirelordTest', docId)
 		const data = generateRandomData()
-		const shareQuery = query(userRef.collection())
+		const shareQuery = query(userRefCreator().collection('FirelordTest'))
 		await queryTest(shareQuery, docId, data, docRef)
 	})
 
 	it('test query functionality and type with clause', async () => {
 		const docId = 'getDocsWithOptionsQueryTest'
-		const docRef = userRef.doc(docId)
+		const docRef = userRefCreator().doc('FirelordTest', docId)
 		const data = generateRandomData()
 		const shareQuery = query(
-			userRef.collection(),
+			userRefCreator().collection('FirelordTest'),
 			where('a.b.c', '==', data.a.b.c as number)
 		)
 		await queryTest(shareQuery, docId, data, docRef)
@@ -104,10 +103,10 @@ describe('test getDocs', () => {
 
 	it('test collection group', async () => {
 		const docId = 'getDocsWithOptionsQueryTest'
-		const docRef = userRef.doc(docId)
+		const docRef = userRefCreator().doc('FirelordTest', docId)
 		const data = generateRandomData()
 		const shareQuery = query(
-			userRef.collectionGroup(),
+			userRefCreator().collectionGroup(),
 			where('a.b.c', '==', data.a.b.c as number)
 		)
 		await queryTest(shareQuery, docId, data, docRef)
@@ -116,7 +115,7 @@ describe('test getDocs', () => {
 	it('test empty array with ( in ) filter', async () => {
 		const arr: number[] = []
 		const shareQuery = query(
-			userRef.collectionGroup(),
+			userRefCreator().collectionGroup(),
 			where('a.b.c', 'in', arr)
 		)
 		const querySnap = await getDocs(shareQuery)
@@ -126,7 +125,7 @@ describe('test getDocs', () => {
 	it('test empty array with ( not-in ) filter', async () => {
 		const arr: number[] = []
 		const shareQuery = query(
-			userRef.collectionGroup(),
+			userRefCreator().collectionGroup(),
 			where('a.b.c', 'not-in', arr)
 		)
 		const querySnap = await getDocs(shareQuery)
@@ -136,7 +135,7 @@ describe('test getDocs', () => {
 	it('test empty array with ( array-contains-any ) filter', async () => {
 		const arr: string[] = []
 		const shareQuery = query(
-			userRef.collectionGroup(),
+			userRefCreator().collectionGroup(),
 			where('a.e', 'array-contains-any', arr)
 		)
 		const querySnap = await getDocs(shareQuery)

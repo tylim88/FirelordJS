@@ -41,6 +41,15 @@ export type IsValidID<
 					Type extends 'ID' ? never : Type extends 'Path' ? '/' : never // impossible route
 				>
 		  > extends 0
-		? ID
+		? ID extends `__${string}__`
+			? ErrorInvalidDocumentOrCollectionID<Mode, Type>
+			: ID
 		: ErrorInvalidDocumentOrCollectionID<Mode, Type>
 	: NoUndefinedAndBannedTypes<ID, never>
+
+export type IsValidDocIDLoop<
+	D extends string[],
+	ACC extends string[] = []
+> = D extends [infer R extends string, ...infer H extends string[]]
+	? IsValidDocIDLoop<H, [...ACC, IsValidID<R, 'Document', 'ID'>]>
+	: ACC

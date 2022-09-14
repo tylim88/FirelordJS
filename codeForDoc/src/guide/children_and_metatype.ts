@@ -1,10 +1,12 @@
-import { MetaTypeCreator, getFirelord, DocumentReference } from 'firelordjs'
+import { MetaTypeCreator, getFirelord, getFirestore } from 'firelordjs'
+
+const db = getFirestore()
 
 type Parent = MetaTypeCreator<
 	{
 		a: number
 	},
-	'parent',
+	'columnIDLevel1',
 	string
 >
 
@@ -13,18 +15,42 @@ type Child = MetaTypeCreator<
 		a: 'a' | 'b' | 'c'
 		b: { c: number }
 	},
-	'child',
+	'columnIDLevel2',
 	string,
 	Parent
 >
-//
-//
-//
-//
-//
-const firelordRef = getFirelord<Child>()(
+
+type GrandChild = MetaTypeCreator<
+	{
+		e: { f: boolean }[]
+	},
+	'columnIDLevel3',
+	string,
+	Child
+>
+
+const firelordRef = getFirelord<GrandChild>(
+	db,
+	'columnIDLevel1',
+	'columnIDLevel2',
+	'columnIDLevel3'
+)
+
+const docRef = firelordRef.doc('docIDLevel1', 'docIDLevel2', 'docIDLevel3')
+
+const colRef = firelordRef.collection('docIDLevel1', 'docIDLevel2')
+
+const colGroupRef = firelordRef.collectionGroup()
+
+const firelordRef2 = getFirelord<GrandChild>(
+	db,
+	'columnIDLevel1',
+	'columnIDLevel2',
+	//
+	//
+	//
 	// @ts-expect-error
-	'parent//child'
+	'unknownCollectionName'
 )
 //
 //
@@ -32,10 +58,16 @@ const firelordRef = getFirelord<Child>()(
 //
 //
 //
-//
-const firelordRef2 = getFirelord<Child>()(
-	// @ts-expect-error
-	'par222ent/abc/ch333ild'
+// @ts-expect-error
+const firelordRef3 = getFirelord<GrandChild>(
+	//
+	//
+	//
+	//
+	//
+	db,
+	'columnIDLevel1',
+	'columnIDLevel2'
 )
 
 type read = Child['read']
@@ -44,54 +76,3 @@ type writeFlatten = Child['writeFlatten']
 type compare = Child['compare']
 
 type member = writeFlatten['b.c']
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-type abc = MetaTypeCreator<
-	{
-		a: { b: number } | { c: string }
-	},
-	'parent',
-	string
->
-//
-//
-//
-//
-//
-//
-//
-//
-//
-const collectionReferenceParent =
-	getFirelord<Child>()('parent/abc/child').collection().parent
-
-const collectionReferenceParentTypeCasted = getFirelord<Child>()(
-	'parent/abc/child'
-).collection().parent as unknown as DocumentReference<Parent>
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-type abc2 = MetaTypeCreator<Record<number, unknown>, 'parent', string>

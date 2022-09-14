@@ -4,8 +4,7 @@ import { userRefCreator, initializeApp } from '../utilForTests'
 import { documentId } from '../fieldPath'
 
 initializeApp()
-const user = userRefCreator()
-const ref = user.collectionGroup()
+const ref = userRefCreator().collectionGroup()
 
 // runtime is tested on getDocs and onSnapshot
 describe('test query ref', () => {

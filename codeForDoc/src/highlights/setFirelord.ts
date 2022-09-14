@@ -1,4 +1,4 @@
-import { setDoc, MetaTypeCreator, getFirelord } from 'firelordjs'
+import { setDoc, MetaTypeCreator, getFirelord, getFirestore } from 'firelordjs'
 
 type abc = MetaTypeCreator<
 	{
@@ -10,7 +10,9 @@ type abc = MetaTypeCreator<
 	string
 >
 
-const docRef = getFirelord<abc>()('abc').doc('efg')
+const db = getFirestore()
+
+const docRef = getFirelord<abc>(db, 'abc').doc('efg')
 
 const abcd = { a: 1, b: 2, c: 3, d: 4 }
 
@@ -53,7 +55,7 @@ type abc2 = MetaTypeCreator<
 	string
 >
 
-const docRef2 = getFirelord<abc2>()('abc').doc('efg')
+const docRef2 = getFirelord<abc2>(db, 'abc').doc('efg')
 
 setDoc(
 	docRef2,

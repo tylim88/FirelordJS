@@ -26,7 +26,7 @@ type User = MetaTypeCreator<{ name: string; age: number }, 'User', string>
 const port = firebasejson.emulators.firestore.port
 const firestore = getFirestore()
 connectFirestoreEmulator(firestore, 'localhost', port)
-const userRef = getFirelord<User>(firestore)('User')
+const userRef = getFirelord<User>(firestore, 'User')
 
 describe('test whether works with emulator', () => {
 	it('test basic operation like setDoc, updateDoc, addDoc, deleteDoc etc etc', async () => {

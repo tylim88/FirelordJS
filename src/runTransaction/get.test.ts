@@ -12,31 +12,32 @@ describe('test get transaction', () => {
 	})
 	it('test return data type and functionality', () => {
 		;() => {
-			const userRef = userRefCreator()
 			runTransaction(transaction => {
-				return transaction.get(userRef.doc('123')).then(docSnap => {
-					const data = docSnap.data()
-					/*  eslint-disable @typescript-eslint/no-unused-vars */
-					if (data) {
-						const {
-							beenTo,
-							name,
-							role,
-							age,
-							a: {
-								b: {
-									c,
-									f,
-									// @ts-expect-error
-									p,
+				return transaction
+					.get(userRefCreator().doc('FirelordTest', '123'))
+					.then(docSnap => {
+						const data = docSnap.data()
+						/*  eslint-disable @typescript-eslint/no-unused-vars */
+						if (data) {
+							const {
+								beenTo,
+								name,
+								role,
+								age,
+								a: {
+									b: {
+										c,
+										f,
+										// @ts-expect-error
+										p,
+									},
 								},
-							},
-							// @ts-expect-error
-							unknown,
-						} = data
-						/*  eslint-enable @typescript-eslint/no-unused-vars */
-					}
-				})
+								// @ts-expect-error
+								unknown,
+							} = data
+							/*  eslint-enable @typescript-eslint/no-unused-vars */
+						}
+					})
 			})
 		}
 	})

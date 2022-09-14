@@ -1,32 +1,23 @@
-import { MetaTypeCreator, getFirelord } from 'firelordjs'
+import { MetaTypeCreator, getFirelord, getFirestore } from 'firelordjs'
+
+const db = getFirestore()
 
 type Example = MetaTypeCreator<
 	{
 		a: number
 	},
-	'colName',
-	string
+	'colName', // colID type
+	`${string}12345` // docId type
 >
 
-type ExampleChild = MetaTypeCreator<
-	{
-		b: string
-	},
-	'childColName',
-	string,
-	Example
->
-
-const someDocId = 'someDocId'
+const suffix = 12345
 //
 //
 //
 //
-const exampleChild = getFirelord<ExampleChild>()(
+const docRef = getFirelord<Example>(db, 'colName').doc(
 	// @ts-expect-error
-	'colName' + someDocId + 'childColName'
+	'a' + suffix
 ) // type error, type is string!
 
-const exampleChild2 = getFirelord<ExampleChild>()(
-	`colName/${someDocId}/childColName`
-) // ok, type is `colName/someDocId/childColName`!
+const docRef2 = getFirelord<Example>(db, 'colName').doc(`a${suffix}`) // ok, type is string!
