@@ -2,13 +2,10 @@ newly discovered runtime error
 
 1. firestore cannot store Nan and undefined
 
-
 info 
 2. new cursor will override old cursor
 3. serverTimestamp is possibly null if it haven't resolved https://stackoverflow.com/questions/47771044/firestore-timestamp-getting-null
 
-limitation
-1. unable to union object type with other type except possibly undefined <- not exactly limitation but something that you shouldn't do
-
 todo
-1. updateDoc deleteField custom error message
+1. updateDoc deleteField custom error message -- won't fix because lot of works and not important
+2. fix no error message when user define top level union object type -- won't fix because lot of works and not important
