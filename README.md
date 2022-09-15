@@ -137,9 +137,10 @@ In CI We test:
 1. found something better: 75 cups
 2. created something better: 1000 cups (you don't need to a make full fledge library, something that is minimally better is enough, open an issue if you want to take this challenge)
 
-## Have Questions?
+## Trivial
 
-[Just Ask](https://github.com/tylim88/FirelordJS/discussions)
+- The name Firelord is a reference to the [Firelord](https://avatar.fandom.com/wiki/Fire_Lord) of Avatar.
+- For learning purposes, don't clone this project. Instead, you should clone its sister project, [FireSageJS](https://github.com/tylim88/FireSageJS). FireSageJS is harder to code but less quirky, which means FireSageJS utilises more Typescripts techniques and is less trivial. On top of that, FireSageJS was created after FirelordJS, so FireSageJS is much better when it comes to things like folder and code structuring. These make FireSageJS a much more ideal learning material than FirelordJS.
 
 ## Contributing
 
