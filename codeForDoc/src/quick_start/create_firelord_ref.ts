@@ -8,7 +8,4 @@ const app = initializeApp({
 
 export const db = getFirestore(app)
 
-export const example = getFirelord<Example>(
-	getFirestore(),
-	'SomeCollectionName'
-)
+export const example = getFirelord<Example>(db, 'SomeCollectionName')
