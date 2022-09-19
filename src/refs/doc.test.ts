@@ -1,4 +1,11 @@
-import { initializeApp, userRefCreator } from '../utilForTests'
+import {
+	initializeApp,
+	grandChildRefCreator,
+	userRefCreator,
+	GrandChild,
+} from '../utilForTests'
+import { refEqual } from '../equal'
+import { IsSame, IsTrue, CollectionReference } from '../types'
 
 initializeApp()
 
@@ -25,5 +32,29 @@ describe('simple collection type test', () => {
 			// @ts-expect-error
 			'a..b'
 		)
+	})
+
+	it('test props value and type', () => {
+		const id = 'abc'
+		const id2 = 'xyz'
+		const ref = grandChildRefCreator().doc('FirelordTest', id, id2)
+		const parentRef = grandChildRefCreator().collection('FirelordTest', id)
+
+		expect(ref.id).toBe('xyz')
+		expect(ref.path).toBe(`topLevel/FirelordTest/Users/${id}/GrandChild/${id2}`)
+
+		expect(refEqual(ref.parent, parentRef)).toBe(true)
+		expect(ref.type).toBe('document')
+
+		IsTrue<IsSame<typeof ref.id, string>>()
+		IsTrue<
+			IsSame<
+				typeof ref.path,
+				| `topLevel/FirelordTest/Users/${string}/GrandChild/${string}`
+				| `topLevel/ForCursorTest/Users/${string}/GrandChild/${string}`
+			>
+		>()
+		IsTrue<IsSame<typeof ref.parent, CollectionReference<GrandChild>>>()
+		IsTrue<IsSame<typeof ref.type, 'document'>>()
 	})
 })

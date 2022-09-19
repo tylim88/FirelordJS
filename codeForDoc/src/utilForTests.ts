@@ -167,7 +167,7 @@ export const readThenCompareWithWriteData = async (
 	await expect(getDocFromCache(ref)).rejects.toThrow()
 }
 
-export const writeThenReadTest = async (
+export const writeThenCompareWithRead = async (
 	writeCallback: (
 		data: ReturnType<typeof generateRandomData>
 	) => Promise<DocumentReference<User>>

@@ -3,7 +3,7 @@ import { deleteDoc } from './deleteDoc'
 import {
 	userRefCreator,
 	initializeApp,
-	writeThenReadTest,
+	writeThenCompareWithRead,
 	generateRandomData,
 	readThenCompareWithWriteData,
 } from '../utilForTests'
@@ -198,7 +198,7 @@ describe('test updateDoc', () => {
 			)
 	})
 	it('test functionality', async () => {
-		await writeThenReadTest(async data => {
+		await writeThenCompareWithRead(async data => {
 			const ref = userRefCreator().doc('FirelordTest', 'updateDocTestCase')
 			await setDoc(ref, generateRandomData())
 			await updateDoc(ref, data)
@@ -206,7 +206,7 @@ describe('test updateDoc', () => {
 		})
 	})
 	it('test functionality with overload', async () => {
-		await writeThenReadTest(async data => {
+		await writeThenCompareWithRead(async data => {
 			const ref = userRefCreator().doc('FirelordTest', 'updateDocTestCase')
 			await setDoc(ref, generateRandomData())
 			await updateDoc(ref, data)

@@ -9,3 +9,4 @@ info
 todo
 1. updateDoc deleteField custom error message -- won't fix because lot of works and not important
 2. fix no error message when user define top level union object type -- won't fix because lot of works and not important
+3. further narrow down id and path of collection and document references -- may improve but not important

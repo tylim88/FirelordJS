@@ -17,7 +17,7 @@ import {
 } from '../types'
 import { query } from '../refs'
 import { where } from '../queryClauses'
-import { snapshotEqual } from '../equal'
+import { snapshotEqual, queryEqual, refEqual } from '../equal'
 
 initializeApp()
 const queryTest = async (
@@ -27,7 +27,8 @@ const queryTest = async (
 	docRef: DocumentReference<User>
 ) => {
 	await setDoc(docRef, data)
-	expect.hasAssertions()
+
+	// normal =====================
 	const querySnapshot = await getDocs(shareQuery)
 	type A = typeof querySnapshot
 	type B = QuerySnapshot<User>
@@ -42,11 +43,9 @@ const queryTest = async (
 		IsTrue<IsSame<X, Y>>()
 		await compareWriteDataWithDocSnapData(data, queryDocumentSnapshot)
 	}
+	// ====================== normal
+
 	// cache =========================
-	// https://stackoverflow.com/questions/70315073/firestore-web-version-9-modular-getdocsfromcache-seems-not-working
-	// persistence are disable by default for web
-	// cannot enable persistence without browser indexedDB
-	// unable to test with cache
 	const querySnapshotCache = await getDocsFromCache(shareQuery)
 	type X = typeof querySnapshotCache
 	type Y = QuerySnapshot<User>
@@ -54,7 +53,13 @@ const queryTest = async (
 	const queryDocumentSnapshotCache = querySnapshotCache.docs.filter(
 		doc => doc.id === docId
 	)[0]
+	// https://stackoverflow.com/questions/70315073/firestore-web-version-9-modular-getdocsfromcache-seems-not-working
+	// persistence are disable by default for web
+	// cannot enable persistence without browser indexedDB
+	// unable to test with cache
 	expect(queryDocumentSnapshotCache).toBe(undefined)
+	// ====================== cache
+
 	// server ========================
 	const querySnapshotServer = await getDocsFromServer(shareQuery)
 	type E = typeof querySnapshotServer
@@ -70,15 +75,42 @@ const queryTest = async (
 		IsTrue<IsSame<X, Y>>()
 		await compareWriteDataWithDocSnapData(data, queryDocumentSnapshotServer)
 	}
-	// test snapshotEqual
+	// ====================== server
+
+	// snapshotEqual =====================
 	expect(snapshotEqual(querySnapshotCache, querySnapshotCache)).toBe(true)
 	expect(snapshotEqual(querySnapshotServer, querySnapshotServer)).toBe(true)
 	expect(snapshotEqual(querySnapshot, querySnapshot)).toBe(true)
+	expect(snapshotEqual(querySnapshot, querySnapshotServer)).toBe(true)
 	expect(snapshotEqual(querySnapshotCache, querySnapshotServer)).toBe(false)
-	expect(snapshotEqual(querySnapshotCache, querySnapshotServer)).toBe(false)
+	expect(snapshotEqual(querySnapshotCache, querySnapshot)).toBe(false)
+	// =====================snapshotEqual
 
-	// ! false with filter, true without filter, why?
-	// expect(snapshotEqual(querySnapshot, querySnapshotServer)).toBe(true)
+	const incorrectDocRef = userRefCreator().doc('FirelordTest', 'abc')
+
+	// refEqual =====================
+	expect(refEqual(queryDocumentSnapshot!.ref, docRef)).toBe(true)
+	expect(refEqual(queryDocumentSnapshotServer!.ref, docRef)).toBe(true)
+	expect(refEqual(queryDocumentSnapshot!.ref, incorrectDocRef)).toBe(false)
+	expect(refEqual(queryDocumentSnapshotServer!.ref, incorrectDocRef)).toBe(
+		false
+	)
+	// ===================== refEqual
+
+	// queryEqual =====================
+	expect(queryEqual(queryDocumentSnapshot!.ref.parent, docRef.parent)).toBe(
+		true
+	)
+	expect(
+		queryEqual(queryDocumentSnapshotServer!.ref.parent, docRef.parent)
+	).toBe(true)
+	expect(
+		queryEqual(queryDocumentSnapshot!.ref.parent, incorrectDocRef.parent)
+	).toBe(true)
+	expect(
+		queryEqual(queryDocumentSnapshotServer!.ref.parent, incorrectDocRef.parent)
+	).toBe(true)
+	// ===================== queryEqual
 }
 
 describe('test getDocs', () => {

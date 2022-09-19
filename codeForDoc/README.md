@@ -2,6 +2,6 @@
 
 This folder consist of code for documentation.
 
-It also serve as end to end test.
+It also serves as end to end type test and some functionality test.
 
-run `npm run link` to use this folder properly.
+Run `npm run d-link` in root directory to use this folder properly.

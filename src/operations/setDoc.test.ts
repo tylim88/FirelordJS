@@ -3,7 +3,7 @@ import { setDoc } from './setDoc'
 import {
 	userRefCreator,
 	initializeApp,
-	writeThenReadTest,
+	writeThenCompareWithRead,
 	generateRandomData,
 	readThenCompareWithWriteData,
 } from '../utilForTests'
@@ -249,7 +249,7 @@ describe('test setDoc', () => {
 			)
 	})
 	it('test functionality', async () => {
-		await writeThenReadTest(async data => {
+		await writeThenCompareWithRead(async data => {
 			const ref = userRefCreator().doc('FirelordTest', 'setDocTestCase')
 			await setDoc(ref, data)
 
@@ -257,7 +257,7 @@ describe('test setDoc', () => {
 		})
 	})
 	it('test merge false functionality', async () => {
-		await writeThenReadTest(async data => {
+		await writeThenCompareWithRead(async data => {
 			const ref = userRefCreator().doc(
 				'FirelordTest',
 				'setDocTestCaseMergeFalse'

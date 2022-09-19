@@ -1,11 +1,22 @@
 # HISTORY
 
+## 2.1.0 19-Sept-2022
+
+- fix incorrect `id`, `path`, and `parent` types of collection reference
+- narrow the `id` types of document reference
+- add more tests and more code for doc
+- remove offset prop of collection reference(admin)
+
 ## 2.0.0 15-Sept-2022
 
 - new way to declare firelord ref
 - new interface for doc, collection and collection group
 - this is a big change, please read documentation for more details
 - add check for InvalidID (Cannot match the regular expression `__.*__`)
+
+## 1.7.5 15-Sept-2022
+
+- (admin) firebase-admin is now a peerDependency(was a dependency)
 
 ## 1.7.4 8-Sept-2022
 
