@@ -1,9 +1,14 @@
 # HISTORY
 
+## 2.1.1 19-Sept-2022
+
+- fixed and improved tests at `queryClauses/index.test.ts`
+- admin can now use `offset` clause
+
 ## 2.1.0 19-Sept-2022
 
 - fix incorrect `id`, `path`, and `parent` types of collection reference
-- narrow the `id` types of document reference
+- narrow the `id` type of document reference
 - add more tests and more code for doc
 - remove offset prop of collection reference(admin)
 

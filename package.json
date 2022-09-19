@@ -1,6 +1,6 @@
 {
 	"name": "firelordjs",
-	"version": "2.1.0",
+	"version": "2.1.1",
 	"description": "🔥 Extremely High Precision Typescript Wrapper for Firestore Web, Providing Unparalleled Type Safe and Dev Experience",
 	"source": "src/index.ts",
 	"main": "dist/index.js",
@@ -10,7 +10,7 @@
 		"tsc": "tsc",
 		"lint": "eslint . --ext .ts --fix",
 		"pretty-quick": "pretty-quick --stage",
-		"test": "firebase emulators:exec --only firestore \"rm -rf coverage && jest src/refs/collection.test.ts --collectCoverage=false\"",
+		"test": "firebase emulators:exec --only firestore \"rm -rf coverage && jest\"",
 		"rollup": "rm -rf dist && rollup -c",
 		"build": "rm -rf dist && tsc -p tsconfig.prod.json",
 		"link": "npm unlink firelordjs && npm link && npm link firelordjs",
