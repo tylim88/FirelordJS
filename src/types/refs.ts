@@ -37,17 +37,19 @@ export interface CollectionReference<T extends MetaType> extends Query<T> {
 	/** The type of this Firestore reference. */
 	readonly type: 'collection'
 	/** The collection's identifier. */
-	get id(): T['docID']
+	get id(): T['collectionID']
 	/**
 	 * A string representing the path of the referenced collection (relative
 	 * to the root of the database).
 	 */
-	get path(): T['docPath']
+	get path(): T['collectionPath']
 	/**
 	 * A reference to the containing `DocumentReference` if this is a
 	 * subcollection. If this isn't a subcollection, the reference is null.
 	 */
-	get parent(): T['parent']
+	get parent(): T['parent'] extends MetaType
+		? DocumentReference<T['parent']>
+		: null
 }
 
 // Query<T> is needed in order to infer the type correctly

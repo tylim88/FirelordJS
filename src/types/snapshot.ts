@@ -73,7 +73,7 @@ export interface DocumentSnapshot<T extends MetaType> {
 	/**
 	 * Property of the `DocumentSnapshot` that provides the document's ID.
 	 */
-	get id(): string
+	get id(): T['docID']
 	/**
 	 * The `DocumentReference` for the document included in the `DocumentSnapshot`.
 	 */
