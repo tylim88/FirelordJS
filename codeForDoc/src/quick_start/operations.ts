@@ -32,24 +32,24 @@ export const dummy = async () => {
 	await deleteDoc(example.doc('abc'))
 
 	await getDoc(example.doc('abc')).then(docSnapshot => {
-		console.log(docSnapshot.data())
-		console.log(docSnapshot.exists())
-		console.log(docSnapshot.get('b.c'))
-		console.log(docSnapshot.id)
-		console.log(docSnapshot.metadata.fromCache)
-		console.log(docSnapshot.metadata.hasPendingWrites)
-		console.log(docSnapshot.metadata.isEqual)
+		docSnapshot.data()
+		docSnapshot.exists()
+		docSnapshot.get('b.c')
+		docSnapshot.id
+		docSnapshot.metadata.fromCache
+		docSnapshot.metadata.hasPendingWrites
+		docSnapshot.metadata.isEqual
 
-		console.log(docSnapshot.ref.firestore)
-		console.log(docSnapshot.ref.id)
-		console.log(docSnapshot.ref.path)
-		console.log(docSnapshot.ref.type)
+		docSnapshot.ref.firestore
+		docSnapshot.ref.id
+		docSnapshot.ref.path
+		docSnapshot.ref.type
 
-		console.log(docSnapshot.ref.parent)
-		console.log(docSnapshot.ref.parent.firestore)
-		console.log(docSnapshot.ref.parent.id)
-		console.log(docSnapshot.ref.parent.parent)
-		console.log(docSnapshot.ref.parent.path)
-		console.log(docSnapshot.ref.parent.type)
+		docSnapshot.ref.parent
+		docSnapshot.ref.parent.firestore
+		docSnapshot.ref.parent.id
+		docSnapshot.ref.parent.parent
+		docSnapshot.ref.parent.path
+		docSnapshot.ref.parent.type
 	})
 }
