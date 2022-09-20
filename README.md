@@ -140,7 +140,7 @@ In CI We test:
 ## Trivial
 
 - The name Firelord is a reference to the [Firelord](https://avatar.fandom.com/wiki/Fire_Lord) of Avatar.
-- For learning purposes, don't clone this project. Instead, you should clone its sister project, [FireSageJS](https://github.com/tylim88/FireSageJS). FireSageJS is harder to code but less quirky, which means FireSageJS utilises more Typescripts techniques and is less trivial. FireSageJS was created after FirelordJS, so FireSageJS is much better when at code organization. These factors make FireSageJS a much more ideal learning material than FirelordJS.
+- For learning purposes, don't clone this project. Instead, you should clone its sister project, [FireSageJS](https://github.com/tylim88/FireSageJS). FireSageJS is harder to code but less quirky, which means FireSageJS utilises more Typescripts techniques and is less trivial. FireSageJS was created after FirelordJS, so FireSageJS is much better at code organization and basically everything else. These factors make FireSageJS a much more ideal learning material than FirelordJS.
 
 ## Contributing
 
