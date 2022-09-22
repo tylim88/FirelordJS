@@ -1,5 +1,5 @@
 import { MetaTypeCreator, MetaType } from './metaTypeCreator'
-import { Timestamp } from './alias'
+import { Timestamp, Bytes, GeoPoint } from './alias'
 import {
 	ErrorNullBanned,
 	ErrorUnionInvolveObjectType,
@@ -637,6 +637,51 @@ describe('test Firelord type', () => {
 			b: ErrorDirectNested
 			c: ErrorDirectNested
 			d: ErrorDirectNested
+		}
+
+		IsTrue<IsSame<ExpectedRead, Read>>()
+		IsTrue<IsSame<ExpectedWrite, Write>>()
+		IsTrue<IsEqual<ExpectedWriteFlatten, WriteFlatten>>()
+		IsTrue<IsEqual<ExpectedCompare, Compare>>()
+	})
+
+	it('test Geo Point, Bytes and DocumentReference ', () => {
+		type Z = { a: GeoPoint; b: Bytes; c: DocumentReference<User> }
+		type B = Z & {
+			d: Z
+			e: Z[]
+			f: GeoPoint[]
+			g: Bytes[]
+			h: DocumentReference<User>[]
+		}
+
+		type A = MetaTypeCreator<B, string>
+
+		type Read = A['read']
+		type Write = A['write']
+		type WriteFlatten = A['writeFlatten']
+		type Compare = A['compare']
+
+		type ExpectedRead = B
+
+		type ExpectedWrite = Z & {
+			d: Z
+			e: Z[] | ArrayUnionOrRemove<Z>
+			f: GeoPoint[] | ArrayUnionOrRemove<GeoPoint>
+			g: Bytes[] | ArrayUnionOrRemove<Bytes>
+			h: DocumentReference<User>[] | ArrayUnionOrRemove<DocumentReference<User>>
+		}
+
+		type ExpectedWriteFlatten = ExpectedWrite & {
+			'd.a': GeoPoint
+			'd.b': Bytes
+			'd.c': DocumentReference<User>
+		}
+
+		type ExpectedCompare = B & {
+			'd.a': GeoPoint
+			'd.b': Bytes
+			'd.c': DocumentReference<User>
 		}
 
 		IsTrue<IsSame<ExpectedRead, Read>>()

@@ -16,7 +16,7 @@ export type ErrorDeleteFieldUnion<T extends string> =
 export type ErrorPleaseDoConstAssertion =
 	`Error: Please assert the value as const eg:( 'a' as const )`
 export type ErrorCollectionIDString =
-	'Error: Collection ID type cannot be string'
+	'Error: Collection ID type must be string literal and cannot be string,, please check your Meta Type.'
 export type ErrorEndOfID =
 	'Error: ID or Path cannot end in a forward slash ( / )'
 export type ErrorInvalidDocumentOrCollectionID<

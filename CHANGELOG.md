@@ -1,5 +1,10 @@
 # HISTORY
 
+## 2.1.3 22-Sept-2022
+
+- fix support for geo point, bytes and Document Reference
+- this is a non breaking monkey patch
+
 ## 2.1.1 19-Sept-2022
 
 - fixed and improved tests at `queryClauses/index.test.ts`

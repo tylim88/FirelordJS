@@ -16,12 +16,18 @@ export const IsTrue = <T extends true>() => {
 	//
 } // for type assertion, normally use with IsSame or IEqual
 
+export type ReMap<T> = T extends Record<string, unknown>
+	? { [Key in keyof T]: T[Key] }
+	: T
+
 // https://stackoverflow.com/questions/53807517/how-to-test-if-two-types-are-exactly-the-same
-export type IsSame<T, U> = (<G>() => G extends T ? 1 : 2) extends <
-	G
->() => G extends U ? 1 : 2
-	? true
-	: false
+export type IsSame<T, U> = ReMap<T> extends infer RT
+	? ReMap<U> extends infer RU
+		? (<G>() => G extends RT ? 1 : 2) extends <G>() => G extends RU ? 1 : 2
+			? true
+			: false
+		: never
+	: never
 
 export type IsEqual<T, U> = T[] extends U[]
 	? U[] extends T[]

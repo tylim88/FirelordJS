@@ -1,4 +1,4 @@
-import { Timestamp } from './alias'
+import { Timestamp, Bytes, GeoPoint } from './alias'
 import {
 	ErrorFieldValueInArray,
 	ErrorUnassignedAbleFieldValue,
@@ -22,6 +22,8 @@ import {
 	RecursiveExcludePossiblyUndefinedFieldValue,
 	RecursiveReplaceUnionInvolveObjectTypeWithErrorMsg,
 } from './markUnionObjectAsError'
+
+import { DocumentReference } from './refs'
 
 export type MetaType = {
 	collectionPath: string
@@ -141,6 +143,8 @@ type ReadConverterArray<
 		?
 				| Timestamp
 				| (InArray extends true ? never : allFieldsPossiblyReadAsUndefined)
+		: T extends DocumentReference<any> | Bytes | GeoPoint
+		? T | (InArray extends true ? never : allFieldsPossiblyReadAsUndefined)
 		: T extends PossiblyReadAsUndefined
 		? InArray extends true
 			? ErrorPossiblyUndefinedAsArrayElement
@@ -175,6 +179,8 @@ type ReadConverter<T, allFieldsPossiblyReadAsUndefined, BannedTypes> =
 					| allFieldsPossiblyReadAsUndefined
 			: T extends ServerTimestamp | Date | Timestamp
 			? Timestamp | allFieldsPossiblyReadAsUndefined
+			: T extends DocumentReference<any> | Bytes | GeoPoint
+			? T | allFieldsPossiblyReadAsUndefined
 			: T extends DeleteField | PossiblyReadAsUndefined
 			? undefined
 			: T extends UnassignedAbleFieldValue
@@ -202,6 +208,8 @@ type CompareConverterArray<T, BannedTypes> = NoDirectNestedArray<
 		? ErrorFieldValueInArray
 		: T extends Date | Timestamp
 		? Timestamp | Date
+		: T extends DocumentReference<any> | Bytes | GeoPoint
+		? T
 		: T extends PossiblyReadAsUndefined
 		? never
 		: T extends Record<string, unknown>
@@ -217,6 +225,8 @@ type CompareConverter<T, BannedTypes> = NoDirectNestedArray<
 		? CompareConverterArray<A, BannedTypes>[]
 		: T extends ServerTimestamp | Date | Timestamp
 		? Timestamp | Date
+		: T extends DocumentReference<any> | Bytes | GeoPoint
+		? T
 		: T extends UnassignedAbleFieldValue
 		? ErrorUnassignedAbleFieldValue
 		: T extends PossiblyReadAsUndefined | DeleteField
@@ -236,6 +246,8 @@ type ArrayWriteConverter<T, BannedTypes> = NoDirectNestedArray<
 		? ErrorFieldValueInArray
 		: T extends Timestamp | Date
 		? Timestamp | Date
+		: T extends DocumentReference<any> | Bytes | GeoPoint
+		? T
 		: T extends PossiblyReadAsUndefined
 		? never
 		: T extends Record<string, unknown>
@@ -251,14 +263,16 @@ type WriteConverter<T, BannedTypes> = NoDirectNestedArray<
 		?
 				| ArrayWriteConverter<A, BannedTypes>[]
 				| ArrayUnionOrRemove<ArrayWriteConverter<A, BannedTypes>>
-		: T extends ServerTimestamp
-		? ServerTimestamp
+		: T extends
+				| DocumentReference<any>
+				| ServerTimestamp
+				| DeleteField
+				| GeoPoint
+		? T
 		: T extends number
 		? number extends T
 			? T | Increment
 			: T
-		: T extends DeleteField
-		? DeleteField
 		: T extends UnassignedAbleFieldValue
 		? ErrorUnassignedAbleFieldValue
 		: T extends Timestamp | Date
