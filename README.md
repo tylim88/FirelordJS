@@ -132,7 +132,7 @@ In CI We test:
 - Built code: check compiler setting
 - Published code: check package.json entry point
 
-\*\* I am confident it has the best type safe and nothing come close to it and I put money on my words. I will buy you [x cups of coffee](https://www.buymeacoffee.com/) if you:
+\*\* I am confident it has the best type safe and nothing come close. I put money on my words and I will buy you [x cups of coffee](https://www.buymeacoffee.com/) if you:
 
 1. found something better: 75 cups
 2. created something better: 1000 cups (you don't need to a make full fledge library, something that is minimally better is enough, open an issue if you want to take this challenge)
