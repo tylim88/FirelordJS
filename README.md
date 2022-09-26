@@ -126,12 +126,6 @@ It is what you are looking at: the Master of Fire.
 
 Support [@firebase/rules-unit-testing and emulator](https://firelordjs.com/guides/tests)
 
-In CI We test:
-
-- Development code: check logic correctness
-- Built code: check compiler setting
-- Published code: check package.json entry point
-
 \*\* I am confident it has the best type safe and nothing come close. I put money on my words and I will buy you [x cups of coffee](https://www.buymeacoffee.com/) if you:
 
 1. found something better: 75 cups
