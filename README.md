@@ -111,6 +111,8 @@
 
 <br/>
 
+Read [what is new in V2?](https://firelordjs.com/what_is_new)
+
 FirelordJS is the only library that capable of providing insane type safety while exposing almost all the API of the original Firestore SDK.
 
 FirelordJS has:
