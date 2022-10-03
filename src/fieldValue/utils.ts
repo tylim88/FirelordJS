@@ -12,7 +12,7 @@ export const removeFieldValueInhomogeneousProps = <
 		for (const prop in object) {
 			const isArrayFieldValueExist = (
 				object[prop] as Record<string, unknown[]>
-			)[arrayFieldValue]
+			)?.[arrayFieldValue]
 			if (isArrayFieldValueExist) {
 				delete (object[prop] as Record<string, unknown[]>)[arrayFieldValue]
 			}

@@ -28,4 +28,10 @@ describe('test removeEmptyArrayFieldValue', () => {
 		)
 		expect(Object.keys(result)).toEqual(['a', 'b.c'])
 	})
+
+	it('null test', () => {
+		const result = removeFieldValueInhomogeneousProps({ a: null })
+
+		expect(result).toEqual({ a: null })
+	})
 })
