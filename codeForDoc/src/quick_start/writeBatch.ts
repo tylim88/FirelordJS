@@ -1,9 +1,7 @@
 import { example, db } from './create_firelord_ref'
 import { writeBatch, serverTimestamp } from 'firelordjs'
 
-const batch = writeBatch(db)
-// OR
-const batch_Alt = writeBatch()
+const batch = writeBatch(db) // db argument is optional
 
 export const dummy = async () => {
 	batch.set(example.doc('hij'), {
