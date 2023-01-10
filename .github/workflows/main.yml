@@ -20,7 +20,7 @@ jobs:
       - run: npm i -g firebase-tools
       - run: npm i
       - run: npm run lint --fix
-      - run: npm run pretty-quick
+      - run: npm run pretty
       - run: npm test
         env:
           PROJECT_ID: ${{ secrets.PROJECT_ID }}
