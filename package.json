@@ -1,6 +1,6 @@
 {
 	"name": "firelordjs",
-	"version": "2.1.12",
+	"version": "2.1.13",
 	"description": "🔥 Extremely High Precision Typescript Wrapper for Firestore Web, Providing Unparalleled Type Safe and Dev Experience",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
@@ -8,7 +8,7 @@
 		"reinstall": "rm -rf node_modules && rm -rf package-lock.json && npm i && npx husky install",
 		"tsc": "tsc",
 		"lint": "eslint . --ext .ts --fix",
-		"pretty-quick": "pretty-quick --stage",
+		"pretty": "pretty-quick --stage --branch main",
 		"test": "npm run kill && firebase emulators:exec --only firestore \"rm -rf coverage && jest\" && npm run kill",
 		"rollup": "rm -rf dist && rollup -c",
 		"build": "rm -rf dist && tsc -p tsconfig.prod.json",
@@ -18,7 +18,7 @@
 		"commit": "git commit --no-verify",
 		"kill": "kill-port 8080",
 		"dev": "---------------------dev------------------------",
-		"d-link": "npm run build && npm run link"   ,
+		"d-link": "npm run build && npm run link",
 		"d-test": "tsc && npm test",
 		"d-b-tsc": "npm run d-link && npm run b-uninstall && npm run b-tsc",
 		"d-b-test": "npm run d-b-tsc && npm run b-test",
@@ -37,7 +37,7 @@
 	"lint-staged": {
 		"*.{js,jsx,ts,tsx,md,json,yml}": [
 			"eslint --fix",
-			"pretty-quick"
+			"npm run pretty"
 		]
 	},
 	"repository": {
