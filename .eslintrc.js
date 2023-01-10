@@ -10,6 +10,10 @@ module.exports = {
 		'plugin:import/recommended',
 		'plugin:@typescript-eslint/recommended',
 		'plugin:prettier/recommended',
+		'plugin:json/recommended',
+		'plugin:markdown/recommended',
+		'plugin:yml/prettier',
+		'plugin:yml/prettier',
 	],
 	parser: '@typescript-eslint/parser',
 	ignorePatterns: [

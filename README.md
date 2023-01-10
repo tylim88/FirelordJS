@@ -64,27 +64,7 @@
 			<a href="https://snyk.io/test/github/tylim88/FirelordJS" target="_blank">
 				<img
 					src="https://snyk.io/test/github/tylim88/FirelordJS/badge.svg"
-					alt="code coverage"
-				/>
-			</a>
-			&nbsp;
-			<a
-				href="https://lgtm.com/projects/g/tylim88/Firelordjs/alerts/"
-				target="_blank"
-			>
-				<img
-					alt="Total alerts"
-					src="https://img.shields.io/lgtm/alerts/g/tylim88/Firelordjs.svg?logo=lgtm&logoWidth=18"
-				/>
-			</a>
-			&nbsp;
-			<a
-				href="https://lgtm.com/projects/g/tylim88/Firelordjs/context:javascript"
-				target="_blank"
-			>
-				<img
-					alt="Language grade: JavaScript"
-					src="https://img.shields.io/lgtm/grade/javascript/g/tylim88/Firelordjs.svg?logo=lgtm&logoWidth=18"
+					alt="vulnerabilities"
 				/>
 			</a>
 </div>
@@ -113,7 +93,7 @@
 
 Read [what is new in V2?](https://firelordjs.com/what_is_new)
 
-FirelordJS is the only library that capable of providing insane type safety while exposing almost all the API of the original Firestore SDK.
+FirelordJS is the only library that capable of providing insane type safety while exposing almost all the API of the official Firestore SDK.
 
 FirelordJS has:
 
