@@ -101,4 +101,6 @@ export type {
 	DocumentSnapshot,
 	QuerySnapshot,
 	QueryDocumentSnapshot,
+	WriteBatch,
+	RunTransaction,
 } from './types'

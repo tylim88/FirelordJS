@@ -6,9 +6,10 @@ import {
 	writeThenCompareWithRead,
 	generateRandomData,
 	readThenCompareWithWriteData,
+	User,
 } from '../utilForTests'
 import { increment, arrayUnion, serverTimestamp } from '../fieldValue'
-import { Set, IsTrue, IsSame } from '../types'
+import { Set, IsTrue, IsSame, DeepPartial } from '../types'
 
 initializeApp()
 describe('test setDoc', () => {
@@ -168,6 +169,13 @@ describe('test setDoc', () => {
 				},
 				{ merge: true }
 			)
+	})
+
+	it('test accept optional type, must turn on exactOptionalPropertyTypes config', () => {
+		const a = {} as unknown as DeepPartial<User['write']>
+
+		;() =>
+			setDoc(userRefCreator().doc('FirelordTest', '123'), a, { merge: true })
 	})
 	it('test merge type with missing data type in array, should failed', () => {
 		;() =>

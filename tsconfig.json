@@ -15,7 +15,8 @@
 		"noUncheckedIndexedAccess": true,
 		"removeComments": false,
 		"resolveJsonModule": true,
-		"noEmit": true
+		"noEmit": true,
+		"exactOptionalPropertyTypes": true
 	},
 	"include": ["src/**/*", "scripts/**/*"]
 }

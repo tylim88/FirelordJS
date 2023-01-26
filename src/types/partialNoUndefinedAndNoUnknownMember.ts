@@ -74,15 +74,17 @@ export type PartialNoUndefinedAndNoUnknownMemberNoEmptyMember<
 	? ErrorEmptyUpdate | T
 	: keyof Data extends keyof T
 	? {
-			[K in keyof T & keyof Data]-?: T[K] extends Record<string, unknown>
-				? Data[K] extends Record<string, unknown>
-					? PartialNoUndefinedAndNoUnknownMemberNoEmptyMember<
-							T[K],
-							Data[K],
-							Merge,
-							AllowEmptyMember
-					  >
-					: T[K]
+			[K in keyof T & keyof Data]?: T[K] extends Record<string, unknown>
+				? Data[K] extends infer R
+					? R extends Record<string, unknown>
+						? PartialNoUndefinedAndNoUnknownMemberNoEmptyMember<
+								T[K],
+								R,
+								Merge,
+								AllowEmptyMember
+						  >
+						: T[K]
+					: never
 				: T[K] extends (infer BaseKeyElement)[] | ArrayUnionOrRemove<unknown>
 				? Data[K] extends (infer DataKeyElement)[]
 					? Data[K] extends never[] // https://stackoverflow.com/questions/71193522/typescript-inferred-never-is-not-never

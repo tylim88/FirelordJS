@@ -18,6 +18,9 @@ import { arrayUnion, increment, serverTimestamp } from './fieldValue'
 
 export const initializeApp = () => {
 	const env = process.env
+	if (!env.PROJECT_ID) {
+		throw 'PROJECT_ID is empty'
+	}
 	const config = {
 		projectId: env.PROJECT_ID,
 	}
@@ -69,7 +72,7 @@ export const grandChildRefCreator = () =>
 
 export const generateRandomData = (): User['write'] => {
 	const beenTo = (pick([[{ China: ['Guangdong'] }], [{ US: ['california'] }]], {
-		count: pick([1, 2])[0],
+		count: pick([1, 2])[0] as number,
 	})[0] || []) as (
 		| {
 				US: ('Hawaii' | 'California')[]
@@ -92,7 +95,7 @@ export const generateRandomData = (): User['write'] => {
 		},
 		e: arrayUnion(
 			...pick(['a', ...betwin('a', 'z'), 'z'], {
-				count: pick([0, ...betwin(0, 9), 9])[0],
+				count: pick([0, ...betwin(0, 9), 9])[0] as number,
 			})
 		),
 		i: { j: increment(1), l: new Date() },

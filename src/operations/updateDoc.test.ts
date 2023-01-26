@@ -6,6 +6,7 @@ import {
 	writeThenCompareWithRead,
 	generateRandomData,
 	readThenCompareWithWriteData,
+	User,
 } from '../utilForTests'
 import { setDoc } from './setDoc'
 import {
@@ -14,7 +15,13 @@ import {
 	deleteField,
 	increment,
 } from '../fieldValue'
-import { Update, IsTrue, IsSame, ErrorUnknownMember } from '../types'
+import {
+	Update,
+	IsTrue,
+	IsSame,
+	ErrorUnknownMember,
+	DeepPartial,
+} from '../types'
 
 initializeApp()
 // type test here include all type test of batch and transaction because it is the same type
@@ -37,18 +44,24 @@ describe('test updateDoc', () => {
 				age: '3',
 			})
 	})
+
+	it('test accept optional type, must turn on exactOptionalPropertyTypes config', () => {
+		const a = {} as unknown as DeepPartial<User['writeFlatten']>
+
+		;() => updateDoc(userRefCreator().doc('FirelordTest', '123'), a)
+	})
 	it('test undefined type, should reject undefined', () => {
 		;() =>
-			updateDoc(userRefCreator().doc('FirelordTest', '123'), {
+			updateDoc(
+				userRefCreator().doc('FirelordTest', '123'),
 				// @ts-expect-error
-				beenTo: undefined,
-				// @ts-expect-error
-				name: undefined,
-				// @ts-expect-error
-				role: undefined,
-				// @ts-expect-error
-				age: undefined,
-			})
+				{
+					beenTo: undefined,
+					name: undefined,
+					role: undefined,
+					age: undefined,
+				}
+			)
 	})
 	it('test missing member, missing should be fine', () => {
 		;() =>

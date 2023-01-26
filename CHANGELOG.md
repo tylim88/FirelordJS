@@ -1,5 +1,10 @@
 # HISTORY
 
+## 2.2.0 27-Jan-2023
+
+- allow all `update` operations and `set merge` to accept value with optional type (also added minimum related tests)
+- expose `RunTransaction` and `WriteBatch`
+
 ## 2.1.9 4-Sept-2022
 
 - fixed `cannot read properties of null (reading 'FirelordArrayFieldValue')` https://github.com/tylim88/Firelord/issues/13
