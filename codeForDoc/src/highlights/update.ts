@@ -28,7 +28,8 @@ updateDoc(
 )
 
 // Accept `undefined` but `undefined` is not a valid Firestore value.
-updateDoc(docRef, { a: undefined, b: undefined }) // bad: does not reject 'undefined', runtime exception!
+// @ts-expect-error
+updateDoc(docRef, { a: undefined, b: undefined }) // bad: does not reject 'undefined', runtime exception! NOTE: this is not an issue if tsconfig exactOptionalPropertyTypes is ON
 
 type abc2 = DocumentReference<{
 	a: number

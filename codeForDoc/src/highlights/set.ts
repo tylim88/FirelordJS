@@ -40,12 +40,13 @@ type abc2 = DocumentReference<{
 
 const docRef2 = doc(getFirestore(), 'abc/efg') as abc2
 
+// @ts-expect-error
 setDoc(
 	docRef2,
 	{
 		a: 1,
 		b: { c: 1 },
-		e: undefined, // bad, does not reject undefined
+		e: undefined, // bad, does not reject undefined. NOTE: this is not an issue if tsconfig exactOptionalPropertyTypes is ON
 	},
 	{ merge: true }
 )

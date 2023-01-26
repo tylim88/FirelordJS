@@ -49,12 +49,14 @@ updateDoc(
 	abcd // good: type error!
 )
 
-updateDoc(docRef, {
+updateDoc(
+	docRef,
 	// @ts-expect-error
-	a: undefined,
-	// @ts-expect-error
-	b: undefined,
-}) // good: reject undefined!
+	{
+		a: undefined,
+		b: undefined,
+	}
+) // good: reject undefined!
 
 type abc2 = MetaTypeCreator<
 	{
