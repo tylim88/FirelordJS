@@ -3,6 +3,7 @@
 ## 2.2.1 28-Jan-2023
 
 - add `AbstractMetaTypeCreator` to make abstractig meta type easier, see use case https://github.com/tylim88/FirelordJS/issues/90
+- expose DocumentData type
 
 ## 2.2.0 27-Jan-2023
 
