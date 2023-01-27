@@ -4,7 +4,6 @@
 
 - add `AbstractMetaTypeCreator` to make abstracting meta type easier, see use case https://github.com/tylim88/FirelordJS/issues/90
 - expose DocumentData type
-- no longer export byte type (admin)
 
 ## 2.2.0 27-Jan-2023
 
