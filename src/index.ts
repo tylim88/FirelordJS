@@ -79,6 +79,8 @@ export {
 	CACHE_SIZE_UNLIMITED,
 } from 'firebase/firestore'
 
+export type { DocumentData } from 'firebase/firestore'
+
 export * from './writeBatch'
 export * from './runTransaction'
 export * from './fieldValue'
@@ -103,4 +105,5 @@ export type {
 	QueryDocumentSnapshot,
 	WriteBatch,
 	RunTransaction,
+	AbstractMetaTypeCreator,
 } from './types'

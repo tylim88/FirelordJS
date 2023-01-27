@@ -1,9 +1,14 @@
 # HISTORY
 
+## 2.2.1 28-Jan-2023
+
+- add `AbstractMetaTypeCreator` to make abstractig meta type easier, see use case https://github.com/tylim88/FirelordJS/issues/90
+
 ## 2.2.0 27-Jan-2023
 
-- allow all `update` operations and `set merge` to accept value with optional type (also added minimum related tests)
-- expose `RunTransaction` and `WriteBatch`
+- allow all `update` operations and `set merge` to accept value with optional type, this sacrificed some granularity because of how `exactOptionalPropertyTypes` works(but is trivial), also added minimum related tests
+- must turn on`exactOptionalPropertyTypes` in tsconfig
+- expose `RunTransaction` and `WriteBatch` types
 
 ## 2.1.9 4-Sept-2022
 

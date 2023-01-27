@@ -22,7 +22,7 @@ import {
 	RecursiveExcludePossiblyUndefinedFieldValue,
 	RecursiveReplaceUnionInvolveObjectTypeWithErrorMsg,
 } from './markUnionObjectAsError'
-
+import { StrictOmit } from './utils'
 import { DocumentReference } from './refs'
 
 export type MetaType = {
@@ -38,6 +38,19 @@ export type MetaType = {
 	parent: MetaType | null
 	ancestors: MetaType[]
 }
+
+type CommonAbstractProps =
+	| 'base'
+	| 'write'
+	| 'writeFlatten'
+	| 'read'
+	| 'compare'
+
+export type AbstractMetaTypeCreator<T extends Record<string, unknown>> = Pick<
+	MetaTypeCreator<T, '-'>,
+	CommonAbstractProps
+> &
+	StrictOmit<MetaType, CommonAbstractProps>
 
 export type MetaTypeCreator<
 	Base extends Record<string, unknown>,
