@@ -84,6 +84,8 @@ export type ErrorArrayFieldValueEmpty =
 export type ErrorEmptyCursor = 'Error: cursor need at least 1 argument.'
 export type ErrorCursorNoArray =
 	'Error: cursor rest parameter must be tuple type, not array type. Use const assertion to transform array type to tuple type'
+export type ErrorAutoIdTypeMustBeWideString<T extends string> =
+	`Error: Only document with wide 'string' type can generate auto id, the current type is literal type '${T}'`
 
 export type ErrorMsgs =
 	| ErrorUndefined
@@ -122,6 +124,7 @@ export type ErrorMsgs =
 	| ErrorArrayFieldValueEmpty
 	| ErrorEmptyCursor
 	| ErrorCursorNoArray
+	| ErrorAutoIdTypeMustBeWideString<string>
 
 export type ReplaceErrorMsgsWithNever<T> = T extends ErrorMsgs ? never : T // ! not yet implemented anywhere
 

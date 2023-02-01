@@ -63,7 +63,7 @@ setDoc(
 	{
 		a: 1,
 		b: { c: 1 },
-		e: undefined, // good, reject undefined!
+		e: undefined, // good, reject undefined! NOTE: this is not an issue if tsconfig exactOptionalPropertyTypes is ON
 	},
 	{ merge: true }
 )

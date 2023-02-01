@@ -21,7 +21,7 @@ export function $firestoreUpdate<T extends AbstractMetaType>({
 	batch,
 	ref,
 	data,
-}: FirestoreUpdateParams<T>): Promise<void> {
+}: FirestoreUpdateParams<T>) {
 	const mixin = {
 		a: 123,
 	}

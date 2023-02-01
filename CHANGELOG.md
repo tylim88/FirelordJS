@@ -1,5 +1,10 @@
 # HISTORY
 
+## 2.2.2 2-Fec-2023
+
+- support auto generate document reference ID
+- some housekeeping
+
 ## 2.2.1 28-Jan-2023
 
 - add `AbstractMetaTypeCreator` to make abstracting meta type easier, see use case https://github.com/tylim88/FirelordJS/issues/90

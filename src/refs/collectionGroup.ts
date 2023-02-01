@@ -1,9 +1,9 @@
 import { CollectionGroupCreator } from '../types'
-import { collectionGroup as collectionGroup_ } from 'firebase/firestore'
+import { collectionGroup } from 'firebase/firestore'
 
 export const collectionGroupCreator: CollectionGroupCreator =
 	(fStore, collectionID) => () => {
-		return collectionGroup_(
+		return collectionGroup(
 			// @ts-expect-error
 			fStore,
 			collectionID

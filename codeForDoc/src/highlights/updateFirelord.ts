@@ -56,7 +56,7 @@ updateDoc(
 		a: undefined,
 		b: undefined,
 	}
-) // good: reject undefined!
+) // good: reject undefined! NOTE: this is not an issue if tsconfig exactOptionalPropertyTypes is ON
 
 type abc2 = MetaTypeCreator<
 	{
