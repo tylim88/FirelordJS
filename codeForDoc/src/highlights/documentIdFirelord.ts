@@ -35,44 +35,6 @@ const groupRef = getFirelord<Child>(db, 'parent', 'child').collectionGroup()
 //
 //
 //
-query(
-	colRef,
-	// @ts-expect-error
-	where('a', '==', 'a')
-) // bad: no const assertion
-query(colRef, where('a', '==', 'a' as const)) // good: with const assertion
-//
-const withoutAssertion = 'a'
-const withAssertion = 'a' as const
-//
-//
-//
-//
-query(
-	colRef,
-	// @ts-expect-error
-	where('a', '==', withoutAssertion)
-) // bad: no const assertion
-query(colRef, where('a', '==', withAssertion)) // good: with const assertion
-//
-//
-//
-//
-//
-//
-//
-query(
-	colRef,
-	// @ts-expect-error
-	where(documentId(), '==', 'xyz')
-) // bad: no const assertion
-query(colRef, where(documentId(), '==', 'xyz' as const)) // good: with const assertion
-//
-//
-//
-//
-//
-//
 //
 query(
 	colRef,
