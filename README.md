@@ -93,7 +93,7 @@
 
 FirelordJS is the only library capable of providing insane type safety while exposing almost all the API of the official Firestore SDK.
 
-FirelordJS has:
+It has:
 
 - The lowest learning curve (API is nearly identical to the original API).
 - The lowest technical debt (easy to revert to the official API).
@@ -124,7 +124,7 @@ Read [here](https://firelordjs.com/contributing)
 3. [FireCall](https://github.com/tylim88/FireCall) - Helper Function to write easier and safer Firebase onCall function.
 4. [FireSageJS](https://github.com/tylim88/FireSageJS) - Typescript wrapper for Realtime Database
 
-## Incoming V3
+## Upcoming V3
 
 V3 focus on codebase overhaul, hopefully with further improved code quality, potential contributor will find it easier to work with.
 

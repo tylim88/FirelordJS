@@ -3,8 +3,6 @@ import {
 	getFirelord,
 	query,
 	where,
-	orderBy,
-	documentId,
 	getFirestore,
 } from 'firelordjs'
 
@@ -60,22 +58,11 @@ query(colRef, where('z', '==', withAssertion)) // good: with const assertion
 //
 //
 //
-query(
-	colRef,
-	// @ts-expect-error
-	where(documentId(), '==', 'xyz')
-) // bad: no const assertion
-query(colRef, where(documentId(), '==', 'xyz' as const)) // good: with const assertion
 //
+// @ts-expect-error
+query(colRef, where('a', 'in', [])) // never[] type is not ok
 //
-//
-//
-//
-//
-//
-query(
-	colRef,
-	// @ts-expect-error
-	where(documentId(), '==', 'xyz')
-) // bad: no const assertion
-query(colRef, where(documentId(), '==', 'xyz' as const)) // good: with const assertion
+const arr = (): ('a' | 'b' | 'c')[] => {
+	return []
+} // empty array may result from expression
+query(colRef, where('z', 'in', arr())) // impossible to block correctType[]
