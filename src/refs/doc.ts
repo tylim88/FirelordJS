@@ -14,7 +14,7 @@ export const docCreator: DocCreator =
 				fStore,
 				buildPathFromColIDsAndDocIDs({
 					collectionIDs,
-					documentIDs: [collectionReferenceOrDocumentId].concat(documentIDs),
+					documentIDs: [collectionReferenceOrDocumentId, ...documentIDs],
 				})
 			)
 		}

@@ -30,5 +30,6 @@ module.exports = {
 		'@typescript-eslint/no-namespace': 'off',
 		'@typescript-eslint/no-empty-function': 'warn',
 		'spaced-comment': 'error',
+		'@typescript-eslint/no-non-null-assertion': 'off',
 	},
 }
