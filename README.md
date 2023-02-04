@@ -70,19 +70,19 @@
 </div>
 <br/>
 <div align="center">
-		<p>Extremely High Precision Typescript Wrapper for Firestore Web, Providing Unparalleled Type Safe and Dev Experience</p>
+		<i>Extremely High Precision Typescript Wrapper for Firestore Web, Providing Unparalleled Type Safe and Dev Experience</i>
 </div>
 <br/>
 <div align="center">
-		<p>Modular, Minuscule, Intuitive, Unopinionated, Craftsmanship, Ultimate, Peaceful, Deep</p>
+		<i>Modular, Minuscule, Intuitive, Unopinionated, Craftsmanship, Ultimate, Peaceful, Deep</i>
 </div>
 <br/>
 <div align="center">
-	<p>Of The VFQAT &#160;&#160;&#160;&#160;||&#160;&#160;&#160;&#160; By The VFQAT &#160;&#160;&#160;&#160;||&#160;&#160;&#160;&#160; For The VFQAT</p>
+	<i>Of The VFQAT &#160;&#160;&#160;&#160;||&#160;&#160;&#160;&#160; By The VFQAT &#160;&#160;&#160;&#160;||&#160;&#160;&#160;&#160; For The VFQAT</i>
 </div>
 <br />
 <div align="center">
-	<p>End Firestore Typing Madness</p>
+	<i>End Firestore Typing Madness</i>
 </div>
 <br />
 <div align="center">
@@ -93,14 +93,14 @@
 
 FirelordJS is the only library capable of providing insane type safety while exposing almost all the API of the official Firestore SDK.
 
-It has:
+FirelordJS:
 
-- The lowest learning curve (API is nearly identical to the original API).
-- The lowest technical debt (easy to revert to the official API).
-- The truly and most generic type safe solutions.
-- The smallest.
-- The best code quality(tons of test + 3 stages of test: dev test, built test and package test)
-- **The only library capable of [typing against](https://firelordjs.com/highlights/query_rule_typing) Firestore limitations**.
+- Has the lowest learning curve (API is nearly identical to the original API).
+- Has the lowest technical debt (easy to revert to the official API).
+- Offer truly and most generic type safe solutions.
+- **Is the only library capable of [typing against](https://firelordjs.com/highlights/query_rule_typing) Firestore limitations**.
+- Offer Effortless solutions for [Firestore quirks](https://firelordjs.com/highlights/about).
+- Has The smallest package size.
 
 Support [@firebase/rules-unit-testing and emulator](https://firelordjs.com/guides/tests)
 
@@ -108,6 +108,10 @@ I am confident it has the best type safe and nothing come close. I put money on 
 
 1. found something better: 75 cups
 2. created something better: 1000 cups (you don't need to a make full fledge library, something that is minimally better is enough, open an issue if you want to take this challenge)
+
+FirelordJS is thoroughly tested, FirelordJS tests source code, built files and published package.
+
+Be the master of fire you always wanted to be.
 
 ## Trivial
 
@@ -142,5 +146,5 @@ New Features:
 - Auto narrow to literal type, remove the need to [manually assert as const](https://firelordjs.com/highlights/where).
 - Better support for [abstraction](https://github.com/tylim88/FirelordJS/issues/90).
 - Narrow read type base on query constraint. For example `where('a', '==', true)` will narrow the read type of field `a` to `true`.
-- Mandatory update member. Example, for field like `updatedAt`, it is mandatory to includes it every time you update the document. There are two ways to implement these feature: via Meta Type and via abstraction. With Meta Type(using special field value), it is less flexible because we no longer able to exclude it from all update operations. With abstraction, it is more flexible but require more works from user. I prefer via abstraction due to it does not shut down other use cases.
+- Mandatory field update. Example, for field like `updatedAt`, it is mandatory to includes it every time you update the document. There are two ways to implement these feature: via Meta Type and via abstraction. With Meta Type(using special field value), it is less flexible because we no longer able to exclude it from all update operations. With abstraction, it is more flexible but require more works from user. I prefer via abstraction due to it does not shut down other use cases.
 - Support wide numeric key and wide string key (Record<number, unknown> and Record<string, unknown>). This still need more consideration because this data type is pointless to query(we need to know what the key is first, it would be better to just save the document ID somewhere) and we need to constantly aware of the document size limit. If you don't care about query and you sure that the size limit will not exceed 1MB, then this is for you. But allowing this also open up for mistake and bad practice for those who are not aware. Most likely I will not implement this.
