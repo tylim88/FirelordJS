@@ -1,7 +1,7 @@
 /** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
 
 module.exports = {
-	testEnvironment: 'jsdom',
+	testEnvironment: 'node', // https://github.com/facebook/jest/issues/7780#issuecomment-645989788
 	roots: ['<rootDir>/src'],
 	testMatch: ['**/__tests__/**/*.+(ts|js)', '**/?(*.)+(spec|test).+(ts|js)'],
 	transform: {
