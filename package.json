@@ -84,6 +84,7 @@
 		"firebase": "^9.9.4",
 		"husky": "^8.0.1",
 		"jest": "^28.1.0",
+		"jest-environment-jsdom": "^29.4.1",
 		"kill-port": "^2.0.1",
 		"lint-staged": "^13.1.0",
 		"lodash": "^4.17.21",
