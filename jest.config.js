@@ -1,7 +1,7 @@
 /** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
 
 module.exports = {
-	testEnvironment: 'node',
+	testEnvironment: 'node', // https://github.com/facebook/jest/issues/7780#issuecomment-645989788
 	roots: ['<rootDir>/src'],
 	testMatch: ['**/__tests__/**/*.+(ts|js)', '**/?(*.)+(spec|test).+(ts|js)'],
 	transform: {
@@ -11,4 +11,5 @@ module.exports = {
 	collectCoverageFrom: ['**/*.{js,jsx,ts,tsx}', '!**/*.d.ts'],
 	setupFiles: ['dotenv/config'],
 	forceExit: true,
+	transformIgnorePatterns: ['node_modules/(?!@ngrx|(?!deck.gl)|ng-dynamic)'],
 }
