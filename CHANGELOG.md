@@ -1,6 +1,13 @@
 # HISTORY
 
-## 2.2.2 2-Fec-2023
+## 2.2.6 8-Feb-2023
+
+- transpiling to cjs now does not transpile import to require(consid…
+  …er everyone is using some kind of bundler and most browser now support module, this should be a safe decision)
+
+- support esm module(not yet tested)
+
+## 2.2.2 2-Feb-2023
 
 - support auto generate document reference ID
 - some housekeeping
