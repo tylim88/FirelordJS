@@ -1,9 +1,9 @@
 {
 	"name": "firelordjs",
-	"version": "2.2.5",
+	"version": "2.2.6",
 	"description": "🔥 Extremely High Precision Typescript Wrapper for Firestore Web, Providing Unparalleled Type Safe and Dev Experience",
-	"main": "dist/index.js",
-	"types": "dist/index.d.ts",
+	"main": "dist/cjs/index.js",
+	"types": "dist/cjs/index.d.ts",
 	"scripts": {
 		"reinstall": "rm -rf node_modules && rm -rf package-lock.json && npm i && npx husky install",
 		"tsc": "tsc",
@@ -11,7 +11,7 @@
 		"pretty": "pretty-quick --stage --branch main",
 		"test": "npm run kill && firebase emulators:exec --only firestore \"rm -rf coverage && jest\" && npm run kill",
 		"rollup": "rm -rf dist && rollup -c",
-		"build": "rm -rf dist && tsc -p tsconfig.prod.json",
+		"build": "rm -rf dist && tsc -p tsconfig.esm.prod.json && tsc -p tsconfig.prod.json",
 		"link": "npm unlink firelordjs && npm link && npm link firelordjs",
 		"babel": "babel-node -x .ts -- src/fieldPath/documentId.ts",
 		"jest": "jest src/operations/getDocs.test.ts --collectCoverage=false",
@@ -59,6 +59,20 @@
 		"type-safe",
 		"V9"
 	],
+	"publishConfig": {
+		"export": {
+			".": {
+				"import": {
+					"types": "./dist/esm/index.d.ts",
+					"default": "./dist/esm/index.js"
+				},
+				"require": {
+					"types": "./dist/cjs/index.d.ts",
+					"default": "./dist/cjs/index.js"
+				}
+			}
+		}
+	},
 	"devDependencies": {
 		"@babel/node": "^7.18.9",
 		"@babel/preset-env": "^7.17.10",
