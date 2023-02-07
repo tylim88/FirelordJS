@@ -6,9 +6,7 @@ export const docCreator: DocCreator =
 	(fStore, collectionIDs) =>
 	// @ts-expect-error
 	(collectionReferenceOrDocumentId, ...documentIDs) => {
-		if (typeof collectionReferenceOrDocumentId !== 'string') {
-			return doc(collectionReferenceOrDocumentId)
-		} else {
+		if (typeof collectionReferenceOrDocumentId === 'string') {
 			return doc(
 				// @ts-expect-error
 				fStore,
@@ -17,5 +15,7 @@ export const docCreator: DocCreator =
 					documentIDs: [collectionReferenceOrDocumentId, ...documentIDs],
 				})
 			)
+		} else {
+			return doc(collectionReferenceOrDocumentId)
 		}
 	}
