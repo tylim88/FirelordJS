@@ -19,7 +19,8 @@
 
 # config file
 jest.config.js
-tsconfig.json
+tsconfig.**
+rollup.config
 .eslintrc.js
 .prettierrc.js
 babel.config.js    
