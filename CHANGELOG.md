@@ -2,7 +2,7 @@
 
 ## 2.2.6 8-Feb-2023
 
-- transpiling to cjs now does not transpile import to require(consider everyone is using some kind of bundler and most browser now support module, this should be a safe decision)
+- transpiling to cjs now does not transpile import to require
 
 - support esm module(not yet tested)
 
