@@ -7,8 +7,10 @@ import {
 	onSnapshot,
 	startAfter,
 	limit,
+	getCountFromServer,
 } from 'firelordjs'
 
+// filter documents
 getDocs(
 	query(
 		example.collection(),
@@ -24,10 +26,10 @@ getDocs(
 		docChange.newIndex
 	})
 	querySnapshot.forEach(docSnapshot => {})
-
 	querySnapshot.docs.forEach(docSnapshot => {})
 })
 
+// filter and listen to documents
 const unsub = onSnapshot(
 	query(
 		example.collectionGroup(),
@@ -40,9 +42,21 @@ const unsub = onSnapshot(
 	{ includeMetadataChanges: false }
 )
 
+// listen to a single document
 const unsub2 = onSnapshot(
 	example.doc('abc'),
 	docSnapshot => {},
 	error => {},
 	{ includeMetadataChanges: true }
+)
+
+// remove listeners
+unsub()
+unsub2()
+
+// get aggregated count
+getCountFromServer(query(example.collection(), where('a', '>', 1))).then(
+	aggregatedQuerySnapshot => {
+		const count = aggregatedQuerySnapshot.data().count
+	}
 )

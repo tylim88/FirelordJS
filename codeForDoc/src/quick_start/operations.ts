@@ -17,12 +17,6 @@ export const dummy = async () => {
 		f: { g: serverTimestamp(), h: 1010 },
 	})
 
-	await addDoc(example.collection(), {
-		a: 900,
-		b: { c: false, d: [{ e: 'hi' }] },
-		f: { g: serverTimestamp(), h: 3838 },
-	})
-
 	await updateDoc(example.doc('abc'), {
 		a: increment(1),
 		'b.d': arrayUnion({ e: 'hello' }), // dot notation form
@@ -52,4 +46,13 @@ export const dummy = async () => {
 		docSnapshot.ref.parent.path
 		docSnapshot.ref.parent.type
 	})
+
+	// in case you want to create auto id doc
+	await addDoc(example.collection(), {
+		a: 900,
+		b: { c: false, d: [{ e: 'hi' }] },
+		f: { g: serverTimestamp(), h: 3838 },
+	})
+	// in case you just want auto id doc ref
+	const autoIdDocRef = example.doc(example.collection())
 }
