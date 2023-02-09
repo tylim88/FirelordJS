@@ -182,3 +182,17 @@ export interface DocumentChange<T extends MetaType> {
 	 */
 	readonly newIndex: number
 }
+
+export interface AggregateQuerySnapshot<T extends MetaType> {
+	/** A type string to uniquely identify instances of this class. */
+	readonly type: 'AggregateQuerySnapshot'
+	/**
+	 * The underlying query over which the aggregations recorded in this
+	 * `AggregateQuerySnapshot` were performed.
+	 */
+	readonly query: Query<T>
+	/**
+	 * @returns An `Object` containing `count` properties. See https://firebase.blog/posts/2022/12/introducing-firestore-count-ttl-scale
+	 */
+	data(): { count: number }
+}
