@@ -59,27 +59,7 @@ export type FirelordRef<T extends MetaType> = Readonly<{
 	collectionGroup: () => Query<T>
 }>
 
-export {
-	Timestamp,
-	GeoPoint,
-	Bytes,
-	getFirestore,
-	terminate,
-	initializeFirestore,
-	loadBundle,
-	clearIndexedDbPersistence,
-	connectFirestoreEmulator,
-	disableNetwork,
-	enableIndexedDbPersistence,
-	enableMultiTabIndexedDbPersistence,
-	enableNetwork,
-	onSnapshotsInSync,
-	namedQuery,
-	waitForPendingWrites,
-	CACHE_SIZE_UNLIMITED,
-} from 'firebase/firestore'
-
-export type { DocumentData } from 'firebase/firestore'
+export { getFirestore } from 'firebase/firestore'
 
 export * from './writeBatch'
 export * from './runTransaction'
