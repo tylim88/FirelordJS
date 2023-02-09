@@ -1,5 +1,7 @@
 # HISTORY
 
+no longer maintain change log, for future release note, see https://github.com/tylim88/FirelordJS/releases
+
 ## 2.2.2 2-Fec-2023
 
 - support auto generate document reference ID
