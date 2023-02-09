@@ -1,7 +1,7 @@
 {
 	"compilerOptions": {
 		"isolatedModules": true,
-		"module": "CommonJS",
+		"module": "es2020",
 		"declaration": true,
 		"esModuleInterop": true,
 		"sourceMap": false,
@@ -11,12 +11,13 @@
 		"target": "es5",
 		"allowJs": true,
 		"emitDeclarationOnly": false,
-		"outDir": "dist",
+		"outDir": "dist/cjs",
 		"noUncheckedIndexedAccess": true,
 		"removeComments": false,
 		"resolveJsonModule": true,
 		"noEmit": true,
-		"exactOptionalPropertyTypes": true
+		"exactOptionalPropertyTypes": true,
+		"moduleResolution": "node"
 	},
 	"include": ["src/**/*", "scripts/**/*"]
 }

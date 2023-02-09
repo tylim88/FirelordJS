@@ -31,6 +31,12 @@ connectFirestoreEmulator(firestore, 'localhost', port)
 const userRef = getFirelord<User>(firestore, 'topLevel', 'Users')
 
 describe('test whether works with emulator', () => {
+	it('test auto generate id', () => {
+		const ref = userRef.doc(userRef.collection('FirelordTest'))
+		const splitPath = ref.path.split('/')
+		expect(splitPath.length).toBe(4)
+		expect(splitPath[splitPath.length - 1]!.length).toBe(20)
+	})
 	it('test updateDoc, setDoc, and delete field', async () => {
 		const data = generateRandomData()
 		const ref = userRef.doc(

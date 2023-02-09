@@ -1,8 +1,14 @@
 # HISTORY
 
-no longer maintain change log, for future release note, see https://github.com/tylim88/FirelordJS/releases
+no longer maintain change log since v2.3.0, for future release note, see https://github.com/tylim88/FirelordJS/releases
 
-## 2.2.2 2-Fec-2023
+## 2.2.6 8-Feb-2023
+
+- transpiling to cjs now does not transpile import to require
+
+- support esm module(not yet tested)
+
+## 2.2.2 2-Feb-2023
 
 - support auto generate document reference ID
 - some housekeeping
