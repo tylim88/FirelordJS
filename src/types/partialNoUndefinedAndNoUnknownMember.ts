@@ -96,17 +96,6 @@ export type PartialNoUndefinedAndNoUnknownMemberNoEmptyMember<
 	  }
 	: HandleUnknownMember<T, Data>
 
-export type AbstractPartialType<
-	T extends MetaType,
-	Data extends DocumentData
-> = Data extends never
-	? Data
-	: PartialNoUndefinedAndNoUnknownMemberNoEmptyMember<
-			T['writeFlatten'],
-			Data,
-			false
-	  >
-
 // dont need recursive as deleteField only work on top level, but this is more future proof
 // for non merge field set only
 export type RecursivelyReplaceDeleteFieldWithErrorMsg<T, Data> =
