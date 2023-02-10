@@ -210,39 +210,38 @@ describe('test whether works with emulator', () => {
 		expect(splitPath.length).toBe(4)
 		expect(splitPath[splitPath.length - 1]!.length).toBe(20)
 	})
-})
+	describe('test getCountFromServer', () => {
+		const doc1 = userRef.doc('ForAggCountTest', '1')
+		const doc2 = userRef.doc('ForAggCountTest', '2')
+		const doc3 = userRef.doc('ForAggCountTest', '3')
+		const uniqueValue = { name: crypto.randomUUID() }
+		beforeAll(async () => {
+			const deletePromises = [doc1, doc2, doc3].map(docRef => {
+				return deleteDoc(docRef)
+			})
 
-describe('test getCountFromServer', () => {
-	const doc1 = userRef.doc('ForAggCountTest', '1')
-	const doc2 = userRef.doc('ForAggCountTest', '2')
-	const doc3 = userRef.doc('ForAggCountTest', '3')
-	const uniqueValue = { name: crypto.randomUUID() }
-	beforeAll(async () => {
-		const deletePromises = [doc1, doc2, doc3].map(docRef => {
-			return deleteDoc(docRef)
+			await Promise.allSettled(deletePromises)
+			const setPromises = [doc1, doc2, doc3].map(docRef => {
+				return setDoc(docRef, { ...generateRandomData(), ...uniqueValue })
+			})
+
+			await Promise.all(setPromises)
 		})
 
-		await Promise.allSettled(deletePromises)
-		const setPromises = [doc1, doc2, doc3].map(docRef => {
-			return setDoc(docRef, { ...generateRandomData(), ...uniqueValue })
-		})
-
-		await Promise.all(setPromises)
-	})
-
-	it('test aggregated count of collection', async () => {
-		const snapshot2 = await getCountFromServer(
-			query(userRef.collection('ForAggCountTest'))
-		)
-		expect(snapshot2.data().count).toBe(3)
-	})
-	it('test aggregated count of query', async () => {
-		const snapshot = await getCountFromServer(
-			query(
-				userRef.collection('ForAggCountTest'),
-				where('name', '==', uniqueValue.name)
+		it('test aggregated count of collection', async () => {
+			const snapshot2 = await getCountFromServer(
+				query(userRef.collection('ForAggCountTest'))
 			)
-		)
-		expect(snapshot.data().count).toBe(3)
+			expect(snapshot2.data().count).toBe(3)
+		})
+		it('test aggregated count of query', async () => {
+			const snapshot = await getCountFromServer(
+				query(
+					userRef.collection('ForAggCountTest'),
+					where('name', '==', uniqueValue.name)
+				)
+			)
+			expect(snapshot.data().count).toBe(3)
+		})
 	})
 })
