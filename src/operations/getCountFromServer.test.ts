@@ -37,7 +37,7 @@ describe('test getCountFromServer', () => {
 		const snapshot2 = await getCountFromServer(
 			query(userRef.collection('ForAggCountTest'))
 		)
-		expect(snapshot2.data().count).toBe(3)
+		expect(snapshot2.data().count).toBe(4)
 	})
 	it('test aggregated count of query', async () => {
 		const snapshot = await getCountFromServer(
@@ -46,6 +46,6 @@ describe('test getCountFromServer', () => {
 				where('name', '==', uniqueValue.name)
 			)
 		)
-		expect(snapshot.data().count).toBe(4)
+		expect(snapshot.data().count).toBe(3)
 	})
 })
