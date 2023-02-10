@@ -210,38 +210,35 @@ describe('test whether works with emulator', () => {
 		expect(splitPath.length).toBe(4)
 		expect(splitPath[splitPath.length - 1]!.length).toBe(20)
 	})
-	describe('test getCountFromServer', () => {
+
+	it('test aggregated count', async () => {
 		const doc1 = userRef.doc('ForAggCountTest', '1')
 		const doc2 = userRef.doc('ForAggCountTest', '2')
 		const doc3 = userRef.doc('ForAggCountTest', '3')
+		const doc4 = userRef.doc('ForAggCountTest', '4')
 		const uniqueValue = { name: crypto.randomUUID() }
-		beforeAll(async () => {
-			const deletePromises = [doc1, doc2, doc3].map(docRef => {
-				return deleteDoc(docRef)
-			})
-
-			await Promise.allSettled(deletePromises)
-			const setPromises = [doc1, doc2, doc3].map(docRef => {
-				return setDoc(docRef, { ...generateRandomData(), ...uniqueValue })
-			})
-
-			await Promise.all(setPromises)
+		const deletePromises = [doc1, doc2, doc3, doc4].map(docRef => {
+			return deleteDoc(docRef)
 		})
 
-		it('test aggregated count of collection', async () => {
-			const snapshot2 = await getCountFromServer(
-				query(userRef.collection('ForAggCountTest'))
+		await Promise.allSettled(deletePromises)
+		const setPromises = [doc1, doc2, doc3].map(docRef => {
+			return setDoc(docRef, { ...generateRandomData(), ...uniqueValue })
+		})
+		await setDoc(doc4, generateRandomData())
+		await Promise.all(setPromises)
+
+		const snapshot = await getCountFromServer(
+			query(
+				userRef.collection('ForAggCountTest'),
+				where('name', '==', uniqueValue.name)
 			)
-			expect(snapshot2.data().count).toBe(3)
-		})
-		it('test aggregated count of query', async () => {
-			const snapshot = await getCountFromServer(
-				query(
-					userRef.collection('ForAggCountTest'),
-					where('name', '==', uniqueValue.name)
-				)
-			)
-			expect(snapshot.data().count).toBe(3)
-		})
+		)
+		expect(snapshot.data().count).toBe(3)
+
+		const snapshot2 = await getCountFromServer(
+			userRef.collection('ForAggCountTest')
+		)
+		expect(snapshot2.data().count).toBe(4)
 	})
 })

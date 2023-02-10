@@ -54,7 +54,12 @@ const unsub2 = onSnapshot(
 unsub()
 unsub2()
 
-// get aggregated count
+// get collection aggregated count
+getCountFromServer(example.collection()).then(aggregatedQuerySnapshot => {
+	const count = aggregatedQuerySnapshot.data().count
+})
+
+// get query aggregated count
 getCountFromServer(query(example.collection(), where('a', '>', 1))).then(
 	aggregatedQuerySnapshot => {
 		const count = aggregatedQuerySnapshot.data().count

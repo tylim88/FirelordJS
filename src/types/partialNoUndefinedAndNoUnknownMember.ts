@@ -5,8 +5,6 @@ import {
 	ErrorUnknownMember,
 } from './error'
 import { ArrayUnionOrRemove, DeleteField } from './fieldValue'
-import { DocumentData } from './alias'
-import { MetaType } from './metaTypeCreator'
 
 type HandleUnknownMember<T extends Record<string, unknown>, Data> = Omit<
 	Data,
