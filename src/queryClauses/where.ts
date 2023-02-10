@@ -21,7 +21,8 @@ export const where: Where = (fieldPath, opStr, value) => {
 		newValue.length === 0
 	) {
 		newValue = [
-			'712zy78yn73x8y037zym83y1x82y3n8cy38u89zul,98kup3c289	2unp38yn8nyz83ym073`yzmo7cyun8z90 ,u2e8 u28n3eyu1xy87xy327cbp1327xn',
+			'712zy78yn73x8y037zym83y1x82y3n8cy38u89zul,98kup3c289	2unp38yn8nyz83ym073`yzmo7cyun8z90 ,u2e8 ' +
+				Date.now().toLocaleString(),
 		] as typeof newValue
 	}
 
