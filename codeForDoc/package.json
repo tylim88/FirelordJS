@@ -14,7 +14,7 @@
 	"dependencies": {
 		"code-for-doc": "file:",
 		"firebase": "latest",
-		"firelordjs": "latest"
+		"firelordjs": "^2.2.6"
 	},
 	"devDependencies": {
 		"@firebase/rules-unit-testing": "^2.0.2",
