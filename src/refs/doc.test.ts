@@ -52,6 +52,7 @@ describe('simple collection type test', () => {
 				typeof ref.path,
 				| `topLevel/FirelordTest/Users/${string}/GrandChild/${string}`
 				| `topLevel/ForCursorTest/Users/${string}/GrandChild/${string}`
+				| `topLevel/ForAggCountTest/Users/${string}/GrandChild/${string}`
 			>
 		>()
 		IsTrue<IsSame<typeof ref.parent, CollectionReference<GrandChild>>>()
