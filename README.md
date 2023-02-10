@@ -113,7 +113,7 @@ I am confident it has the best type safe and nothing come close. I put money on 
 
 FirelordJS is thoroughly tested, FirelordJS tests source code, built files and published package.
 
-The testes test against real database and emulators, no mock test!
+The tests test against real database and emulators, no mock test!
 
 ## Trivial
 
