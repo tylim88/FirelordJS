@@ -14,7 +14,7 @@
 		"build": "rm -rf dist && tsc -p tsconfig.esm.prod.json && tsc -p tsconfig.prod.json",
 		"link": "npm unlink firelordjs && npm link && npm link firelordjs",
 		"babel": "babel-node -x .ts -- src/fieldPath/documentId.ts",
-		"jest": "jest src/operations/getDocs.test.ts --collectCoverage=false",
+		"jest": "jest src/operations/getCountFromServer.test.ts --collectCoverage=false",
 		"commit": "git commit --no-verify",
 		"kill": "kill-port 8080",
 		"dev": "---------------------dev------------------------",

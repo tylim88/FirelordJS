@@ -37,7 +37,7 @@ export type Parent = MetaTypeCreator<
 		a: 1
 	},
 	'topLevel',
-	'FirelordTest'
+	'FirelordTest' | 'ForAggCountTest'
 >
 
 export type User = MetaTypeCreator<
