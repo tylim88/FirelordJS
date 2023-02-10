@@ -17,8 +17,7 @@
 		"resolveJsonModule": true,
 		"noEmit": true,
 		"exactOptionalPropertyTypes": true,
-		"moduleResolution": "node",
-		"types": ["vitest/globals"]
+		"moduleResolution": "node"
 	},
 	"include": ["src/**/*", "scripts/**/*"]
 }

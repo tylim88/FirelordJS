@@ -109,7 +109,11 @@ I am confident it has the best type safe and nothing come close. I put money on 
 1. found something better: 75 cups
 2. created something better: 1000 cups (you don't need to a make full fledge library, something that is minimally better is enough, open an issue if you want to take this challenge)
 
+## Tests
+
 FirelordJS is thoroughly tested, FirelordJS tests source code, built files and published package.
+
+The testes test against real database and emulators, no mock test!
 
 ## Trivial
 
