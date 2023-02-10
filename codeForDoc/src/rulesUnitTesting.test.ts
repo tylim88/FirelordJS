@@ -30,6 +30,7 @@ import {
 	generateRandomData,
 	compareWriteDataWithDocSnapData,
 } from './utilForTests'
+import crypto from 'crypto'
 
 const port = firebasejson.emulators.firestore.port
 let userRef: FirelordRef<User> = undefined!
@@ -249,11 +250,17 @@ describe('test whether works with rules-unit-testing', () => {
 
 		await Promise.all([p5, p6])
 	})
-	it('test count', async () => {
-		const uniqueValue = { name: '%#$E#$%^&*YM&HU*(&NY&' }
-		const doc1 = userRef.doc('FirelordTest', 'A1')
-		const doc2 = userRef.doc('FirelordTest', 'A2')
-		const doc3 = userRef.doc('FirelordTest', 'A3')
+	it('test auto generate id', () => {
+		const ref = userRef.doc(userRef.collection('FirelordTest'))
+		const splitPath = ref.path.split('/')
+		expect(splitPath.length).toBe(4)
+		expect(splitPath[splitPath.length - 1]!.length).toBe(20)
+	})
+	it('test aggregated count', async () => {
+		const uniqueValue = { name: crypto.randomUUID() }
+		const doc1 = userRef.doc('FirelordTest', 'A7')
+		const doc2 = userRef.doc('FirelordTest', 'A8')
+		const doc3 = userRef.doc('FirelordTest', 'A9')
 		const promises = [doc1, doc2, doc3].map(docRef => {
 			setDoc(docRef, { ...generateRandomData(), ...uniqueValue })
 		})

@@ -24,6 +24,7 @@ import {
 	compareWriteDataWithDocSnapData,
 	initializeApp,
 } from './utilForTests'
+import crypto from 'crypto'
 
 initializeApp()
 const port = firebasejson.emulators.firestore.port
@@ -32,12 +33,6 @@ connectFirestoreEmulator(firestore, 'localhost', port)
 const userRef = getFirelord<User>(firestore, 'topLevel', 'Users')
 
 describe('test whether works with emulator', () => {
-	it('test auto generate id', () => {
-		const ref = userRef.doc(userRef.collection('FirelordTest'))
-		const splitPath = ref.path.split('/')
-		expect(splitPath.length).toBe(4)
-		expect(splitPath[splitPath.length - 1]!.length).toBe(20)
-	})
 	it('test updateDoc, setDoc, and delete field', async () => {
 		const data = generateRandomData()
 		const ref = userRef.doc(
@@ -209,11 +204,17 @@ describe('test whether works with emulator', () => {
 		data.a.b.f = []
 		await readThenCompareWithWriteData(data, ref)
 	})
-	it('test count', async () => {
-		const uniqueValue = { name: '%#$E#$%^&*YM&HU*(&NY&' }
-		const doc1 = userRef.doc('FirelordTest', 'A1')
-		const doc2 = userRef.doc('FirelordTest', 'A2')
-		const doc3 = userRef.doc('FirelordTest', 'A3')
+	it('test auto generate id', () => {
+		const ref = userRef.doc(userRef.collection('FirelordTest'))
+		const splitPath = ref.path.split('/')
+		expect(splitPath.length).toBe(4)
+		expect(splitPath[splitPath.length - 1]!.length).toBe(20)
+	})
+	it('test aggregated count', async () => {
+		const uniqueValue = { name: crypto.randomUUID() }
+		const doc1 = userRef.doc('FirelordTest', 'A4')
+		const doc2 = userRef.doc('FirelordTest', 'A5')
+		const doc3 = userRef.doc('FirelordTest', 'A6')
 		const promises = [doc1, doc2, doc3].map(docRef => {
 			setDoc(docRef, { ...generateRandomData(), ...uniqueValue })
 		})

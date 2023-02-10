@@ -5,6 +5,8 @@ import {
 	ErrorUnknownMember,
 } from './error'
 import { ArrayUnionOrRemove, DeleteField } from './fieldValue'
+import { DocumentData } from './alias'
+import { MetaType } from './metaTypeCreator'
 
 type HandleUnknownMember<T extends Record<string, unknown>, Data> = Omit<
 	Data,
@@ -64,8 +66,6 @@ type PartialNoUndefinedAndNoUnknownMemberInArray<T, Data> =
 			: HandleUnknownMember<T, Data>
 		: T
 
-type A = { a: 1 } extends Record<string, never> ? 1 : 2
-
 // type checking for non-array in update operation
 export type PartialNoUndefinedAndNoUnknownMemberNoEmptyMember<
 	T extends Record<string, unknown>,
@@ -95,6 +95,17 @@ export type PartialNoUndefinedAndNoUnknownMemberNoEmptyMember<
 				: IsSetDeleteAbleFieldValueValid<T[K], Data[K], K & string, Merge>
 	  }
 	: HandleUnknownMember<T, Data>
+
+export type AbstractPartialType<
+	T extends MetaType,
+	Data extends DocumentData
+> = Data extends never
+	? Data
+	: PartialNoUndefinedAndNoUnknownMemberNoEmptyMember<
+			T['writeFlatten'],
+			Data,
+			false
+	  >
 
 // dont need recursive as deleteField only work on top level, but this is more future proof
 // for non merge field set only

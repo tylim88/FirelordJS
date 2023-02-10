@@ -20,7 +20,9 @@ import {
 	runTransaction,
 	getFirestore,
 	writeBatch,
+	getCountFromServer,
 } from 'firelordjs'
+import crypto from 'crypto'
 
 initializeApp()
 const userRef = getFirelord<User>(getFirestore(), 'topLevel', 'Users')
@@ -97,7 +99,9 @@ describe('dist files test', () => {
 					unsub()
 					done()
 				},
-				() => {},
+				() => {
+					//
+				},
 				{ includeMetadataChanges: true }
 			)
 		})
@@ -144,7 +148,7 @@ describe('dist files test', () => {
 		})
 	})
 	it('test batch update, delete field', async () => {
-		const batch = writeBatch(getFirestore())
+		const batch = writeBatch()
 		const data = generateRandomData()
 		const ref = userRef.doc('FirelordTest', 'updateBatchSpecificFieldTestCase')
 		await setDoc(ref, data)
@@ -163,7 +167,7 @@ describe('dist files test', () => {
 		await readThenCompareWithWriteData(data, ref)
 	})
 	it('test batch delete functionality', async () => {
-		const batch = writeBatch(getFirestore())
+		const batch = writeBatch()
 		const docRef = userRef.doc('FirelordTest', 'setBatchTestCaseRead')
 		const data = generateRandomData()
 		await setDoc(docRef, data)
@@ -173,7 +177,7 @@ describe('dist files test', () => {
 		expect(docSnap.exists()).toBe(false)
 	})
 	it('test batch set functionality', async () => {
-		const batch = writeBatch(getFirestore())
+		const batch = writeBatch()
 		const ref = userRef.doc('FirelordTest', 'setBatchTestMergeCase')
 		const data = generateRandomData()
 		await setDoc(ref, data)
@@ -181,5 +185,28 @@ describe('dist files test', () => {
 		await batch.commit()
 		data.a.b.f = []
 		await readThenCompareWithWriteData(data, ref)
+	})
+	it('test auto generate id', () => {
+		const ref = userRef.doc(userRef.collection('FirelordTest'))
+		const splitPath = ref.path.split('/')
+		expect(splitPath.length).toBe(4)
+		expect(splitPath[splitPath.length - 1]!.length).toBe(20)
+	})
+	it('test aggregated count', async () => {
+		const uniqueValue = { name: crypto.randomUUID() }
+		const doc1 = userRef.doc('FirelordTest', 'A1')
+		const doc2 = userRef.doc('FirelordTest', 'A2')
+		const doc3 = userRef.doc('FirelordTest', 'A3')
+		const promises = [doc1, doc2, doc3].map(docRef => {
+			setDoc(docRef, { ...generateRandomData(), ...uniqueValue })
+		})
+		await Promise.all(promises)
+		const snapshot = await getCountFromServer(
+			query(
+				userRef.collection('FirelordTest'),
+				where('name', '==', uniqueValue.name)
+			)
+		)
+		expect(snapshot.data().count).toBe(3)
 	})
 })

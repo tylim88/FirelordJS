@@ -111,8 +111,6 @@ I am confident it has the best type safe and nothing come close. I put money on 
 
 FirelordJS is thoroughly tested, FirelordJS tests source code, built files and published package.
 
-Be the master of fire you always wanted to be.
-
 ## Trivial
 
 - The name Firelord is a reference to the [Firelord](https://avatar.fandom.com/wiki/Fire_Lord) of Avatar.
@@ -127,6 +125,8 @@ Read [here](https://firelordjs.com/contributing)
 2. [FireSword](https://github.com/tylim88/firesword) - Filter Firestore and RTDB Unknown Keys.
 3. [FireCall](https://github.com/tylim88/FireCall) - Helper Function to write easier and safer Firebase onCall function.
 4. [FireSageJS](https://github.com/tylim88/FireSageJS) - Typescript wrapper for Realtime Database
+
+Be the master of fire, be Firelord.
 
 ## Upcoming V3
 
