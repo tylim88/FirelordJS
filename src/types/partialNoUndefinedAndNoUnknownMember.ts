@@ -64,25 +64,21 @@ type PartialNoUndefinedAndNoUnknownMemberInArray<T, Data> =
 			: HandleUnknownMember<T, Data>
 		: T
 
+type A = { a: 1 } extends Record<string, never> ? 1 : 2
+
 // type checking for non-array in update operation
 export type PartialNoUndefinedAndNoUnknownMemberNoEmptyMember<
 	T extends Record<string, unknown>,
 	Data extends Record<string, unknown>,
-	Merge extends boolean | string[], // this is for set operation only
-	AllowEmptyMember extends boolean
-> = Data extends (AllowEmptyMember extends true ? never : Record<string, never>)
-	? ErrorEmptyUpdate | T
+	Merge extends boolean | string[] // this is for set operation only
+> = Data extends Record<string, never>
+	? ErrorEmptyUpdate
 	: keyof Data extends keyof T
 	? {
 			[K in keyof T & keyof Data]?: T[K] extends Record<string, unknown>
 				? Data[K] extends infer R
 					? R extends Record<string, unknown>
-						? PartialNoUndefinedAndNoUnknownMemberNoEmptyMember<
-								T[K],
-								R,
-								Merge,
-								AllowEmptyMember
-						  >
+						? PartialNoUndefinedAndNoUnknownMemberNoEmptyMember<T[K], R, Merge>
 						: T[K]
 					: never
 				: T[K] extends (infer BaseKeyElement)[] | ArrayUnionOrRemove<unknown>

@@ -12,7 +12,6 @@ export type UpdateCreator<U> = <T extends MetaType, Data extends DocumentData>(
 		: PartialNoUndefinedAndNoUnknownMemberNoEmptyMember<
 				T['writeFlatten'],
 				Data,
-				false,
 				false
 		  >
 ) => U

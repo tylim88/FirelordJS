@@ -38,8 +38,7 @@ type SetCreator<U> = <
 					? SetOptions['merge']
 					: SetOptions extends { mergeFields: DeepKey<Data, 'write'>[] }
 					? SetOptions['mergeFields']
-					: false,
-				false
+					: false
 		  >
 		: RecursivelyReplaceDeleteFieldWithErrorMsg<T['write'], Data>,
 	options?: SetOptions extends never ? SetOptions : SetOptions
