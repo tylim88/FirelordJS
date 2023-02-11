@@ -37,6 +37,7 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - run: npm run p-reinstall
+      - run: npm run p-tsc
       - run: npm run p-test
         env:
           PROJECT_ID: ${{ secrets.PROJECT_ID }}

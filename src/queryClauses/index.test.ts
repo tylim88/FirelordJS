@@ -21,15 +21,15 @@ const r4 = userRefCreator().doc('ForCursorTest', 'getDocsCursorTest4')
 const docRef = userRefCreator().doc('ForCursorTest', 'cursorEmptyTest')
 
 describe('test cursor emptiness', () => {
-	beforeEach(() =>
-		Promise.all([
+	beforeEach(async () => {
+		await Promise.all([
 			deleteDoc(docRef),
 			deleteDoc(r1),
 			deleteDoc(r2),
 			deleteDoc(r3),
 			deleteDoc(r4),
 		])
-	)
+	})
 	it('test block empty argument, fail test', () => {
 		;() => {
 			// ! do not replace empty array with unique value in run time because it wil affect the ordering!

@@ -20,7 +20,7 @@ describe('test getCountFromServer', () => {
 	const doc3 = userRef.doc('ForAggCountTest', '3')
 	const doc4 = userRef.doc('ForAggCountTest', '4')
 	const uniqueValue = { name: crypto.randomUUID() }
-	beforeAll(async () => {
+	beforeEach(async () => {
 		const deletePromises = [doc1, doc2, doc3, doc4].map(docRef => {
 			return deleteDoc(docRef)
 		})

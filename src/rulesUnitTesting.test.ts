@@ -101,36 +101,37 @@ describe('test whether works with rules-unit-testing', () => {
 		}
 	})
 
-	it('test onSnapshot', done => {
-		const docId = 'onSnapshotWithOptionQueryTest'
-		const docRef = userRef.doc('FirelordTest', docId)
-		const data = generateRandomData()
-		expect.hasAssertions()
-		setDoc(docRef, data).then(() => {
-			const unsub = onSnapshot(
-				query(
-					userRef.collection('FirelordTest'),
-					where('a.b.c', '==', data.a.b.c as number)
-				),
-				async querySnapshot => {
-					const queryDocumentSnapshot = querySnapshot.docs.filter(
-						doc => doc.id === docId
-					)[0]
-					expect(querySnapshot.docs.length).toBe(1)
-					expect(queryDocumentSnapshot).not.toBe(undefined)
-					if (queryDocumentSnapshot) {
-						await compareWriteDataWithDocSnapData(data, queryDocumentSnapshot)
-					}
-					unsub()
-					done()
-				},
-				() => {
-					//
-				},
-				{ includeMetadataChanges: true }
-			)
-		})
-	})
+	it('test onSnapshot', () =>
+		new Promise(done => {
+			const docId = 'onSnapshotWithOptionQueryTest'
+			const docRef = userRef.doc('FirelordTest', docId)
+			const data = generateRandomData()
+			expect.hasAssertions()
+			setDoc(docRef, data).then(() => {
+				const unsub = onSnapshot(
+					query(
+						userRef.collection('FirelordTest'),
+						where('a.b.c', '==', data.a.b.c as number)
+					),
+					async querySnapshot => {
+						const queryDocumentSnapshot = querySnapshot.docs.filter(
+							doc => doc.id === docId
+						)[0]
+						expect(querySnapshot.docs.length).toBe(1)
+						expect(queryDocumentSnapshot).not.toBe(undefined)
+						if (queryDocumentSnapshot) {
+							await compareWriteDataWithDocSnapData(data, queryDocumentSnapshot)
+						}
+						unsub()
+						done(1)
+					},
+					() => {
+						//
+					},
+					{ includeMetadataChanges: true }
+				)
+			})
+		}))
 	it('test transaction, update, delete field', async () => {
 		const data = generateRandomData()
 		const ref = userRef.doc(
