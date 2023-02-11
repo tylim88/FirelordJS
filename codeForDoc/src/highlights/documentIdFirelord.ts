@@ -39,7 +39,7 @@ const groupRef = getFirelord<Child>(db, 'parent', 'child').collectionGroup()
 query(
 	colRef,
 	// @ts-expect-error
-	where(documentId(), '==', 'xyz/a' as const)
+	where(documentId(), '==', 'xyz/a')
 ) // bad: invalid characters
 //
 //
@@ -51,7 +51,7 @@ query(
 query(
 	groupRef,
 	// @ts-expect-error
-	where(documentId(), '==', 'wrong/path/same/count' as const)
+	where(documentId(), '==', 'wrong/path/same/count')
 ) // bad: slash count matched but path is wrong
 //
 //
@@ -64,9 +64,9 @@ query(
 query(
 	groupRef,
 	// @ts-expect-error
-	where(documentId(), '==', 'parent/abc/child' as const)
+	where(documentId(), '==', 'parent/abc/child')
 ) // bad: count mismatched
-query(groupRef, where(documentId(), '==', 'parent/abc/child/xyz' as const)) // good: count matched and correct type
+query(groupRef, where(documentId(), '==', 'parent/abc/child/xyz')) // good: count matched and correct type
 //
 //
 //
@@ -77,33 +77,7 @@ query(groupRef, where(documentId(), '==', 'parent/abc/child/xyz' as const)) // g
 query(
 	colRef,
 	// @ts-expect-error
-	where(documentId(), '>', 'xyz' as const),
+	where(documentId(), '>', 'xyz'),
 	orderBy('z')
 ) // bad: first orderBy field is incorrect
-query(colRef, where(documentId(), '>', 'xyz' as const), orderBy('__name__')) // good: first orderBy field is correct
-//
-//
-//
-//
-//
-//
-//
-query(
-	colRef,
-	// @ts-expect-error
-	where(documentId(), '==', 'xyz')
-) // bad: no const assertion
-query(colRef, where(documentId(), '==', 'xyz' as const)) // good: with const assertion
-//
-//
-//
-//
-//
-//
-//
-query(
-	colRef,
-	// @ts-expect-error
-	where(documentId(), '==', 'xyz')
-) // bad: no const assertion
-query(colRef, where(documentId(), '==', 'xyz' as const)) // good: with const assertion
+query(colRef, where(documentId(), '>', 'xyz'), orderBy('__name__')) // good: first orderBy field is correct

@@ -14,7 +14,7 @@ import {
 getDocs(
 	query(
 		example.collection(),
-		where('f.h', '>', 1010 as const),
+		where('f.h', '>', 1010),
 		orderBy('f.h'),
 		limit(10)
 	)

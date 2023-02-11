@@ -32,31 +32,6 @@ const colRef = firelordRef.collection('abc')
 //
 //
 //
-query(
-	colRef,
-	// @ts-expect-error
-	where('z', '==', 'a')
-) // bad: no const assertion
-query(colRef, where('z', '==', 'a' as const)) // good: with const assertion
-//
-const withoutAssertion = 'a'
-const withAssertion = 'a' as const
-//
-//
-//
-//
-query(
-	colRef,
-	// @ts-expect-error
-	where('z', '==', withoutAssertion)
-) // bad: no const assertion
-query(colRef, where('z', '==', withAssertion)) // good: with const assertion
-//
-//
-//
-//
-//
-//
 //
 //
 // @ts-expect-error
