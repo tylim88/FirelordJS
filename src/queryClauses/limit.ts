@@ -11,7 +11,10 @@ export const limitCreator: LimitCreator =
 		return {
 			type,
 			value: limit,
-			ref: clause(limit),
+			ref: clause(
+				// @ts-expect-error
+				limit
+			),
 		}
 	}
 

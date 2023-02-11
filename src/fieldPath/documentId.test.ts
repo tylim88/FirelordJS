@@ -14,9 +14,9 @@ initializeApp()
 const userRef = userRefCreator()
 const collectionGroupRef = userRef.collectionGroup()
 const collectionRef = userRef.collection('FirelordTest')
-const fullDocPath = 'topLevel/FirelordTest/Users/a' as const
-const incorrectFullDocPath = 'topLevel/FirelordTest/Use2rs/a' as const
-const incorrectSlashDocPath = 'topLevel/FirelordTest/Users/a/b' as const
+const fullDocPath = 'topLevel/FirelordTest/Users/a'
+const incorrectFullDocPath = 'topLevel/FirelordTest/Use2rs/a'
+const incorrectSlashDocPath = 'topLevel/FirelordTest/Users/a/b'
 const docRef = userRefCreator().doc(
 	'FirelordTest',
 	'testCollectionWithDocumentId'
@@ -46,14 +46,14 @@ describe('test document id type', () => {
 				// @ts-expect-error
 				'__name__',
 				'!=',
-				'a' as const
+				'a'
 			)
 		)
 	})
 
 	it('test correct input', () => {
 		query(collectionGroupRef, where(documentId(), '==', fullDocPath))
-		query(collectionRef, where(documentId(), '!=', 'a' as const))
+		query(collectionRef, where(documentId(), '!=', 'a'))
 		query(
 			collectionGroupRef,
 			where(documentId(), '==', userRef.doc('FirelordTest', 'abc'))
@@ -76,7 +76,7 @@ describe('test document id type', () => {
 			query(
 				collectionGroupRef,
 				// @ts-expect-error
-				where(documentId(), '!=', 'a' as const) // collectionGroup need full path
+				where(documentId(), '!=', 'a') // collectionGroup need full path
 			)
 		).toThrow()
 	})
@@ -120,21 +120,21 @@ describe('test document id type', () => {
 			query(
 				collectionRef,
 				// @ts-expect-error
-				where(documentId(), '!=', 1 as const)
+				where(documentId(), '!=', 1)
 			)
 		).toThrow()
 		expect(() =>
 			query(
 				collectionRef,
 				// @ts-expect-error
-				where(documentId(), '!=', 'a1222/5444b/5435c/4353454c' as const)
+				where(documentId(), '!=', 'a1222/5444b/5435c/4353454c')
 			)
 		).toThrow()
 		expect(() =>
 			query(
 				collectionRef,
 				// @ts-expect-error
-				where(documentId(), '!=', 'a/b/c/d/e' as const)
+				where(documentId(), '!=', 'a/b/c/d/e')
 			)
 		).toThrow()
 		expect(() =>
@@ -146,23 +146,12 @@ describe('test document id type', () => {
 		).toThrow()
 	})
 
-	it('test warn if no const assertion and wont throw', () => {
-		// do not expect throw here
-		query(
-			collectionGroupRef,
-			// @ts-expect-error
-			where(documentId(), '==', 'topLevel/FirelordTest/Users/a')
-		)
-		// @ts-expect-error
-		query(collectionRef, where(documentId(), '!=', 'a'))
-	})
-
 	it(`Invalid query. When querying a collection by documentId(), you must provide a plain document ID, but 'topLevel/FirelordTest/Users/testCollectionWithDocumentId' contains a '/' character, positive test`, async () => {
 		await setDoc(docRef, data)
 		const snapshot = await getDocs(
 			query(
 				collectionRef,
-				where(documentId(), '==', 'testCollectionWithDocumentId' as const)
+				where(documentId(), '==', 'testCollectionWithDocumentId')
 			)
 		)
 		expect(snapshot.docs[0]?.data().age).toBe(data.age)
@@ -178,18 +167,14 @@ describe('test document id type', () => {
 	})
 
 	it('test functionality', async () => {
-		const docID = 'TestDocumentID' as const
+		const docID = 'TestDocumentID'
 		const data = generateRandomData()
 		const docRef = userRef.doc('FirelordTest', docID)
 		await setDoc(docRef, data)
 		const query1 = query(collectionRef, where(documentId(), '==', docID))
 		const query2 = query(
 			collectionGroupRef,
-			where(
-				documentId(),
-				'==',
-				'topLevel/FirelordTest/Users/TestDocumentID' as const
-			)
+			where(documentId(), '==', 'topLevel/FirelordTest/Users/TestDocumentID')
 		)
 		const queryAndTest = async (query: typeof query1) => {
 			const querySnapshot = await getDocs(query)
@@ -204,7 +189,7 @@ describe('test document id type', () => {
 	})
 
 	it('test functionality with document reference', async () => {
-		const docID = 'TestDocumentIDWithDocRef' as const
+		const docID = 'TestDocumentIDWithDocRef'
 		const data = generateRandomData()
 		const docRef = userRef.doc('FirelordTest', docID)
 		await setDoc(docRef, data)

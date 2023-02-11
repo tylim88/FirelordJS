@@ -92,7 +92,7 @@ describe('test updateDoc', () => {
 				ag2e: 1,
 			})
 	})
-	const ag2e = 'ag2e' as const
+	const ag2e = 'ag2e'
 	const errorUnknownMember: ErrorUnknownMember<
 		typeof ag2e
 	> = `Error: Please remove the unknown member ( ${ag2e} )`
@@ -157,7 +157,7 @@ describe('test updateDoc', () => {
 	it('test hybrid correct type', () => {
 		;() =>
 			updateDoc(userRefCreator().doc('FirelordTest', '123'), {
-				role: 'visitor' as const,
+				role: 'visitor',
 				age: increment(1),
 				a: { e: arrayUnion(...['1']), 'b.c': 1 },
 				'a.k': serverTimestamp(),
@@ -166,21 +166,21 @@ describe('test updateDoc', () => {
 	it('test hybrid wrong type', () => {
 		;() =>
 			updateDoc(userRefCreator().doc('FirelordTest', '123'), {
-				role: 'visitor' as const,
+				role: 'visitor',
 				age: 1,
 				// @ts-expect-error
 				a: { e: arrayUnion([1]) },
 			})
 		;() =>
 			updateDoc(userRefCreator().doc('FirelordTest', '123'), {
-				role: 'visitor' as const,
+				role: 'visitor',
 				age: 1,
 				// @ts-expect-error
 				a: { 'e.h': arrayUnion(['abc']) },
 			})
 		;() =>
 			updateDoc(userRefCreator().doc('FirelordTest', '123'), {
-				role: 'visitor' as const,
+				role: 'visitor',
 				age: 1,
 				// @ts-expect-error
 				a: { 'e.1': arrayUnion(['a']) },
@@ -188,7 +188,7 @@ describe('test updateDoc', () => {
 	})
 	it('test hybrid correct type with unknown member in stale value, should fail', () => {
 		const withUnknownMember = {
-			role: 'visitor' as const,
+			role: 'visitor',
 			age: increment(1),
 			a: { e: arrayUnion(...['1']), 'b.c': 1 },
 			'a.k': serverTimestamp(),

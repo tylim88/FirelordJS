@@ -3,6 +3,7 @@ import { MetaType } from './metaTypeCreator'
 import { WhereFilterOp } from './alias'
 import { DocumentId, __name__ } from './fieldPath'
 import { ErrorWhere__name__ } from './error'
+import { Narrow } from './utils'
 
 export type Where = <
 	T extends MetaType,
@@ -12,7 +13,7 @@ export type Where = <
 >(
 	fieldPath: FieldPath extends __name__ ? ErrorWhere__name__ : FieldPath,
 	opStr: OpStr,
-	value: Value
+	value: Narrow<Value>
 ) => WhereConstraint<
 	T,
 	FieldPath extends DocumentId ? __name__ : FieldPath,

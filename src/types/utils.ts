@@ -52,3 +52,11 @@ export type DeepPartial<T> = {
 		? DeepPartial<T[K]>
 		: T[K]
 }
+
+export type Narrow<T> =
+	| (T extends infer U ? U : never)
+	| Extract<
+			T,
+			number | string | boolean | bigint | symbol | null | undefined | []
+	  >
+	| ([T] extends [[]] ? [] : { [K in keyof T]: Narrow<T[K]> })

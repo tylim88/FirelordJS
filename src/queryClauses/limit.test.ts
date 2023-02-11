@@ -11,7 +11,7 @@ describe('test limit type', () => {
 	})
 	it('test positive number type, should pass', () => {
 		;() => {
-			const num = 1 as const
+			const num = 1
 			limit(num)
 			limitToLast(num)
 		}

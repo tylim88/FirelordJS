@@ -76,7 +76,7 @@ describe('test query ref', () => {
 	})
 
 	it('test where with correct value to compare, should pass', () => {
-		query(ref, where('role', '==', 'admin' as const))
+		query(ref, where('role', '==', 'admin'))
 		query(ref, where('age', '==', 1))
 		query(ref, where('name', 'not-in', ['1']))
 		query(ref, where('a.e', 'array-contains', '1'))

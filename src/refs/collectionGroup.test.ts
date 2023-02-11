@@ -29,7 +29,7 @@ describe('test collection with documentId', () => {
 			query(
 				colGroupRef,
 				// @ts-expect-error
-				where(documentId(), '==', 'testCollectionWithDocumentId' as const)
+				where(documentId(), '==', 'testCollectionWithDocumentId')
 			)
 		).toThrow()
 	})
