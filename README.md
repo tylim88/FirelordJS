@@ -145,7 +145,7 @@ Code Quality Improvements:
 
 New Features:
 
-- Auto narrow to literal type, remove the need to [manually assert as const](https://firelordjs.com/highlights/where).
+- Auto narrow to literal type, remove the need to [manually assert as const](https://firelordjs.com/guides/7_const)(Most of this issue was resolved in v2.3.1).
 - Narrow read type base on query constraint. For example `where('a', '==', true)` will narrow the read type of field `a` to `true`.
 - Mandatory field update. Example, for field like `updatedAt`, it is mandatory to includes it every time you update the document. There are two ways to implement these feature: via Meta Type and via abstraction. With Meta Type(using special field value), it is less flexible because we no longer able to exclude it from all update operations. With abstraction, it is more flexible but require more works from user. I prefer via abstraction due to it does not shut down other use cases despite having lower user experience.
 - Support wide numeric key and wide string key (Record<number, unknown> and Record<string, unknown>). It still needs more consideration because this data type is pointless to query(we need to know what the key is first, it would be better to just save the document ID somewhere) and we need to constantly aware of the document size limit. If you don't care about query and you sure that the size limit will not exceed 1 MB, then this is for you. But allowing this also open up for mistake and bad practice for those who are not aware. Most likely I will not implement this.

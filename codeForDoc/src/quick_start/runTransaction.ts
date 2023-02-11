@@ -8,11 +8,8 @@ import {
 
 export const dummy = async () => {
 	try {
-		await runTransaction(db, async transaction => {
-			// ...
-		})
-		// OR you can skip 'db'
-		await runTransaction(
+		const result = await runTransaction(
+			db, // db argument is optional, you can skip it
 			async transaction => {
 				await transaction.get(example.doc('lmn')).then(docSnapshot => {
 					const data = docSnapshot.data()
@@ -31,10 +28,12 @@ export const dummy = async () => {
 				})
 
 				transaction.delete(example.doc('lmn'))
+
+				return 123 // return this to result
 			},
-			{ maxAttempts: 10 }
+			{ maxAttempts: 10 } // max commit attempt, optional
 		)
-		console.log('Transaction successfully committed!')
+		console.log(result) // result is 123 because we return 123 in runTransaction callback
 	} catch (e) {
 		console.log('Transaction failed: ', e)
 	}
