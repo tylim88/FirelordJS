@@ -111,9 +111,9 @@ I am confident it has the best type safe and nothing come close. I put money on 
 
 ## Tests
 
-FirelordJS is thoroughly tested, FirelordJS tests source code, built files and published package.
+FirelordJS is thoroughly tested, it tests source code, built files and published package.
 
-The tests test against real database and emulators, no mock test!
+No mock test, all tests are test against real database and emulator to ensure the highest certainty!
 
 ## Trivial
 
@@ -130,8 +130,6 @@ Read [here](https://firelordjs.com/contributing)
 3. [FireCall](https://github.com/tylim88/FireCall) - Helper Function to write easier and safer Firebase onCall function.
 4. [FireSageJS](https://github.com/tylim88/FireSageJS) - Typescript wrapper for Realtime Database
 
-Be the master of fire, be Firelord.
-
 ## Upcoming V3
 
 V3 focus on codebase overhaul, hopefully with further improved code quality, potential contributor will find it easier to work with.
@@ -147,7 +145,7 @@ Code Quality Improvements:
 
 New Features:
 
-- Auto narrow to literal type, remove the need to [manually assert as const](https://firelordjs.com/highlights/const).
+- Auto narrow to literal type, remove the need to [manually assert as const](https://firelordjs.com/highlights/where).
 - Narrow read type base on query constraint. For example `where('a', '==', true)` will narrow the read type of field `a` to `true`.
 - Mandatory field update. Example, for field like `updatedAt`, it is mandatory to includes it every time you update the document. There are two ways to implement these feature: via Meta Type and via abstraction. With Meta Type(using special field value), it is less flexible because we no longer able to exclude it from all update operations. With abstraction, it is more flexible but require more works from user. I prefer via abstraction due to it does not shut down other use cases despite having lower user experience.
 - Support wide numeric key and wide string key (Record<number, unknown> and Record<string, unknown>). It still needs more consideration because this data type is pointless to query(we need to know what the key is first, it would be better to just save the document ID somewhere) and we need to constantly aware of the document size limit. If you don't care about query and you sure that the size limit will not exceed 1 MB, then this is for you. But allowing this also open up for mistake and bad practice for those who are not aware. Most likely I will not implement this.
