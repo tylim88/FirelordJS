@@ -47,7 +47,7 @@ const fs = getFirestore()
 type ABC = MetaTypeCreator<
 	{
 		a: 1 | 2 | 3 // literal type
-		b: ('a' | 'b' | 'c')[] // literal type
+		b: ('a' | 'b' | 'c')[] // literal array type
 	},
 	'ABC'
 >
