@@ -67,7 +67,7 @@ describe('test Firelord type', () => {
 					e: false
 				}
 				f:
-					| {
+					| readonly {
 							g: Date | Timestamp | null
 							h: 2
 					  }[]
@@ -90,7 +90,7 @@ describe('test Firelord type', () => {
 					e: false
 				}
 				f:
-					| {
+					| readonly {
 							g: Timestamp | Date | null
 							h: 2
 					  }[]
@@ -109,7 +109,7 @@ describe('test Firelord type', () => {
 				e: false
 			}
 			'b.f':
-				| {
+				| readonly {
 						g: Timestamp | Date | null
 						h: 2
 				  }[]
@@ -131,7 +131,7 @@ describe('test Firelord type', () => {
 				}
 				'd.e': false
 				f:
-					| {
+					| readonly {
 							g: Timestamp | Date | null
 							h: 2
 					  }[]
@@ -145,7 +145,7 @@ describe('test Firelord type', () => {
 				e: false
 			}
 			'b.f':
-				| {
+				| readonly {
 						g: Timestamp | Date | null
 						h: 2
 				  }[]
@@ -214,7 +214,7 @@ describe('test Firelord type', () => {
 					e: false
 				}
 				f:
-					| {
+					| readonly {
 							g: Date | Timestamp | null
 							h: 2
 					  }[]
@@ -238,7 +238,7 @@ describe('test Firelord type', () => {
 				}
 				'd.e': false
 				f:
-					| {
+					| readonly {
 							g: Timestamp | Date | null
 							h: 2
 					  }[]
@@ -252,7 +252,7 @@ describe('test Firelord type', () => {
 			h: string | null
 			i: number | Increment
 			'b.f':
-				| {
+				| readonly {
 						g: Timestamp | Date | null
 						h: 2
 				  }[]
@@ -278,7 +278,7 @@ describe('test Firelord type', () => {
 				}
 				'd.e': false
 				f:
-					| {
+					| readonly {
 							g: Timestamp | Date | null
 							h: 2
 					  }[]
@@ -293,7 +293,7 @@ describe('test Firelord type', () => {
 			}
 			'b.d.e': false
 			'b.f':
-				| {
+				| readonly {
 						g: Timestamp | Date | null
 						h: 2
 				  }[]
@@ -360,7 +360,7 @@ describe('test Firelord type', () => {
 				c: 'a' | ErrorNullBanned
 				d: { e: false | ErrorNullBanned }
 				f:
-					| {
+					| readonly {
 							g: Date | Timestamp | ErrorNullBanned
 							h: 2 | ErrorNullBanned
 					  }[]
@@ -385,7 +385,7 @@ describe('test Firelord type', () => {
 				'd.e': false | ErrorNullBanned
 				f:
 					| ErrorNullBanned
-					| {
+					| readonly {
 							g: Timestamp | Date | ErrorNullBanned
 							h: 2 | ErrorNullBanned
 					  }[]
@@ -404,7 +404,7 @@ describe('test Firelord type', () => {
 			'b.d.e': false | ErrorNullBanned
 			'b.f':
 				| ErrorNullBanned
-				| {
+				| readonly {
 						g: Timestamp | Date | ErrorNullBanned
 						h: 2 | ErrorNullBanned
 				  }[]
@@ -427,7 +427,7 @@ describe('test Firelord type', () => {
 				'd.e': false | ErrorNullBanned
 				f:
 					| ErrorNullBanned
-					| {
+					| readonly {
 							g: Date | Timestamp | ErrorNullBanned
 							h: ErrorNullBanned | 2
 					  }[]
@@ -442,7 +442,7 @@ describe('test Firelord type', () => {
 			'b.d.e': false | ErrorNullBanned
 			'b.f':
 				| ErrorNullBanned
-				| {
+				| readonly {
 						g: Date | Timestamp | ErrorNullBanned
 						h: ErrorNullBanned | 2
 				  }[]
@@ -505,7 +505,7 @@ describe('test Firelord type', () => {
 				c: 'a' | DeleteField
 				d: ErrorUnionInvolveObjectType
 				f:
-					| {
+					| readonly {
 							g: Date | Timestamp | null
 							h: 2
 					  }[]
@@ -527,7 +527,7 @@ describe('test Firelord type', () => {
 				c: 'a' | DeleteField
 				d: ErrorUnionInvolveObjectType
 				f:
-					| {
+					| readonly {
 							g: Timestamp | Date | null
 							h: 2
 					  }[]
@@ -542,7 +542,7 @@ describe('test Firelord type', () => {
 			h: string | DeleteField
 			i: number | null | Increment | DeleteField
 			'b.f':
-				| {
+				| readonly {
 						g: Timestamp | Date | null
 						h: 2
 				  }[]
@@ -563,7 +563,7 @@ describe('test Firelord type', () => {
 				c: 'a'
 				d: ErrorUnionInvolveObjectType
 				f:
-					| {
+					| readonly {
 							g: Timestamp | Date | null
 							h: 2
 					  }[]
@@ -575,7 +575,7 @@ describe('test Firelord type', () => {
 			'b.c': 'a'
 			'b.d': ErrorUnionInvolveObjectType
 			'b.f':
-				| {
+				| readonly {
 						g: Timestamp | Date | null
 						h: 2
 				  }[]
@@ -666,10 +666,12 @@ describe('test Firelord type', () => {
 
 		type ExpectedWrite = Z & {
 			d: Z
-			e: Z[] | ArrayUnionOrRemove<Z>
-			f: GeoPoint[] | ArrayUnionOrRemove<GeoPoint>
-			g: Bytes[] | ArrayUnionOrRemove<Bytes>
-			h: DocumentReference<User>[] | ArrayUnionOrRemove<DocumentReference<User>>
+			e: readonly Z[] | ArrayUnionOrRemove<Z>
+			f: readonly GeoPoint[] | ArrayUnionOrRemove<GeoPoint>
+			g: readonly Bytes[] | ArrayUnionOrRemove<Bytes>
+			h:
+				| readonly DocumentReference<User>[]
+				| ArrayUnionOrRemove<DocumentReference<User>>
 		}
 
 		type ExpectedWriteFlatten = ExpectedWrite & {
@@ -678,7 +680,13 @@ describe('test Firelord type', () => {
 			'd.c': DocumentReference<User>
 		}
 
-		type ExpectedCompare = B & {
+		type ExpectedCompare = Z & {
+			d: Z
+			e: readonly Z[]
+			f: readonly GeoPoint[]
+			g: readonly Bytes[]
+			h: readonly DocumentReference<User>[]
+		} & {
 			'd.a': GeoPoint
 			'd.b': Bytes
 			'd.c': DocumentReference<User>

@@ -113,7 +113,7 @@ I am confident it has the best type safe and nothing come close. I put money on 
 
 FirelordJS is thoroughly tested, it tests source code, built files and published package.
 
-No mock test, all tests are test against real database and emulator to ensure the highest certainty!
+No mock test, all tests test against real database and emulator to ensure the highest certainty!
 
 ## Trivial
 
@@ -132,20 +132,30 @@ Read [here](https://firelordjs.com/contributing)
 
 ## Upcoming V3
 
-V3 focus on codebase overhaul, hopefully with further improved code quality, potential contributor will find it easier to work with.
+V3 focus on codebase rewrite, hopefully with further improved code quality, potential contributor will find it easier to work with.
 
 Code Quality Improvements:
 
+- More extensible type logics.
 - Simpler type logics.
 - Implement latest TS features.
 - Better file and folder structure.
 - Remove trivial APIs.
 - More Tests.
-- New Documentation.
+- Improved Documentation.(ongoing improvement since v2.3.1)
 
 New Features:
 
-- Auto narrow to literal type, remove the need to [manually assert as const](https://firelordjs.com/guides/7_const)(Most of this issue was resolved in v2.3.1).
+- Auto narrow to literal type, remove the need to [manually assert as const](https://firelordjs.com/guides/7_const)(Most of this issue was resolved in v2.3.1 and v2.3.2) Turn out [TS 5.0 const type parameter also solved this problem](https://devblogs.microsoft.com/typescript/announcing-typescript-5-0-beta/#const-type-parameters), However, some cases are complicated, example `[[1]] as const` and `[[1] as const]` do not extend each other, and we still need extra logic to handle case like `[[1] as const]`.
+
 - Narrow read type base on query constraint. For example `where('a', '==', true)` will narrow the read type of field `a` to `true`.
+
 - Mandatory field update. Example, for field like `updatedAt`, it is mandatory to includes it every time you update the document. There are two ways to implement these feature: via Meta Type and via abstraction. With Meta Type(using special field value), it is less flexible because we no longer able to exclude it from all update operations. With abstraction, it is more flexible but require more works from user. I prefer via abstraction due to it does not shut down other use cases despite having lower user experience.
-- Support wide numeric key and wide string key (Record<number, unknown> and Record<string, unknown>). It still needs more consideration because this data type is pointless to query(we need to know what the key is first, it would be better to just save the document ID somewhere) and we need to constantly aware of the document size limit. If you don't care about query and you sure that the size limit will not exceed 1 MB, then this is for you. But allowing this also open up for mistake and bad practice for those who are not aware. Most likely I will not implement this.
+
+What will not be implemented:
+
+- Support for wide numeric key and wide string key (Record<number, unknown> and Record<string, unknown>). It still needs more consideration because this data type is pointless to query(we need to know what the key is first, it would be better to just save the document ID somewhere) and we need to constantly aware of the document size limit. If you don't care about query and you sure that the size limit will not exceed 1 MB, then this is for you. But allowing this also open up for mistake and bad practice for those who are not aware. Most likely I will not implement this.
+
+- Support for object unions type. Objects unions type seem to be a good type to have in NoSQL database. However this is not the case because it brings uncertainty that cannot be handled reasonably. For example, with `{a:number}|{b:string}`, you can set `{a:1}` then update `{b:"x"}`, in this case type is no longer unions type but an intersection type `{a:number} & {b:string}`. So I will not implement this feature and will remove it from FireSageJS too. A better way to solve this is to use `PossiblyReadAsUndefined` label instead.
+
+- Support for optional (`?` modifier). Optional is a highly requested feature because of common it is, however because of how Firestore works: it is impossible to query field that is missing, example: it is impossible to query user that has no phone number if phone number field is not exist. Because of this, it is important to make sure every field exists. You may not need the field now, but you may need it later plus adding default value is a simple thing to do, especially with such powerful typing library like Firelord. So in order not to accidentally cripple your query in the future, I will not implement this feature. Yes, set merge basically have the same problem, I discourage you from using set merge, I am also considering removing set merge.

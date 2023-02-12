@@ -13,6 +13,7 @@ import {
 	ErrorCursorTooManyArguments,
 	ErrorWhereNoNeverEmptyArray,
 	ErrorCursor__name__,
+	ErrorWhereInOrNotInValueIsNotArray,
 } from './error'
 import { IsSame, IsTrue } from './utils'
 import {
@@ -299,18 +300,18 @@ type WhereConstraintLimitation<
 			U['opStr'],
 			U['value'] extends never[]
 				? ErrorWhereNoNeverEmptyArray
-				: U['value'] extends (infer P)[]
-				? GetCorrectDocumentIdBasedOnRef<T, Q, U['fieldPath'], P>[]
-				: ErrorWhereCompareValueMustBeArray<U['fieldPath']>
+				: U['value'] extends readonly (infer P)[]
+				? readonly GetCorrectDocumentIdBasedOnRef<T, Q, U['fieldPath'], P>[]
+				: ErrorWhereInOrNotInValueIsNotArray<U['fieldPath']>
 	  >
 	: U['opStr'] extends ValueOfOnlyArrayOptStr
 	? WhereConstraint<
 			T,
 			U['fieldPath'],
 			U['opStr'],
-			U['value'] extends never[]
+			U['value'] extends readonly never[]
 				? ErrorWhereNoNeverEmptyArray
-				: T['compare'][U['fieldPath']] extends unknown[]
+				: T['compare'][U['fieldPath']] extends readonly unknown[]
 				? T['compare'][U['fieldPath']]
 				: ErrorWhereCompareValueMustBeArray<U['fieldPath']>
 	  >
@@ -319,7 +320,7 @@ type WhereConstraintLimitation<
 			T,
 			U['fieldPath'],
 			U['opStr'],
-			T['compare'][U['fieldPath']] extends (infer R)[]
+			T['compare'][U['fieldPath']] extends readonly (infer R)[]
 				? R
 				: ErrorWhereCompareValueMustBeArray<U['fieldPath']>
 	  >

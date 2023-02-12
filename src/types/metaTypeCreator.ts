@@ -216,7 +216,7 @@ type ReadConverter<T, allFieldsPossiblyReadAsUndefined, BannedTypes> =
 type CompareConverterArray<T, BannedTypes> = NoDirectNestedArray<
 	T,
 	T extends (infer A)[]
-		? CompareConverterArray<A, BannedTypes>[]
+		? readonly CompareConverterArray<A, BannedTypes>[]
 		: T extends FieldValues
 		? ErrorFieldValueInArray
 		: T extends Date | Timestamp
@@ -235,7 +235,7 @@ type CompareConverterArray<T, BannedTypes> = NoDirectNestedArray<
 type CompareConverter<T, BannedTypes> = NoDirectNestedArray<
 	T,
 	T extends (infer A)[]
-		? CompareConverterArray<A, BannedTypes>[]
+		? readonly CompareConverterArray<A, BannedTypes>[]
 		: T extends ServerTimestamp | Date | Timestamp
 		? Timestamp | Date
 		: T extends DocumentReference<any> | Bytes | GeoPoint
@@ -254,7 +254,7 @@ type CompareConverter<T, BannedTypes> = NoDirectNestedArray<
 type ArrayWriteConverter<T, BannedTypes> = NoDirectNestedArray<
 	T,
 	T extends (infer A)[]
-		? ArrayWriteConverter<A, BannedTypes>[]
+		? readonly ArrayWriteConverter<A, BannedTypes>[]
 		: T extends FieldValues
 		? ErrorFieldValueInArray
 		: T extends Timestamp | Date
@@ -274,7 +274,7 @@ type WriteConverter<T, BannedTypes> = NoDirectNestedArray<
 	T,
 	T extends (infer A)[]
 		?
-				| ArrayWriteConverter<A, BannedTypes>[]
+				| readonly ArrayWriteConverter<A, BannedTypes>[]
 				| ArrayUnionOrRemove<ArrayWriteConverter<A, BannedTypes>>
 		: T extends
 				| DocumentReference<any>

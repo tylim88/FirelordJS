@@ -76,7 +76,7 @@ export type ErrorUnknownMember<T> =
 export type ErrorWhereDocumentFieldPath =
 	'If field path is document ID, then value must be string'
 export type ErrorWhere__name__ =
-	"Error: Dont use ( __name__ ) directly as where's field path, use documentId() sentinel field path instead."
+	"Error: Don't use ( __name__ ) directly as where's field path, use documentId() sentinel field path instead."
 export type ErrorCursor__name__ =
 	'Error: detected type is string, please do const assertion'
 export type ErrorArrayFieldValueEmpty =
@@ -86,6 +86,8 @@ export type ErrorCursorNoArray =
 	'Error: cursor rest parameter must be tuple type, not array type. Use const assertion to transform array type to tuple type'
 export type ErrorAutoIdTypeMustBeWideString<T extends string> =
 	`Error: Only document with wide 'string' type can generate auto id, the current type is literal type '${T}'`
+export type ErrorWhereInOrNotInValueIsNotArray<T extends string> =
+	`Error: The value provided to 'in' or 'not-in' comparator must be array of type '${T}'`
 
 export type ErrorMsgs =
 	| ErrorUndefined
@@ -125,6 +127,7 @@ export type ErrorMsgs =
 	| ErrorEmptyCursor
 	| ErrorCursorNoArray
 	| ErrorAutoIdTypeMustBeWideString<string>
+	| ErrorWhereInOrNotInValueIsNotArray<string>
 
 export type ReplaceErrorMsgsWithNever<T> = T extends ErrorMsgs ? never : T // ! not yet implemented anywhere
 
