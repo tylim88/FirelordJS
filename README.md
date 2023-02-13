@@ -100,7 +100,7 @@ FirelordJS:
 - Offer truly and most generic type safe solutions.
 - **Is the only library capable of [typing against](https://firelordjs.com/highlights/query_rule_typing) Firestore limitations**.
 - Offer Effortless solutions for [Firestore quirks](https://firelordjs.com/highlights/about).
-- Has The smallest package size.
+- Has The [smallest](https://firelordjs.com/minified_size) package size.
 
 Support [@firebase/rules-unit-testing and emulator](https://firelordjs.com/guides/tests)
 
@@ -109,11 +109,13 @@ I am confident it has the best type safe and nothing come close. I put money on 
 1. found something better: 75 cups
 2. created something better: 1000 cups (you don't need to a make full fledge library, something that is minimally better is enough, open an issue if you want to take this challenge)
 
-## Tests
-
 FirelordJS is thoroughly tested, it tests source code, built files and published package.
 
 No mock test, all tests test against real database and emulator to ensure the highest certainty!
+
+There are more than 250 tests in this small library!
+
+Undocumented releases are README updates.
 
 ## Trivial
 
@@ -140,14 +142,14 @@ Code Quality Improvements:
 - Implement latest TS features.
 - Better file and folder structure.
 - Remove trivial APIs. (ongoing improvement since v2.3)
-- More Tests.
 - Improved Documentation.(ongoing improvement since v2.3.1)
+- Test, test, test, need MORE Tests.
 
 V3 New Features:
 
-- Auto narrow to literal type, remove the need to [manually assert as const](https://firelordjs.com/guides/7_const)(Most of this issue was resolved in v2.3.1 and v2.3.2) Turn out [TS 5.0 const type parameter also solved this problem](https://devblogs.microsoft.com/typescript/announcing-typescript-5-0-beta/#const-type-parameters), However, some cases are complicated, example `[[1]] as const` and `[[1] as const]` do not extend each other, and we still need extra logic to handle case like `[[1] as const]`.
+- Auto narrow to literal type, remove the need to [manually assert as const](https://firelordjs.com/guides/7_const)(Most of this issue was resolved in v2.3.1 and v2.3.2). The rest of issues requires [TS 5.0 const type parameter also solved this problem](https://devblogs.microsoft.com/typescript/announcing-typescript-5-0-beta/#const-type-parameters) to be solved.
 
-- Narrow read type base on query constraint. For example `where('a', '==', true)` will narrow the read type of field `a` to `true`.
+- Narrow read type base on query constraint. For example `where('a', '==', true)` will narrow the read type of field `a` to `true`, it should be able to narrow down complex case like `where('a.b.c', '==', { d:[{e:1}] })`. Expected to support `==` comparator for all types and _possibly_ `!=` comparator for literal type(type filtering for`!=` comparator poses great complexity hence I may not work on it).
 
 - Mandatory field update. Example, for field like `updatedAt`, it is mandatory to includes it every time you update the document. There are two ways to implement these feature: via Meta Type and via abstraction. With Meta Type(using special field value), it is less flexible because we no longer able to exclude it from all update operations. With abstraction, it is more flexible but require more works from user. I prefer via abstraction due to it does not shut down other use cases despite having lower user experience.
 
