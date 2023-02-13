@@ -140,9 +140,9 @@ Code Quality Improvements:
 
 - More extensible and simpler type logics.
 - Implement latest TS features.
-- Better file and folder structure.
+- Better files and folders structure.
 - Remove trivial APIs. (ongoing improvement since v2.3)
-- Improved Documentation.(ongoing improvement since v2.3.1)
+- Better Documentation.(ongoing improvement since v2.3.1)
 - Test, test, test, need MORE Tests.
 
 V3 New Features:
