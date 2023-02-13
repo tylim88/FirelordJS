@@ -98,9 +98,9 @@ FirelordJS:
 - Has the lowest learning curve (API is nearly identical to the original API).
 - Has the lowest technical debt (easy to revert to the official API).
 - Offer truly and most generic type safe solutions.
-- Offer Effortless solutions for [Firestore quirks](https://firelordjs.com/highlights/about).
+- Offer effortless solutions for [Firestore quirks](https://firelordjs.com/highlights/about).
 - **Is the only library capable of [typing against](https://firelordjs.com/highlights/query_rule_typing) Firestore limitations**.
-- Has The [smallest](https://firelordjs.com/minified_size) package size.
+- Has the [smallest](https://firelordjs.com/minified_size) package size.
 
 Support [@firebase/rules-unit-testing and emulator](https://firelordjs.com/guides/tests)
 
