@@ -70,7 +70,7 @@
 </div>
 <br/>
 <div align="center">
-		<i>Extremely High Precision Typescript Wrapper for Firestore Web, Providing Unparalleled Type Safe and Dev Experience</i>
+		<i>Extremely High Precision Firestore Web Typescript Wrapper, Providing Unparalleled Type Safety and Dev Experience</i>
 </div>
 <br/>
 <div align="center">
@@ -78,17 +78,22 @@
 </div>
 <br/>
 <div align="center">
-	<i>Of The VFQAT &#160;&#160;&#160;&#160;||&#160;&#160;&#160;&#160; By The VFQAT &#160;&#160;&#160;&#160;||&#160;&#160;&#160;&#160; For The VFQAT</i>
+	<i>Of The VFQAT &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;||&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; By The VFQAT &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;|| &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; For The VFQAT</i>
 </div>
 <br />
 <div align="center">
-	<i>End Firestore Typing Madness</i>
+	<i>End Firestore Typing Madness With Type Level Madness</i>
 </div>
 <br />
+<div align="center">
+	<p>Be The Master Of Your Fire, Be Firelord</p>
+</div>
+<div style="line-height:75%;">
+    <br>
+</div>
 <div align="center">
 <a href="https://firelordjs.com/quick_start" target="_blank" style="color:blue"><strong>Documentation</strong></a>
 </div>
-
 <br/>
 
 FirelordJS is the only library capable of providing insane type safety while exposing almost all the API of the official Firestore SDK.
@@ -97,7 +102,7 @@ FirelordJS:
 
 - Has the lowest learning curve (API is nearly identical to the original API).
 - Has the lowest technical debt (easy to revert to the official API).
-- Offer truly and most generic type safe solutions.
+- Offer truly and most generic type safety solutions.
 - Offer effortless solutions for [Firestore quirks](https://firelordjs.com/highlights/about).
 - **Is the only library capable of [typing against](https://firelordjs.com/highlights/query_rule_typing) Firestore limitations**.
 - Has the [smallest](https://firelordjs.com/minified_size) package size.
@@ -111,9 +116,9 @@ I am confident it has the best type safe and nothing come close. I put money on 
 
 FirelordJS is thoroughly tested, it tests source code, built files and published package.
 
-No mock test, all tests test against real database and emulator to ensure the highest certainty!
+No mock test, all tests test against real database and emulator to ensure the highest certainty.
 
-There are more than 250 tests in this small library!
+More than 250 tests.
 
 Undocumented releases are README updates.
 
@@ -142,16 +147,20 @@ Code Quality Improvements:
 - Implement latest TS features.
 - Better files and folders structure.
 - Remove trivial APIs. (ongoing improvement since v2.3)
-- Better Documentation.(ongoing improvement since v2.3.1)
+- Less wordy and more concise Documentation.(ongoing improvement since v2.3.1)
 - Test, test, test, need MORE Tests.
 
 V3 New Features:
 
-- Auto narrow to literal type, remove the need to [manually assert as const](https://firelordjs.com/highlights/where#const-assertion)(Most of this issue was resolved in [v2.3.1](https://github.com/tylim88/FirelordJS/releases/tag/2.3.1) (while [v2.3.2](https://github.com/tylim88/FirelordJS/releases/tag/2.3.2) resolved accepting const asserted values issues). To solve the rest of the issues, we need [TS 5.0 const type parameter](https://devblogs.microsoft.com/typescript/announcing-typescript-5-0-beta/#const-type-parameters).
+- Auto narrow to literal type, remove the need to [manually assert as const](https://firelordjs.com/highlights/where#const-assertion). Most of this issue was resolved in [v2.3.1](https://github.com/tylim88/FirelordJS/releases/tag/2.3.1) (while [v2.3.2](https://github.com/tylim88/FirelordJS/releases/tag/2.3.2) resolved accepting const asserted values issues). To solve the rest of the issues, we need [TS 5.0 const type parameter](https://devblogs.microsoft.com/typescript/announcing-typescript-5-0-beta/#const-type-parameters).
 
 - Narrow read type base on query constraint. For example `where('a', '==', true)` will narrow the read type of field `a` to `true`, it should be able to narrow down complex case like `where('a.b.c', '==', { d:[{e:1}] })`. Expected to support `==` comparator for all types and _possibly_ `!=` comparator for literal type(type filtering for`!=` comparator poses great complexity hence I may not work on it).
 
 - Mandatory field update. Example, for field like `updatedAt`, it is mandatory to includes it every time you update the document. There are two ways to implement these feature: via Meta Type and via abstraction. With Meta Type(using special field value), it is less flexible because we no longer able to exclude it from all update operations. With abstraction, it is more flexible but require more works from user. I prefer via abstraction due to it does not shut down other use cases despite having lower user experience.
+
+- Support tuple data type.
+
+- Replace `set merge` with `UpdateElseCreate`. It receives 2 data arguments, partial data and complete data. It will attempt to update the document with partial data and create the document with complete data if the document does not exist.
 
 What will not be implemented:
 
@@ -159,10 +168,4 @@ What will not be implemented:
 
 - Support for object unions type. Objects unions type seem to be a good type to have in NoSQL database. However, this is not the case because it brings uncertainty that cannot be handled reasonably. For example, with `{a:number}|{b:string}`, you can set `{a:1}` then update `{b:"x"}`, in this case the type is no longer a unions type but an intersection type: `{a:number} & {b:string}`. So I will not implement this feature and will remove it from [FireSageJS](https://github.com/tylim88/FireSageJS) too. A better way to solve this is to use [`PossiblyReadAsUndefined`](https://firelordjs.com/guides/possibly_read_as_undefined) label instead.
 
-- Support for optional (`?` modifier). Optional is a highly requested feature because of how common it is, however because of how Firestore works: it is impossible to query a missing field. Example: it is impossible to query user that has no phone number if phone number field does not exist. Because of this, it is important to make sure every field exists. You may not need the field now, but you may need it later plus adding default value is a simple and trivial thing to do, especially with such powerful typing library like Firelord. So in order to not accidentally cripple your query in the future, I will not implement this feature. Yes, set merge basically lead to the same problem, hence I discourage you from using set merge, I am also considering removing set merge.
-
-<br>
-<br>
-Be the master of your fire, be Firelord.
-<br>
-<br>
+- Support for optional (`?` modifier). Optional is a highly requested feature because of how common it is, however because of how Firestore works: it is impossible to query a missing field. Example: it is impossible to query user that has no phone number if phone number field does not exist. Because of this, it is important to make sure every field exists. You may not need the field now, but you may need it later plus adding default value is a simple and trivial thing to do, especially with such powerful typing library like Firelord. So in order to not accidentally cripple your query in the future, I will not implement this feature. Yes, set merge basically lead to the same problem, hence I discourage you from using set merge and will remove set merge.
