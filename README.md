@@ -88,7 +88,7 @@
 <div align="center">
 	<p>Be The Master Of Your Fire, Be Firelord</p>
 </div>
-<div style="line-height:50%;">
+<div style="line-height:25%;">
     <br>
 </div>
 <div align="center">
