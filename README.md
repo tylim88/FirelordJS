@@ -147,7 +147,7 @@ Code Quality Improvements:
 
 V3 New Features:
 
-- Auto narrow to literal type, remove the need to [manually assert as const](https://firelordjs.com/highlights/where#const-assertion)(Most of this issue was resolved in [v2.3.1](https://github.com/tylim88/FirelordJS/releases/tag/2.3.1) and [v2.3.2](https://github.com/tylim88/FirelordJS/releases/tag/2.3.2)). To solve the rest of the issues, we need [TS 5.0 const type parameter](https://devblogs.microsoft.com/typescript/announcing-typescript-5-0-beta/#const-type-parameters).
+- Auto narrow to literal type, remove the need to [manually assert as const](https://firelordjs.com/highlights/where#const-assertion)(Most of this issue was resolved in [v2.3.1](https://github.com/tylim88/FirelordJS/releases/tag/2.3.1) (while [v2.3.2](https://github.com/tylim88/FirelordJS/releases/tag/2.3.2) resolved accepting const asserted values issues). To solve the rest of the issues, we need [TS 5.0 const type parameter](https://devblogs.microsoft.com/typescript/announcing-typescript-5-0-beta/#const-type-parameters).
 
 - Narrow read type base on query constraint. For example `where('a', '==', true)` will narrow the read type of field `a` to `true`, it should be able to narrow down complex case like `where('a.b.c', '==', { d:[{e:1}] })`. Expected to support `==` comparator for all types and _possibly_ `!=` comparator for literal type(type filtering for`!=` comparator poses great complexity hence I may not work on it).
 
