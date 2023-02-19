@@ -1,7 +1,7 @@
 import { MetaType } from './metaTypeCreator'
-import { Query } from './refs'
+import { Query, CollectionReference } from './refs'
 import { QuerySnapshot } from './snapshot'
 
 export type GetDocs = <T extends MetaType>(
-	query: Query<T>
+	query: Query<T> | CollectionReference<T>
 ) => Promise<QuerySnapshot<T>>

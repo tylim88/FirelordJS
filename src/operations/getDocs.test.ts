@@ -173,4 +173,11 @@ describe('test getDocs', () => {
 		const querySnap = await getDocs(shareQuery)
 		expect(querySnap.docs.length).toBe(0)
 	})
+
+	it('test without query', async () => {
+		const querySnap = await getDocs(
+			userRefCreator().collection('ForAggCountTest')
+		)
+		expect(querySnap.docs.length).toBe(4)
+	})
 })
