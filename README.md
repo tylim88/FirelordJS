@@ -78,11 +78,7 @@
 </div>
 <br/>
 <div align="center">
-	<i>Of The VFQAT &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;||&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; By The VFQAT &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;|| &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; For The VFQAT</i>
-</div>
-<br />
-<div align="center">
-	<i>End Firestore Typing Madness With Type Level Madness</i>
+	<i>Of The VFQAT &#160;&#160;&#160;&#160;&#160;||&#160;&#160;&#160;&#160;&#160; By The VFQAT &#160;&#160;&#160;&#160;&#160;|| &#160;&#160;&#160;&#160;&#160; For The VFQAT</i>
 </div>
 <br />
 <div align="center">
@@ -94,16 +90,17 @@
 </div>
 <br/>
 
-FirelordJS is the only library capable of providing insane type safety while exposing almost all the API of the official Firestore SDK.
+FirelordJS is the only library capable of providing insane type safety while exposing almost all the API of the official Firestore SDK. The goal is to end Firestore typing madness.
 
 FirelordJS:
 
 - Has the lowest learning curve (API is nearly identical to the original API).
 - Has the lowest technical debt (easy to revert to the official API).
-- Offer truly and most generic type safety solutions.
+- Offer truly generic type safe solutions.
 - Offer effortless solutions for [Firestore quirks](https://firelordjs.com/highlights/about).
 - **Is the only library capable of [typing against](https://firelordjs.com/highlights/query_rule_typing) Firestore limitations**.
 - Has the [smallest](https://firelordjs.com/minified_size) package size.
+- Has no code generation, no other schema language needed, just pure Typescript.
 
 Support [@firebase/rules-unit-testing and emulator](https://firelordjs.com/guides/tests)
 
