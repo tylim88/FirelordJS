@@ -159,7 +159,7 @@ Code Quality Improvements:
 
 - Replace `set merge` with `upset`(update else set, yes I know upset is an English word 😂). It receives 1 doc ref argument and 2 data arguments: partial data and complete data. It will attempt to update the document with partial data and create the document with complete data if the document does not exist.
 
-### What will not be implemented
+### What Will Not Be Implemented
 
 - Support for wide numeric key and wide string key (Record<number, unknown> and Record<string, unknown>). It still needs more consideration because this data type is pointless to query(we need to know what the key is first, it would be better to just save the document ID somewhere) and we need to constantly aware of the document size limit. If you don't care about query and you sure that the size limit will not exceed 1 MB, then this is for you. But allowing this also open up for mistake and bad practice for those who are not aware. Most likely I will not implement this but will give it deeper thoughts in the future.
 
@@ -169,7 +169,7 @@ Code Quality Improvements:
 
 ### Possible Architecture Changes in V3
 
-Firelord follows a type-first approach, which means that every entity starts with a type. While this approach has its benefits, it can be seen as objectively inferior to a code-first approach since we can always infer types from code, but not the other way around. A good example of this is tools that build on top of zod, like [trpc](https://github.com/trpc/trpc), which provides both validation and type inference.
+Firelord follows a type-first approach, which means that every entity starts with a type. While this approach has its benefits, it can be seen as objectively inferior to a code-first approach since we can always infer types from code(with code-first approach), but not the other way around(with type-first approach). A good example of this is tools that build on top of zod, like [trpc](https://github.com/trpc/trpc), which provides both validation and type inference.
 
 Some may question why validation is necessary for databases, as they are not endpoints. However, Firestore is a database that directly interacts with clients. Therefore, it is necessary to have validation for triggers, as security rules may not always suffice and do not have type safe.
 
