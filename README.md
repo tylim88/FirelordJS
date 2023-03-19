@@ -100,7 +100,7 @@ FirelordJS:
 - Offer effortless solutions for [Firestore quirks](https://firelordjs.com/highlights/about).
 - **Is the only library capable of [typing against](https://firelordjs.com/highlights/query_rule_typing) Firestore limitations**.
 - Has the [smallest](https://firelordjs.com/minified_size) package size.
-- Has no code generation, no other schema language needed, just pure Typescript.
+- Has no code generation, no schema language needed, just pure Typescript.
 
 Support [@firebase/rules-unit-testing and emulator](https://firelordjs.com/guides/tests)
 
@@ -134,6 +134,8 @@ Read [here](https://firelordjs.com/contributing)
 
 ## Upcoming V3
 
+**Update: Currently Firelord is powerful enough. Therefore, we think it is ok to stay at v2 for now, unless we receive sufficient assistance.**
+
 V3 focus on codebase redesign and rewrite with TS 5.0, hopefully with further improved code quality, potential contributors will find it easier to work with.
 
 Code Quality Improvements:
@@ -141,11 +143,11 @@ Code Quality Improvements:
 - More extensible and simpler type logics.
 - Implement latest TS features.
 - Better files and folders structure.
-- Remove trivial APIs. (ongoing improvement since v2.3)
-- Less wordy and more concise Documentation.(ongoing improvement since v2.3.1)
+- Remove trivial APIs.
+- Less wordy and more concise Documentation.
 - Test, test, test, need MORE Tests.
 
-V3 New Features:
+### V3 New Features
 
 - Auto narrow to literal type, remove the need to [manually assert as const](https://firelordjs.com/highlights/where#const-assertion). Most of this issue was resolved in [v2.3.1](https://github.com/tylim88/FirelordJS/releases/tag/2.3.1) (while [v2.3.2](https://github.com/tylim88/FirelordJS/releases/tag/2.3.2) resolved accepting const asserted values issues). To solve the rest of the issues, we need [TS 5.0 const type parameter](https://devblogs.microsoft.com/typescript/announcing-typescript-5-0-beta/#const-type-parameters).
 
@@ -157,10 +159,18 @@ V3 New Features:
 
 - Replace `set merge` with `upset`(update else set, yes I know upset is an English word 😂). It receives 1 doc ref argument and 2 data arguments: partial data and complete data. It will attempt to update the document with partial data and create the document with complete data if the document does not exist.
 
-What will not be implemented:
+### What will not be implemented
 
 - Support for wide numeric key and wide string key (Record<number, unknown> and Record<string, unknown>). It still needs more consideration because this data type is pointless to query(we need to know what the key is first, it would be better to just save the document ID somewhere) and we need to constantly aware of the document size limit. If you don't care about query and you sure that the size limit will not exceed 1 MB, then this is for you. But allowing this also open up for mistake and bad practice for those who are not aware. Most likely I will not implement this but will give it deeper thoughts in the future.
 
 - Support for object unions type. Objects unions type seem to be a good type to have in NoSQL database because of how ever-changing NoSQL schema is. However, this is not the case because it brings uncertainty that cannot be handled reasonably. For example, with `{a:number}|{b:string}`, you can set `{a:1}` then update `{b:"x"}`, in this case the type is no longer unions type but an intersection type: `{a:number} & {b:string}`. So I will not implement this feature and will remove it from [FireSageJS](https://github.com/tylim88/FireSageJS) too. A better way to solve this is to use [`PossiblyReadAsUndefined`](https://firelordjs.com/guides/possibly_read_as_undefined) label on newly add field instead(you can also label abandoned fields as `PossiblyReadAsUndefined`, but an easier way is to just ignore them totally lol).
 
 - Support for optional (`?` modifier). Optional is a highly requested feature because of how common it is, however because of how Firestore works: it is impossible to query a missing field. Example: it is impossible to query user that has no phone number if phone number field does not exist. Because of this, it is important to make sure every field exists. You may not need the field now, but you may need it later plus adding default value is simple, especially with such powerful typing library like Firelord. So in order to not accidentally cripple your query in the future, I will not implement this feature. Yes, set merge basically lead to the same problem, hence I discourage you from using set merge and will replace set merge with `upset`.
+
+### Possible Architecture Changes in V3
+
+Firelord follows a type-first approach, which means that every entity starts with a type. While this approach has its benefits, it can be seen as objectively inferior to a code-first approach since we can always infer types from code, but not the other way around. A good example of this is tools that build on top of zod, like [trpc](https://github.com/trpc/trpc), which provides both validation and type inference.
+
+Some may question why validation is necessary for databases, as they are not endpoints. However, Firestore is a database that directly interacts with clients. Therefore, it is necessary to have validation for triggers, as security rules may not always suffice and do not have type safe.
+
+Code-first approach will reduce developer experience in short term, but it is necessary in long term.
