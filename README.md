@@ -117,21 +117,6 @@ More than 250 tests.
 
 Undocumented releases are README updates.
 
-## Trivial
-
-- The name Firelord is a reference to the [Firelord](https://avatar.fandom.com/wiki/Fire_Lord) of Avatar.
-
-## Contributing
-
-Read [here](https://firelordjs.com/contributing)
-
-## Related Projects
-
-1. [Firelord](https://github.com/tylim88/Firelord) - Typescript wrapper for Firestore Admin
-2. [FireSword](https://github.com/tylim88/firesword) - Filter Firestore and RTDB Unknown Keys.
-3. [FireCall](https://github.com/tylim88/FireCall) - Helper Function to write easier and safer Firebase onCall function.
-4. [FireSageJS](https://github.com/tylim88/FireSageJS) - Typescript wrapper for Realtime Database
-
 ## Upcoming V3
 
 **Update: Currently Firelord is powerful enough. Therefore, we think it is ok to stay at v2 for now, unless we receive sufficient assistance.**
@@ -157,15 +142,15 @@ Code Quality Improvements:
 
 - Support tuple data type.
 
-- Replace `set merge` with `upset`(update if exist, else set). It receives 1 doc ref argument and 2 data arguments: partial data and complete data. It will attempt to update the document with partial data and create the document with complete data if the document does not exist.
+- Replace `set merge` with `upset`(update if exist, else set). It will receives 1 doc ref argument and 2 data arguments(partial data and complete data). It will attempt to update the document with partial data or create a document with complete data if the document does not exist.
 
 ### What Will Not Be Implemented
 
 - Support for wide numeric key and wide string key (Record<number, unknown> and Record<string, unknown>). It still needs more consideration because this data type is pointless to query(we need to know what the key is first, it would be better to just save the document ID somewhere) and we need to constantly aware of the document size limit. If you don't care about query and you sure that the size limit will not exceed 1 MB, then this is for you. But allowing this also open up for mistake and bad practice for those who are not aware. Most likely I will not implement this but will give it deeper thoughts in the future.
 
-- Support for object unions type. Objects unions type seem to be a good type to have in NoSQL database because of how ever-changing NoSQL schema is. However, this is not the case because it brings uncertainty that cannot be handled reasonably. For example, with `{a:number}|{b:string}`, you can set `{a:1}` then update `{b:"x"}`, in this case the type is no longer unions type but an intersection type: `{a:number} & {b:string}`. So I will not implement this feature and will remove it from [FireSageJS](https://github.com/tylim88/FireSageJS) too. A better way to solve this is to use [`PossiblyReadAsUndefined`](https://firelordjs.com/guides/possibly_read_as_undefined) label on newly add field instead(you can also label abandoned fields as `PossiblyReadAsUndefined`, but an easier way is to just ignore them totally lol).
+- Support for object unions type. Objects unions type seem to be a good type to have in NoSQL database because of how ever-changing NoSQL schema is. However, this is not the case because it brings uncertainty that cannot be handled reasonably. For example, with `{a:number}|{b:string}`, you can set `{a:1}` then update `{b:"x"}`, in this case the type is no longer unions type but an intersection type: `{a:number} & {b:string}`. So I will not implement this feature and will remove it from [FireSageJS](https://github.com/tylim88/FireSageJS) too. A better way to solve this is to use [`PossiblyReadAsUndefined`](https://firelordjs.com/guides/possibly_read_as_undefined) label on newly add field instead(you can also label abandoned fields as `PossiblyReadAsUndefined`, but an easier way is to totally ignore them).
 
-- Support for optional (`?` modifier). Optional is a highly requested feature because of how common it is, however because of how Firestore works: it is impossible to query a missing field. Example: it is impossible to query user that has no phone number if phone number field does not exist. Because of this, it is important to make sure every field exists. You may not need the field now, but you may need it later plus adding default value is simple, especially with such powerful typing library like Firelord. So in order to not accidentally cripple your query in the future, I will not implement this feature. Yes, set merge basically lead to the same problem, hence I discourage you from using set merge and will replace set merge with `upset`.
+- Support for optional (`?` modifier). Optional is a highly requested feature because of how common it is, however because of how Firestore works: it is impossible to query a missing field. Example: it is impossible to query user that has no phone number if phone number field does not exist. Because of this, it is important to make sure every field exists. You may not need the field now, but you may need it later plus adding default value is simple, especially with such powerful typing library like Firelord. So in order to not accidentally cripple your query in the future, I will not implement this feature. Yes, set merge basically lead to the same problem, hence I encourage you to use `upset` instead (will be available in the future).
 
 ### Possible Architecture Changes in V3
 
@@ -174,3 +159,18 @@ Firelord follows a type-first approach, which means that every entity starts wit
 Some may question why embedded validation is necessary for databases API, as they are not endpoints(where data validation usually takes place). However, Firestore is a database that directly interacts with clients. Therefore, it is necessary to have validation for triggers, as security rules may not always suffice and do not have type safe.
 
 Type-first approach offers better developer experience, but it cannot do anything at runtime. On the other hand, the code-first approach may require some initial trade-offs in developer experience, but it can be more adaptable in the long term.
+
+## Trivial
+
+- The name Firelord is a reference to the [Firelord](https://avatar.fandom.com/wiki/Fire_Lord) of Avatar.
+
+## Contributing
+
+Read [here](https://firelordjs.com/contributing)
+
+## Related Projects
+
+1. [Firelord](https://github.com/tylim88/Firelord) - Typescript wrapper for Firestore Admin
+2. [FireSword](https://github.com/tylim88/firesword) - Filter Firestore and RTDB Unknown Keys.
+3. [FireCall](https://github.com/tylim88/FireCall) - Helper Function to write easier and safer Firebase onCall function.
+4. [FireSageJS](https://github.com/tylim88/FireSageJS) - Typescript wrapper for Realtime Database
