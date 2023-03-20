@@ -157,7 +157,7 @@ Code Quality Improvements:
 
 - Support tuple data type.
 
-- Replace `set merge` with `upset`(update else set, yes I know upset is an English word 😂). It receives 1 doc ref argument and 2 data arguments: partial data and complete data. It will attempt to update the document with partial data and create the document with complete data if the document does not exist.
+- Replace `set merge` with `upset`(update if exist, else set). It receives 1 doc ref argument and 2 data arguments: partial data and complete data. It will attempt to update the document with partial data and create the document with complete data if the document does not exist.
 
 ### What Will Not Be Implemented
 
@@ -169,8 +169,8 @@ Code Quality Improvements:
 
 ### Possible Architecture Changes in V3
 
-Firelord follows a type-first approach, which means that every entity starts with a type. While this approach has its benefits, it can be seen as objectively inferior to a code-first approach since we can always infer types from code(with code-first approach), but not the other way around(with type-first approach). A good example of this is tools that build on top of zod, like [trpc](https://github.com/trpc/trpc), which provides both validation and type inference.
+Firelord follows a type-first approach, which means that every entity starts with a type. While this approach has its benefits, it can be seen as objectively inferior to a code-first approach since we can always infer types from code(with code-first approach), but not the other way around(with type-first approach). A good example of this is tools that build on top of `zod`, like [trpc](https://github.com/trpc/trpc), which provides both validation and type inference, but this is not possible for Firelord.
 
-Some may question why validation is necessary for databases, as they are not endpoints. However, Firestore is a database that directly interacts with clients. Therefore, it is necessary to have validation for triggers, as security rules may not always suffice and do not have type safe.
+Some may question why embedded validation is necessary for databases API, as they are not endpoints(where data validation usually takes place). However, Firestore is a database that directly interacts with clients. Therefore, it is necessary to have validation for triggers, as security rules may not always suffice and do not have type safe.
 
-Code-first approach will reduce developer experience in short term, but it is necessary in long term.
+Type-first approach offers better developer experience, but it cannot do anything at runtime. On the other hand, the code-first approach may require some initial trade-offs in developer experience, but it can be more adaptable in the long term.
