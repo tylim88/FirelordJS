@@ -19,7 +19,7 @@
 		"jest": "jest src/operations/getCountFromServer.test.ts --collectCoverage=false",
 		"commit": "git commit --no-verify",
 		"kill": "kill-port 8080",
-		"test": "npm run kill && (firebase emulators:exec --only firestore \"vitest\" || true) && npm run kill",
+		"test": "npm run kill && (firebase emulators:exec --only firestore \"vitest\") && npm run kill",
 		"dev": "---------------------dev------------------------",
 		"d-link": "npm run build && npm run link",
 		"d-test": "tsc && npm test",
