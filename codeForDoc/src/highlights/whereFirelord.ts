@@ -53,19 +53,3 @@ type ABC = MetaTypeCreator<
 >
 
 const ColRef = getFirelord<ABC>(db, 'ABC').collection()
-
-// literal type
-query(ColRef, where('a', '>', 1)) // ok, not dealing with array
-// @ts-expect-error
-query(ColRef, where('a', 'in', [1])) // not ok, it is an array AND literal type, need const assertion!
-query(ColRef, where('a', 'in', [1 as const])) // ok, const assertion!
-query(ColRef, where('a', 'in', [1] as const)) // ok, const assertion!
-
-// literal array type
-// @ts-expect-error
-query(ColRef, where('b', '==', ['a'])) // not ok, dealing with array AND literal type, need const assertion!
-query(ColRef, where('b', '==', ['a' as const])) // ok, const assertion!
-query(ColRef, where('b', 'in', [['a' as const]])) // ok, const assertion!
-query(ColRef, where('b', '==', ['a'] as const)) // ok, const assertion!
-query(ColRef, where('b', 'in', [['a'] as const])) // ok, const assertion!
-query(ColRef, where('b', 'in', [['a']] as const)) // ok, const assertion!

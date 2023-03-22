@@ -133,9 +133,10 @@ Code Quality Improvements:
 - All input types be read-only.
 - More tests.
 
-Enable new undocumented Firestore capability:
+Other tasks:
 
-- [in and array-contains-any combination query is now possible](https://github.com/firebase/firebase-js-sdk/issues/7147)
+- Enable new undocumented Firestore capability:[in and array-contains-any combination query is now possible](https://github.com/firebase/firebase-js-sdk/issues/7147)
+- Fix in code documentation not working(alternative solution is available, but this might be [TS bug](https://github.com/microsoft/TypeScript/issues/53424))
 
 ### V3 New Features
 
