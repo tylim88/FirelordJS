@@ -100,7 +100,7 @@ FirelordJS:
 - Offer effortless solutions for [Firestore quirks](https://firelordjs.com/highlights/about).
 - **Is the only library capable of [typing against](https://firelordjs.com/highlights/query_rule_typing) Firestore limitations**.
 - Has the [smallest](https://firelordjs.com/minified_size) package size.
-- Has no code generation, no schema language needed, just pure Typescript.
+- Has no code generation, no schema language, just pure Typescript.
 
 Support [@firebase/rules-unit-testing and emulator](https://firelordjs.com/guides/tests)
 
@@ -125,12 +125,16 @@ V3 focus on codebase redesign and rewrite with TS 5.0, hopefully with further im
 
 Code Quality Improvements:
 
-- More extensible and simpler type logics.
+- More extensible and simpler type logics.(to fix noticeable lag performance issue)
 - Implement latest TS features.
 - Better files and folders structure.
 - Remove trivial APIs.
 - Less wordy and more concise Documentation.
 - Test, test, test, need MORE Tests.
+
+Enable new undocumented Firestore capability:
+
+- [in and array-contains-any combination query is now possible](https://github.com/firebase/firebase-js-sdk/issues/7147)
 
 ### V3 New Features
 

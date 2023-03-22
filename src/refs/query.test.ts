@@ -223,14 +223,17 @@ describe('test query ref', () => {
 				where('a.e', 'array-contains-any', ['1'])
 			)
 		).toThrow()
-		expect(() =>
-			query(
-				ref,
-				where('a.e', 'in', [['1']]),
-				limit(1), // @ts-expect-error
-				where('a.e', 'array-contains-any', ['1'])
-			)
-		).toThrow()
+
+		// https://github.com/firebase/firebase-js-sdk/issues/7147
+		// expect(() =>
+		// 	query(
+		// 		ref,
+		// 		where('a.e', 'in', [['1']]),
+		// 		limit(1), // @ts-expect-error
+		// 		where('a.e', 'array-contains-any', ['1'])
+		// 	)
+		// ).toThrow()
+
 		expect(() =>
 			query(
 				ref,
@@ -239,22 +242,22 @@ describe('test query ref', () => {
 				where('a.e', 'in', [['1']])
 			)
 		).toThrow()
-		expect(() =>
-			query(
-				ref,
-				where('a.e', 'array-contains-any', ['1']),
-				limit(1), // @ts-expect-error
-				where('a.e', 'array-contains-any', ['1'])
-			)
-		).toThrow()
-		expect(() =>
-			query(
-				ref,
-				where('a.e', 'in', [['1']]),
-				limit(1), // @ts-expect-error
-				where('a.e', 'in', ['1'])
-			)
-		).toThrow()
+		// https://github.com/firebase/firebase-js-sdk/issues/7148
+		query(
+			ref,
+			where('a.e', 'array-contains-any', ['1']),
+			limit(1), // @ts-expect-error
+			where('a.e', 'array-contains-any', ['1'])
+		)
+
+		// https://github.com/firebase/firebase-js-sdk/issues/7148
+		query(
+			ref,
+			where('a.e', 'in', [['1']]),
+			limit(1), // @ts-expect-error
+			where('a.e', 'in', ['1'])
+		)
+
 		expect(() =>
 			query(
 				ref,
@@ -286,33 +289,31 @@ describe('test query ref', () => {
 	})
 
 	it(`You can use at most one array-contains clause per query. You can't combine array-contains with array-contains-any, negative case`, () => {
-		expect(() =>
-			query(
-				ref,
-				where('a.e', 'array-contains', '1'),
-				limit(1),
-				// @ts-expect-error
-				where('a.e', 'array-contains', '2')
-			)
-		).toThrow()
-		expect(() =>
-			query(
-				ref,
-				where('a.e', 'array-contains', '1'),
-				limit(1),
-				// @ts-expect-error
-				where('a.e', 'array-contains-any', ['2'])
-			)
-		).toThrow()
-		expect(() =>
-			query(
-				ref,
-				where('a.e', 'array-contains-any', ['2']),
-				limit(1),
-				// @ts-expect-error
-				where('a.e', 'array-contains', '1')
-			)
-		).toThrow()
+		// https://github.com/firebase/firebase-js-sdk/issues/7148
+		query(
+			ref,
+			where('a.e', 'array-contains', '1'),
+			limit(1),
+			// @ts-expect-error
+			where('a.e', 'array-contains', '2')
+		)
+		// https://github.com/firebase/firebase-js-sdk/issues/7148
+		query(
+			ref,
+			where('a.e', 'array-contains', '1'),
+			limit(1),
+			// @ts-expect-error
+			where('a.e', 'array-contains-any', ['2'])
+		)
+
+		// https://github.com/firebase/firebase-js-sdk/issues/7148
+		query(
+			ref,
+			where('a.e', 'array-contains-any', ['2']),
+			limit(1),
+			// @ts-expect-error
+			where('a.e', 'array-contains', '1')
+		)
 	})
 
 	it(`You cannot use more than one '!=' filter (undocumented limitation), negative case`, () => {
