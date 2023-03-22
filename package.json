@@ -97,7 +97,7 @@
 		"rollup-plugin-terser": "^7.0.2",
 		"shelljs": "^0.8.5",
 		"tsdoc": "^0.0.4",
-		"typescript": "^4.8.2",
+		"typescript": "^5.0.2",
 		"vitest": "^0.28.4"
 	},
 	"peerDependencies": {
