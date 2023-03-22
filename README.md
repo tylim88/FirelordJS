@@ -130,7 +130,8 @@ Code Quality Improvements:
 - Better files and folders structure.
 - Remove trivial APIs.
 - Less wordy and more concise Documentation.
-- Test, test, test, need MORE Tests.
+- All input types be read-only.
+- More tests.
 
 Enable new undocumented Firestore capability:
 
