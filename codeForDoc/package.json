@@ -15,24 +15,24 @@
 	"dependencies": {
 		"code-for-doc": "file:",
 		"firebase": "latest",
-		"firelordjs": "^2.3.1"
+		"firelordjs": "^2.4.0"
 	},
 	"devDependencies": {
-		"@firebase/rules-unit-testing": "^2.0.2",
-		"@types/lodash": "^4.14.180",
-		"@typescript-eslint/eslint-plugin": "^5.0.0",
-		"@typescript-eslint/parser": "^5.0.0",
-		"@vitest/coverage-c8": "^0.28.4",
-		"eslint": "^7.32.0",
+		"@firebase/rules-unit-testing": "^2.0.7",
+		"@types/lodash": "^4.14.191",
+		"@typescript-eslint/eslint-plugin": "^5.56.0",
+		"@typescript-eslint/parser": "^5.56.0",
+		"@vitest/coverage-c8": "^0.29.7",
+		"eslint": "^8.36.0",
 		"eslint-cli": "^1.1.1",
-		"eslint-config-prettier": "^8.3.0",
-		"eslint-import-resolver-typescript": "^2.5.0",
-		"eslint-plugin-import": "^2.25.2",
-		"eslint-plugin-prettier": "^4.0.0",
-		"jsdom": "^21.1.0",
+		"eslint-config-prettier": "^8.8.0",
+		"eslint-import-resolver-typescript": "^3.5.3",
+		"eslint-plugin-import": "^2.27.5",
+		"eslint-plugin-prettier": "^4.2.1",
+		"jsdom": "^21.1.1",
 		"kill-port": "^2.0.1",
-		"prettier": "^2.4.1",
-		"typescript": "^4.6.2",
-		"vitest": "^0.28.4"
+		"prettier": "^2.8.6",
+		"typescript": "^5.0.2",
+		"vitest": "^0.29.7"
 	}
 }
