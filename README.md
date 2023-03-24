@@ -134,15 +134,13 @@ Other tasks:
 
 ### V3 New Features
 
-- Auto narrow to literal type, remove the need to [manually assert as const](https://firelordjs.com/highlights/where#const-assertion). Most of this issue was resolved in [v2.3.1](https://github.com/tylim88/FirelordJS/releases/tag/2.3.1) (while [v2.3.2](https://github.com/tylim88/FirelordJS/releases/tag/2.3.2) resolved accepting const asserted values issues). To solve the rest of the issues, we need [TS 5.0 const type parameter](https://devblogs.microsoft.com/typescript/announcing-typescript-5-0-beta/#const-type-parameters).
-
 - Narrow read type base on query constraint. For example `where('a', '==', true)` will narrow the read type of field `a` to `true`, it should be able to narrow down complex case like `where('a.b.c', '==', { d:[{e:1}] })`. Expected to support `==` comparator for all types and _possibly_ `!=` comparator for literal type(type filtering for`!=` comparator poses great complexity hence I may not work on it).
 
 - Mandatory field update. Example, for field like `updatedAt`, it is mandatory to includes it every time you update the document. There are two ways to implement these feature: via Meta Type and via abstraction. With Meta Type(using special field value), it is less flexible because we no longer able to exclude it from all update operations. With abstraction, it is more flexible but require more works from user. I prefer via abstraction due to it does not shut down other use cases despite having lower user experience.
 
 - Support tuple data type.
 
-- Replace `set merge` with `upset`(update if exist, else set). It will receives 1 doc ref argument and 2 data arguments(partial data and complete data). It will attempt to update the document with partial data or create a document with complete data if the document does not exist.
+- Replace `set merge` with `upset`(update if exists, else set). It will receive 1 doc ref argument and 2 data arguments(partial data and complete data). It will attempt to update the document with partial data or create a document with complete data if the document does not exist.
 
 ### What Will Not Be Implemented
 
