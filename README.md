@@ -97,14 +97,13 @@ FirelordJS:
 - Learning curve is the lowest (API is nearly identical to the original API).
 - Technical debt is the lowest (easy to revert to the official API).
 - Offers truly generic type safe solutions.
-- **Is the only library capable of [typing against](https://firelordjs.com/highlights/query_rule_typing) Firestore limitations**.
 - Package size is the [smallest](https://firelordjs.com/minified_size).
 - Needs **no** code generation and schema language, just pure Typescript.
 - Supports [@firebase/rules-unit-testing and emulator](https://firelordjs.com/guides/tests), no extra API is needed!
-- Provides over 30 custom error messages to assist you in writing proper Firestore code! Here is an example:
+- Blocks undocumented errors and provides over [30 custom error messages](https://github.com/tylim88/FirelordJS/blob/main/src/types/error.ts) to assist you in writing proper Firestore code! Here is an example:
   ![custom error message](./img/custom.png)
 
-I am confident it has the best type safe and nothing come close. I put money on my words and I will buy you [x cups of coffee](https://www.buymeacoffee.com/) if you:
+FirelordJS is the only library capable of **[typing against](https://firelordjs.com/highlights/query_rule_typing)** Firestore limitations. I am confident it has the best type safe and nothing come close. I put money on my words and I will buy you [x cups of coffee](https://www.buymeacoffee.com/) if you:
 
 1. found something better: 75 cups
 2. created something better: 1000 cups (you don't need to a make full fledge library, something that is minimally better is enough, open an issue if you want to take this challenge)
