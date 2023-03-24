@@ -45,12 +45,7 @@ query(
 //
 //
 //
-query(
-	ref,
-	// @ts-expect-error
-	orderBy('a.b'),
-	where('d', '>=', 2)
-)
+query(ref, orderBy('a.b'), where('d', '>=', 2))
 
 // You can't order your query by a field included in an equality (==) or (in) clause
 //
