@@ -101,21 +101,12 @@ FirelordJS:
 - **Is the only library capable of [typing against](https://firelordjs.com/highlights/query_rule_typing) Firestore limitations**.
 - Has the [smallest](https://firelordjs.com/minified_size) package size.
 - Has no code generation, no schema language, just pure Typescript.
-
-Support [@firebase/rules-unit-testing and emulator](https://firelordjs.com/guides/tests)
+- Support [@firebase/rules-unit-testing and emulator](https://firelordjs.com/guides/tests), no extra API needed!
 
 I am confident it has the best type safe and nothing come close. I put money on my words and I will buy you [x cups of coffee](https://www.buymeacoffee.com/) if you:
 
 1. found something better: 75 cups
 2. created something better: 1000 cups (you don't need to a make full fledge library, something that is minimally better is enough, open an issue if you want to take this challenge)
-
-FirelordJS is thoroughly tested, it tests source code, built files and published package.
-
-No mock test, all tests test against real database and emulator to ensure the highest certainty.
-
-More than 250 tests.
-
-Undocumented releases are README updates.
 
 ## Upcoming V3
 
@@ -125,9 +116,10 @@ V3 focus on codebase redesign and rewrite with TS 5.0, hopefully with further im
 
 Code Quality Improvements:
 
-- More extensible and simpler type logics.(to fix noticeable lag performance issue)
+- More extensible logics.
+- Simpler logic to fix noticeable lag issue(TS 5.0 performance improvement does help!).
 - Implement latest TS features.
-- Better files and folders structure.
+- Code restructure.
 - Remove trivial APIs.
 - Less wordy and more concise Documentation.
 - All input types be read-only.
@@ -169,10 +161,8 @@ Type-first approach offers better developer experience, but it cannot do anythin
 ## Trivial
 
 - The name Firelord is a reference to the [Firelord](https://avatar.fandom.com/wiki/Fire_Lord) of Avatar.
-
-## Contributing
-
-Read [here](https://firelordjs.com/contributing)
+- Undocumented releases are README updates.
+- [Contributing](https://firelordjs.com/contributing).
 
 ## Related Projects
 
