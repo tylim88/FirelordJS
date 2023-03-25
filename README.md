@@ -102,7 +102,7 @@ FirelordJS:
 
 - Learning curve is the lowest (API is nearly identical to the original API).
 - Technical debt is the lowest (easy to revert to the official API).
-- Offers truly generic type safe solutions.
+- Offers truly generic type safe solutions, see [Transformative Type](https://firelordjs.com/highlights/type_conversion).
 - Package size is the [smallest](https://firelordjs.com/minified_size).
 - Needs **no** code generation and schema language, just pure Typescript.
 - Supports [@firebase/rules-unit-testing and emulator](https://firelordjs.com/guides/tests), no extra API is needed!
