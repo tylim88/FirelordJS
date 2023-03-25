@@ -35,7 +35,7 @@ const colRef = firelordRef.collection('abc')
 //
 //
 // @ts-expect-error
-query(colRef, where('a', 'in', [])) // never[] type is not ok
+query(colRef, where('z', 'in', [])) // never[] type is not ok
 //
 const arr = (): ('a' | 'b' | 'c')[] => {
 	return []
