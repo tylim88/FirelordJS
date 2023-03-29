@@ -484,7 +484,7 @@ describe('test Firelord type', () => {
 			a: 1 | null | undefined
 			b: {
 				c: 'a' | undefined
-				d: ErrorUnionInvolveObjectType
+				d: { e: false } | undefined
 				f:
 					| {
 							g: Timestamp | null
@@ -503,7 +503,7 @@ describe('test Firelord type', () => {
 			a: 1 | null | DeleteField
 			b: {
 				c: 'a' | DeleteField
-				d: ErrorUnionInvolveObjectType
+				d: { e: false }
 				f:
 					| readonly {
 							g: Date | Timestamp | null
@@ -525,7 +525,7 @@ describe('test Firelord type', () => {
 			a: 1 | null | DeleteField
 			b: {
 				c: 'a' | DeleteField
-				d: ErrorUnionInvolveObjectType
+				d: { e: false } | DeleteField
 				f:
 					| readonly {
 							g: Timestamp | Date | null
@@ -552,16 +552,19 @@ describe('test Firelord type', () => {
 				  }>
 				| DeleteField
 			'b.c': 'a' | DeleteField
-			'b.d': ErrorUnionInvolveObjectType
+			'b.d': { e: false } | DeleteField
 			'b.j': ServerTimestamp | null | Date | Timestamp | DeleteField
 			'b.k': DocumentReference<MetaType> | null | DeleteField
+			'b.d.e': false
 		}
 
 		type ExpectedCompare = {
 			a: 1 | null
 			b: {
 				c: 'a'
-				d: ErrorUnionInvolveObjectType
+				d: {
+					e: false
+				}
 				f:
 					| readonly {
 							g: Timestamp | Date | null
@@ -573,7 +576,9 @@ describe('test Firelord type', () => {
 			h: string
 			i: number | null
 			'b.c': 'a'
-			'b.d': ErrorUnionInvolveObjectType
+			'b.d': {
+				e: false
+			}
 			'b.f':
 				| readonly {
 						g: Timestamp | Date | null
@@ -582,6 +587,7 @@ describe('test Firelord type', () => {
 
 			'b.j': Timestamp | Date | null
 			'b.k': DocumentReference<MetaType> | null
+			'b.d.e': false
 		}
 
 		type Read = A['read']
