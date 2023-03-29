@@ -32,6 +32,7 @@ export type MetaType = {
 	docPath: string
 	read: Record<string, unknown>
 	write: Record<string, unknown>
+	writeMerge: Record<string, unknown>
 	writeFlatten: Record<string, unknown>
 	compare: Record<string, unknown>
 	base: Record<string, unknown>
@@ -82,8 +83,14 @@ export type MetaTypeCreator<
 							Settings['banNull'] extends true ? null : never
 						>
 					}
+					writeMerge: {
+						[J in keyof P]-?: WriteUpdateConverter<
+							P[J],
+							Settings['banNull'] extends true ? null : never
+						>
+					}
 					writeFlatten: {
-						[J in keyof R]-?: WriteConverter<
+						[J in keyof R]-?: WriteUpdateConverter<
 							R[J],
 							Settings['banNull'] extends true ? null : never
 						>
@@ -261,6 +268,31 @@ type WriteConverter<T, BannedTypes> = NoDirectNestedArray<
 		?
 				| readonly ArrayWriteConverter<A, BannedTypes>[]
 				| ArrayUnionOrRemove<ArrayWriteConverter<A, BannedTypes>>
+		: T extends DocumentReference<any> | ServerTimestamp | GeoPoint
+		? T
+		: T extends number
+		? number extends T
+			? T | Increment
+			: T
+		: T extends UnassignedAbleFieldValue
+		? ErrorUnassignedAbleFieldValue
+		: T extends Timestamp | Date
+		? Timestamp | Date
+		: T extends PossiblyReadAsUndefined | DeleteField
+		? never
+		: T extends Record<string, unknown>
+		? {
+				[K in keyof T]-?: WriteConverter<T[K], BannedTypes>
+		  }
+		: NoUndefinedAndBannedTypes<T, BannedTypes>
+>
+
+type WriteUpdateConverter<T, BannedTypes> = NoDirectNestedArray<
+	T,
+	T extends (infer A)[]
+		?
+				| readonly ArrayWriteConverter<A, BannedTypes>[]
+				| ArrayUnionOrRemove<ArrayWriteConverter<A, BannedTypes>>
 		: T extends
 				| DocumentReference<any>
 				| ServerTimestamp
@@ -279,7 +311,7 @@ type WriteConverter<T, BannedTypes> = NoDirectNestedArray<
 		? never
 		: T extends Record<string, unknown>
 		? {
-				[K in keyof T]-?: WriteConverter<T[K], BannedTypes>
+				[K in keyof T]-?: WriteUpdateConverter<T[K], BannedTypes>
 		  }
 		: NoUndefinedAndBannedTypes<T, BannedTypes>
 >

@@ -500,10 +500,32 @@ describe('test Firelord type', () => {
 		}
 
 		type ExpectedWrite = {
+			a: 1 | null
+			b: {
+				c: 'a'
+				d: { e: false }
+				f:
+					| readonly {
+							g: Date | Timestamp | null
+							h: 2
+					  }[]
+					| ArrayUnionOrRemove<{
+							g: Date | Timestamp | null
+							h: 2
+					  }>
+
+				j: ServerTimestamp | null | Date | Timestamp
+				k: DocumentReference<MetaType> | null
+			}
+			h: string
+			i: number | null | Increment
+		}
+
+		type ExpectedWriteMerge = {
 			a: 1 | null | DeleteField
 			b: {
 				c: 'a' | DeleteField
-				d: { e: false }
+				d: { e: false } | DeleteField
 				f:
 					| readonly {
 							g: Date | Timestamp | null
@@ -592,11 +614,13 @@ describe('test Firelord type', () => {
 
 		type Read = A['read']
 		type Write = A['write']
+		type WriteMerge = A['writeMerge']
 		type WriteFlatten = A['writeFlatten']
 		type Compare = A['compare']
 
 		IsTrue<IsSame<ExpectedRead, Read>>()
 		IsTrue<IsSame<ExpectedWrite, Write>>()
+		IsTrue<IsSame<ExpectedWriteMerge, WriteMerge>>()
 		IsTrue<IsEqual<ExpectedWriteFlatten, WriteFlatten>>()
 		IsTrue<IsEqual<ExpectedCompare, Compare>>()
 	})

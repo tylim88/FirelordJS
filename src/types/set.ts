@@ -32,7 +32,7 @@ type SetCreator<U> = <
 						mergeFields: DeepKey<Data, 'write'>[]
 				  }
 		? PartialNoUndefinedAndNoUnknownMemberNoEmptyMember<
-				T['write'],
+				T['writeMerge'],
 				Data,
 				SetOptions extends { merge: boolean }
 					? SetOptions['merge']
