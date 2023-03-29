@@ -61,78 +61,63 @@ export type MetaTypeCreator<
 		allFieldsPossiblyReadAsUndefined?: boolean
 		banNull?: boolean
 	} = { allFieldsPossiblyReadAsUndefined: false; banNull: false }
-> = {
-	base: Base
-	read: {
-		[J in keyof RecursiveReplaceUnionInvolveObjectTypeWithErrorMsg<Base>]-?: ReadConverter<
-			RecursiveReplaceUnionInvolveObjectTypeWithErrorMsg<Base>[J],
-			Settings['allFieldsPossiblyReadAsUndefined'] extends true
-				? undefined
-				: never,
-			Settings['banNull'] extends true ? null : never
-		>
-	}
-	// so it looks more explicit in typescript hint
-	write: {
-		[J in keyof RecursiveReplaceUnionInvolveObjectTypeWithErrorMsg<
-			RecursiveExcludePossiblyUndefinedFieldValue<Base>
-		>]-?: WriteConverter<
-			RecursiveReplaceUnionInvolveObjectTypeWithErrorMsg<
-				RecursiveExcludePossiblyUndefinedFieldValue<Base>
-			>[J],
-			Settings['banNull'] extends true ? null : never
-		>
-	}
-	writeFlatten: {
-		[J in keyof ObjectFlatten<
-			RecursiveReplaceUnionInvolveObjectTypeWithErrorMsg<
-				RecursiveExcludePossiblyUndefinedFieldValue<Base>
-			>
-		>]-?: WriteConverter<
-			ObjectFlatten<
-				RecursiveReplaceUnionInvolveObjectTypeWithErrorMsg<
-					RecursiveExcludePossiblyUndefinedFieldValue<Base>
-				>
-			>[J],
-			Settings['banNull'] extends true ? null : never
-		>
-	}
-	compare: {
-		[J in keyof ObjectFlatten<
-			RecursiveReplaceUnionInvolveObjectTypeWithErrorMsg<
-				RecursiveExcludePossiblyUndefinedFieldValue<Base>
-			>
-		>]-?: CompareConverter<
-			ObjectFlatten<
-				RecursiveReplaceUnionInvolveObjectTypeWithErrorMsg<
-					RecursiveExcludePossiblyUndefinedFieldValue<Base>
-				>
-			>[J],
-			Settings['banNull'] extends true ? null : never
-		>
-	}
-
-	collectionID: NoUndefinedAndBannedTypes<
-		string extends CollectionID
-			? ErrorCollectionIDString
-			: IsValidID<CollectionID, 'Collection', 'ID'>,
-		never
-	>
-	collectionPath: Parent extends MetaType
-		? `${Parent['collectionPath']}/${Parent['docID']}/${CollectionID}`
-		: CollectionID
-	docID: IsValidID<DocID, 'Document', 'ID'>
-	docPath: Parent extends MetaType
-		? `${Parent['collectionPath']}/${Parent['docID']}/${CollectionID}/${DocID}`
-		: `${CollectionID}/${DocID}`
-	parent: Parent
-	ancestors: Parent extends MetaType
-		? [
-				...Parent['ancestors'],
-				MetaTypeCreator<Base, CollectionID, DocID, Parent, Settings>
-		  ]
-		: [MetaTypeCreator<Base, CollectionID, DocID, Parent, Settings>]
-}
+> = RecursiveReplaceUnionInvolveObjectTypeWithErrorMsg<Base> extends infer Q
+	? RecursiveExcludePossiblyUndefinedFieldValue<Base> extends infer P
+		? ObjectFlatten<P> extends infer R
+			? {
+					base: Base
+					read: {
+						[J in keyof Q]-?: ReadConverter<
+							Q[J],
+							Settings['allFieldsPossiblyReadAsUndefined'] extends true
+								? undefined
+								: never,
+							Settings['banNull'] extends true ? null : never
+						>
+					}
+					// so it looks more explicit in typescript hint
+					write: {
+						[J in keyof P]-?: WriteConverter<
+							P[J],
+							Settings['banNull'] extends true ? null : never
+						>
+					}
+					writeFlatten: {
+						[J in keyof R]-?: WriteConverter<
+							R[J],
+							Settings['banNull'] extends true ? null : never
+						>
+					}
+					compare: {
+						[J in keyof R]-?: CompareConverter<
+							R[J],
+							Settings['banNull'] extends true ? null : never
+						>
+					}
+					collectionID: NoUndefinedAndBannedTypes<
+						string extends CollectionID
+							? ErrorCollectionIDString
+							: IsValidID<CollectionID, 'Collection', 'ID'>,
+						never
+					>
+					collectionPath: Parent extends MetaType
+						? `${Parent['collectionPath']}/${Parent['docID']}/${CollectionID}`
+						: CollectionID
+					docID: IsValidID<DocID, 'Document', 'ID'>
+					docPath: Parent extends MetaType
+						? `${Parent['collectionPath']}/${Parent['docID']}/${CollectionID}/${DocID}`
+						: `${CollectionID}/${DocID}`
+					parent: Parent
+					ancestors: Parent extends MetaType
+						? [
+								...Parent['ancestors'],
+								MetaTypeCreator<Base, CollectionID, DocID, Parent, Settings>
+						  ]
+						: [MetaTypeCreator<Base, CollectionID, DocID, Parent, Settings>]
+			  }
+			: never
+		: never
+	: never
 
 type ReadConverterArray<
 	T,
