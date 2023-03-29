@@ -1,13 +1,15 @@
 import { IsUnion } from './utils'
 import { ErrorUnionInvolveObjectType } from './error'
-import { FieldValues, PossiblyReadAsUndefined } from './fieldValue'
+import { FieldValues, PossiblyReadAsUndefined, DeleteField } from './fieldValue'
 
 type FilterInNonObject<T> = Extract<T, Record<string, unknown>>
 
 type ReplaceUnionInvolveObjectTypeWithErrorMsg<T> = IsUnion<
-	Exclude<T, PossiblyReadAsUndefined>
+	Exclude<T, PossiblyReadAsUndefined | DeleteField>
 > extends true
-	? FilterInNonObject<Exclude<T, PossiblyReadAsUndefined>> extends never
+	? FilterInNonObject<
+			Exclude<T, PossiblyReadAsUndefined | DeleteField>
+	  > extends never
 		? T
 		: ErrorUnionInvolveObjectType
 	: T extends FieldValues

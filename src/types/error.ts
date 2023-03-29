@@ -8,7 +8,7 @@ export type ErrorFieldValueInArray =
 export type ErrorUnassignedAbleFieldValue =
 	'Error: Please do not directly assign Increment, Array Remove and Array Union Field Value'
 export type ErrorUnionInvolveObjectType =
-	'Error: Please check your type declaration, do not union object literal type with other type except PossiblyReadAsUndefined'
+	'Error: Please check your type declaration, do not union object literal type with other type except PossiblyReadAsUndefined and DeleteField'
 export type ErrorDeleteFieldMerge =
 	`Error: To use deleteField, please set ( merge ) to ( true ) or set ( mergeFields with an array, empty array also fine ) in the options parameter.`
 export type ErrorDeleteFieldUnion<T extends string> =
