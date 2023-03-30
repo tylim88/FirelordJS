@@ -19,7 +19,7 @@ type DeepValue<
 > = P extends `${infer K}.${infer Rest}`
 	? K extends keyof T
 		? T[K] extends infer S
-			? S extends unknown
+			? S extends S
 				? Rest extends DeepKey<S, Mode>
 					? DeepValue<S, Rest, Mode>
 					: never // impossible route
