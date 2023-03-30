@@ -78,16 +78,10 @@ export type MetaTypeCreator<
 							>,
 							undefined
 						>
-
-						// so it looks more explicit in typescript hint
 						write: WriteConverter<P, S>
-
 						writeMerge: WriteUpdateConverter<P, S>
-
 						writeFlatten: WriteUpdateConverter<R, S>
-
 						compare: CompareConverter<R, S>
-
 						collectionID: NoUndefinedAndBannedTypes<
 							string extends CollectionID
 								? ErrorCollectionIDString

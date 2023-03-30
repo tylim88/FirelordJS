@@ -1,18 +1,10 @@
-import { FieldValues } from './fieldValue'
-
 export type DeepKey<
 	T,
 	Mode extends 'read' | 'write',
 	K extends keyof T = keyof T
 > = K extends string
-	? // ! this line is not needed because FieldValues does not extends Record<string, unknown>
-	  // ! however removing it cause error in normal setDoc operation when dealing with array field value
-	  // ! how is this possible as normal setDoc does not implement this check.
-	  // ! it seems like it is inferring type from merge setDoc data type, need more research
-	  T[K] extends infer R
-		? R extends FieldValues
-			? K
-			: R extends Record<string, unknown>
+	? T[K] extends infer R
+		? R extends Record<string, unknown>
 			? Mode extends 'write'
 				? K | `${K}.${DeepKey<R, Mode>}`
 				: `${K}.${DeepKey<R, Mode>}`
