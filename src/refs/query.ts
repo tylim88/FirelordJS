@@ -14,7 +14,7 @@ export const query: QueryRef = (query, ...queryConstraints) => {
 	return query_(
 		// @ts-expect-error
 		query,
-		...queryConstraints.reduce((acc, qc) => {
+		...queryConstraints.reduce<any>((acc, qc) => {
 			const type = qc.type
 			if (
 				type === 'startAt' ||
@@ -22,16 +22,9 @@ export const query: QueryRef = (query, ...queryConstraints) => {
 				type === 'endAt' ||
 				type === 'endBefore'
 			) {
-				qc.values.length !== 0 &&
-					acc.push(
-						// @ts-expect-error
-						qc.ref
-					)
+				qc.values.length !== 0 && acc.push(qc.ref)
 			} else {
-				acc.push(
-					// @ts-expect-error
-					qc.ref
-				)
+				acc.push(qc.ref)
 			}
 			return acc
 		}, [])
