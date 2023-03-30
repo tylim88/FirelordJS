@@ -95,7 +95,7 @@ describe('test updateDoc', () => {
 	const ag2e = 'ag2e'
 	const errorUnknownMember: ErrorUnknownMember<
 		typeof ag2e
-	> = `Error: Please remove the unknown member ( ${ag2e} )`
+	> = `Error: Please remove the unknown member '${ag2e}'`
 
 	it('test unknown member', () => {
 		;() =>
