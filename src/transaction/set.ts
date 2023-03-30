@@ -1,5 +1,5 @@
 import { OriTransaction, TransactionSet } from '../types'
-import { removeFieldValueInhomogeneousProps } from '../fieldValue'
+
 export const setCreator =
 	(transaction: OriTransaction): TransactionSet =>
 	// @ts-expect-error
@@ -7,7 +7,7 @@ export const setCreator =
 		return transaction.set(
 			// @ts-expect-error
 			reference,
-			removeFieldValueInhomogeneousProps(data),
+			data,
 			options || {}
 		)
 	}

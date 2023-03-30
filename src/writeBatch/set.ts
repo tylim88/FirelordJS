@@ -1,5 +1,4 @@
 import { OriWriteBatch, WriteBatchSet } from '../types'
-import { removeFieldValueInhomogeneousProps } from '../fieldValue'
 
 export const setCreator =
 	(writeBatch: OriWriteBatch): WriteBatchSet =>
@@ -8,7 +7,7 @@ export const setCreator =
 		return writeBatch.set(
 			// @ts-expect-error
 			reference,
-			removeFieldValueInhomogeneousProps(data),
+			data,
 			options || {}
 		)
 	}

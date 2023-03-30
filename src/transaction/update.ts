@@ -1,6 +1,5 @@
 import { OriTransaction, TransactionUpdate } from '../types'
 import { flatten } from '../utils'
-import { removeFieldValueInhomogeneousProps } from '../fieldValue'
 
 export const updateCreator =
 	(transaction: OriTransaction): TransactionUpdate =>
@@ -9,9 +8,6 @@ export const updateCreator =
 		return transaction.update(
 			// @ts-expect-error
 			reference,
-			flatten(removeFieldValueInhomogeneousProps(data)) as Record<
-				string,
-				undefined
-			>
+			flatten(data) as Record<string, undefined>
 		)
 	}
