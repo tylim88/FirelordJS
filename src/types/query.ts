@@ -4,7 +4,7 @@ import {
 	AddSentinelFieldPathToCompare,
 	AddSentinelFieldPathToCompareHighLevel,
 } from './fieldPath'
-import { QueryConstraintLimitation } from './queryConstraintLimitation'
+import { QueryConstraintLimitation } from './queryConstraintLimitation/query'
 import { IsEqual } from './utils'
 import { Query, CollectionReference } from './refs'
 
