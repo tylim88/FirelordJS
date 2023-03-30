@@ -14,10 +14,10 @@ export type ArraySymbol = typeof arraySymbol
 
 export declare class FieldValue<T> {
 	protected constructor()
-	protected 'Firelord.FieldValue': T
+	protected 'Do_Not_Access.Firelord_FieldValue'?: T
 }
 interface ArrayFieldValue<T> {
-	'Firelord.ArrayFieldValue': T
+	'Do_Not_Access.Firelord_ArrayFieldValue'?: T
 }
 // PossiblyReadAsUndefined is firelord Field Value dedicated for Read type, do not union it with FieldValues
 // eslint-disable-next-line @typescript-eslint/no-empty-interface

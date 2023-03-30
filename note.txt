@@ -6,7 +6,5 @@ info
 2. new cursor will override old cursor
 3. serverTimestamp is possibly null if it haven't resolved https://stackoverflow.com/questions/47771044/firestore-timestamp-getting-null
 
-todo
-1. updateDoc deleteField custom error message -- won't fix because lot of works and not important
-2. fix no error message when user define top level union object type -- won't fix because lot of works and not important
-3. further narrow down id and path of collection and document references -- may improve but not important
+undocumented:
+1. you can at most have 1 `array-contains-any`

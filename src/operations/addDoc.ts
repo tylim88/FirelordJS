@@ -1,6 +1,5 @@
 import { addDoc as addDoc_ } from 'firebase/firestore'
 import { AddDoc } from '../types'
-import { removeFieldValueInhomogeneousProps } from '../fieldValue'
 /**
  * Add a new document to specified `CollectionReference` with the given data,
  * assigning it a document ID automatically.
@@ -16,6 +15,6 @@ export const addDoc: AddDoc = (reference, data) => {
 	return addDoc_(
 		// @ts-expect-error
 		reference,
-		removeFieldValueInhomogeneousProps(data)
+		data
 	)
 }

@@ -10,3 +10,19 @@ export const buildPathFromColIDsAndDocIDs = ({
 		return `${acc}${collectionId}/${documentID}`
 	}, '')
 }
+
+export const queryBuilder = (queryConstraints: any[]) =>
+	queryConstraints.reduce((acc, qc) => {
+		const type = qc.type
+		if (
+			type === 'startAt' ||
+			type === 'startAfter' ||
+			type === 'endAt' ||
+			type === 'endBefore'
+		) {
+			qc.values.length !== 0 && acc.push(qc.ref)
+		} else {
+			acc.push(qc.ref)
+		}
+		return acc
+	}, [])

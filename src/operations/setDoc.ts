@@ -1,6 +1,5 @@
 import { Set } from '../types'
 import { setDoc as setDoc_ } from 'firebase/firestore'
-import { removeFieldValueInhomogeneousProps } from '../fieldValue'
 
 /**
  * Writes to the document referred to by the specified `DocumentReference`. If
@@ -17,7 +16,7 @@ export const setDoc: Set = (reference, data, options?) => {
 	return setDoc_(
 		// @ts-expect-error
 		reference,
-		removeFieldValueInhomogeneousProps(data),
+		data,
 		options || {}
 	)
 }

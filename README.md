@@ -92,7 +92,7 @@
 
 # Important
 
-[Please read v2.4 release note](https://github.com/tylim88/FirelordJS/releases/tag/2.4.0)
+Please read release notes [v2.4](https://github.com/tylim88/FirelordJS/releases/tag/2.4.0), [v2.7](https://github.com/tylim88/FirelordJS/releases/tag/2.4.7) and [v2.8](https://github.com/tylim88/FirelordJS/releases/tag/2.4.8)
 
 # FirelordJS
 

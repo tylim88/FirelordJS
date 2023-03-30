@@ -1,7 +1,6 @@
 import { updateDoc as updateDoc_ } from 'firebase/firestore'
 import { Update } from '../types'
 import { flatten } from '../utils'
-import { removeFieldValueInhomogeneousProps } from '../fieldValue'
 /**
  * Updates fields in the document referred to by the specified
  * `DocumentReference`. The update will fail if applied to a document that does
@@ -18,6 +17,6 @@ export const updateDoc: Update = (reference, data) => {
 	return updateDoc_(
 		// @ts-expect-error
 		reference,
-		flatten(removeFieldValueInhomogeneousProps(data))
+		flatten(data)
 	)
 }
