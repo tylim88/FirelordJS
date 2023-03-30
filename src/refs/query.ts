@@ -1,5 +1,5 @@
 import { query as query_ } from 'firebase/firestore'
-import { QueryRef } from '../types'
+import { QueryRef, QueryConstraint } from '../types'
 
 /**
  * Creates a new immutable instance of {@link Query} that is extended to also include
@@ -14,7 +14,7 @@ export const query: QueryRef = (query, ...queryConstraints) => {
 	return query_(
 		// @ts-expect-error
 		query,
-		...queryConstraints.reduce<any>((acc, qc) => {
+		...queryConstraints.reduce<QueryConstraint[]>((acc, qc) => {
 			const type = qc.type
 			if (
 				type === 'startAt' ||
