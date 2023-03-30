@@ -23,18 +23,3 @@ export type RecursiveReplaceUnionInvolveObjectTypeWithErrorMsg<
 > = {
 	[K in keyof T]: ReplaceUnionInvolveObjectTypeWithErrorMsg<T[K]>
 }
-
-type ExcludePossiblyUndefinedFieldValue<T> = Exclude<T, PossiblyReadAsUndefined>
-// flatten need this because they need to exclude PossiblyUndefined for real in order to build correct path
-export type RecursiveExcludePossiblyUndefinedFieldValue<T> = T extends Record<
-	string,
-	unknown
->
-	? {
-			[K in keyof T]: T[K] extends Record<string, unknown>
-				? RecursiveExcludePossiblyUndefinedFieldValue<
-						ExcludePossiblyUndefinedFieldValue<T[K]>
-				  >
-				: ExcludePossiblyUndefinedFieldValue<T[K]>
-	  }
-	: ExcludePossiblyUndefinedFieldValue<T>
