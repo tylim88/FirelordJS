@@ -1,6 +1,4 @@
-import { FieldValues, DeleteField, ServerTimestamp } from './fieldValue'
-import { DocumentReference } from './refs'
-import { MetaType } from './metaTypeCreator'
+import { FieldValues } from './fieldValue'
 
 export type DeepKey<
 	T,
