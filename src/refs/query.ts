@@ -1,5 +1,6 @@
 import { query as query_ } from 'firebase/firestore'
-import { QueryRef, QueryConstraint } from '../types'
+import { QueryRef } from '../types'
+import { queryBuilder } from './utils'
 
 /**
  * Creates a new immutable instance of {@link Query} that is extended to also include
@@ -10,23 +11,7 @@ import { QueryRef, QueryConstraint } from '../types'
  * @throws if any of the provided query constraints cannot be combined with the
  * existing or new constraints.
  */
+// @ts-expect-error
 export const query: QueryRef = (query, ...queryConstraints) => {
-	return query_(
-		// @ts-expect-error
-		query,
-		...queryConstraints.reduce<QueryConstraint[]>((acc, qc) => {
-			const type = qc.type
-			if (
-				type === 'startAt' ||
-				type === 'startAfter' ||
-				type === 'endAt' ||
-				type === 'endBefore'
-			) {
-				qc.values.length !== 0 && acc.push(qc.ref)
-			} else {
-				acc.push(qc.ref)
-			}
-			return acc
-		}, [])
-	)
+	return query_(query, ...queryBuilder(queryConstraints))
 }

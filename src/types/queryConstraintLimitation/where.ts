@@ -2,8 +2,7 @@ import { MetaType } from '../metaTypeCreator'
 import { WhereFilterOp } from '../alias'
 import {
 	ErrorWhereCompareValueMustBeArray,
-	ErrorWhereNotInArrayContainsAny,
-	ErrorWhereNotInNotEqual,
+	ErrorWhereNotIn,
 	ErrorWhereArrayContainsArrayContainsAny,
 	ErrorWhereInequalityOpStrSameField,
 	ErrorWhereOnlyOneNotEqual,
@@ -24,50 +23,45 @@ import {
 	ArrayOfOptStr,
 	ValueOfOnlyArrayOptStr,
 	ElementOfOptStr,
+	Or,
 } from './utils'
 
-// You can use at most one in, not-in, or array-contains-any clause per query. You can't combine in , not-in, and array-contains-any in the same query.
-type ValidateWhereNotInArrayContainsAny<
-	T extends MetaType,
-	U extends WhereConstraint<T, string, WhereFilterOp, unknown>,
-	PreviousQCs extends QueryConstraints<T>[]
-> = U['opStr'] extends In | NotIn | ArrayContainsAny
-	? Extract<
-			GetAllWhereConstraintOpStr<T, PreviousQCs, never>,
-			In | NotIn | ArrayContainsAny
-	  > extends never
-		? true
-		: ErrorWhereNotInArrayContainsAny
-	: true
-
-// You can't combine not-in with not equals !=.
-// You cannot use more than one '!=' filter. (not documented directly or indirectly)
-type ValidateWhereNotInNotEqual<
+// You can't combine 'not-in' with 'or', 'in', 'array-contains-any', or '!=' in the same query.
+type ValidateWhereNotIn<
 	T extends MetaType,
 	U extends WhereConstraint<T, string, WhereFilterOp, unknown>,
 	PreviousQCs extends QueryConstraints<T>[]
 > = U['opStr'] extends NotIn
 	? Extract<
 			GetAllWhereConstraintOpStr<T, PreviousQCs, never>,
-			NotEqual
+			NotEqual | In | ArrayContainsAny | Or
 	  > extends never
 		? true
-		: ErrorWhereNotInNotEqual
-	: U['opStr'] extends NotEqual
+		: ErrorWhereNotIn
+	: U['opStr'] extends NotEqual | In | ArrayContainsAny | Or
 	? Extract<
 			GetAllWhereConstraintOpStr<T, PreviousQCs, never>,
 			NotIn
 	  > extends never
-		? Extract<
-				GetAllWhereConstraintOpStr<T, PreviousQCs, never>,
-				NotEqual
-		  > extends never
-			? true
-			: ErrorWhereOnlyOneNotEqual
-		: ErrorWhereNotInNotEqual
+		? true
+		: ErrorWhereNotIn
 	: true
 
-// You can use at most one array-contains clause per query. You can't combine array-contains with array-contains-any.
+// You cannot use more than one '!=' filter. (undocumented)
+type ValidateWhereNotEqual<
+	T extends MetaType,
+	U extends WhereConstraint<T, string, WhereFilterOp, unknown>,
+	PreviousQCs extends QueryConstraints<T>[]
+> = U['opStr'] extends NotEqual
+	? Extract<
+			GetAllWhereConstraintOpStr<T, PreviousQCs, never>,
+			NotEqual
+	  > extends never
+		? true
+		: ErrorWhereOnlyOneNotEqual
+	: true
+
+// You can use at most one array-contains or array-contains-any clause per query. You can't combine array-contains with array-contains-any.
 type ValidateWhereArrayContainsArrayContainsAny<
 	T extends MetaType,
 	U extends WhereConstraint<T, string, WhereFilterOp, unknown>,
@@ -82,7 +76,7 @@ type ValidateWhereArrayContainsArrayContainsAny<
 	: U['opStr'] extends ArrayContainsAny
 	? Extract<
 			GetAllWhereConstraintOpStr<T, PreviousQCs, never>,
-			ArrayContains
+			ArrayContains | ArrayContainsAny
 	  > extends never
 		? true
 		: ErrorWhereArrayContainsArrayContainsAny
@@ -164,14 +158,22 @@ export type WhereConstraintLimitation<
 	Q extends Query<T>,
 	U extends WhereConstraint<T, string, WhereFilterOp, unknown>,
 	PreviousQCs extends QueryConstraints<T>[]
-> = ValidateWhereNotInArrayContainsAny<T, U, PreviousQCs> extends string
-	? ValidateWhereNotInArrayContainsAny<T, U, PreviousQCs>
-	: ValidateWhereNotInNotEqual<T, U, PreviousQCs> extends string
-	? ValidateWhereNotInNotEqual<T, U, PreviousQCs>
-	: ValidateWhereArrayContainsArrayContainsAny<T, U, PreviousQCs> extends string
-	? ValidateWhereArrayContainsArrayContainsAny<T, U, PreviousQCs>
-	: ValidateWhereInequalityOpStrSameField<T, U, PreviousQCs> extends string
-	? ValidateWhereInequalityOpStrSameField<T, U, PreviousQCs>
+> = ValidateWhereNotIn<T, U, PreviousQCs> extends infer R extends string
+	? R
+	: ValidateWhereNotEqual<T, U, PreviousQCs> extends infer P extends string
+	? P
+	: ValidateWhereArrayContainsArrayContainsAny<
+			T,
+			U,
+			PreviousQCs
+	  > extends infer Y extends string
+	? Y
+	: ValidateWhereInequalityOpStrSameField<
+			T,
+			U,
+			PreviousQCs
+	  > extends infer K extends string
+	? K
 	: U['opStr'] extends ValueOfOptStr
 	? WhereConstraint<
 			T,

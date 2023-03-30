@@ -10,6 +10,8 @@ export type Range = Greater | Smaller | Greater | GreaterEqual | SmallerEqual
 export type NotEqual = '!='
 export type NotIn = 'not-in'
 export type In = 'in'
+export type Or = 'or'
+export type And = 'and'
 export type ArrayContains = 'array-contains'
 export type ArrayContainsAny = 'array-contains-any'
 export type InequalityOpStr = Range | NotEqual | NotIn

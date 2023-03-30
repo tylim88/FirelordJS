@@ -56,16 +56,14 @@ export type ErrorWhereOrderByAndInEquality<
 	string}' instead.`
 export type ErrorWhereOrderByEquality =
 	`Error: You can't order your query by a field included in an equality '==' or 'in' clause.`
-export type ErrorWhereNotInArrayContainsAny =
-	`Error: You can use at most one 'in, not-in, or array-contains-any' clause per query. You can't combine 'in, not-in, and array-contains-any' in the same query.`
-export type ErrorWhereNotInNotEqual =
-	`Error: You can't combine 'not-in' with not equals '!='.`
+export type ErrorWhereNotIn =
+	`Error:You can't combine 'not-in' with 'or', 'in', 'array-contains-any', or '!=' in the same query.`
 export type ErrorWhereArrayContainsArrayContainsAny =
-	`You can use at most one array-contains clause per query. You can't combine 'array-contains' with 'array-contains-any.'`
+	`You can use at most one 'array-contains' or 'array-contains' clause per query. You can't combine 'array-contains' with 'array-contains-any.'`
 export type ErrorWhereInequalityOpStrSameField =
 	`Invalid query. All where filters with an inequality '<, <=, !=, not-in, >, or >=' must be on the same field path.`
 export type ErrorWhereOnlyOneNotEqual =
-	`Error: You cannot use more than one '!=' filter.`
+	`Error: You cannot use more than one '!=' filter.(undocumented)`
 export type ErrorWhereNoNeverEmptyArray =
 	`Error: No Empty Array 'never[]' in 'in, not-in, array-contains-any' filter`
 export type ErrorCursorTooManyArguments =
@@ -112,7 +110,6 @@ export type ErrorMsgs =
 	| ErrorWhereOrderByAndInEquality<string, string>
 	| ErrorWhereCompareValueMustBeArray<string>
 	| ErrorWhereOrderByEquality
-	| ErrorWhereNotInArrayContainsAny
 	| ErrorWhereArrayContainsArrayContainsAny
 	| ErrorWhereInequalityOpStrSameField
 	| ErrorWhereOnlyOneNotEqual
