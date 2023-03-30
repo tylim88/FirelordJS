@@ -33,6 +33,7 @@ describe('test Firelord type', () => {
 				}
 				h: string
 				i: number | null
+				l: { a: 1 } | { b: 2 }
 			},
 			'A',
 			string,
@@ -57,6 +58,7 @@ describe('test Firelord type', () => {
 				| undefined
 			h: string | undefined
 			i: number | null | undefined
+			l: ErrorUnionInvolveObjectType | undefined
 		}
 
 		type ExpectedWrite = {
@@ -80,6 +82,7 @@ describe('test Firelord type', () => {
 			}
 			h: string
 			i: number | null | Increment
+			l: ErrorUnionInvolveObjectType
 		}
 
 		type ExpectedWriteFlatten = {
@@ -104,6 +107,7 @@ describe('test Firelord type', () => {
 			}
 			h: string
 			i: number | null | Increment
+			l: ErrorUnionInvolveObjectType
 			'b.c': 'a'
 			'b.d': {
 				e: false
@@ -140,6 +144,7 @@ describe('test Firelord type', () => {
 			}
 			h: string
 			i: number | null
+			l: ErrorUnionInvolveObjectType
 			'b.c': 'a'
 			'b.d': {
 				e: false
@@ -560,6 +565,7 @@ describe('test Firelord type', () => {
 					| DeleteField
 				j: ServerTimestamp | null | Date | Timestamp | DeleteField
 				k: DocumentReference<MetaType> | null | DeleteField
+				'd.e': false
 			}
 			h: string | DeleteField
 			i: number | null | Increment | DeleteField
@@ -594,6 +600,7 @@ describe('test Firelord type', () => {
 					  }[]
 				j: Timestamp | Date | null
 				k: DocumentReference<MetaType> | null
+				'd.e': false
 			}
 			h: string
 			i: number | null

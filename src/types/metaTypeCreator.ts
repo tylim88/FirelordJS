@@ -63,65 +63,53 @@ export type MetaTypeCreator<
 		banNull?: boolean
 	} = { allFieldsPossiblyReadAsUndefined: false; banNull: false }
 > = RecursiveReplaceUnionInvolveObjectTypeWithErrorMsg<Base> extends infer Q
-	? RecursiveExcludePossiblyUndefinedFieldValue<Base> extends infer P
+	? RecursiveExcludePossiblyUndefinedFieldValue<Q> extends infer P
 		? ObjectFlatten<P> extends infer R
-			? {
-					base: Base
-					read: {
-						[J in keyof Q]-?: ReadConverter<
-							Q[J],
-							Settings['allFieldsPossiblyReadAsUndefined'] extends true
-								? undefined
-								: never,
-							Settings['banNull'] extends true ? null : never
+			? (Settings['banNull'] extends true ? null : never) extends infer S
+				? {
+						base: Base
+						read: Exclude<
+							ReadConverter<
+								Q,
+								Settings['allFieldsPossiblyReadAsUndefined'] extends true
+									? undefined
+									: never,
+								S
+							>,
+							undefined
 						>
-					}
-					// so it looks more explicit in typescript hint
-					write: {
-						[J in keyof P]-?: WriteConverter<
-							P[J],
-							Settings['banNull'] extends true ? null : never
+
+						// so it looks more explicit in typescript hint
+						write: WriteConverter<P, S>
+
+						writeMerge: WriteUpdateConverter<P, S>
+
+						writeFlatten: WriteUpdateConverter<R, S>
+
+						compare: CompareConverter<R, S>
+
+						collectionID: NoUndefinedAndBannedTypes<
+							string extends CollectionID
+								? ErrorCollectionIDString
+								: IsValidID<CollectionID, 'Collection', 'ID'>,
+							never
 						>
-					}
-					writeMerge: {
-						[J in keyof P]-?: WriteUpdateConverter<
-							P[J],
-							Settings['banNull'] extends true ? null : never
-						>
-					}
-					writeFlatten: {
-						[J in keyof R]-?: WriteUpdateConverter<
-							R[J],
-							Settings['banNull'] extends true ? null : never
-						>
-					}
-					compare: {
-						[J in keyof R]-?: CompareConverter<
-							R[J],
-							Settings['banNull'] extends true ? null : never
-						>
-					}
-					collectionID: NoUndefinedAndBannedTypes<
-						string extends CollectionID
-							? ErrorCollectionIDString
-							: IsValidID<CollectionID, 'Collection', 'ID'>,
-						never
-					>
-					collectionPath: Parent extends MetaType
-						? `${Parent['collectionPath']}/${Parent['docID']}/${CollectionID}`
-						: CollectionID
-					docID: IsValidID<DocID, 'Document', 'ID'>
-					docPath: Parent extends MetaType
-						? `${Parent['collectionPath']}/${Parent['docID']}/${CollectionID}/${DocID}`
-						: `${CollectionID}/${DocID}`
-					parent: Parent
-					ancestors: Parent extends MetaType
-						? [
-								...Parent['ancestors'],
-								MetaTypeCreator<Base, CollectionID, DocID, Parent, Settings>
-						  ]
-						: [MetaTypeCreator<Base, CollectionID, DocID, Parent, Settings>]
-			  }
+						collectionPath: Parent extends MetaType
+							? `${Parent['collectionPath']}/${Parent['docID']}/${CollectionID}`
+							: CollectionID
+						docID: IsValidID<DocID, 'Document', 'ID'>
+						docPath: Parent extends MetaType
+							? `${Parent['collectionPath']}/${Parent['docID']}/${CollectionID}/${DocID}`
+							: `${CollectionID}/${DocID}`
+						parent: Parent
+						ancestors: Parent extends MetaType
+							? [
+									...Parent['ancestors'],
+									MetaTypeCreator<Base, CollectionID, DocID, Parent, Settings>
+							  ]
+							: [MetaTypeCreator<Base, CollectionID, DocID, Parent, Settings>]
+				  }
+				: never
 			: never
 		: never
 	: never

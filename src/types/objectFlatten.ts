@@ -1,4 +1,6 @@
-import { FieldValues } from './fieldValue'
+import { FieldValues, DeleteField, ServerTimestamp } from './fieldValue'
+import { DocumentReference } from './refs'
+import { MetaType } from './metaTypeCreator'
 
 export type DeepKey<
 	T,
@@ -26,14 +28,17 @@ type DeepValue<
 	Mode extends 'read' | 'write'
 > = P extends `${infer K}.${infer Rest}`
 	? K extends keyof T
-		? Rest extends DeepKey<T[K], Mode>
-			? DeepValue<T[K], Rest, Mode>
+		? T[K] extends infer S
+			? S extends unknown
+				? Rest extends DeepKey<S, Mode>
+					? DeepValue<S, Rest, Mode>
+					: never // impossible route
+				: never // impossible route
 			: never // impossible route
 		: never // impossible route
 	: P extends keyof T
 	? T[P]
 	: never // impossible route
-
 export type ObjectFlatten<Data> = Data extends Record<string, unknown>
 	? {
 			[K in DeepKey<Data, 'write'>]-?: ObjectFlatten<

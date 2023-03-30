@@ -34,11 +34,15 @@ type SetCreator<U> = <
 		? PartialNoUndefinedAndNoUnknownMemberNoEmptyMember<
 				T['writeMerge'],
 				Data,
-				SetOptions extends { merge: boolean }
-					? SetOptions['merge']
-					: SetOptions extends { mergeFields: DeepKey<Data, 'write'>[] }
-					? SetOptions['mergeFields']
-					: false
+				(
+					SetOptions extends { merge: boolean }
+						? SetOptions['merge']
+						: SetOptions extends { mergeFields: DeepKey<Data, 'write'>[] }
+						? SetOptions['mergeFields']
+						: false
+				) extends infer R extends boolean | string[]
+					? R
+					: never
 		  >
 		: RecursivelyReplaceDeleteFieldWithErrorMsg<T['write'], Data>,
 	options?: SetOptions extends never ? SetOptions : SetOptions
