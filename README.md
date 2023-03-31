@@ -122,7 +122,7 @@ FirelordJS is the only library capable of **[typing against](https://firelordjs.
 
 ## Upcoming V3
 
-**Update: Currently Firelord is powerful enough. Therefore, we think it is ok to stay at v2 for now, unless we receive sufficient assistance.**
+**Update: Currently Firelord is powerful enough. Therefore, we will continue active development on v2, unless we receive sufficient assistance.**
 
 V3 focus on codebase redesign and rewrite with TS 5.0, hopefully with further improved code quality, potential contributors will find it easier to work with.
 

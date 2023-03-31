@@ -7,7 +7,7 @@ export type QueryCompositeFilterConstraint<
 	Y extends 'and' | 'or'
 > = {
 	type: Y
-	'do_not_access.query_filter_constraint': QueryFilterConstraints<T>[]
+	'do_not_access.query_filter_constraint'?: QueryFilterConstraints<T>[]
 }
 
 export type QueryFilterConstraints<T extends MetaType> =
