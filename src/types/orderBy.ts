@@ -1,4 +1,4 @@
-import { OrderByConstraint } from './queryConstraints'
+import { OrderByConstraint } from './constraints'
 import { OrderByDirection } from './alias'
 import { MetaType } from './metaTypeCreator'
 

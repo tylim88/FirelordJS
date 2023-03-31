@@ -11,7 +11,10 @@ import { queryBuilder } from './utils'
  * @throws if any of the provided query constraints cannot be combined with the
  * existing or new constraints.
  */
-// @ts-expect-error
 export const query: QueryRef = (query, ...queryConstraints) => {
-	return query_(query, ...queryBuilder(queryConstraints))
+	return query_(
+		// @ts-expect-error
+		query,
+		...queryBuilder(queryConstraints)
+	)
 }

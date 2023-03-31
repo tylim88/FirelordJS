@@ -5,7 +5,7 @@ import {
 	QueryConstraints,
 	WhereConstraint,
 	OrderByConstraint,
-} from '../queryConstraints'
+} from '../constraints'
 import { GetAllWhereConstraint } from './where'
 import { In, Equal } from './utils'
 

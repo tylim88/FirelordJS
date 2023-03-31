@@ -1,6 +1,6 @@
-import { MetaType } from './metaTypeCreator'
-import { WhereFilterOp, QueryConstraint, OrderByDirection } from './alias'
-import { CursorType } from './cursor'
+import { MetaType } from '../metaTypeCreator'
+import { WhereFilterOp, QueryConstraint, OrderByDirection } from '../alias'
+import { CursorType } from '../cursor'
 
 export type WhereConstraint<
 	T extends MetaType,

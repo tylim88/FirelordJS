@@ -6,7 +6,7 @@ import {
 	OrderByConstraint,
 	CursorConstraint,
 	LimitConstraint,
-} from '../queryConstraints'
+} from '../constraints'
 import { Query } from '../refs'
 import { CursorType } from '../cursor'
 import { LimitToLastConstraintLimitation } from './limit'

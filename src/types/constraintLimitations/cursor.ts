@@ -5,7 +5,7 @@ import {
 	QueryConstraints,
 	OrderByConstraint,
 	CursorConstraint,
-} from '../queryConstraints'
+} from '../constraints'
 import { RemoveSentinelFieldPathFromCompare, __name__ } from '../fieldPath'
 import { CursorType } from '../cursor'
 import { QueryDocumentSnapshot, DocumentSnapshot } from '../snapshot'

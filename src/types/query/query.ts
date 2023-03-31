@@ -1,13 +1,11 @@
 import { MetaType } from '../metaTypeCreator'
-import { QueryConstraints } from '../queryConstraints'
+import { QueryFilterConstraints, QueryConstraints } from '../constraints'
 import {
 	AddSentinelFieldPathToCompare,
 	AddSentinelFieldPathToCompareHighLevel,
 } from '../fieldPath'
-import { QueryConstraintLimitation } from '../queryConstraintLimitation/query'
+import { QueryConstraintLimitation } from '../constraintLimitations'
 import { Query, CollectionReference } from '../refs'
-import { OrQueryCompositeFilterConstraint } from './or'
-import { AndQueryCompositeFilterConstraint } from './and'
 
 export type QueryRef = {
 	<
@@ -26,18 +24,14 @@ export type QueryRef = {
 					QC
 			  >
 	): Query<T>
-	<
-		T extends MetaType,
-		Q extends Query<T>,
-		QC extends
-			| OrQueryCompositeFilterConstraint<T>
-			| AndQueryCompositeFilterConstraint<T>
-	>(
-		query: Q extends never ? Q : Query<T> | CollectionReference<T>,
-		queryCompositeFilterConstraint: QC extends never
-			? QC
-			:
-					| OrQueryCompositeFilterConstraint<T>
-					| AndQueryCompositeFilterConstraint<T>
-	): Query<T>
+	// <
+	// 	T extends MetaType,
+	// 	Q extends Query<T>,
+	// 	QC extends QueryFilterConstraints<AddSentinelFieldPathToCompare<T>>
+	// >(
+	// 	query: Q extends never ? Q : Query<T> | CollectionReference<T>,
+	// 	queryCompositeFilterConstraint: QC extends never
+	// 		? QC
+	// 		: QueryFilterConstraints<T>
+	// ): Query<T>
 }

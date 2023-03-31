@@ -85,6 +85,8 @@ export type ErrorAutoIdTypeMustBeWideString<T extends string> =
 	`Error: Only document with wide 'string' type can generate auto id, the current type is literal type '${T}'`
 export type ErrorWhereInOrNotInValueIsNotArray<T extends string> =
 	`Error: The value provided to 'in' or 'not-in' comparator must be array of type '${T}'`
+export type ErrorOrAndInvalidConstraints =
+	`Error: 'or' & 'and' queries accept only 'where' clause and 'or' & 'and' queries`
 
 export type ErrorMsgs =
 	| ErrorUndefined
@@ -124,6 +126,7 @@ export type ErrorMsgs =
 	| ErrorCursorNoArray
 	| ErrorAutoIdTypeMustBeWideString<string>
 	| ErrorWhereInOrNotInValueIsNotArray<string>
+	| ErrorOrAndInvalidConstraints
 
 // unused
 export type ReplaceErrorMsgsWithNever<T> = T extends ErrorMsgs ? never : T

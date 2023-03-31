@@ -31,9 +31,6 @@ export type OrderByDirection = import('firebase/firestore').OrderByDirection
 
 export type WhereFilterOp = import('firebase/firestore').WhereFilterOp
 
-export type QueryCompositeFilterConstraint =
-	import('firebase/firestore').QueryCompositeFilterConstraint
-
 /**
  * An immutable object representing a geographic location in Firestore. The location is represented as latitude/longitude pair.
  *
@@ -90,3 +87,6 @@ export type OriWriteBatch = import('firebase/firestore').WriteBatch
 export type OriTransaction = import('firebase/firestore').Transaction
 
 export type OriFieldValue = import('firebase/firestore').FieldValue
+
+export type OriQueryCompositeFilterConstraint =
+	import('firebase/firestore').QueryCompositeFilterConstraint

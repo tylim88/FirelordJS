@@ -1,4 +1,4 @@
-import { LimitConstraint } from './queryConstraints'
+import { LimitConstraint } from './constraints'
 import { QueryConstraint } from './alias'
 import { ErrorLimitInvalidNumber } from './error'
 

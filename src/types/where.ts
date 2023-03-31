@@ -1,4 +1,4 @@
-import { WhereConstraint } from './queryConstraints'
+import { WhereConstraint } from './constraints'
 import { MetaType } from './metaTypeCreator'
 import { WhereFilterOp } from './alias'
 import { DocumentId, __name__ } from './fieldPath'

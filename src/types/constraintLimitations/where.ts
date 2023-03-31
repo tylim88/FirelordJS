@@ -9,7 +9,11 @@ import {
 	ErrorWhereNoNeverEmptyArray,
 	ErrorWhereInOrNotInValueIsNotArray,
 } from '../error'
-import { QueryConstraints, WhereConstraint } from '../queryConstraints'
+import {
+	QueryConstraints,
+	WhereConstraint,
+	QueryFilterConstraints,
+} from '../constraints'
 import { Query } from '../refs'
 import { GetCorrectDocumentIdBasedOnRef } from '../fieldPath'
 import {
@@ -30,7 +34,7 @@ import {
 type ValidateWhereNotIn<
 	T extends MetaType,
 	U extends WhereConstraint<T, string, WhereFilterOp, unknown>,
-	PreviousQCs extends QueryConstraints<T>[]
+	PreviousQCs extends QueryConstraints<T>[] | QueryFilterConstraints<T>[]
 > = U['opStr'] extends NotIn
 	? Extract<
 			GetAllWhereConstraintOpStr<T, PreviousQCs, never>,
@@ -51,7 +55,7 @@ type ValidateWhereNotIn<
 type ValidateWhereNotEqual<
 	T extends MetaType,
 	U extends WhereConstraint<T, string, WhereFilterOp, unknown>,
-	PreviousQCs extends QueryConstraints<T>[]
+	PreviousQCs extends QueryConstraints<T>[] | QueryFilterConstraints<T>[]
 > = U['opStr'] extends NotEqual
 	? Extract<
 			GetAllWhereConstraintOpStr<T, PreviousQCs, never>,
@@ -65,7 +69,7 @@ type ValidateWhereNotEqual<
 type ValidateWhereArrayContainsArrayContainsAny<
 	T extends MetaType,
 	U extends WhereConstraint<T, string, WhereFilterOp, unknown>,
-	PreviousQCs extends QueryConstraints<T>[]
+	PreviousQCs extends QueryConstraints<T>[] | QueryFilterConstraints<T>[]
 > = U['opStr'] extends ArrayContains
 	? Extract<
 			GetAllWhereConstraintOpStr<T, PreviousQCs, never>,
@@ -86,7 +90,7 @@ type ValidateWhereArrayContainsArrayContainsAny<
 type ValidateWhereInequalityOpStrSameField<
 	T extends MetaType,
 	U extends WhereConstraint<T, string, WhereFilterOp, unknown>,
-	PreviousQCs extends QueryConstraints<T>[]
+	PreviousQCs extends QueryConstraints<T>[] | QueryFilterConstraints<T>[]
 > = U['opStr'] extends InequalityOpStr
 	? Extract<
 			GetAllWhereConstraint<T, PreviousQCs, never>,
@@ -117,7 +121,7 @@ export type GetFirstInequalityWhere<
 
 export type GetAllWhereConstraint<
 	T extends MetaType,
-	QCs extends QueryConstraints<T>[],
+	QCs extends QueryConstraints<T>[] | QueryFilterConstraints<T>[],
 	WhereConstraintsAcc extends WhereConstraint<T, string, WhereFilterOp, unknown>
 > = QCs extends [infer H, ...infer R]
 	? R extends QueryConstraints<T>[]
@@ -136,7 +140,7 @@ export type GetAllWhereConstraint<
 
 type GetAllWhereConstraintOpStr<
 	T extends MetaType,
-	QCs extends QueryConstraints<T>[],
+	QCs extends QueryConstraints<T>[] | QueryFilterConstraints<T>[],
 	OpStrAcc extends WhereFilterOp
 > = QCs extends [infer H, ...infer R]
 	? R extends QueryConstraints<T>[]
@@ -157,7 +161,7 @@ export type WhereConstraintLimitation<
 	T extends MetaType,
 	Q extends Query<T>,
 	U extends WhereConstraint<T, string, WhereFilterOp, unknown>,
-	PreviousQCs extends QueryConstraints<T>[]
+	PreviousQCs extends QueryConstraints<T>[] | QueryFilterConstraints<T>[]
 > = ValidateWhereNotIn<T, U, PreviousQCs> extends infer R extends string
 	? R
 	: ValidateWhereNotEqual<T, U, PreviousQCs> extends infer P extends string

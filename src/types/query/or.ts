@@ -1,28 +1,26 @@
 import { MetaType } from '../metaTypeCreator'
-import { QueryConstraints } from '../queryConstraints'
+import {
+	QueryCompositeFilterConstraint,
+	QueryFilterConstraints,
+} from '../constraints'
 import {
 	AddSentinelFieldPathToCompare,
 	AddSentinelFieldPathToCompareHighLevel,
 } from '../fieldPath'
-import { QueryConstraintLimitation } from '../queryConstraintLimitation/query'
+import { QueryFilterConstraintLimitation } from '../constraintLimitations'
 import { Query, CollectionReference } from '../refs'
 
 export type Or<T extends MetaType> = <
 	Q extends Query<T> | CollectionReference<T>,
-	QC extends QueryConstraints<AddSentinelFieldPathToCompare<T>>[]
+	QFC extends QueryFilterConstraints<AddSentinelFieldPathToCompare<T>>[]
 >(
-	...queryConstraints: QC extends never
-		? QC
-		: QueryConstraintLimitation<
+	...queryFilterConstraints: QFC extends never
+		? QFC
+		: QueryFilterConstraintLimitation<
 				AddSentinelFieldPathToCompare<T>,
 				AddSentinelFieldPathToCompareHighLevel<T, Q>,
-				QC,
+				QFC,
 				[],
-				QC
+				QFC
 		  >
-) => OrQueryCompositeFilterConstraint<T>
-
-export type OrQueryCompositeFilterConstraint<T extends MetaType> = {
-	type: 'or'
-	do_not_access?: T
-}
+) => QueryCompositeFilterConstraint<T, 'or'>
