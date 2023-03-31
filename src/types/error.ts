@@ -87,7 +87,8 @@ export type ErrorWhereInOrNotInValueIsNotArray<T extends string> =
 	`Error: The value provided to 'in' or 'not-in' comparator must be array of type '${T}'`
 export type ErrorOrAndInvalidConstraints =
 	`Error: 'or' & 'and' queries accept only 'where' clause and 'or' & 'and' queries`
-
+export type ErrorInvalidTopLevelFilter =
+	`InvalidQuery. When using composite filters, you cannot use more than one filter('and' 'or' 'when') at the top level. Consider nesting the multiple filters within an 'and(...)' statement. For example: change 'query(query, where(...), or(...))' to 'query(query, and(where(...), or(...)))'.`
 export type ErrorMsgs =
 	| ErrorUndefined
 	| ErrorNullBanned
@@ -127,6 +128,7 @@ export type ErrorMsgs =
 	| ErrorAutoIdTypeMustBeWideString<string>
 	| ErrorWhereInOrNotInValueIsNotArray<string>
 	| ErrorOrAndInvalidConstraints
+	| ErrorInvalidTopLevelFilter
 
 // unused
 export type ReplaceErrorMsgsWithNever<T> = T extends ErrorMsgs ? never : T

@@ -12,13 +12,21 @@ import { CursorType } from '../cursor'
 import { LimitToLastConstraintLimitation } from './limit'
 import { CursorConstraintLimitation } from './cursor'
 import { OrderByConstraintLimitation, GetFirstOrderBy } from './orderBy'
-import { GetFirstInequalityWhere, WhereConstraintLimitation } from './where'
+import {
+	GetFirstInequalityWhere,
+	WhereConstraintLimitation,
+	GetAllWhereConstraint,
+} from './where'
 import { InequalityOpStr } from './utils'
 import { IsSame } from '../utils'
-import { ErrorWhereOrderByAndInEquality } from '../error'
+import {
+	ErrorWhereOrderByAndInEquality,
+	ErrorInvalidTopLevelFilter,
+} from '../error'
+import { GetAllQueryFilterCompositeConstraint } from './queryFilter'
 
 // If you include a filter with a range comparison (<, <=, >, >=), your first ordering must be on the same field
-export type ValidateOrderByAndInequalityWhere<
+type ValidateOrderByAndInequalityWhere<
 	T extends MetaType,
 	AllQCs extends QueryConstraints<T>[]
 > = GetFirstInequalityWhere<T, AllQCs> extends infer W
@@ -33,14 +41,23 @@ export type ValidateOrderByAndInequalityWhere<
 		: true // inequality Where not found
 	: never // impossible route
 
+type ValidateTopLevelQueryCompositeFilter<
+	T extends MetaType,
+	AllQCs extends QueryConstraints<T>[]
+> = GetAllWhereConstraint<T, AllQCs, never> extends never
+	? never
+	: GetAllQueryFilterCompositeConstraint<T, AllQCs, never> extends never
+	? never
+	: ErrorInvalidTopLevelFilter
+
 export type QueryConstraintLimitation<
 	T extends MetaType,
 	Q extends Query<T>,
 	RestQCs extends QueryConstraints<T>[],
 	PreviousQCs extends QueryConstraints<T>[],
 	AllQCs extends QueryConstraints<T>[]
-> = ValidateOrderByAndInequalityWhere<T, AllQCs> extends string
-	? ValidateOrderByAndInequalityWhere<T, AllQCs>[]
+> = ValidateOrderByAndInequalityWhere<T, AllQCs> extends infer K extends string
+	? K[]
 	: RestQCs extends [infer Head, ...infer Rest]
 	? Rest extends QueryConstraints<T>[]
 		? [
