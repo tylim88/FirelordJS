@@ -54,9 +54,9 @@ export type ValidateTopLevelQueryCompositeFilter<
 	FlattenQueryCompositeFilterConstraint<T, AllQQCs>,
 	never
 > extends never
-	? never
+	? true
 	: GetAllQueryFilterCompositeConstraint<T, AllQQCs, never> extends never
-	? never
+	? true
 	: ErrorInvalidTopLevelFilter
 
 export type FlattenQueryCompositeFilterConstraint<

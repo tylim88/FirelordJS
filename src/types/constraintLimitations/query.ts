@@ -40,7 +40,12 @@ export type QueryConstraintLimitation<
 	RestQCs extends QueryConstraints<T>[],
 	PreviousQCs extends QueryConstraints<T>[],
 	AllQCs extends QueryConstraints<T>[]
-> = ValidateOrderByAndInequalityWhere<T, AllQCs> extends infer K extends string
+> = ValidateTopLevelQueryCompositeFilter<
+	T,
+	AllQCs
+> extends infer B extends string
+	? B[]
+	: ValidateOrderByAndInequalityWhere<T, AllQCs> extends infer K extends string
 	? K[]
 	: RestQCs extends [infer Head, ...infer Rest]
 	? Rest extends QueryConstraints<T>[]
