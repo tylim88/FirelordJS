@@ -1,5 +1,5 @@
 import { MetaType } from '../metaTypeCreator'
-import { QueryConstraints } from '../constraints'
+import { QueryConstraints, QQC } from '../constraints'
 import {
 	AddSentinelFieldPathToCompare,
 	AddSentinelFieldPathToCompareHighLevel,

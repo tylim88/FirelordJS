@@ -7,6 +7,7 @@ import {
 	CursorConstraint,
 	LimitConstraint,
 	QueryCompositeFilterConstraint,
+	QQC,
 } from '../constraints'
 import { Query } from '../refs'
 import { CursorType } from '../cursor'
@@ -38,7 +39,7 @@ type ValidateOrderByAndInequalityWhere<
 export type QueryConstraintLimitation<
 	T extends MetaType,
 	Q extends Query<T>,
-	RestQCs extends QueryConstraints<T>[],
+	RestQQCs extends QQC<T>[],
 	PreviousQCs extends QueryConstraints<T>[],
 	AllQCs extends QueryConstraints<T>[]
 > = ValidateTopLevelQueryCompositeFilter<
@@ -48,7 +49,7 @@ export type QueryConstraintLimitation<
 	? B[]
 	: ValidateOrderByAndInequalityWhere<T, AllQCs> extends infer K extends string
 	? K[]
-	: RestQCs extends [infer Head, ...infer Rest]
+	: RestQQCs extends [infer Head, ...infer Rest]
 	? Rest extends QueryConstraints<T>[]
 		? [
 				Head extends LimitConstraint<'limit', number>
@@ -71,4 +72,4 @@ export type QueryConstraintLimitation<
 				>
 		  ]
 		: never[] // impossible route
-	: RestQCs // basically mean RestQCs is []
+	: RestQQCs // basically mean RestQCs is []

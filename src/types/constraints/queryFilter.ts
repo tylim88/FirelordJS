@@ -1,4 +1,4 @@
-import { WhereConstraint } from './query'
+import { WhereConstraint, QueryConstraints } from './query'
 import { MetaType } from '../metaTypeCreator'
 import { WhereFilterOp } from '../alias'
 
@@ -13,4 +13,8 @@ export type QueryCompositeFilterConstraint<
 
 export type QueryFilterConstraints<T extends MetaType> =
 	| WhereConstraint<T, keyof T['compare'] & string, WhereFilterOp, unknown>
+	| QueryCompositeFilterConstraint<T, 'and' | 'or', QueryFilterConstraints<T>[]>
+
+export type QQC<T extends MetaType> =
+	| QueryConstraints<T>
 	| QueryCompositeFilterConstraint<T, 'and' | 'or', QueryFilterConstraints<T>[]>
