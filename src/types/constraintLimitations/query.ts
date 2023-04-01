@@ -12,18 +12,11 @@ import { CursorType } from '../cursor'
 import { LimitToLastConstraintLimitation } from './limit'
 import { CursorConstraintLimitation } from './cursor'
 import { OrderByConstraintLimitation, GetFirstOrderBy } from './orderBy'
-import {
-	GetFirstInequalityWhere,
-	WhereConstraintLimitation,
-	GetAllWhereConstraint,
-} from './where'
+import { GetFirstInequalityWhere, WhereConstraintLimitation } from './where'
 import { InequalityOpStr } from './utils'
 import { IsSame } from '../utils'
-import {
-	ErrorWhereOrderByAndInEquality,
-	ErrorInvalidTopLevelFilter,
-} from '../error'
-import { GetAllQueryFilterCompositeConstraint } from './queryFilter'
+import { ErrorWhereOrderByAndInEquality } from '../error'
+import { ValidateTopLevelQueryCompositeFilter } from './queryFilter'
 
 // If you include a filter with a range comparison (<, <=, >, >=), your first ordering must be on the same field
 type ValidateOrderByAndInequalityWhere<
@@ -40,15 +33,6 @@ type ValidateOrderByAndInequalityWhere<
 			: never // impossible route
 		: true // inequality Where not found
 	: never // impossible route
-
-type ValidateTopLevelQueryCompositeFilter<
-	T extends MetaType,
-	AllQCs extends QueryConstraints<T>[]
-> = GetAllWhereConstraint<T, AllQCs, never> extends never
-	? never
-	: GetAllQueryFilterCompositeConstraint<T, AllQCs, never> extends never
-	? never
-	: ErrorInvalidTopLevelFilter
 
 export type QueryConstraintLimitation<
 	T extends MetaType,

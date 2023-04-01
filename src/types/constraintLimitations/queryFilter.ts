@@ -11,11 +11,14 @@ import {
 } from '../constraints'
 import { Query } from '../refs'
 import { CursorType } from '../cursor'
-import { WhereConstraintLimitation } from './where'
-import { ErrorOrAndInvalidConstraints } from '../error'
+import { WhereConstraintLimitation, GetAllWhereConstraint } from './where'
+import {
+	ErrorOrAndInvalidConstraints,
+	ErrorInvalidTopLevelFilter,
+} from '../error'
 import { StrictExclude } from '../utils'
 
-export type GetAllQueryFilterCompositeConstraint<
+type GetAllQueryFilterCompositeConstraint<
 	T extends MetaType,
 	QQCs extends (QueryConstraints<T> | QueryFilterConstraints<T>)[],
 	QueryCompositeConstraintAcc extends QueryCompositeFilterConstraint<
@@ -23,24 +26,38 @@ export type GetAllQueryFilterCompositeConstraint<
 		'and' | 'or',
 		QueryFilterConstraints<T>[]
 	>
-> = QQCs extends [infer H, ...infer R]
-	? R extends (QueryConstraints<T> | QueryFilterConstraints<T>)[]
-		?
-				| QueryCompositeConstraintAcc
-				| GetAllQueryFilterCompositeConstraint<
-						T,
-						R,
-						| (H extends QueryCompositeFilterConstraint<
-								T,
-								'and' | 'or',
-								QueryFilterConstraints<T>[]
-						  >
-								? H
-								: never)
-						| QueryCompositeConstraintAcc
-				  >
-		: QueryCompositeConstraintAcc // R is []
+> = QQCs extends [
+	infer H,
+	...infer R extends (QueryConstraints<T> | QueryFilterConstraints<T>)[]
+]
+	?
+			| QueryCompositeConstraintAcc
+			| GetAllQueryFilterCompositeConstraint<
+					T,
+					R,
+					| (H extends QueryCompositeFilterConstraint<
+							T,
+							'and' | 'or',
+							QueryFilterConstraints<T>[]
+					  >
+							? H
+							: never)
+					| QueryCompositeConstraintAcc
+			  >
 	: QueryCompositeConstraintAcc // QCs is []
+
+export type ValidateTopLevelQueryCompositeFilter<
+	T extends MetaType,
+	AllQQCs extends (QueryConstraints<T> | QueryFilterConstraints<T>)[]
+> = GetAllWhereConstraint<
+	T,
+	FlattenQueryCompositeFilterConstraint<T, AllQQCs>,
+	never
+> extends never
+	? never
+	: GetAllQueryFilterCompositeConstraint<T, AllQQCs, never> extends never
+	? never
+	: ErrorInvalidTopLevelFilter
 
 export type FlattenQueryCompositeFilterConstraint<
 	T extends MetaType,
@@ -78,9 +95,9 @@ export type FlattenQueryCompositeFilterConstraint<
 export type QueryFilterConstraintLimitation<
 	T extends MetaType,
 	Q extends Query<T>,
-	RestQFCs extends (QueryConstraints<T> | QueryFilterConstraints<T>)[],
-	PreviousQFCs extends QueryConstraints<T>[]
-> = RestQFCs extends [
+	RestQQCs extends (QueryConstraints<T> | QueryFilterConstraints<T>)[],
+	PreviousQCs extends QueryConstraints<T>[]
+> = RestQQCs extends [
 	infer Head extends QueryConstraints<T> | QueryFilterConstraints<T>,
 	...infer Rest extends (QueryConstraints<T> | QueryFilterConstraints<T>)[]
 ]
@@ -91,7 +108,7 @@ export type QueryFilterConstraintLimitation<
 				| CursorConstraint<CursorType, unknown[]>
 				? ErrorOrAndInvalidConstraints
 				: Head extends WhereConstraint<T, string, WhereFilterOp, unknown>
-				? WhereConstraintLimitation<T, Q, Head, PreviousQFCs>
+				? WhereConstraintLimitation<T, Q, Head, PreviousQCs>
 				: Head extends QueryCompositeFilterConstraint<
 						T,
 						'and' | 'or',
@@ -107,7 +124,7 @@ export type QueryFilterConstraintLimitation<
 								Head['do_not_access.query_filter_constraint'],
 								undefined
 							>,
-							PreviousQFCs
+							PreviousQCs
 						>
 				  >
 				: never, // impossible route
@@ -115,7 +132,7 @@ export type QueryFilterConstraintLimitation<
 				T,
 				Q,
 				Rest,
-				FlattenQueryCompositeFilterConstraint<T, [...PreviousQFCs, Head]>
+				FlattenQueryCompositeFilterConstraint<T, [...PreviousQCs, Head]>
 			>
 	  ]
-	: RestQFCs // basically mean RestQFCs is []
+	: RestQQCs // basically mean RestQQCs is []
