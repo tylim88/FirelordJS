@@ -6,6 +6,7 @@ import {
 	OrderByConstraint,
 	CursorConstraint,
 	LimitConstraint,
+	QueryCompositeFilterConstraint,
 } from '../constraints'
 import { Query } from '../refs'
 import { CursorType } from '../cursor'

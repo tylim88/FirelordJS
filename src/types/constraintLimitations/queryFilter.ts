@@ -20,7 +20,14 @@ import { StrictExclude } from '../utils'
 
 type GetAllQueryFilterCompositeConstraint<
 	T extends MetaType,
-	QQCs extends (QueryConstraints<T> | QueryFilterConstraints<T>)[],
+	QQCs extends (
+		| QueryConstraints<T>
+		| QueryCompositeFilterConstraint<
+				T,
+				'and' | 'or',
+				QueryFilterConstraints<T>[]
+		  >
+	)[],
 	QueryCompositeConstraintAcc extends QueryCompositeFilterConstraint<
 		T,
 		'and' | 'or',
@@ -28,7 +35,14 @@ type GetAllQueryFilterCompositeConstraint<
 	>
 > = QQCs extends [
 	infer H,
-	...infer R extends (QueryConstraints<T> | QueryFilterConstraints<T>)[]
+	...infer R extends (
+		| QueryConstraints<T>
+		| QueryCompositeFilterConstraint<
+				T,
+				'and' | 'or',
+				QueryFilterConstraints<T>[]
+		  >
+	)[]
 ]
 	?
 			| QueryCompositeConstraintAcc
@@ -48,7 +62,14 @@ type GetAllQueryFilterCompositeConstraint<
 
 export type ValidateTopLevelQueryCompositeFilter<
 	T extends MetaType,
-	AllQQCs extends (QueryConstraints<T> | QueryFilterConstraints<T>)[]
+	AllQQCs extends (
+		| QueryConstraints<T>
+		| QueryCompositeFilterConstraint<
+				T,
+				'and' | 'or',
+				QueryFilterConstraints<T>[]
+		  >
+	)[]
 > = GetAllWhereConstraint<
 	T,
 	FlattenQueryCompositeFilterConstraint<T, AllQQCs>,
@@ -61,11 +82,25 @@ export type ValidateTopLevelQueryCompositeFilter<
 
 export type FlattenQueryCompositeFilterConstraint<
 	T extends MetaType,
-	QQCs extends (QueryConstraints<T> | QueryFilterConstraints<T>)[],
+	QQCs extends (
+		| QueryConstraints<T>
+		| QueryCompositeFilterConstraint<
+				T,
+				'and' | 'or',
+				QueryFilterConstraints<T>[]
+		  >
+	)[],
 	ACC extends WhereConstraint<T, string, WhereFilterOp, unknown>[] = []
 > = QQCs extends [
 	infer Head,
-	...infer Rest extends (QueryConstraints<T> | QueryFilterConstraints<T>)[]
+	...infer Rest extends (
+		| QueryConstraints<T>
+		| QueryCompositeFilterConstraint<
+				T,
+				'and' | 'or',
+				QueryFilterConstraints<T>[]
+		  >
+	)[]
 ]
 	? FlattenQueryCompositeFilterConstraint<
 			T,
@@ -95,11 +130,31 @@ export type FlattenQueryCompositeFilterConstraint<
 export type QueryFilterConstraintLimitation<
 	T extends MetaType,
 	Q extends Query<T>,
-	RestQQCs extends (QueryConstraints<T> | QueryFilterConstraints<T>)[],
+	RestQQCs extends (
+		| QueryConstraints<T>
+		| QueryCompositeFilterConstraint<
+				T,
+				'and' | 'or',
+				QueryFilterConstraints<T>[]
+		  >
+	)[],
 	PreviousQCs extends QueryConstraints<T>[]
 > = RestQQCs extends [
-	infer Head extends QueryConstraints<T> | QueryFilterConstraints<T>,
-	...infer Rest extends (QueryConstraints<T> | QueryFilterConstraints<T>)[]
+	infer Head extends
+		| QueryConstraints<T>
+		| QueryCompositeFilterConstraint<
+				T,
+				'and' | 'or',
+				QueryFilterConstraints<T>[]
+		  >,
+	...infer Rest extends (
+		| QueryConstraints<T>
+		| QueryCompositeFilterConstraint<
+				T,
+				'and' | 'or',
+				QueryFilterConstraints<T>[]
+		  >
+	)[]
 ]
 	? [
 			Head extends

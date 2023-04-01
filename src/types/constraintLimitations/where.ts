@@ -9,11 +9,7 @@ import {
 	ErrorWhereNoNeverEmptyArray,
 	ErrorWhereInOrNotInValueIsNotArray,
 } from '../error'
-import {
-	QueryConstraints,
-	WhereConstraint,
-	QueryFilterConstraints,
-} from '../constraints'
+import { QueryConstraints, WhereConstraint } from '../constraints'
 import { Query } from '../refs'
 import { GetCorrectDocumentIdBasedOnRef } from '../fieldPath'
 import {
