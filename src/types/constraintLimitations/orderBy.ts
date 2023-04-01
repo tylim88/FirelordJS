@@ -13,7 +13,7 @@ import { In, Equal } from './utils'
 export type ValidateOrderByEqualityWhere<
 	T extends MetaType,
 	U extends OrderByConstraint<string, OrderByDirection | undefined>,
-	AllQCs extends QueryConstraints<T>[]
+	AllQCs extends readonly QueryConstraints<T>[]
 > = Extract<
 	GetAllWhereConstraint<T, AllQCs, never>,
 	WhereConstraint<T, U['fieldPath'], In | Equal, unknown>
@@ -24,28 +24,28 @@ export type ValidateOrderByEqualityWhere<
 export type OrderByConstraintLimitation<
 	T extends MetaType,
 	U extends OrderByConstraint<string, OrderByDirection | undefined>,
-	AllQCs extends QueryConstraints<T>[]
+	AllQCs extends readonly QueryConstraints<T>[]
 > = ValidateOrderByEqualityWhere<T, U, AllQCs> extends false
 	? ErrorWhereOrderByEquality
 	: U
 
 export type GetFirstOrderBy<
 	T extends MetaType,
-	QCs extends QueryConstraints<T>[]
+	QCs extends readonly QueryConstraints<T>[]
 > = QCs extends [infer H, ...infer Rest]
 	? H extends OrderByConstraint<string, OrderByDirection | undefined>
 		? H
-		: Rest extends QueryConstraints<T>[]
+		: Rest extends readonly QueryConstraints<T>[]
 		? GetFirstOrderBy<T, Rest>
 		: never // impossible route
 	: true // not found, no check needed
 
 export type GetAllOrderBy<
 	T extends MetaType,
-	QCs extends QueryConstraints<T>[],
+	QCs extends readonly QueryConstraints<T>[],
 	AllOrderBy extends OrderByConstraint<string, OrderByDirection | undefined>[]
 > = QCs extends [infer H, ...infer Rest]
-	? Rest extends QueryConstraints<T>[]
+	? Rest extends readonly QueryConstraints<T>[]
 		? GetAllOrderBy<
 				T,
 				Rest,

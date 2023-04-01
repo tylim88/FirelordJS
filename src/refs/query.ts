@@ -15,6 +15,9 @@ export const query: QueryRef = (query, ...queryConstraints) => {
 	return query_(
 		// @ts-expect-error
 		query,
-		...queryBuilder(queryConstraints)
+		...queryBuilder(
+			// @ts-expect-error
+			queryConstraints
+		)
 	)
 }

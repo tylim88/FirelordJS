@@ -21,7 +21,7 @@ import { StrictExclude } from '../utils'
 
 type GetAllQueryFilterCompositeConstraint<
 	T extends MetaType,
-	QQCs extends QQC<T>[],
+	QQCs extends readonly QQC<T>[],
 	QueryCompositeConstraintAcc extends QueryCompositeFilterConstraint<
 		T,
 		'and' | 'or',
@@ -46,7 +46,7 @@ type GetAllQueryFilterCompositeConstraint<
 
 export type ValidateTopLevelQueryCompositeFilter<
 	T extends MetaType,
-	AllQQCs extends QQC<T>[]
+	AllQQCs extends readonly QQC<T>[]
 > = GetAllWhereConstraint<
 	T,
 	FlattenQueryCompositeFilterConstraint<T, AllQQCs>,
@@ -59,13 +59,13 @@ export type ValidateTopLevelQueryCompositeFilter<
 
 export type FlattenQueryCompositeFilterConstraint<
 	T extends MetaType,
-	QQCs extends QQC<T>[],
-	ACC extends WhereConstraint<T, string, WhereFilterOp, unknown>[] = []
+	QQCs extends readonly QQC<T>[],
+	ACC extends QueryConstraints<T>[] = []
 > = QQCs extends [infer Head, ...infer Rest extends QQC<T>[]]
 	? FlattenQueryCompositeFilterConstraint<
 			T,
 			Rest,
-			Head extends WhereConstraint<T, string, WhereFilterOp, unknown>
+			Head extends QueryConstraints<T>
 				? [...ACC, Head]
 				: Head extends QueryCompositeFilterConstraint<
 						T,
@@ -74,7 +74,7 @@ export type FlattenQueryCompositeFilterConstraint<
 				  >
 				? [
 						...ACC,
-						FlattenQueryCompositeFilterConstraint<
+						...FlattenQueryCompositeFilterConstraint<
 							T,
 							StrictExclude<
 								Head['do_not_access.query_filter_constraint'],
@@ -85,7 +85,7 @@ export type FlattenQueryCompositeFilterConstraint<
 				  ]
 				: ACC
 	  >
-	: never // impossible route
+	: ACC
 
 export type QueryFilterConstraintLimitation<
 	T extends MetaType,
