@@ -22,4 +22,4 @@ export type And<T extends MetaType> = <
 				QFC,
 				[]
 		  >
-) => QueryCompositeFilterConstraint<T, 'and'>
+) => QueryCompositeFilterConstraint<T, 'and', QFC>

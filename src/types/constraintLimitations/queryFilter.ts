@@ -17,19 +17,24 @@ import { StrictExclude } from '../utils'
 
 export type GetAllQueryFilterCompositeConstraint<
 	T extends MetaType,
-	QCs extends (QueryConstraints<T> | QueryFilterConstraints<T>)[],
+	QQCs extends (QueryConstraints<T> | QueryFilterConstraints<T>)[],
 	QueryCompositeConstraintAcc extends QueryCompositeFilterConstraint<
 		T,
-		'and' | 'or'
+		'and' | 'or',
+		QueryFilterConstraints<T>[]
 	>
-> = QCs extends [infer H, ...infer R]
+> = QQCs extends [infer H, ...infer R]
 	? R extends (QueryConstraints<T> | QueryFilterConstraints<T>)[]
 		?
 				| QueryCompositeConstraintAcc
 				| GetAllQueryFilterCompositeConstraint<
 						T,
 						R,
-						| (H extends QueryCompositeFilterConstraint<T, 'and' | 'or'>
+						| (H extends QueryCompositeFilterConstraint<
+								T,
+								'and' | 'or',
+								QueryFilterConstraints<T>[]
+						  >
 								? H
 								: never)
 						| QueryCompositeConstraintAcc
@@ -37,23 +42,65 @@ export type GetAllQueryFilterCompositeConstraint<
 		: QueryCompositeConstraintAcc // R is []
 	: QueryCompositeConstraintAcc // QCs is []
 
+export type FlattenQueryCompositeFilterConstraint<
+	T extends MetaType,
+	QQCs extends (QueryConstraints<T> | QueryFilterConstraints<T>)[],
+	ACC extends WhereConstraint<T, string, WhereFilterOp, unknown>[] = []
+> = QQCs extends [
+	infer Head,
+	...infer Rest extends (QueryConstraints<T> | QueryFilterConstraints<T>)[]
+]
+	? FlattenQueryCompositeFilterConstraint<
+			T,
+			Rest,
+			Head extends WhereConstraint<T, string, WhereFilterOp, unknown>
+				? [...ACC, Head]
+				: Head extends QueryCompositeFilterConstraint<
+						T,
+						'and' | 'or',
+						QueryFilterConstraints<T>[]
+				  >
+				? [
+						...ACC,
+						FlattenQueryCompositeFilterConstraint<
+							T,
+							StrictExclude<
+								Head['do_not_access.query_filter_constraint'],
+								undefined
+							>,
+							ACC
+						>
+				  ]
+				: ACC
+	  >
+	: never // impossible route
+
 export type QueryFilterConstraintLimitation<
 	T extends MetaType,
 	Q extends Query<T>,
-	RestQFCs extends QueryFilterConstraints<T>[],
-	PreviousQFCs extends QueryFilterConstraints<T>[]
-> = RestQFCs extends [infer Head, ...infer Rest]
-	? Rest extends QueryFilterConstraints<T>[]
-		? [
-				...(Head extends
-					| LimitConstraint<'limit' | 'limitToLast', number>
-					| OrderByConstraint<string, OrderByDirection | undefined>
-					| CursorConstraint<CursorType, unknown[]>
-					? [ErrorOrAndInvalidConstraints]
-					: Head extends WhereConstraint<T, string, WhereFilterOp, unknown>
-					? [WhereConstraintLimitation<T, Q, Head, PreviousQFCs>]
-					: Head extends QueryCompositeFilterConstraint<T, 'and' | 'or'>
-					? QueryFilterConstraintLimitation<
+	RestQFCs extends (QueryConstraints<T> | QueryFilterConstraints<T>)[],
+	PreviousQFCs extends QueryConstraints<T>[]
+> = RestQFCs extends [
+	infer Head extends QueryConstraints<T> | QueryFilterConstraints<T>,
+	...infer Rest extends (QueryConstraints<T> | QueryFilterConstraints<T>)[]
+]
+	? [
+			Head extends
+				| LimitConstraint<'limit' | 'limitToLast', number>
+				| OrderByConstraint<string, OrderByDirection | undefined>
+				| CursorConstraint<CursorType, unknown[]>
+				? ErrorOrAndInvalidConstraints
+				: Head extends WhereConstraint<T, string, WhereFilterOp, unknown>
+				? WhereConstraintLimitation<T, Q, Head, PreviousQFCs>
+				: Head extends QueryCompositeFilterConstraint<
+						T,
+						'and' | 'or',
+						QueryFilterConstraints<T>[]
+				  >
+				? QueryCompositeFilterConstraint<
+						T,
+						Head['type'],
+						QueryFilterConstraintLimitation<
 							T,
 							Q,
 							StrictExclude<
@@ -61,24 +108,14 @@ export type QueryFilterConstraintLimitation<
 								undefined
 							>,
 							PreviousQFCs
-					  >
-					: never), // impossible route
-				...QueryFilterConstraintLimitation<
-					T,
-					Q,
-					Rest,
-					[
-						...PreviousQFCs,
-						...(Head extends WhereConstraint<T, string, WhereFilterOp, unknown>
-							? [Head]
-							: Head extends QueryCompositeFilterConstraint<T, 'and' | 'or'>
-							? StrictExclude<
-									Head['do_not_access.query_filter_constraint'],
-									undefined
-							  >
-							: PreviousQFCs) // impossible route
-					]
-				>
-		  ]
-		: never[] // impossible route
+						>
+				  >
+				: never, // impossible route
+			...QueryFilterConstraintLimitation<
+				T,
+				Q,
+				Rest,
+				FlattenQueryCompositeFilterConstraint<T, [...PreviousQFCs, Head]>
+			>
+	  ]
 	: RestQFCs // basically mean RestQFCs is []

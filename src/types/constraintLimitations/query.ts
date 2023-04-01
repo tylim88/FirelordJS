@@ -76,9 +76,7 @@ export type QueryConstraintLimitation<
 					T,
 					Q,
 					Rest,
-					Head extends QueryConstraints<T>
-						? [...PreviousQCs, Head]
-						: PreviousQCs, // impossible route
+					Head extends QueryConstraints<T> ? [...PreviousQCs, Head] : never, // impossible route
 					AllQCs
 				>
 		  ]

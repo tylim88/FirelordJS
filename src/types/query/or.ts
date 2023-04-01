@@ -22,4 +22,4 @@ export type Or<T extends MetaType> = <
 				QFC,
 				[]
 		  >
-) => QueryCompositeFilterConstraint<T, 'or'>
+) => QueryCompositeFilterConstraint<T, 'or', QFC>
