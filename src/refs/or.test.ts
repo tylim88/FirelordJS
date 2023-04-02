@@ -67,11 +67,11 @@ describe('test query ref', async () => {
 			getDocs(
 				query(
 					ref,
-					limit(1)
-					// or(
-					// 	where(documentId(), '>', fullDocPath),
-					// 	where(documentId(), '!=', fullDocPath)
-					// )
+					limit(1),
+					or(
+						where(documentId(), '>', fullDocPath),
+						where(documentId(), '!=', fullDocPath)
+					)
 				)
 			)
 		).resolves.not.toThrow()
