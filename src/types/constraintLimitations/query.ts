@@ -67,13 +67,13 @@ export type QueryConstraintLimitation<
 						infer P
 				  ]
 					? P
-					: never
+					: never // impossible route
 				: never, // impossible route
 			...QueryConstraintLimitation<
 				T,
 				Q,
 				Rest,
-				[...PreviousQCs, ...FlattenQueryCompositeFilterConstraint<T, [Head]>], // impossible route
+				[...PreviousQCs, ...FlattenQueryCompositeFilterConstraint<T, [Head]>],
 				AllQCs
 			>
 	  ]
