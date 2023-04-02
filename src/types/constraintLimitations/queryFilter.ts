@@ -137,4 +137,4 @@ export type QueryFilterConstraintLimitation<
 				[...PreviousQCs, ...FlattenQueryCompositeFilterConstraint<T, [Head]>]
 			>
 	  ]
-	: RestQQCs // basically mean RestQQCs is []
+	: RestQQCs // indicate RestQQCs is []

@@ -77,4 +77,4 @@ export type QueryConstraintLimitation<
 				AllQCs
 			>
 	  ]
-	: RestQQCs // basically mean RestQCs is []
+	: RestQQCs // indicate RestQCs is []
