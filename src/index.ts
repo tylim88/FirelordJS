@@ -5,8 +5,8 @@ import {
 	Doc,
 	Collection,
 	GetOddOrEvenSegments,
-	// Or,
-	// And,
+	Or,
+	And,
 } from './types'
 import {
 	docCreator,
@@ -69,28 +69,28 @@ export type FirelordRef<T extends MetaType> = Readonly<{
 	 * @returns — The created Query.
 	 */
 	collectionGroup: () => Query<T>
-	// /**
-	//  * Creates a new {@link QueryCompositeFilterConstraint} that is a disjunction of
-	//  * the given filter constraints. A disjunction filter includes a document if it
-	//  * satisfies any of the given filters.
-	//  *
-	//  * @param queryConstraints - Optional. The list of
-	//  * {@link QueryFilterConstraint}s to perform a disjunction for. These must be
-	//  * created with calls to {@link where}, {@link or}, or {@link and}.
-	//  * @returns The newly created {@link QueryCompositeFilterConstraint}.
-	//  */
-	// or: Or<T>
-	// /**
-	//  * Creates a new {@link QueryCompositeFilterConstraint} that is a conjunction of
-	//  * the given filter constraints. A conjunction filter includes a document if it
-	//  * satisfies all of the given filters.
-	//  *
-	//  * @param queryConstraints - Optional. The list of
-	//  * {@link QueryFilterConstraint}s to perform a conjunction for. These must be
-	//  * created with calls to {@link where}, {@link or}, or {@link and}.
-	//  * @returns The newly created {@link QueryCompositeFilterConstraint}.
-	//  */
-	// and: And<T>
+	/**
+	 * Creates a new {@link QueryCompositeFilterConstraint} that is a disjunction of
+	 * the given filter constraints. A disjunction filter includes a document if it
+	 * satisfies any of the given filters.
+	 *
+	 * @param queryConstraints - Optional. The list of
+	 * {@link QueryFilterConstraint}s to perform a disjunction for. These must be
+	 * created with calls to {@link where}, {@link or}, or {@link and}.
+	 * @returns The newly created {@link QueryCompositeFilterConstraint}.
+	 */
+	or: Or<T>
+	/**
+	 * Creates a new {@link QueryCompositeFilterConstraint} that is a conjunction of
+	 * the given filter constraints. A conjunction filter includes a document if it
+	 * satisfies all of the given filters.
+	 *
+	 * @param queryConstraints - Optional. The list of
+	 * {@link QueryFilterConstraint}s to perform a conjunction for. These must be
+	 * created with calls to {@link where}, {@link or}, or {@link and}.
+	 * @returns The newly created {@link QueryCompositeFilterConstraint}.
+	 */
+	and: And<T>
 }>
 
 export {
