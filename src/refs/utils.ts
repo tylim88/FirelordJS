@@ -11,9 +11,8 @@ export const buildPathFromColIDsAndDocIDs = ({
 	}, '')
 }
 
-export const queryBuilder = (queryConstraints: any[]) => {
-	console.log({ queryConstraints })
-	return queryConstraints.reduce((acc, qc) => {
+export const queryBuilder = (queryConstraints: any[]) =>
+	queryConstraints.reduce((acc, qc) => {
 		const type = qc.type
 		if (
 			type === 'startAt' ||
@@ -29,4 +28,3 @@ export const queryBuilder = (queryConstraints: any[]) => {
 		}
 		return acc
 	}, [])
-}

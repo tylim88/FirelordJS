@@ -20,7 +20,7 @@ describe('test query ref', async () => {
 				ref,
 				limit(1),
 				// @ts-expect-error
-				userRefCreator().or(
+				or(
 					where(documentId(), '>', fullDocPath),
 					// @ts-expect-error
 					where('a.b.c', '!=', 2)
@@ -30,37 +30,49 @@ describe('test query ref', async () => {
 		expect(() =>
 			query(
 				ref,
-				where('age', '>', 2),
 				limit(1),
 				// @ts-expect-error
-				where('a.b.c', '!=', 2)
+				or(
+					where('age', '>', 2),
+					// @ts-expect-error
+					where('a.b.c', '!=', 2)
+				)
 			)
 		).toThrow()
 		expect(() =>
 			query(
 				ref,
-				where('age', '>', 2),
 				limit(1),
 				// @ts-expect-error
-				where('a.b.c', '!=', 2)
+				or(
+					where('age', '>', 2),
+					// @ts-expect-error
+					where('a.b.c', '!=', 2)
+				)
 			)
 		).toThrow()
 		expect(() =>
 			query(
 				ref,
-				where('age', '<=', 2),
 				limit(1),
 				// @ts-expect-error
-				where('a.b.c', 'not-in', [2])
+				or(
+					where('age', '<=', 2),
+					// @ts-expect-error
+					where('a.b.c', 'not-in', [2])
+				)
 			)
 		).toThrow()
 		expect(() =>
 			query(
 				ref,
-				where('age', 'not-in', [2]),
 				limit(1),
 				// @ts-expect-error
-				where('a.b.c', '<', 2)
+				or(
+					where('age', 'not-in', [2]),
+					// @ts-expect-error
+					where('a.b.c', '<', 2)
+				)
 			)
 		).toThrow()
 	})
@@ -71,7 +83,7 @@ describe('test query ref', async () => {
 				query(
 					ref,
 					limit(1),
-					userRefCreator().or(
+					or(
 						where(documentId(), '>', fullDocPath),
 						where(documentId(), '!=', fullDocPath)
 					)
