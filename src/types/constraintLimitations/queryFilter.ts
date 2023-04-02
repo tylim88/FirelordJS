@@ -12,7 +12,7 @@ import {
 } from '../constraints'
 import { Query } from '../refs'
 import { CursorType } from '../cursor'
-import { WhereConstraintLimitation, GetAllWhereConstraint } from './where'
+import { WhereConstraintLimitation } from './where'
 import {
 	ErrorOrAndInvalidConstraints,
 	ErrorInvalidTopLevelFilter,
@@ -47,15 +47,16 @@ type GetAllQueryFilterCompositeConstraint<
 export type ValidateTopLevelQueryCompositeFilter<
 	T extends MetaType,
 	AllQQCs extends readonly QQC<T>[]
-> = GetAllWhereConstraint<
-	T,
-	FlattenQueryCompositeFilterConstraint<T, AllQQCs>,
-	never
-> extends never
-	? true
-	: GetAllQueryFilterCompositeConstraint<T, AllQQCs, never> extends never
-	? true
-	: ErrorInvalidTopLevelFilter
+> = AllQQCs extends (infer P)[]
+	? Extract<
+			P,
+			WhereConstraint<T, keyof T['compare'] & string, WhereFilterOp, unknown>
+	  > extends never
+		? true
+		: GetAllQueryFilterCompositeConstraint<T, AllQQCs, never> extends never
+		? true
+		: ErrorInvalidTopLevelFilter
+	: never
 
 export type FlattenQueryCompositeFilterConstraint<
 	T extends MetaType,

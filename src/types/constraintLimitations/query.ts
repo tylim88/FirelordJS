@@ -20,7 +20,6 @@ import { InequalityOpStr } from './utils'
 import { IsSame } from '../utils'
 import { ErrorWhereOrderByAndInEquality } from '../error'
 import {
-	ValidateTopLevelQueryCompositeFilter,
 	FlattenQueryCompositeFilterConstraint,
 	QueryFilterConstraintLimitation,
 } from './queryFilter'
