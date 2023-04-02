@@ -1,5 +1,5 @@
 import { MetaType } from '../metaTypeCreator'
-import { QueryConstraints, QQC } from '../constraints'
+import { QQC } from '../constraints'
 import {
 	AddSentinelFieldPathToCompare,
 	AddSentinelFieldPathToCompareHighLevel,
@@ -10,16 +10,16 @@ import { Query, CollectionReference } from '../refs'
 export type QueryRef = <
 	T extends MetaType,
 	Q extends Query<T> | CollectionReference<T>,
-	const QC extends readonly QueryConstraints<AddSentinelFieldPathToCompare<T>>[]
+	const QQCs extends readonly QQC<AddSentinelFieldPathToCompare<T>>[]
 >(
 	query: Q extends never ? Q : Query<T> | CollectionReference<T>,
-	...queryConstraints: QC extends never
-		? QC
+	...queryConstraints: QQCs extends never
+		? QQCs
 		: QueryConstraintLimitation<
 				AddSentinelFieldPathToCompare<T>,
 				AddSentinelFieldPathToCompareHighLevel<T, Q>,
-				QC,
+				QQCs,
 				[],
-				QC
+				QQCs
 		  >
 ) => Query<T>
