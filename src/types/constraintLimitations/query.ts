@@ -7,6 +7,8 @@ import {
 	CursorConstraint,
 	LimitConstraint,
 	QQC,
+	QueryCompositeFilterConstraint,
+	QueryFilterConstraints,
 } from '../constraints'
 import { Query } from '../refs'
 import { CursorType } from '../cursor'
@@ -20,6 +22,7 @@ import { ErrorWhereOrderByAndInEquality } from '../error'
 import {
 	ValidateTopLevelQueryCompositeFilter,
 	FlattenQueryCompositeFilterConstraint,
+	QueryFilterConstraintLimitation,
 } from './queryFilter'
 
 // If you include a filter with a range comparison (<, <=, >, >=), your first ordering must be on the same field
@@ -58,31 +61,35 @@ export type QueryConstraintLimitation<
 				AllQCs
 		  > extends infer K extends string
 		? K[]
-		: RestQQCs extends [infer Head, ...infer Rest]
-		? Rest extends QueryConstraints<T>[]
-			? [
-					Head extends LimitConstraint<'limit', number>
-						? Head
-						: Head extends OrderByConstraint<
-								string,
-								OrderByDirection | undefined
-						  >
-						? OrderByConstraintLimitation<T, Head, AllQCs>
-						: Head extends LimitConstraint<'limitToLast', number>
-						? LimitToLastConstraintLimitation<T, Head, AllQCs>
-						: Head extends WhereConstraint<T, string, WhereFilterOp, unknown>
-						? WhereConstraintLimitation<T, Q, Head, PreviousQCs>
-						: Head extends CursorConstraint<CursorType, unknown[]>
-						? CursorConstraintLimitation<T, Head, PreviousQCs>
-						: never, // impossible route
-					...QueryConstraintLimitation<
-						T,
-						Q,
-						Rest,
-						Head extends QueryConstraints<T> ? [...PreviousQCs, Head] : never, // impossible route
-						AllQCs
-					>
-			  ]
-			: never[] // impossible route
+		: RestQQCs extends [
+				infer Head extends QQC<T>,
+				...infer Rest extends QQC<T>[]
+		  ]
+		? [
+				Head extends LimitConstraint<'limit', number>
+					? Head
+					: Head extends OrderByConstraint<string, OrderByDirection | undefined>
+					? OrderByConstraintLimitation<T, Head, AllQCs>
+					: Head extends LimitConstraint<'limitToLast', number>
+					? LimitToLastConstraintLimitation<T, Head, AllQCs>
+					: Head extends WhereConstraint<T, string, WhereFilterOp, unknown>
+					? WhereConstraintLimitation<T, Q, Head, PreviousQCs>
+					: Head extends CursorConstraint<CursorType, unknown[]>
+					? CursorConstraintLimitation<T, Head, PreviousQCs>
+					: Head extends QueryCompositeFilterConstraint<
+							T,
+							'and' | 'or',
+							QueryFilterConstraints<T>[]
+					  >
+					? QueryFilterConstraintLimitation<T, Q, Rest, PreviousQCs>
+					: never, // impossible route
+				...QueryConstraintLimitation<
+					T,
+					Q,
+					Rest,
+					[...PreviousQCs, ...FlattenQueryCompositeFilterConstraint<T, [Head]>], // impossible route
+					AllQCs
+				>
+		  ]
 		: RestQQCs // basically mean RestQCs is []
 	: never // impossible route

@@ -90,8 +90,8 @@ export type FlattenQueryCompositeFilterConstraint<
 export type QueryFilterConstraintLimitation<
 	T extends MetaType,
 	Q extends Query<T>,
-	RestQQCs extends QQC<T>[],
-	PreviousQCs extends QueryConstraints<T>[]
+	RestQQCs extends readonly QQC<T>[],
+	PreviousQCs extends readonly QueryConstraints<T>[]
 > = RestQQCs extends [
 	infer Head extends
 		| QueryConstraints<T>
@@ -133,7 +133,7 @@ export type QueryFilterConstraintLimitation<
 				T,
 				Q,
 				Rest,
-				FlattenQueryCompositeFilterConstraint<T, [...PreviousQCs, Head]>
+				[...PreviousQCs, ...FlattenQueryCompositeFilterConstraint<T, [Head]>]
 			>
 	  ]
 	: RestQQCs // basically mean RestQQCs is []
