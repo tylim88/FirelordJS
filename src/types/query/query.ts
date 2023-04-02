@@ -1,10 +1,15 @@
 import { MetaType } from '../metaTypeCreator'
-import { QQC } from '../constraints'
+import { QQC, QueryConstraints } from '../constraints'
 import {
 	AddSentinelFieldPathToCompare,
 	AddSentinelFieldPathToCompareHighLevel,
 } from '../fieldPath'
-import { QueryConstraintLimitation } from '../constraintLimitations'
+import {
+	QueryConstraintLimitation,
+	FlattenQueryCompositeFilterConstraint,
+	ValidateTopLevelQueryCompositeFilter,
+	ValidateOrderByAndInequalityWhere,
+} from '../constraintLimitations'
 import { Query, CollectionReference } from '../refs'
 
 export type QueryRef = <
@@ -15,11 +20,28 @@ export type QueryRef = <
 	query: Q extends never ? Q : Query<T> | CollectionReference<T>,
 	...queryConstraints: QQCs extends never
 		? QQCs
-		: QueryConstraintLimitation<
-				AddSentinelFieldPathToCompare<T>,
-				AddSentinelFieldPathToCompareHighLevel<T, Q>,
-				QQCs,
-				[],
+		: AddSentinelFieldPathToCompare<T> extends infer AT extends MetaType
+		? FlattenQueryCompositeFilterConstraint<
+				AT,
 				QQCs
-		  >
+		  > extends infer AllQCs extends QueryConstraints<T>[]
+			? ValidateTopLevelQueryCompositeFilter<
+					AT,
+					QQCs
+			  > extends infer B extends string
+				? B[]
+				: ValidateOrderByAndInequalityWhere<
+						AT,
+						AllQCs
+				  > extends infer K extends string
+				? K[]
+				: QueryConstraintLimitation<
+						AT,
+						AddSentinelFieldPathToCompareHighLevel<T, Q>,
+						QQCs,
+						[],
+						AllQCs
+				  >
+			: never
+		: never
 ) => Query<T>
