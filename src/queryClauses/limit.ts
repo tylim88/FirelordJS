@@ -4,16 +4,9 @@ import {
 } from 'firebase/firestore'
 import { LimitCreator } from '../types'
 
-export const limitCreator: LimitCreator =
-	(type, clause) =>
+export const limitCreator: LimitCreator = (type, clause) => limit =>
 	// @ts-expect-error
-	limit => {
-		return {
-			type,
-			value: limit,
-			ref: clause(limit),
-		}
-	}
+	clause(limit)
 
 /**
  * Creates a {@link QueryConstraint} that only returns the first matching documents.

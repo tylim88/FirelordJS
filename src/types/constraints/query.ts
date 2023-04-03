@@ -23,13 +23,18 @@ export type OrderByConstraint<
 	_direction: DirectionStr
 }
 
+type LimitType = {
+	limit: 'F'
+	limitToLast: 'L'
+}
+
 export type LimitConstraint<
 	Type extends 'limit' | 'limitToLast',
 	Value extends number
 > = {
 	type: Type
-	value: Value
-	ref: QueryConstraint
+	_limit: Value
+	_limitType: LimitType[Type]
 }
 
 export type CursorConstraint<

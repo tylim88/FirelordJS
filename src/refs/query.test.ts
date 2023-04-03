@@ -198,7 +198,7 @@ describe('test query ref', async () => {
 	})
 
 	it(`You can't order your query by a field included in an equality (==) or (in) clause, negative case`, async () => {
-		// __name__ does not trigger runtime error, need open github issue
+		// ! __name__ does not trigger runtime error, need open github issue
 		await expect(
 			getDocs(
 				query(

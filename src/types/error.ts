@@ -43,7 +43,7 @@ export type ErrorMoreThanOnceDocSnapshotInCursor =
 	`Error: If cursors has a DocumentSnapshot(or QueryDocumentSnapshot) argument, then DocumentSnapshot(or QueryDocumentSnapshot) should be the one and only argument`
 export type ErrorLimitInvalidNumber =
 	`Error: do not use negative, 0 or decimal value`
-export type ErrorLimitToLastOrderBy =
+export type ErrorLimitToLastOrderBy = // ! sometime throw sometime doesn't, weird
 	`Error: You must specify at least one orderBy clause for limitToLast queries`
 export type ErrorWhereCompareValueMustBeArray<T extends string> =
 	`Error: '${T}' is not an array, you can only use 'array-contains' and 'array-contains-any' on '${T}' if '${T}' is an array data type`
@@ -89,7 +89,7 @@ export type ErrorOrAndInvalidConstraints =
 	`Error: 'or' & 'and' queries accept only 'where' clause and 'or' & 'and' queries`
 export type ErrorInvalidTopLevelFilter =
 	`Error: When using composite filters, you cannot use more than one filter('and' 'or' 'when') at the top level. Consider nesting the multiple filters within an 'and(...)' statement. For example: change 'query(query, where(...), or(...))' to 'query(query, and(where(...), or(...)))'.`
-export type ErrorCannotUseNotInOrQuery = // only throw if 'or' has more than one clauses
+export type ErrorCannotUseNotInOrQuery = // ! only throw if 'or' has more than one clauses
 	"Error: You cannot use 'not-in' in 'or' query, nested or not. But can be neighbor in 'and' query , eg: and(where('a','not-in',[1]), or(where('b','>',2), where('c','<',1)))"
 
 export type ErrorMsgs =
