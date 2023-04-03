@@ -9,10 +9,9 @@ export type WhereConstraint<
 	Value
 > = {
 	type: 'where'
-	fieldPath: FieldPath
-	opStr: OpStr
-	value: Value
-	ref: QueryConstraint
+	_field: FieldPath
+	_op: OpStr
+	_value: Value
 }
 
 export type OrderByConstraint<

@@ -21,7 +21,7 @@ export const queryBuilder = (queryConstraints: any[]) =>
 			type === 'endBefore'
 		) {
 			qc.values.length !== 0 && acc.push(qc.ref)
-		} else if (type === 'or' || type === 'and') {
+		} else if (type === 'or' || type === 'and' || type === 'where') {
 			acc.push(qc)
 		} else {
 			acc.push(qc.ref)

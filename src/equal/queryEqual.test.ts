@@ -46,7 +46,7 @@ describe('test queryEqual', () => {
 				query_(
 					// @ts-expect-error
 					colRef2,
-					where('a.b.c', '==', 1).ref
+					where('a.b.c', '==', 1)
 				)
 			)
 		).toBe(false)

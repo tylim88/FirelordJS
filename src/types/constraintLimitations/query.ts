@@ -32,9 +32,9 @@ export type ValidateOrderByAndInequalityWhere<
 	? W extends WhereConstraint<T, string, InequalityOpStr, unknown>
 		? GetFirstOrderBy<T, AllQCs> extends infer O
 			? O extends OrderByConstraint<string, OrderByDirection | undefined>
-				? IsSame<W['fieldPath'], O['fieldPath']> extends true
+				? IsSame<W['_field'], O['fieldPath']> extends true
 					? true
-					: ErrorWhereOrderByAndInEquality<O['fieldPath'], W['fieldPath']>
+					: ErrorWhereOrderByAndInEquality<O['fieldPath'], W['_field']>
 				: true // orderBy not found
 			: never // impossible route
 		: true // inequality Where not found

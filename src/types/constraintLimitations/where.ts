@@ -31,14 +31,14 @@ type ValidateWhereNotIn<
 	T extends MetaType,
 	U extends WhereConstraint<T, string, WhereFilterOp, unknown>,
 	PreviousQCs extends readonly QueryConstraints<T>[]
-> = U['opStr'] extends NotIn
+> = U['_op'] extends NotIn
 	? Extract<
 			GetAllWhereConstraintOpStr<T, PreviousQCs, never>,
 			NotEqual | In | ArrayContainsAny | Or
 	  > extends never
 		? true
 		: ErrorWhereNotIn
-	: U['opStr'] extends NotEqual | In | ArrayContainsAny | Or
+	: U['_op'] extends NotEqual | In | ArrayContainsAny | Or
 	? Extract<
 			GetAllWhereConstraintOpStr<T, PreviousQCs, never>,
 			NotIn
@@ -52,7 +52,7 @@ type ValidateWhereNotEqual<
 	T extends MetaType,
 	U extends WhereConstraint<T, string, WhereFilterOp, unknown>,
 	PreviousQCs extends readonly QueryConstraints<T>[]
-> = U['opStr'] extends NotEqual
+> = U['_op'] extends NotEqual
 	? Extract<
 			GetAllWhereConstraintOpStr<T, PreviousQCs, never>,
 			NotEqual
@@ -66,14 +66,14 @@ type ValidateWhereArrayContainsArrayContainsAny<
 	T extends MetaType,
 	U extends WhereConstraint<T, string, WhereFilterOp, unknown>,
 	PreviousQCs extends readonly QueryConstraints<T>[]
-> = U['opStr'] extends ArrayContains
+> = U['_op'] extends ArrayContains
 	? Extract<
 			GetAllWhereConstraintOpStr<T, PreviousQCs, never>,
 			ArrayContains | ArrayContainsAny
 	  > extends never
 		? true
 		: ErrorWhereArrayContainsArrayContainsAny
-	: U['opStr'] extends ArrayContainsAny
+	: U['_op'] extends ArrayContainsAny
 	? Extract<
 			GetAllWhereConstraintOpStr<T, PreviousQCs, never>,
 			ArrayContains | ArrayContainsAny
@@ -87,7 +87,7 @@ type ValidateWhereInequalityOpStrSameField<
 	T extends MetaType,
 	U extends WhereConstraint<T, string, WhereFilterOp, unknown>,
 	PreviousQCs extends readonly QueryConstraints<T>[]
-> = U['opStr'] extends InequalityOpStr
+> = U['_op'] extends InequalityOpStr
 	? Extract<
 			GetAllWhereConstraint<T, PreviousQCs, never>,
 			WhereConstraint<T, string, InequalityOpStr, unknown>
@@ -98,7 +98,7 @@ type ValidateWhereInequalityOpStrSameField<
 					GetAllWhereConstraint<T, PreviousQCs, never>,
 					WhereConstraint<T, string, InequalityOpStr, unknown>
 				>,
-				WhereConstraint<T, U['fieldPath'], InequalityOpStr, unknown>
+				WhereConstraint<T, U['_field'], InequalityOpStr, unknown>
 		  > extends never
 		? true
 		: ErrorWhereInequalityOpStrSameField
@@ -146,7 +146,7 @@ type GetAllWhereConstraintOpStr<
 						T,
 						R,
 						| (H extends WhereConstraint<T, string, WhereFilterOp, unknown>
-								? H['opStr']
+								? H['_op']
 								: never)
 						| OpStrAcc
 				  >
@@ -174,42 +174,42 @@ export type WhereConstraintLimitation<
 			PreviousQCs
 	  > extends infer K extends string
 	? K
-	: U['opStr'] extends ValueOfOptStr
+	: U['_op'] extends ValueOfOptStr
 	? WhereConstraint<
 			T,
-			U['fieldPath'],
-			U['opStr'],
-			GetCorrectDocumentIdBasedOnRef<T, Q, U['fieldPath'], U['value']>
+			U['_field'],
+			U['_op'],
+			GetCorrectDocumentIdBasedOnRef<T, Q, U['_field'], U['_value']>
 	  >
-	: U['opStr'] extends ArrayOfOptStr
+	: U['_op'] extends ArrayOfOptStr
 	? WhereConstraint<
 			T,
-			U['fieldPath'],
-			U['opStr'],
-			U['value'] extends readonly never[] | readonly []
+			U['_field'],
+			U['_op'],
+			U['_value'] extends readonly never[] | readonly []
 				? ErrorWhereNoNeverEmptyArray
-				: U['value'] extends readonly (infer P)[]
-				? readonly GetCorrectDocumentIdBasedOnRef<T, Q, U['fieldPath'], P>[]
-				: ErrorWhereInOrNotInValueIsNotArray<U['fieldPath']>
+				: U['_value'] extends readonly (infer P)[]
+				? readonly GetCorrectDocumentIdBasedOnRef<T, Q, U['_field'], P>[]
+				: ErrorWhereInOrNotInValueIsNotArray<U['_field']>
 	  >
-	: U['opStr'] extends ValueOfOnlyArrayOptStr
+	: U['_op'] extends ValueOfOnlyArrayOptStr
 	? WhereConstraint<
 			T,
-			U['fieldPath'],
-			U['opStr'],
-			U['value'] extends readonly never[] | readonly []
+			U['_field'],
+			U['_op'],
+			U['_value'] extends readonly never[] | readonly []
 				? ErrorWhereNoNeverEmptyArray
-				: T['compare'][U['fieldPath']] extends readonly unknown[]
-				? T['compare'][U['fieldPath']]
-				: ErrorWhereCompareValueMustBeArray<U['fieldPath']>
+				: T['compare'][U['_field']] extends readonly unknown[]
+				? T['compare'][U['_field']]
+				: ErrorWhereCompareValueMustBeArray<U['_field']>
 	  >
-	: U['opStr'] extends ElementOfOptStr
+	: U['_op'] extends ElementOfOptStr
 	? WhereConstraint<
 			T,
-			U['fieldPath'],
-			U['opStr'],
-			T['compare'][U['fieldPath']] extends readonly (infer R)[]
+			U['_field'],
+			U['_op'],
+			T['compare'][U['_field']] extends readonly (infer R)[]
 				? R
-				: ErrorWhereCompareValueMustBeArray<U['fieldPath']>
+				: ErrorWhereCompareValueMustBeArray<U['_field']>
 	  >
 	: never // impossible route

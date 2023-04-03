@@ -25,17 +25,18 @@ export const where: Where = (fieldPath, opStr, value) => {
 				Date.now().toLocaleString(),
 		] as typeof newValue
 	}
-
-	return {
-		type: 'where',
-		fieldPath,
-		opStr,
-		value,
-		ref: where_(
+	console.log(
+		where_(
 			// @ts-expect-error
 			fieldPath,
 			opStr,
 			newValue
-		),
-	}
+		)
+	)
+	return where_(
+		// @ts-expect-error
+		fieldPath,
+		opStr,
+		newValue
+	)
 }
