@@ -42,8 +42,8 @@ export type CursorConstraint<
 	Values extends unknown[]
 > = {
 	type: Type
-	values: Values
-	ref: QueryConstraint
+	_docOrFields: Values
+	_inclusive: boolean
 }
 
 export type QueryConstraints<T extends MetaType> =

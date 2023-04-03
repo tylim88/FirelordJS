@@ -53,7 +53,7 @@ export type CursorConstraintLimitation<
 	CursorType,
 	ValidateCursorOrderBy<
 		RemoveSentinelFieldPathFromCompare<T>,
-		U['values'],
+		U['_docOrFields'],
 		GetAllOrderBy<T, PreviousQCs, []>
 	>
 >

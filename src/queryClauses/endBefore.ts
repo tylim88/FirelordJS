@@ -12,10 +12,4 @@ import { Cursor } from '../types'
  * @returns A {@link QueryConstraint} to pass to `query()`
  */
 // @ts-expect-error
-export const endBefore: Cursor<'endBefore'> = (...snapshotOrFieldValues) => {
-	return {
-		type: 'endBefore',
-		values: snapshotOrFieldValues,
-		ref: endBefore_(...snapshotOrFieldValues),
-	}
-}
+export const endBefore: Cursor<'endBefore'> = endBefore_
