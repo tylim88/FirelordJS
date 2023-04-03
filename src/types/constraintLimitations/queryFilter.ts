@@ -16,6 +16,7 @@ import { WhereConstraintLimitation } from './where'
 import {
 	ErrorOrAndInvalidConstraints,
 	ErrorInvalidTopLevelFilter,
+	ErrorCannotUseNotInOrQuery,
 } from '../error'
 import { StrictExclude } from '../utils'
 
@@ -48,10 +49,7 @@ export type ValidateTopLevelQueryCompositeFilter<
 	T extends MetaType,
 	AllQQCs extends readonly QQC<T>[]
 > = AllQQCs extends (infer P)[]
-	? Extract<
-			P,
-			WhereConstraint<T, keyof T['compare'] & string, WhereFilterOp, unknown>
-	  > extends never
+	? Extract<P, WhereConstraint<T, string, WhereFilterOp, unknown>> extends never
 		? true
 		: GetAllQueryFilterCompositeConstraint<T, AllQQCs, never> extends never
 		? true
@@ -92,7 +90,12 @@ export type QueryFilterConstraintLimitation<
 	T extends MetaType,
 	Q extends Query<T>,
 	RestQQCs extends readonly QQC<T>[],
-	PreviousQCs extends readonly QueryConstraints<T>[]
+	PreviousQCs extends readonly QueryConstraints<T>[],
+	ParentConstraint extends QueryCompositeFilterConstraint<
+		T,
+		'and' | 'or',
+		QueryFilterConstraints<T>[]
+	>
 > = RestQQCs extends [
 	infer Head extends
 		| QueryConstraints<T>
@@ -109,7 +112,12 @@ export type QueryFilterConstraintLimitation<
 				| OrderByConstraint<string, OrderByDirection | undefined>
 				| CursorConstraint<CursorType, unknown[]>
 				? ErrorOrAndInvalidConstraints
-				: Head extends WhereConstraint<T, string, WhereFilterOp, unknown>
+				: Head extends WhereConstraint<
+						T,
+						string,
+						StrictExclude<WhereFilterOp, 'not-in'>,
+						unknown
+				  >
 				? WhereConstraintLimitation<T, Q, Head, PreviousQCs>
 				: Head extends QueryCompositeFilterConstraint<
 						T,
@@ -126,15 +134,21 @@ export type QueryFilterConstraintLimitation<
 								Head['do_not_access.query_filter_constraint'],
 								undefined
 							>,
-							PreviousQCs
+							PreviousQCs,
+							Head
 						>
 				  >
+				: Head extends WhereConstraint<T, string, 'not-in', unknown>
+				? ParentConstraint['type'] extends 'or'
+					? ErrorCannotUseNotInOrQuery
+					: Head
 				: never, // impossible route
 			...QueryFilterConstraintLimitation<
 				T,
 				Q,
 				Rest,
-				[...PreviousQCs, ...FlattenQueryCompositeFilterConstraint<T, [Head]>]
+				[...PreviousQCs, ...FlattenQueryCompositeFilterConstraint<T, [Head]>],
+				ParentConstraint
 			>
 	  ]
 	: RestQQCs // indicate RestQQCs is []

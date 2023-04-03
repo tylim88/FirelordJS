@@ -88,7 +88,10 @@ export type ErrorWhereInOrNotInValueIsNotArray<T extends string> =
 export type ErrorOrAndInvalidConstraints =
 	`Error: 'or' & 'and' queries accept only 'where' clause and 'or' & 'and' queries`
 export type ErrorInvalidTopLevelFilter =
-	`InvalidQuery. When using composite filters, you cannot use more than one filter('and' 'or' 'when') at the top level. Consider nesting the multiple filters within an 'and(...)' statement. For example: change 'query(query, where(...), or(...))' to 'query(query, and(where(...), or(...)))'.`
+	`Error: When using composite filters, you cannot use more than one filter('and' 'or' 'when') at the top level. Consider nesting the multiple filters within an 'and(...)' statement. For example: change 'query(query, where(...), or(...))' to 'query(query, and(where(...), or(...)))'.`
+export type ErrorCannotUseNotInOrQuery = // only throw if 'or' has more than one clauses
+	"Error: You cannot use 'not-in' in 'or' query, nested or not. But can be neighbor in 'and' query , eg: and(where('a','not-in',[1]), or(where('b','>',2), where('c','<',1)))"
+
 export type ErrorMsgs =
 	| ErrorUndefined
 	| ErrorNullBanned
@@ -107,12 +110,14 @@ export type ErrorMsgs =
 	| ErrorInvalidDocumentOrCollectionID<'Document' | 'Collection', 'ID' | 'Path'>
 	| ErrorInvalidDocumentOrCollectionIDStart<'Document' | 'Collection'>
 	| ErrorEmptyUpdate
+	| ErrorPossiblyUndefinedAsArrayElement
 	| ErrorMoreThanOnceDocSnapshotInCursor
 	| ErrorLimitInvalidNumber
 	| ErrorLimitToLastOrderBy
 	| ErrorWhereOrderByAndInEquality<string, string>
 	| ErrorWhereCompareValueMustBeArray<string>
 	| ErrorWhereOrderByEquality
+	| ErrorWhereNotIn
 	| ErrorWhereArrayContainsArrayContainsAny
 	| ErrorWhereInequalityOpStrSameField
 	| ErrorWhereOnlyOneNotEqual
@@ -129,6 +134,7 @@ export type ErrorMsgs =
 	| ErrorWhereInOrNotInValueIsNotArray<string>
 	| ErrorOrAndInvalidConstraints
 	| ErrorInvalidTopLevelFilter
+	| ErrorCannotUseNotInOrQuery
 
 // unused
 export type ReplaceErrorMsgsWithNever<T> = T extends ErrorMsgs ? never : T

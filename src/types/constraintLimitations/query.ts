@@ -63,9 +63,13 @@ export type QueryConstraintLimitation<
 						'and' | 'or',
 						QueryFilterConstraints<T>[]
 				  >
-				? QueryFilterConstraintLimitation<T, Q, [Head], PreviousQCs> extends [
-						infer P
-				  ]
+				? QueryFilterConstraintLimitation<
+						T,
+						Q,
+						[Head],
+						PreviousQCs,
+						Head
+				  > extends [infer P]
 					? P
 					: never // impossible route
 				: never, // impossible route

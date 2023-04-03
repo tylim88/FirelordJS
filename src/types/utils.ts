@@ -2,6 +2,8 @@ export type StrictOmit<T, Key extends keyof T> = Omit<T, Key>
 
 export type StrictExclude<T, U extends T> = Exclude<T, U>
 
+export type StrictExtract<T, U extends T> = Extract<T, U>
+
 // https://stackoverflow.com/questions/53953814/typescript-check-if-a-type-is-a-union
 type UnionToIntersection<U> = (
 	U extends unknown ? (k: U) => void : never
