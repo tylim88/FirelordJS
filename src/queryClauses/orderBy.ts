@@ -10,12 +10,6 @@ import { OrderBy } from '../types'
  * not specified, order will be ascending.
  * @returns The created {@link Query}.
  */
-// @ts-expect-error
-export const orderBy: OrderBy = (fieldPath, directionStr?) => {
-	return {
-		type: 'orderBy',
-		fieldPath,
-		directionStr,
-		ref: orderBy_(fieldPath, directionStr),
-	}
-}
+export const orderBy: OrderBy = (fieldPath, directionStr?) =>
+	// @ts-expect-error
+	orderBy_(fieldPath, directionStr)

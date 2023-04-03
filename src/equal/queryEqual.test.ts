@@ -22,7 +22,7 @@ describe('test queryEqual', () => {
 				query_(
 					// @ts-expect-error
 					colRef2,
-					orderBy('a.b').ref
+					orderBy('a.b')
 				)
 			)
 		).toBe(true)

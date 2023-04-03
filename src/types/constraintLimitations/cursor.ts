@@ -20,17 +20,17 @@ type ValidateCursorOrderBy<
 	? AllOrderBy extends [infer H, ...infer R]
 		? H extends OrderByConstraint<string, OrderByDirection | undefined>
 			? [
-					H['fieldPath'] extends __name__
+					H['_field'] extends __name__
 						? string extends Head
 							? ErrorCursor__name__
 							: T['docPath']
 						: Head extends
-								| T['compare'][H['fieldPath']]
+								| T['compare'][H['_field']]
 								| QueryDocumentSnapshot<T>
 								| DocumentSnapshot<T>
 						? Head | QueryDocumentSnapshot<T> | DocumentSnapshot<T>
 						:
-								| T['compare'][H['fieldPath']]
+								| T['compare'][H['_field']]
 								| QueryDocumentSnapshot<T>
 								| DocumentSnapshot<T>,
 					...ValidateCursorOrderBy<

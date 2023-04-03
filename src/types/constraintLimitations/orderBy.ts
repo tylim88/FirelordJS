@@ -16,7 +16,7 @@ export type ValidateOrderByEqualityWhere<
 	AllQCs extends readonly QueryConstraints<T>[]
 > = Extract<
 	GetAllWhereConstraint<T, AllQCs, never>,
-	WhereConstraint<T, U['fieldPath'], In | Equal, unknown>
+	WhereConstraint<T, U['_field'], In | Equal, unknown>
 > extends never
 	? true
 	: false

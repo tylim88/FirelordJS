@@ -19,9 +19,8 @@ export type OrderByConstraint<
 	DirectionStr extends OrderByDirection | undefined = undefined
 > = {
 	type: 'orderBy'
-	fieldPath: FieldPath
-	directionStr: DirectionStr
-	ref: QueryConstraint
+	_field: FieldPath
+	_direction: DirectionStr
 }
 
 export type LimitConstraint<
