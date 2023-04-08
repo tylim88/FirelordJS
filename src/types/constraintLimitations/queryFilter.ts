@@ -45,7 +45,9 @@ type GetAllQueryFilterCompositeConstraint<
 			  >
 	: QueryCompositeConstraintAcc // QCs is []
 
-export type ValidateTopLevelQueryCompositeFilter<
+// `Error: When using composite filters, you cannot use more than one filter('and' 'when' 'or') at the top level. Consider nesting the multiple filters within an 'and(...)' statement. For example: change 'query(query, where(...), or(...))' to 'query(query, and(where(...), or(...)))'.`
+// check where + or/and
+export type ValidateTopLevelQueryCompositeFilterPartOne<
 	T extends MetaType,
 	AllQQCs extends readonly QQC<T>[]
 > = AllQQCs extends (infer P)[]
@@ -55,6 +57,24 @@ export type ValidateTopLevelQueryCompositeFilter<
 		? true
 		: ErrorInvalidTopLevelFilter
 	: never
+
+// `Error: When using composite filters, you cannot use more than one filter('and' 'when' 'or') at the top level. Consider nesting the multiple filters within an 'and(...)' statement. For example: change 'query(query, where(...), or(...))' to 'query(query, and(where(...), or(...)))'.`
+// check or/and + or/and
+export type ValidateTopLevelQueryCompositeFilterPartTwo<
+	T extends MetaType,
+	AllQQCs extends readonly QQC<T>[],
+	AlreadyExist extends boolean = false
+> = AllQQCs extends [infer Head, ...infer Rest extends QQC<T>[]]
+	? Head extends QueryCompositeFilterConstraint<
+			T,
+			'and' | 'or',
+			QueryFilterConstraints<T>[]
+	  >
+		? AlreadyExist extends false
+			? ValidateTopLevelQueryCompositeFilterPartTwo<T, Rest, true>
+			: ErrorInvalidTopLevelFilter
+		: ValidateTopLevelQueryCompositeFilterPartTwo<T, Rest, AlreadyExist>
+	: true // ok
 
 export type FlattenQueryCompositeFilterConstraint<
 	T extends MetaType,

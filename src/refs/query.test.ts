@@ -111,8 +111,8 @@ describe('test query ref', async () => {
 		expect(() =>
 			query(
 				ref,
-				// @ts-expect-error
 				where('age', '>', 2),
+				// @ts-expect-error,
 				orderBy('a.b.c')
 			)
 		).toThrow()
@@ -130,9 +130,9 @@ describe('test query ref', async () => {
 		expect(() =>
 			query(
 				ref,
-				// @ts-expect-error
 				where('age', '!=', 2),
 				limit(1),
+				// @ts-expect-error
 				orderBy('a.b.c')
 			)
 		).toThrow()
@@ -140,9 +140,9 @@ describe('test query ref', async () => {
 		expect(() =>
 			query(
 				ref,
-				// @ts-expect-error
 				where('a.b.c', '<', 1),
 				limit(1),
+				// @ts-expect-error
 				orderBy('__name__')
 			)
 		).toThrow()

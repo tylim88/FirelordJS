@@ -52,6 +52,7 @@ export type QueryConstraintLimitation<
 				? Head
 				: Head extends OrderByConstraint<string, OrderByDirection | undefined>
 				? ValidateOrderByAndInequalityWhere<
+						// we can factor out this part but got a bit problem so I left it here
 						T,
 						AllQCs
 				  > extends infer K extends string

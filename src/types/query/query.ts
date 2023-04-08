@@ -7,7 +7,8 @@ import {
 import {
 	QueryConstraintLimitation,
 	FlattenQueryCompositeFilterConstraint,
-	ValidateTopLevelQueryCompositeFilter,
+	ValidateTopLevelQueryCompositeFilterPartOne,
+	ValidateTopLevelQueryCompositeFilterPartTwo,
 } from '../constraintLimitations'
 import { Query, CollectionReference } from '../refs'
 
@@ -24,11 +25,16 @@ export type QueryRef = <
 				AT,
 				QQCs
 		  > extends infer AllQCs extends QueryConstraints<T>[]
-			? ValidateTopLevelQueryCompositeFilter<
+			? ValidateTopLevelQueryCompositeFilterPartOne<
 					AT,
 					QQCs
 			  > extends infer B extends string
 				? B[]
+				: ValidateTopLevelQueryCompositeFilterPartTwo<
+						AT,
+						QQCs
+				  > extends infer C extends string
+				? C[]
 				: QueryConstraintLimitation<
 						AT,
 						AddSentinelFieldPathToCompareHighLevel<T, Q>,
