@@ -298,21 +298,6 @@ describe('test query ref', async () => {
 		).resolves.not.toThrow()
 	})
 
-	it(`Argument of type '"__name__"' is not assignable to parameter of type '"Error: Don't use '__name__' directly as where's field path, use 'documentId()' sentinel field path instead. negative case`, async () => {
-		// this check is dumb, remove it next
-
-		await expect(
-			getDocs(
-				query(
-					ref,
-					orderBy('__name__'),
-					// @ts-expect-error
-					or(where('__name__', '==', fullDocPath))
-				)
-			)
-		).resolves.not.toThrow()
-	})
-
 	it(`You can't order your query by a field included in an equality (==) or (in) clause, negative case`, async () => {
 		// ! __name__ does not trigger runtime error, this is a special case
 		await expect(

@@ -2,7 +2,6 @@ import { WhereConstraint } from './constraints'
 import { MetaType } from './metaTypeCreator'
 import { WhereFilterOp } from './alias'
 import { DocumentId, __name__ } from './fieldPath'
-import { ErrorWhere__name__ } from './error'
 
 export type Where = <
 	T extends MetaType,
@@ -11,7 +10,7 @@ export type Where = <
 	// eslint-disable-next-line prettier/prettier
 	const Value
 >(
-	fieldPath: FieldPath extends __name__ ? ErrorWhere__name__ : FieldPath,
+	fieldPath: FieldPath,
 	opStr: OpStr,
 	value: Value
 ) => WhereConstraint<

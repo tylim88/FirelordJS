@@ -30,27 +30,6 @@ describe('test document id type', () => {
 		IsTrue<IsSame<A, B>>()
 	})
 
-	it('test reject __name__ as direct input', () => {
-		query(
-			collectionGroupRef,
-			where(
-				// @ts-expect-error
-				'__name__',
-				'==',
-				fullDocPath
-			)
-		)
-		query(
-			collectionRef,
-			where(
-				// @ts-expect-error
-				'__name__',
-				'!=',
-				'a'
-			)
-		)
-	})
-
 	it('test correct input', () => {
 		query(collectionGroupRef, where(documentId(), '==', fullDocPath))
 		query(collectionRef, where(documentId(), '!=', 'a'))

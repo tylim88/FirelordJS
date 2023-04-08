@@ -72,8 +72,6 @@ export type ErrorUnknownMember<T> =
 	`Error: Please remove the unknown member '${T & string}'`
 export type ErrorWhereDocumentFieldPath =
 	`If field path is document ID, then value must be string`
-export type ErrorWhere__name__ =
-	`Error: Don't use '__name__' directly as where's field path, use 'documentId()' sentinel field path instead.`
 export type ErrorCursor__name__ =
 	`Error: detected type is 'string', please do const assertion`
 export type ErrorArrayFieldValueEmpty =
@@ -124,7 +122,6 @@ export type ErrorMsgs =
 	| ErrorCursorTooManyArguments
 	| ErrorUnknownMember<string>
 	| ErrorWhereDocumentFieldPath
-	| ErrorWhere__name__
 	| ErrorWhereNoNeverEmptyArray
 	| ErrorCursor__name__
 	| ErrorArrayFieldValueEmpty
