@@ -30,6 +30,24 @@ describe('test document id type', () => {
 		IsTrue<IsSame<A, B>>()
 	})
 
+	it('test __name__, positive test', () => {
+		query(collectionGroupRef, where('__name__', '==', fullDocPath))
+		query(collectionRef, where('__name__', '!=', 'a'))
+	})
+
+	it('test __name__, negative test', () => {
+		query(
+			collectionGroupRef,
+			// @ts-expect-error
+			where('__name__', '==', 'a')
+		)
+		query(
+			collectionRef,
+			// @ts-expect-error
+			where('__name__', '!=', 'a/b')
+		)
+	})
+
 	it('test correct input', () => {
 		query(collectionGroupRef, where(documentId(), '==', fullDocPath))
 		query(collectionRef, where(documentId(), '!=', 'a'))
