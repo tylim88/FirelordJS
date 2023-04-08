@@ -28,17 +28,20 @@ import {
 export type ValidateOrderByAndInequalityWhere<
 	T extends MetaType,
 	AllQCs extends readonly QueryConstraints<T>[]
-> = GetFirstInequalityWhere<T, AllQCs> extends infer W
-	? W extends WhereConstraint<T, string, InequalityOpStr, unknown>
-		? GetFirstOrderBy<T, AllQCs> extends infer O
-			? O extends OrderByConstraint<string, OrderByDirection | undefined>
-				? IsSame<W['_field'], O['_field']> extends true
-					? true
-					: ErrorWhereOrderByAndInEquality<O['_field'], W['_field']>
-				: true // orderBy not found
-			: never // impossible route
+> = GetFirstInequalityWhere<T, AllQCs> extends infer W extends WhereConstraint<
+	T,
+	string,
+	InequalityOpStr,
+	unknown
+>
+	? GetFirstOrderBy<T, AllQCs> extends infer O
+		? O extends OrderByConstraint<string, OrderByDirection | undefined>
+			? IsSame<W['_field'], O['_field']> extends true
+				? true
+				: ErrorWhereOrderByAndInEquality<O['_field'], W['_field']>
+			: true // orderBy not found
 		: true // inequality Where not found
-	: never // impossible route
+	: true // impossible route
 
 export type QueryConstraintLimitation<
 	T extends MetaType,
