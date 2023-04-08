@@ -18,7 +18,7 @@ describe('test query ref', async () => {
 				// @ts-expect-error
 				where('age', '==', 2),
 				limit(1),
-				or(where('a.b.c', '<', 2))
+				and(where('a.b.c', '<', 2))
 			)
 		).toThrow()
 
@@ -26,7 +26,7 @@ describe('test query ref', async () => {
 			query(
 				ref,
 				// @ts-expect-error
-				or(where('a.b.c', '<', 2)),
+				and(where('a.b.c', '<', 2)),
 				limit(1),
 				where('age', '>', 2)
 			)
@@ -46,8 +46,8 @@ describe('test query ref', async () => {
 			query(
 				ref,
 				// @ts-expect-error
-				or(where('age', '==', 2)),
-				or(where('a.b.c', '==', 2)),
+				and(where('age', '==', 2)),
+				and(where('a.b.c', '==', 2)),
 				limit(1)
 			)
 		).toThrow()
@@ -68,35 +68,60 @@ describe('test query ref', async () => {
 				ref,
 				limit(1),
 				// @ts-expect-error
-				or(
-					where(documentId(), '>', fullDocPath),
+				and(
+					where('a.b.c', '!=', 2),
 					// @ts-expect-error
-					where('a.b.c', '!=', 2)
+					where(documentId(), '>', fullDocPath)
 				)
 			)
 		).toThrow()
+
+		expect(() =>
+			query(
+				ref,
+				// @ts-expect-error
+				and(
+					where('age', '>', 2),
+					// @ts-expect-error
+					where('a.b.c', '!=', 2)
+				),
+				limit(1)
+			)
+		).toThrow()
+
+		expect(() =>
+			query(
+				ref,
+				// @ts-expect-error
+				and(
+					where('age', '>', 2),
+					// @ts-expect-error
+					where('a.b.c', '!=', 2)
+				),
+				limit(1)
+			)
+		).toThrow()
+
 		expect(() =>
 			query(
 				ref,
 				limit(1),
 				// @ts-expect-error
-				or(
-					where('age', '>', 2),
-					// @ts-expect-error
-					where('a.b.c', '!=', 2)
-				)
+				and(where('age', '<=', 2), where('a.b.c', 'not-in', [2]))
 			)
 		).toThrow()
+
 		expect(() =>
 			query(
 				ref,
-				limit(1),
 				// @ts-expect-error
-				or(
-					where('age', '>', 2),
+				and(
+					//
+					where('age', 'not-in', [2]),
 					// @ts-expect-error
-					where('a.b.c', '!=', 2)
-				)
+					where('a.b.c', '<', 2)
+				),
+				limit(1)
 			)
 		).toThrow()
 	})
@@ -106,18 +131,38 @@ describe('test query ref', async () => {
 			getDocs(
 				query(
 					ref,
-					limit(1),
-					or(
+					and(
 						where(documentId(), '>', fullDocPath),
 						where(documentId(), '!=', fullDocPath)
-					)
+					),
+					limit(1)
 				)
 			)
 		).resolves.not.toThrow()
 
 		await expect(
 			getDocs(
-				query(ref, limit(1), or(where('age', '>', 2), where('age', '!=', 2)))
+				query(ref, limit(1), and(where('age', '>', 2), where('age', '!=', 2)))
+			)
+		).resolves.not.toThrow()
+
+		await expect(
+			getDocs(
+				query(
+					ref,
+					and(where('a.b.c', '>', 2), where('a.b.c', '!=', 2)),
+					limit(1)
+				)
+			)
+		).resolves.not.toThrow()
+
+		await expect(
+			getDocs(
+				query(
+					ref,
+					and(where('age', '<=', 2), where('age', 'not-in', [2])),
+					limit(1)
+				)
 			)
 		).resolves.not.toThrow()
 
@@ -126,87 +171,27 @@ describe('test query ref', async () => {
 				query(
 					ref,
 					limit(1),
-					or(where('a.b.c', '>', 2), where('a.b.c', '!=', 2))
+					and(where('a.b.c', 'not-in', [2]), where('a.b.c', '<', 2))
 				)
 			)
 		).resolves.not.toThrow()
 	})
-	it(`You cannot use 'not-in' in 'or' query, nested or not, negative test`, async () => {
-		expect(() =>
-			query(
-				ref,
-				limit(1),
-				// @ts-expect-error
-				or(
-					//
-					where('age', '==', 2),
-					where('a.b.c', 'not-in', [2])
-				)
-			)
-		).toThrow()
 
-		expect(() =>
-			query(
-				ref,
-				limit(1),
-				// @ts-expect-error
-				or(
-					//
-					where('age', 'not-in', [2]),
-					where('a.b.c', '==', 2)
-				)
-			)
-		).toThrow()
-		await expect(
-			getDocs(
-				query(
-					ref,
-					limit(1),
-					// @ts-expect-error
-					or(
-						//
-						where('age', '==', 2),
-						where('age', 'not-in', [2])
-					)
-				)
-			)
-		).rejects.toThrow()
-
-		await expect(
-			getDocs(
-				query(
-					ref,
-					limit(1),
-					// @ts-expect-error
-					or(
-						//
-						where('a.b.c', 'not-in', [2]),
-						where('a.b.c', '==', 2)
-					)
-				)
-			)
-		).rejects.toThrow()
-	})
-
-	it('If you include a filter with an inequality  ( <, <=, !=, not-in, >, or >=), your first ordering must be on the same field, negative case', async () => {
+	it('If you include a filter with an inequality  ( <, <=, !=, not-in, >, or >=), your first ordering must be on the same field, negative case', () => {
 		expect(() =>
 			query(
 				ref,
 				// @ts-expect-error
 				orderBy('a.i'),
-				or(where('age', '>=', 2), where('a.b.c', '==', 2))
+				and(where('age', '>=', 2))
 			)
 		).toThrow()
 
 		expect(() =>
 			query(
 				ref,
-				// @ts-expect-error
-				or(
-					where('age', '>=', 2),
-					// @ts-expect-error
-					where('a.b.c', '<', 2)
-				),
+				and(where('age', '>', 2)),
+				// @ts-expect-error,
 				orderBy('a.b.c')
 			)
 		).toThrow()
@@ -217,60 +202,48 @@ describe('test query ref', async () => {
 				// @ts-expect-error
 				orderBy('a.i.j'),
 				limit(1),
-				where('age', '<=', 2)
+				and(where('age', '<=', 2))
 			)
 		).toThrow()
 
 		expect(() =>
 			query(
 				ref,
+				and(where('age', '!=', 2)),
 				limit(1),
 				// @ts-expect-error
-				orderBy('a.b.c'),
-				or(where('age', '!=', 2))
+				orderBy('a.b.c')
 			)
 		).toThrow()
 
 		expect(() =>
 			query(
 				ref,
+				and(where('a.b.c', '<', 1)),
 				limit(1),
 				// @ts-expect-error
-				orderBy('__name__'),
-				or(where('a.b.c', '<', 1))
-			)
-		).toThrow()
-
-		// ! no throw if where's field is document id
-		expect(() =>
-			query(
-				ref,
-				limit(1),
-				// @ts-expect-error
-				orderBy('beenTo'),
-				// @ts-expect-error
-				or(where(documentId(), 'not-in', ['a']), where('a.b.c', '<', 1))
+				orderBy('__name__')
 			)
 		).toThrow()
 
 		expect(() =>
 			query(
 				ref,
-				orderBy('age'),
-				limit(1),
 				// @ts-expect-error
-				or(where('age', 'not-in', [1]), where('a.b.c', '<', 1))
+				and(where(documentId(), 'not-in', ['a'])),
+				limit(1),
+				orderBy('beenTo')
 			)
 		).toThrow()
 	})
 
 	it('If you include a filter with an inequality  ( <, <=, !=, not-in, >, or >=), your first ordering must be on the same field, positive case', async () => {
 		await expect(
-			getDocs(query(ref, orderBy('age'), or(where('age', '>=', 2))))
+			getDocs(query(ref, orderBy('age'), where('age', '>=', 2)))
 		).resolves.not.toThrow()
 
 		await expect(
-			getDocs(query(ref, or(where('a.k', '>=', new Date())), orderBy('a.k')))
+			getDocs(query(ref, where('a.k', '>=', new Date()), orderBy('a.k')))
 		).resolves.not.toThrow()
 
 		await expect(
@@ -279,7 +252,7 @@ describe('test query ref', async () => {
 					ref,
 					orderBy('a.k'),
 					limit(1),
-					or(where('a.k', '>=', Timestamp.fromDate(new Date())))
+					where('a.k', '>=', Timestamp.fromDate(new Date()))
 				)
 			)
 		).resolves.not.toThrow()
@@ -288,7 +261,7 @@ describe('test query ref', async () => {
 			getDocs(
 				query(
 					ref,
-					or(where('a.k', '>=', Timestamp.fromMillis(8913748127389))),
+					where('a.k', '>=', Timestamp.fromMillis(8913748127389)),
 					limit(1),
 					orderBy('a.k')
 				)
@@ -299,7 +272,7 @@ describe('test query ref', async () => {
 			getDocs(
 				query(
 					ref,
-					or(where(documentId(), '>=', fullDocPath)),
+					where(documentId(), '>=', fullDocPath),
 					limit(1),
 					orderBy('__name__')
 				)
@@ -311,11 +284,7 @@ describe('test query ref', async () => {
 		// ! __name__ does not trigger runtime error, this is a special case
 		await expect(
 			getDocs(
-				query(
-					ref,
-					orderBy('__name__'),
-					or(where(documentId(), '==', fullDocPath))
-				)
+				query(ref, orderBy('__name__'), where(documentId(), '==', fullDocPath))
 			)
 		).resolves.not.toThrow()
 
@@ -326,7 +295,7 @@ describe('test query ref', async () => {
 					// @ts-expect-error
 					orderBy('age'),
 					limit(1),
-					or(where('age', '==', 1))
+					where('age', '==', 1)
 				)
 			)
 		).rejects.toThrow()
@@ -335,7 +304,7 @@ describe('test query ref', async () => {
 			getDocs(
 				query(
 					ref,
-					or(where('age', '==', 1)),
+					where('age', '==', 1),
 					limit(1),
 					// @ts-expect-error
 					orderBy('age')
@@ -349,7 +318,7 @@ describe('test query ref', async () => {
 					ref,
 					// @ts-expect-error
 					orderBy('age'),
-					or(where('age', '==', 1))
+					where('age', '==', 1)
 				)
 			)
 		).rejects.toThrow()
@@ -358,7 +327,7 @@ describe('test query ref', async () => {
 			getDocs(
 				query(
 					ref,
-					or(where('age', 'in', [1])),
+					where('age', 'in', [1]),
 					// @ts-expect-error
 					orderBy('age')
 				)
@@ -372,7 +341,7 @@ describe('test query ref', async () => {
 					// @ts-expect-error
 					orderBy('age'),
 					limit(1),
-					or(where('age', '==', 1))
+					where('age', '==', 1)
 				)
 			)
 		).rejects.toThrow()
@@ -381,7 +350,7 @@ describe('test query ref', async () => {
 			getDocs(
 				query(
 					ref,
-					or(where('age', '==', 1)),
+					where('age', '==', 1),
 					limit(1),
 					// @ts-expect-error
 					orderBy('age')
@@ -393,27 +362,23 @@ describe('test query ref', async () => {
 	it(`You can't order your query by a field included in an equality (==) or in clause, positive case`, async () => {
 		await expect(
 			getDocs(
-				query(
-					ref,
-					orderBy('__name__'),
-					or(where(documentId(), '>', fullDocPath))
-				)
+				query(ref, orderBy('__name__'), where(documentId(), '>', fullDocPath))
 			)
 		).resolves.not.toThrow()
-
 		await expect(
-			getDocs(query(ref, orderBy('age'), or(where('age', '>=', 1))))
+			getDocs(query(ref, orderBy('age'), where('age', '>=', 1)))
 		).resolves.not.toThrow()
-
 		await expect(
-			getDocs(query(ref, or(where('age', '==', 1)), orderBy('a.k')))
+			getDocs(query(ref, where('age', '==', 1), orderBy('a.k')))
 		).resolves.not.toThrow()
-
+		await expect(
+			getDocs(query(ref, orderBy('age'), limit(1), where('age', 'not-in', [1])))
+		).resolves.not.toThrow()
 		await expect(
 			getDocs(
 				query(
 					ref,
-					or(where('a.e', 'array-contains', 'a')),
+					where('a.e', 'array-contains', 'a'),
 					limit(1),
 					orderBy('a.e')
 				)

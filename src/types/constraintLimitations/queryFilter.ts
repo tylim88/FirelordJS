@@ -19,6 +19,7 @@ import {
 	ErrorCannotUseNotInOrQuery,
 } from '../error'
 import { StrictExclude } from '../utils'
+import { NotIn } from './utils'
 
 type GetAllQueryFilterCompositeConstraint<
 	T extends MetaType,
@@ -132,13 +133,12 @@ export type QueryFilterConstraintLimitation<
 				| OrderByConstraint<string, OrderByDirection | undefined>
 				| CursorConstraint<CursorType, unknown[]>
 				? ErrorOrAndInvalidConstraints
-				: Head extends WhereConstraint<
-						T,
-						string,
-						StrictExclude<WhereFilterOp, 'not-in'>,
-						unknown
-				  >
-				? WhereConstraintLimitation<T, Q, Head, PreviousQCs>
+				: Head extends WhereConstraint<T, string, WhereFilterOp, unknown>
+				? Head['_op'] extends NotIn
+					? 'or' extends ParentConstraint['type'] // why sometime ParentConstraint is never
+						? ErrorCannotUseNotInOrQuery
+						: WhereConstraintLimitation<T, Q, Head, PreviousQCs>
+					: WhereConstraintLimitation<T, Q, Head, PreviousQCs>
 				: Head extends QueryCompositeFilterConstraint<
 						T,
 						'and' | 'or',
@@ -158,10 +158,6 @@ export type QueryFilterConstraintLimitation<
 							Head
 						>
 				  >
-				: Head extends WhereConstraint<T, string, 'not-in', unknown>
-				? ParentConstraint['type'] extends 'or'
-					? ErrorCannotUseNotInOrQuery
-					: Head
 				: never, // impossible route
 			...QueryFilterConstraintLimitation<
 				T,
