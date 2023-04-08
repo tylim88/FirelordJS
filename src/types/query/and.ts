@@ -21,6 +21,6 @@ export type And<T extends MetaType> = <
 				AddSentinelFieldPathToCompareHighLevel<T, Q>,
 				QFC,
 				[],
-				never
+				QueryCompositeFilterConstraint<T, 'and', QFC>
 		  >
 ) => QueryCompositeFilterConstraint<T, 'and', QFC>

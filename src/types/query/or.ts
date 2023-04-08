@@ -21,6 +21,6 @@ export type Or<T extends MetaType> = <
 				AddSentinelFieldPathToCompareHighLevel<T, Q>,
 				QFC,
 				[],
-				never
+				QueryCompositeFilterConstraint<T, 'or', QFC>
 		  >
 ) => QueryCompositeFilterConstraint<T, 'or', QFC>

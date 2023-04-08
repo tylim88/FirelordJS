@@ -135,7 +135,7 @@ export type QueryFilterConstraintLimitation<
 				? ErrorOrAndInvalidConstraints
 				: Head extends WhereConstraint<T, string, WhereFilterOp, unknown>
 				? Head['_op'] extends NotIn
-					? 'or' extends ParentConstraint['type'] // why sometime ParentConstraint is never
+					? 'or' extends ParentConstraint['type']
 						? ErrorCannotUseNotInOrQuery
 						: WhereConstraintLimitation<T, Q, Head, PreviousQCs>
 					: WhereConstraintLimitation<T, Q, Head, PreviousQCs>

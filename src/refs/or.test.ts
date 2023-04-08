@@ -138,8 +138,8 @@ describe('test query ref', async () => {
 				limit(1),
 				// @ts-expect-error
 				or(
-					//
 					where('age', '==', 2),
+					// @ts-expect-error
 					where('a.b.c', 'not-in', [2])
 				)
 			)
@@ -151,7 +151,7 @@ describe('test query ref', async () => {
 				limit(1),
 				// @ts-expect-error
 				or(
-					//
+					// @ts-expect-error
 					where('age', 'not-in', [2]),
 					where('a.b.c', '==', 2)
 				)
@@ -164,8 +164,8 @@ describe('test query ref', async () => {
 					limit(1),
 					// @ts-expect-error
 					or(
-						//
 						where('age', '==', 2),
+						// @ts-expect-error
 						where('age', 'not-in', [2])
 					)
 				)
@@ -179,7 +179,7 @@ describe('test query ref', async () => {
 					limit(1),
 					// @ts-expect-error
 					or(
-						//
+						// @ts-expect-error
 						where('a.b.c', 'not-in', [2]),
 						where('a.b.c', '==', 2)
 					)
