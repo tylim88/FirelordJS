@@ -8,16 +8,19 @@ import {
 } from '../constraints'
 import { GetAllWhereConstraint } from './where'
 import { In, Equal } from './utils'
+import { __name__ } from '../fieldPath'
 
 // You can't order your query by a field included in an equality (==) or (in) clause.
 export type ValidateOrderByEqualityWhere<
 	T extends MetaType,
 	U extends OrderByConstraint<string, OrderByDirection | undefined>,
 	AllQCs extends readonly QueryConstraints<T>[]
-> = Extract<
-	GetAllWhereConstraint<T, AllQCs, never>,
-	WhereConstraint<T, U['_field'], In | Equal, unknown>
-> extends never
+> = U['_field'] extends __name__ // if the field is "__name__", then it is fine, this is an exception
+	? true
+	: Extract<
+			GetAllWhereConstraint<T, AllQCs, never>,
+			WhereConstraint<T, U['_field'], In | Equal, unknown>
+	  > extends never
 	? true
 	: false
 

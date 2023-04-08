@@ -11,7 +11,7 @@ import {
 } from '../error'
 import { QueryConstraints, WhereConstraint } from '../constraints'
 import { Query } from '../refs'
-import { GetCorrectDocumentIdBasedOnRef, __name__ } from '../fieldPath'
+import { GetCorrectDocumentIdBasedOnRef } from '../fieldPath'
 import {
 	In,
 	NotIn,
@@ -103,12 +103,6 @@ type ValidateWhereInequalityOpStrSameField<
 		? true
 		: ErrorWhereInequalityOpStrSameField
 	: true
-
-// ['_field'] extends __name__
-// 		? true // not found, no check needed
-// 		: Rest extends readonly QueryConstraints<T>[]
-// 		? GetFirstInequalityWhere<T, Rest>
-// 		: never // impossible route
 
 export type GetFirstInequalityWhere<
 	T extends MetaType,

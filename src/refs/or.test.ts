@@ -233,9 +233,16 @@ describe('test query ref', async () => {
 		).toThrow()
 
 		// ! no throw if where's field is document id
-		query(ref, limit(1), orderBy('beenTo')),
-			// @ts-expect-error
-			or(where(documentId(), 'not-in', ['a']), where('a.b.c', '<', 1))
+		expect(() =>
+			query(
+				ref,
+				limit(1),
+				// @ts-expect-error
+				orderBy('beenTo'),
+				// @ts-expect-error
+				or(where(documentId(), 'not-in', ['a']), where('a.b.c', '<', 1))
+			)
+		).toThrow()
 
 		expect(() =>
 			query(
@@ -291,27 +298,29 @@ describe('test query ref', async () => {
 		).resolves.not.toThrow()
 	})
 
-	it(`You can't order your query by a field included in an equality (==) or (in) clause, negative case`, async () => {
-		// __name__ does not trigger runtime error, need open github issue
-		await expect(
-			getDocs(
-				query(
-					ref,
-					// @ts-expect-error
-					orderBy('__name__'),
-					or(where(documentId(), '==', fullDocPath))
-				)
-			)
-		).resolves.not.toThrow()
+	it(`Argument of type '"__name__"' is not assignable to parameter of type '"Error: Don't use '__name__' directly as where's field path, use 'documentId()' sentinel field path instead. negative case`, async () => {
+		// this check is dumb, remove it next
 
 		await expect(
 			getDocs(
 				query(
 					ref,
-					// @ts-expect-error
 					orderBy('__name__'),
 					// @ts-expect-error
 					or(where('__name__', '==', fullDocPath))
+				)
+			)
+		).resolves.not.toThrow()
+	})
+
+	it(`You can't order your query by a field included in an equality (==) or (in) clause, negative case`, async () => {
+		// ! __name__ does not trigger runtime error, this is a special case
+		await expect(
+			getDocs(
+				query(
+					ref,
+					orderBy('__name__'),
+					or(where(documentId(), '==', fullDocPath))
 				)
 			)
 		).resolves.not.toThrow()

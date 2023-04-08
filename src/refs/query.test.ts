@@ -11,9 +11,6 @@ const ref = userRefCreator().collectionGroup()
 // const and = userRefCreator().and
 const fullDocPath = 'topLevel/FirelordTest/Users/a'
 describe('test query ref', async () => {
-	// it('test or queries', () => {
-	// 	query(ref, or(where('age', '>', 2), limit(1), where('a.b.c', '<', 2)))
-	// })
 	it('In a compound query, range (<, <=, >, >=) and not equals (!=, not-in) comparisons must all filter on the same field, negative test', () => {
 		expect(() =>
 			query(
@@ -162,9 +159,11 @@ describe('test query ref', async () => {
 		await expect(
 			getDocs(query(ref, orderBy('age'), where('age', '>=', 2)))
 		).resolves.not.toThrow()
+
 		await expect(
 			getDocs(query(ref, where('a.k', '>=', new Date()), orderBy('a.k')))
 		).resolves.not.toThrow()
+
 		await expect(
 			getDocs(
 				query(
@@ -175,6 +174,7 @@ describe('test query ref', async () => {
 				)
 			)
 		).resolves.not.toThrow()
+
 		await expect(
 			getDocs(
 				query(
@@ -185,6 +185,7 @@ describe('test query ref', async () => {
 				)
 			)
 		).resolves.not.toThrow()
+
 		await expect(
 			getDocs(
 				query(
@@ -197,28 +198,26 @@ describe('test query ref', async () => {
 		).resolves.not.toThrow()
 	})
 
-	it(`You can't order your query by a field included in an equality (==) or (in) clause, negative case`, async () => {
-		// ! __name__ does not trigger runtime error, need open github issue
-		await expect(
-			getDocs(
-				query(
-					ref,
-					// @ts-expect-error
-					orderBy('__name__'),
-					where(documentId(), '==', fullDocPath)
-				)
-			)
-		).resolves.not.toThrow()
+	it(`Argument of type '"__name__"' is not assignable to parameter of type '"Error: Don't use '__name__' directly as where's field path, use 'documentId()' sentinel field path instead. negative case`, async () => {
+		// this check is dumb, remove it next
 
 		await expect(
 			getDocs(
 				query(
 					ref,
-					// @ts-expect-error
 					orderBy('__name__'),
 					// @ts-expect-error
 					where('__name__', '==', fullDocPath)
 				)
+			)
+		).resolves.not.toThrow()
+	})
+
+	it(`You can't order your query by a field included in an equality (==) or (in) clause, negative case`, async () => {
+		// ! __name__ does not trigger runtime error, this is a special case
+		await expect(
+			getDocs(
+				query(ref, orderBy('__name__'), where(documentId(), '==', fullDocPath))
 			)
 		).resolves.not.toThrow()
 
