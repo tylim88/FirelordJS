@@ -84,6 +84,9 @@
 <div align="center">
 	<i>Be The Master Of Your Fire, Be Firelord</i>
 </div>
+<div align="center">
+	<i>Beyond Typing</i>
+</div>
 <br>
 <div align="center">
 <a href="https://firelordjs.com/quick_start" target="_blank" style="color:blue"><strong>Documentation</strong></a>
@@ -122,27 +125,7 @@ FirelordJS is the only library capable of **[typing against](https://firelordjs.
 
 ## Upcoming V3
 
-**Update: We will continue active development on v2, unless we receive sufficient assistance.**
-
-V3 focus on codebase redesign and rewrite with TS 5.0, hopefully with further improved code quality, potential contributors will find it easier to work with.
-
-Code Quality Improvements:
-
-- More extensible logics.
-- Simpler logic to fix noticeable lag issue(TS 5.0 performance improvement does help!).
-- Implement latest TS features.
-- Code restructure.
-- Remove trivial APIs.
-- Less wordy and more concise Documentation.
-- All input types be read-only.
-- More tests.
-
-Other tasks:
-
-- Enable new undocumented Firestore capability:[in and array-contains-any combination query is now possible](https://github.com/firebase/firebase-js-sdk/issues/7147)
-- Fix in code documentation not working(alternative solution is available, but this might be [TS bug](https://github.com/microsoft/TypeScript/issues/53424))
-
-### V3 New Features
+| **Update: We will continue active development on v2, unless we have more time to works on V3**
 
 - Narrow read type base on query constraint. For example `where('a', '==', true)` will narrow the read type of field `a` to `true`, it should be able to narrow down complex case like `where('a.b.c', '==', { d:[{e:1}] })`. Expected to support `==` comparator for all types and _possibly_ `!=` comparator for literal type(type filtering for`!=` comparator poses great complexity hence I may not work on it).
 
@@ -151,6 +134,8 @@ Other tasks:
 - Support tuple data type.
 
 - Replace `set merge` with `upset`(update if exists, else set). It will receive 1 doc ref argument and 2 data arguments(partial data and complete data). It will attempt to update the document with partial data or create a document with complete data if the document does not exist.
+
+- Fix in code documentation not working(alternative solution is available, [TS bug?](https://github.com/microsoft/TypeScript/issues/53424))
 
 ### What Will Not Be Implemented
 
