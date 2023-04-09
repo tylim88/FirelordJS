@@ -15,7 +15,7 @@ export type ValidateOrderByEqualityWhere<
 	T extends MetaType,
 	U extends OrderByConstraint<string, OrderByDirection | undefined>,
 	AllQCs extends readonly QueryConstraints<T>[]
-> = U['_field'] extends __name__ // if the field is "__name__", then it is fine, this is an exception
+> = U['_field'] extends __name__ // if the field is "__name__", then it is fine, this is a special case
 	? true
 	: Extract<
 			GetAllWhereConstraint<T, AllQCs, never>,

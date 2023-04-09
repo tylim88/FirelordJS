@@ -21,7 +21,7 @@ import { snapshotEqual, queryEqual, refEqual } from '../equal'
 
 initializeApp()
 const queryTest = async (
-	shareQuery: Query<User>,
+	q: Query<User>,
 	docId: string,
 	data: User['write'],
 	docRef: DocumentReference<User>
@@ -29,7 +29,7 @@ const queryTest = async (
 	await setDoc(docRef, data)
 
 	// normal =====================
-	const querySnapshot = await getDocs(shareQuery)
+	const querySnapshot = await getDocs(q)
 	type A = typeof querySnapshot
 	type B = QuerySnapshot<User>
 	IsTrue<IsSame<B, A>>()
@@ -46,7 +46,7 @@ const queryTest = async (
 	// ====================== normal
 
 	// cache =========================
-	const querySnapshotCache = await getDocsFromCache(shareQuery)
+	const querySnapshotCache = await getDocsFromCache(q)
 	type X = typeof querySnapshotCache
 	type Y = QuerySnapshot<User>
 	IsTrue<IsSame<X, Y>>()
@@ -61,7 +61,7 @@ const queryTest = async (
 	// ====================== cache
 
 	// server ========================
-	const querySnapshotServer = await getDocsFromServer(shareQuery)
+	const querySnapshotServer = await getDocsFromServer(q)
 	type E = typeof querySnapshotServer
 	type F = QuerySnapshot<User>
 	IsTrue<IsSame<E, F>>()
@@ -118,67 +118,71 @@ describe('test getDocs', () => {
 		const docId = 'getDocsNakedQueryTest'
 		const docRef = userRefCreator().doc('FirelordTest', docId)
 		const data = generateRandomData()
-		const shareQuery = query(userRefCreator().collection('FirelordTest'))
-		await queryTest(shareQuery, docId, data, docRef)
+		const q = query(userRefCreator().collection('FirelordTest'))
+		await queryTest(q, docId, data, docRef)
 	})
 
 	it('test query functionality and type with clause', async () => {
 		const docId = 'getDocsWithOptionsQueryTest'
 		const docRef = userRefCreator().doc('FirelordTest', docId)
 		const data = generateRandomData()
-		const shareQuery = query(
+		const q = query(
 			userRefCreator().collection('FirelordTest'),
 			where('a.b.c', '==', data.a.b.c as number)
 		)
-		await queryTest(shareQuery, docId, data, docRef)
+		await queryTest(q, docId, data, docRef)
 	})
 
 	it('test collection group', async () => {
 		const docId = 'getDocsWithOptionsQueryTest'
 		const docRef = userRefCreator().doc('FirelordTest', docId)
 		const data = generateRandomData()
-		const shareQuery = query(
+		const q = query(
 			userRefCreator().collectionGroup(),
 			where('a.b.c', '==', data.a.b.c as number)
 		)
-		await queryTest(shareQuery, docId, data, docRef)
+		await queryTest(q, docId, data, docRef)
 	})
 
 	it('test empty array with ( in ) filter', async () => {
 		const arr: number[] = []
-		const shareQuery = query(
+		const q = query(
 			userRefCreator().collectionGroup(),
 			where('a.b.c', 'in', arr)
 		)
-		const querySnap = await getDocs(shareQuery)
+		const querySnap = await getDocs(q)
 		expect(querySnap.docs.length).toBe(0)
 	})
 
 	it('test empty array with ( not-in ) filter', async () => {
 		const arr: number[] = []
-		const shareQuery = query(
+		const q = query(
 			userRefCreator().collectionGroup(),
 			where('a.b.c', 'not-in', arr)
 		)
-		const querySnap = await getDocs(shareQuery)
+		const querySnap = await getDocs(q)
 		expect(querySnap.docs.length).not.toBe(0)
 	})
 
 	it('test empty array with ( array-contains-any ) filter', async () => {
 		const arr: string[] = []
-		const shareQuery = query(
+		const q = query(
 			userRefCreator().collectionGroup(),
 			where('a.e', 'array-contains-any', arr)
 		)
-		const querySnap = await getDocs(shareQuery)
+		const querySnap = await getDocs(q)
 		expect(querySnap.docs.length).toBe(0)
 	})
 
 	it('test without query', async () => {
-		const querySnap = await getDocs(
-			userRefCreator().collection('ForAggCountTest')
-		)
+		const querySnap = await getDocs(userRefCreator().collection('FirelordTest'))
 		IsTrue<IsSame<typeof querySnap, QuerySnapshot<User>>>()
-		expect(querySnap.docs.length).toBe(4)
+		expect(querySnap.docs.length).not.toBe(0)
+	})
+
+	it('test without query collection group', async () => {
+		const querySnap = await getDocs(userRefCreator().collectionGroup())
+		IsTrue<IsSame<typeof querySnap, QuerySnapshot<User>>>()
+		expect(querySnap.docs.length).not.toBe(0)
 	})
 })

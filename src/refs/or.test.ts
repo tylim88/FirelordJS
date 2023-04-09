@@ -132,31 +132,36 @@ describe('test query ref', async () => {
 		).resolves.not.toThrow()
 	})
 	it(`You cannot use 'not-in' in 'or' query, nested or not, negative test`, async () => {
-		expect(() =>
-			query(
-				ref,
-				limit(1),
-				// @ts-expect-error
-				or(
-					where('age', '==', 2),
+		await expect(
+			getDocs(
+				query(
+					ref,
+					limit(1),
 					// @ts-expect-error
-					where('a.b.c', 'not-in', [2])
+					or(
+						where('age', '==', 2),
+						// @ts-expect-error
+						where('a.b.c', 'not-in', [2])
+					)
 				)
 			)
-		).toThrow()
+		).rejects.toThrow()
 
-		expect(() =>
-			query(
-				ref,
-				limit(1),
-				// @ts-expect-error
-				or(
+		await expect(
+			getDocs(
+				query(
+					ref,
+					limit(1),
 					// @ts-expect-error
-					where('age', 'not-in', [2]),
-					where('a.b.c', '==', 2)
+					or(
+						// @ts-expect-error
+						where('age', 'not-in', [2]),
+						where('a.b.c', '==', 2)
+					)
 				)
 			)
-		).toThrow()
+		).rejects.toThrow()
+
 		await expect(
 			getDocs(
 				query(
@@ -308,7 +313,7 @@ describe('test query ref', async () => {
 	})
 
 	it(`You can't order your query by a field included in an equality (==) or (in) clause, negative case`, async () => {
-		// ! __name__ does not trigger runtime error, this is a special case
+		// ! orderBy __name__ does not trigger runtime error, this is a special case
 		await expect(
 			getDocs(
 				query(

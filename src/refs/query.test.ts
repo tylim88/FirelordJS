@@ -199,7 +199,7 @@ describe('test query ref', async () => {
 	})
 
 	it(`You can't order your query by a field included in an equality (==) or (in) clause, negative case`, async () => {
-		// ! __name__ does not trigger runtime error, this is a special case
+		// ! orderBy __name__ does not trigger runtime error, this is a special case
 		await expect(
 			getDocs(
 				query(ref, orderBy('__name__'), where(documentId(), '==', fullDocPath))

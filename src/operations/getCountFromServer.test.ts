@@ -48,4 +48,16 @@ describe('test getCountFromServer', () => {
 		)
 		expect(snapshot.data().count).toBe(3)
 	})
+
+	it('test aggregated count of collection', async () => {
+		const snapshot = await getCountFromServer(
+			userRef.collection('ForAggCountTest')
+		)
+		expect(snapshot.data().count).toBe(4)
+	})
+
+	it('test aggregated count of collection group', async () => {
+		const snapshot = await getCountFromServer(userRef.collectionGroup())
+		expect(snapshot.data().count).toBeGreaterThan(0)
+	})
 })

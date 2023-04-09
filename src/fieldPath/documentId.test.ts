@@ -9,7 +9,7 @@ import {
 	compareWriteDataWithDocSnapData,
 	Parent,
 } from '../utilForTests'
-import { setDoc, getDocs } from '../operations'
+import { setDoc, getDocs, getDoc } from '../operations'
 initializeApp()
 const userRef = userRefCreator()
 const collectionGroupRef = userRef.collectionGroup()
@@ -30,35 +30,60 @@ describe('test document id type', () => {
 		IsTrue<IsSame<A, B>>()
 	})
 
-	it('test __name__, positive test', () => {
-		query(collectionGroupRef, where('__name__', '==', fullDocPath))
-		query(collectionRef, where('__name__', '!=', 'a'))
+	it('test __name__, positive test', async () => {
+		await expect(
+			getDocs(query(collectionGroupRef, where('__name__', '==', fullDocPath)))
+		).resolves.not.toThrow()
+
+		await expect(
+			getDocs(query(collectionRef, where('__name__', '!=', 'a')))
+		).resolves.not.toThrow()
 	})
 
 	it('test __name__, negative test', () => {
-		query(
-			collectionGroupRef,
-			// @ts-expect-error
-			where('__name__', '==', 'a')
-		)
-		query(
-			collectionRef,
-			// @ts-expect-error
-			where('__name__', '!=', 'a/b')
+		expect(() =>
+			query(
+				collectionGroupRef,
+				// @ts-expect-error
+				where('__name__', '==', 'a')
+			)
+		).toThrow()
+
+		expect(() =>
+			query(
+				collectionRef,
+				// @ts-expect-error
+				where('__name__', '!=', 'a/b')
+			)
 		)
 	})
 
-	it('test correct input', () => {
-		query(collectionGroupRef, where(documentId(), '==', fullDocPath))
-		query(collectionRef, where(documentId(), '!=', 'a'))
-		query(
-			collectionGroupRef,
-			where(documentId(), '==', userRef.doc('FirelordTest', 'abc'))
-		)
-		query(
-			collectionRef,
-			where(documentId(), '!=', userRef.doc('FirelordTest', 'abc'))
-		)
+	it('test correct input', async () => {
+		await expect(
+			getDocs(query(collectionGroupRef, where(documentId(), '==', fullDocPath)))
+		).resolves.not.toThrow()
+
+		await expect(
+			getDocs(query(collectionRef, where(documentId(), '!=', 'a')))
+		).resolves.not.toThrow()
+
+		await expect(
+			getDocs(
+				query(
+					collectionGroupRef,
+					where(documentId(), '==', userRef.doc('FirelordTest', 'abc'))
+				)
+			)
+		).resolves.not.toThrow()
+
+		await expect(
+			getDocs(
+				query(
+					collectionRef,
+					where(documentId(), '!=', userRef.doc('FirelordTest', 'abc'))
+				)
+			)
+		).resolves.not.toThrow()
 	})
 
 	it('test incorrect input (swap)', () => {
