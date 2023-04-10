@@ -63,8 +63,8 @@ describe('test query ref', async () => {
 		expect(() =>
 			query(
 				ref,
-				limit(1),
 				// @ts-expect-error
+				limit(1),
 				or(where('age', '==', 2)),
 				or(where('a.b.c', '==', 2))
 			)

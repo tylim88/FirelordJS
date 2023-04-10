@@ -31,12 +31,12 @@ export type QueryRef = <
 					AT,
 					QQCs
 			  > extends infer B extends string
-				? B[]
+				? B
 				: ValidateTopLevelQueryCompositeFilterPartTwo<
 						AT,
 						QQCs
 				  > extends infer C extends string
-				? C[]
+				? C
 				: QueryConstraintLimitation<
 						AT,
 						AddSentinelFieldPathToCompareHighLevel<T, Q>,
