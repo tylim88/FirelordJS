@@ -21,6 +21,7 @@ getDocs(
 		// similar to docSnapshot of getDoc
 	})
 	querySnapshot.docs.forEach((docSnapshot, index) => {
+		// native forEach
 		// similar to docSnapshot of getDoc
 	})
 })
