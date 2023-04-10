@@ -76,8 +76,8 @@ query(groupRef, where(documentId(), '==', 'parent/abc/child/xyz')) // good: coun
 //
 query(
 	colRef,
-	where(documentId(), '>', 'xyz'),
 	// @ts-expect-error
+	where(documentId(), '>', 'xyz'),
 	orderBy('z')
 ) // bad: first orderBy field is incorrect
 query(colRef, where(documentId(), '>', 'xyz'), orderBy('__name__')) // good: first orderBy field is correct

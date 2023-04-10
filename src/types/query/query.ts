@@ -14,42 +14,42 @@ import {
 import { Query, CollectionReference } from '../refs'
 
 export type QueryRef = <
-	T extends MetaType,
-	Q extends Query<T> | CollectionReference<T>,
+	Z extends MetaType,
+	Q extends Query<Z> | CollectionReference<Z>,
 	const QQCs extends readonly QueryAllConstraints<
-		AddSentinelFieldPathToCompare<T>
+		AddSentinelFieldPathToCompare<Z>
 	>[]
 >(
-	query: Q extends never ? Q : Query<T> | CollectionReference<T>,
+	query: Q extends never ? Q : Query<Z> | CollectionReference<Z>,
 	...queryConstraints: QQCs extends never
 		? QQCs
-		: AddSentinelFieldPathToCompare<T> extends infer AT extends MetaType
-		? FlattenQueryCompositeFilterConstraint<
-				AT,
+		: AddSentinelFieldPathToCompare<Z> extends infer T extends MetaType
+		? ValidateTopLevelQueryCompositeFilterPartOne<
+				T,
 				QQCs
-		  > extends infer AllQCs extends QueryConstraints<T>[]
-			? ValidateTopLevelQueryCompositeFilterPartOne<
-					AT,
+		  > extends infer B extends string
+			? B
+			: ValidateTopLevelQueryCompositeFilterPartTwo<
+					T,
 					QQCs
-			  > extends infer B extends string
-				? B
-				: ValidateTopLevelQueryCompositeFilterPartTwo<
-						AT,
-						QQCs
-				  > extends infer C extends string
-				? C
-				: ValidateOrderByAndInequalityWhere<
-						AT,
-						AllQCs
-				  > extends infer K extends string
+			  > extends infer C extends string
+			? C
+			: FlattenQueryCompositeFilterConstraint<
+					T,
+					QQCs
+			  > extends infer AllFlattenQCs extends QueryConstraints<Z>[]
+			? ValidateOrderByAndInequalityWhere<
+					T,
+					AllFlattenQCs
+			  > extends infer K extends string
 				? K
 				: QueryConstraintLimitation<
-						AT,
-						AddSentinelFieldPathToCompareHighLevel<T, Q>,
+						T,
+						AddSentinelFieldPathToCompareHighLevel<Z, Q>,
 						QQCs,
 						[],
-						AllQCs
+						AllFlattenQCs
 				  >
 			: never
 		: never
-) => Query<T>
+) => Query<Z>
