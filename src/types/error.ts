@@ -53,7 +53,7 @@ export type ErrorWhereOrderByAndInEquality<
 	string}' as your first argument to orderBy(), but your first orderBy() is on field '${OrderByField &
 	string}' instead.`
 export type ErrorWhereOrderByEquality =
-	`Error: You can't order your query by a field included in an equality '==' or 'in' clause.`
+	`Error: You can't order your query by a field included in an equality '==' or 'in' clause. Exceptions to this rule are order by '__name__' or 'documentId()'`
 export type ErrorWhereNotIn =
 	`Error:You can't combine 'not-in' with 'or', 'in', 'array-contains-any', or '!=' in the same query.`
 export type ErrorWhereArrayContainsArrayContainsAny =

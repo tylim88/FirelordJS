@@ -8,7 +8,6 @@ import { getDocs } from '../operations'
 initializeApp()
 const ref = userRefCreator().collectionGroup()
 const or = userRefCreator().or
-const and = userRefCreator().and
 const fullDocPath = 'topLevel/FirelordTest/Users/a'
 describe('test query ref', async () => {
 	it('In a compound query, range (<, <=, >, >=) and not equals (!=, not-in) comparisons must all filter on the same field, negative test', () => {
