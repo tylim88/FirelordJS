@@ -6,7 +6,7 @@ import {
 	OrderByConstraint,
 	CursorConstraint,
 	LimitConstraint,
-	QQC,
+	QueryAllConstraints,
 	QueryCompositeFilterConstraint,
 	QueryFilterConstraints,
 } from '../constraints'
@@ -46,10 +46,13 @@ export type ValidateOrderByAndInequalityWhere<
 export type QueryConstraintLimitation<
 	T extends MetaType,
 	Q extends Query<T>,
-	RestQQCs extends readonly QQC<T>[],
+	RestQQCs extends readonly QueryAllConstraints<T>[],
 	PreviousQCs extends readonly QueryConstraints<T>[],
 	AllQCs extends readonly QueryConstraints<T>[]
-> = RestQQCs extends [infer Head extends QQC<T>, ...infer Rest extends QQC<T>[]]
+> = RestQQCs extends [
+	infer Head extends QueryAllConstraints<T>,
+	...infer Rest extends QueryAllConstraints<T>[]
+]
 	? [
 			Head extends LimitConstraint<'limit', number>
 				? Head

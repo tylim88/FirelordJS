@@ -1,4 +1,4 @@
-import { QQC, MetaType, QueryFilterConstraints } from '../types'
+import { QueryAllConstraints, MetaType, QueryFilterConstraints } from '../types'
 
 export const buildPathFromColIDsAndDocIDs = ({
 	collectionIDs,
@@ -14,7 +14,9 @@ export const buildPathFromColIDsAndDocIDs = ({
 }
 
 export const queryBuilder = (
-	queryConstraints: QQC<MetaType>[] | QueryFilterConstraints<MetaType>[]
+	queryConstraints:
+		| QueryAllConstraints<MetaType>[]
+		| QueryFilterConstraints<MetaType>[]
 ) =>
 	queryConstraints
 		// @ts-expect-error
