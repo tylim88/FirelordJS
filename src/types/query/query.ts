@@ -9,6 +9,7 @@ import {
 	FlattenQueryCompositeFilterConstraint,
 	ValidateTopLevelQueryCompositeFilterPartOne,
 	ValidateTopLevelQueryCompositeFilterPartTwo,
+	ValidateOrderByAndInequalityWhere,
 } from '../constraintLimitations'
 import { Query, CollectionReference } from '../refs'
 
@@ -37,6 +38,11 @@ export type QueryRef = <
 						QQCs
 				  > extends infer C extends string
 				? C
+				: ValidateOrderByAndInequalityWhere<
+						AT,
+						AllQCs
+				  > extends infer K extends string
+				? K
 				: QueryConstraintLimitation<
 						AT,
 						AddSentinelFieldPathToCompareHighLevel<T, Q>,

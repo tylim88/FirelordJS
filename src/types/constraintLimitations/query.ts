@@ -57,13 +57,7 @@ export type QueryConstraintLimitation<
 			Head extends LimitConstraint<'limit', number>
 				? Head
 				: Head extends OrderByConstraint<string, OrderByDirection | undefined>
-				? ValidateOrderByAndInequalityWhere<
-						// we can factor out this part but got a bit problem so I left it here
-						T,
-						AllQCs
-				  > extends infer K extends string
-					? K[]
-					: OrderByConstraintLimitation<T, Head, AllQCs>
+				? OrderByConstraintLimitation<T, Head, AllQCs>
 				: Head extends LimitConstraint<'limitToLast', number>
 				? LimitToLastConstraintLimitation<T, Head, AllQCs>
 				: Head extends WhereConstraint<T, string, WhereFilterOp, unknown>

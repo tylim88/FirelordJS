@@ -178,8 +178,8 @@ describe('test query ref', async () => {
 		expect(() =>
 			query(
 				ref,
-				limit(1),
 				// @ts-expect-error
+				limit(1),
 				orderBy('a.b.c'),
 				or(where('age', '!=', 2))
 			)
@@ -188,19 +188,18 @@ describe('test query ref', async () => {
 		expect(() =>
 			query(
 				ref,
-				limit(1),
 				// @ts-expect-error
+				limit(1),
 				orderBy('__name__'),
 				or(where('a.b.c', '<', 1))
 			)
 		).toThrow()
 
-		// ! no throw if where's field is document id
 		expect(() =>
 			query(
 				ref,
-				limit(1),
 				// @ts-expect-error
+				limit(1),
 				orderBy('beenTo'),
 				// @ts-expect-error
 				or(where(documentId(), 'not-in', ['a']), where('a.b.c', '<', 1))
