@@ -1,14 +1,5 @@
 import { example } from './init'
-import {
-	getDocs,
-	query,
-	where,
-	orderBy,
-	onSnapshot,
-	startAfter,
-	limit,
-	getCountFromServer,
-} from 'firelordjs'
+import { getDocs, query, where, orderBy, limit } from 'firelordjs'
 
 // filter documents
 getDocs(
@@ -33,28 +24,3 @@ getDocs(
 		// similar to docSnapshot of getDoc
 	})
 })
-
-// filter and listen to documents
-const unsub = onSnapshot(
-	query(
-		example.collectionGroup(),
-		where('b.d', 'array-contains', { e: 'hello' }),
-		orderBy('f.g'),
-		startAfter(new Date())
-	),
-	querySnapshot => {},
-	error => {},
-	{ includeMetadataChanges: false }
-)
-
-// listen to a single document
-const unsub2 = onSnapshot(
-	example.doc('abc'),
-	docSnapshot => {},
-	error => {},
-	{ includeMetadataChanges: true }
-)
-
-// remove listeners
-unsub()
-unsub2()
