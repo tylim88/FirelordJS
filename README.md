@@ -123,6 +123,16 @@ FirelordJS is the only library capable of **[typing against](https://firelordjs.
 
 [Use FirelordJS in NextJS](https://github.com/tylim88/FirelordJS/issues/95)
 
+## Nested Composite Query Rulings
+
+Rulings for `or` & `and` composite query are ready, rulings works with nested query
+
+Official SDK runtime error:  
+![SDK runtime error](./img/composite2.png)
+
+Firelord compile time error:  
+![nested composite query ruling](./img/composite1.png)
+
 ## Upcoming V3
 
 | **Update: We will continue active development on v2, unless we have more time to works on V3**
