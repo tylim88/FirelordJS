@@ -84,6 +84,7 @@
 <div align="center">
 	<i>Be The Master Of Your Fire, Be Firelord</i>
 </div>
+<br />
 <div align="center">
 	<i>Beyond Typing</i>
 </div>
@@ -119,19 +120,21 @@ FirelordJS is the only library capable of **[typing against](https://firelordjs.
 1. found something better: 75 cups
 2. created something better: 1000 cups (you don't need to a make full fledge library, something that is minimally better is enough, open an issue if you want to take this challenge)
 
-## NextJS TroubleShooting
-
-[Use FirelordJS in NextJS](https://github.com/tylim88/FirelordJS/issues/95)
-
 ## Nested Composite Query Rulings
 
-Rulings for `or` & `and` composite query are ready, rulings works with nested query
+Rulings for `or` & `and` composite query are ready, rulings works with nested query, example:
 
 Official SDK runtime error:  
 ![SDK runtime error](./img/composite2.png)
 
 Firelord compile time error:  
 ![nested composite query ruling](./img/composite1.png)
+
+It has all the normal query rulings plus new rulings specific to composite query.
+
+## NextJS TroubleShooting
+
+[Use FirelordJS in NextJS](https://github.com/tylim88/FirelordJS/issues/95)
 
 ## Upcoming V3
 
