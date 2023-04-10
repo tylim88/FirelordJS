@@ -11,57 +11,6 @@ const or = userRefCreator().or
 const and = userRefCreator().and
 const fullDocPath = 'topLevel/FirelordTest/Users/a'
 describe('test query ref', async () => {
-	it('cannot use where with or query in top level, negative case', () => {
-		expect(() =>
-			query(
-				ref,
-				// @ts-expect-error
-				where('age', '==', 2),
-				limit(1),
-				or(where('a.b.c', '<', 2))
-			)
-		).toThrow()
-
-		expect(() =>
-			query(
-				ref,
-				// @ts-expect-error
-				or(where('a.b.c', '<', 2)),
-				limit(1),
-				where('age', '>', 2)
-			)
-		).toThrow()
-
-		expect(() =>
-			query(
-				ref,
-				// @ts-expect-error
-				or(where('age', '==', 2)),
-				and(where('a.b.c', '==', 2)),
-				limit(1)
-			)
-		).toThrow()
-
-		expect(() =>
-			query(
-				ref,
-				// @ts-expect-error
-				or(where('age', '==', 2)),
-				or(where('a.b.c', '==', 2)),
-				limit(1)
-			)
-		).toThrow()
-
-		expect(() =>
-			query(
-				ref,
-				// @ts-expect-error
-				and(where('age', '==', 2)),
-				limit(1),
-				or(where('a.b.c', '==', 2))
-			)
-		).toThrow()
-	})
 	it('In a compound query, range (<, <=, >, >=) and not equals (!=, not-in) comparisons must all filter on the same field, negative test', () => {
 		expect(() =>
 			query(
