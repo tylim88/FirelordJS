@@ -87,6 +87,7 @@ export type ErrorInvalidTopLevelFilter =
 	`Error: When using composite filters, you cannot use more than one filter('and' 'when' 'or') at the top level. Consider nesting the multiple filters within an 'and(...)' statement. For example: change 'query(query, where(...), or(...))' to 'query(query, and(where(...), or(...)))'.`
 export type ErrorCannotUseNotInOrQuery = // ! only throw if 'or' has more than one clauses
 	"Error: You cannot use 'not-in' in 'or' query, nested or not. But can be neighbor in 'and' query , eg: and(where('a','not-in',[1]), or(where('b','>',2), where('c','<',1)))"
+export type ErrorEmptyCompositeFilter = 'Error: Your filter is empty'
 
 export type ErrorMsgs =
 	| ErrorUndefined
@@ -130,6 +131,7 @@ export type ErrorMsgs =
 	| ErrorOrAndInvalidConstraints
 	| ErrorInvalidTopLevelFilter
 	| ErrorCannotUseNotInOrQuery
+	| ErrorEmptyCompositeFilter
 
 // unused
 export type ReplaceErrorMsgsWithNever<T> = T extends ErrorMsgs ? never : T

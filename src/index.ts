@@ -5,15 +5,13 @@ import {
 	Doc,
 	Collection,
 	GetOddOrEvenSegments,
-	Or,
-	And,
+	QueryCompositeFilter,
 } from './types'
 import {
 	docCreator,
 	collectionCreator,
 	collectionGroupCreator,
-	orCreator,
-	andCreator,
+	queryCompositeFilterCreator,
 } from './refs'
 
 /**
@@ -30,8 +28,8 @@ export const getFirelord: GetFirelord = (firestore, ...collectionIDs) => {
 		firestore,
 		collectionIDs[collectionIDs.length - 1]!
 	)
-	const or = orCreator()
-	const and = andCreator()
+	const or = queryCompositeFilterCreator('or')
+	const and = queryCompositeFilterCreator('and')
 	return {
 		doc,
 		collection,
@@ -79,7 +77,7 @@ export type FirelordRef<T extends MetaType> = Readonly<{
 	 * created with calls to {@link where}, {@link or}, or {@link and}.
 	 * @returns The newly created {@link QueryCompositeFilterConstraint}.
 	 */
-	or: Or<T>
+	or: QueryCompositeFilter<T, 'or'>
 	/**
 	 * Creates a new {@link QueryCompositeFilterConstraint} that is a conjunction of
 	 * the given filter constraints. A conjunction filter includes a document if it
@@ -90,7 +88,7 @@ export type FirelordRef<T extends MetaType> = Readonly<{
 	 * created with calls to {@link where}, {@link or}, or {@link and}.
 	 * @returns The newly created {@link QueryCompositeFilterConstraint}.
 	 */
-	and: And<T>
+	and: QueryCompositeFilter<T, 'and'>
 }>
 
 export {
