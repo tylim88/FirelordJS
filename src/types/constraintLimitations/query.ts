@@ -22,7 +22,7 @@ import { ErrorWhereOrderByAndInEquality } from '../error'
 import {
 	FlattenQueryCompositeFilterConstraint,
 	QueryFilterConstraintLimitation,
-} from './queryFilter'
+} from './composite'
 
 // If you include a filter with a range comparison (<, <=, >, >=), your first ordering must be on the same field
 export type ValidateOrderByAndInequalityWhere<

@@ -1,2 +1,2 @@
 export * from './query'
-export * from './queryFilter'
+export * from './composite'
