@@ -280,7 +280,7 @@ describe('test query ref', async () => {
 	it(`You can't order your query by a field included in an equality (==) or in clause, positive case`, async () => {
 		await expect(
 			getDocs(
-				query(ref, orderBy('__name__'), where(documentId(), '>', fullDocPath))
+				query(ref, orderBy(documentId()), where(documentId(), '>', fullDocPath))
 			)
 		).resolves.not.toThrow()
 		await expect(

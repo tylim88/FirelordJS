@@ -7,6 +7,7 @@ import { startAfter } from './startAfter'
 import { startAt } from './startAt'
 import { endAt } from './endAt'
 import { QueryDocumentSnapshot, DocumentSnapshot } from '../types'
+import { documentId } from '../fieldPath'
 
 initializeApp()
 const ref = userRefCreator().collectionGroup()
@@ -150,7 +151,7 @@ describe('test query ref', () => {
 			query(
 				ref,
 				orderBy('a.b.c'),
-				orderBy('__name__'),
+				orderBy(documentId()),
 				limit(1),
 				startAt(1),
 				// @ts-expect-error
@@ -171,7 +172,7 @@ describe('test query ref', () => {
 		query(
 			ref,
 			orderBy('a.b.c'),
-			orderBy('__name__'),
+			orderBy(documentId()),
 			limit(1),
 			startAt(1),
 			// @ts-expect-error

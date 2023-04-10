@@ -368,7 +368,7 @@ describe('test query ref', async () => {
 			getDocs(
 				query(
 					ref,
-					orderBy('__name__'),
+					orderBy(documentId()),
 					and(where(documentId(), '>', fullDocPath))
 				)
 			)
