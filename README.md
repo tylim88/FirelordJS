@@ -94,10 +94,6 @@
 </div>
 <br/>
 
-# Important
-
-Please read release notes [v2.4](https://github.com/tylim88/FirelordJS/releases/tag/2.4.0) and [v2.4.8](https://github.com/tylim88/FirelordJS/releases/tag/2.4.8)
-
 # FirelordJS
 
 FirelordJS is the only library capable of providing insane type safety while exposing almost all the API of the official Firestore SDK. The goal is to end Firestore typing madness.
@@ -120,7 +116,7 @@ FirelordJS is the only library capable of **[typing against](https://firelordjs.
 1. found something better: 75 cups
 2. created something better: 1000 cups (you don't need to a make full fledge library, something that is minimally better is enough, open an issue if you want to take this challenge)
 
-## Nested Composite Query Rulings
+## Nested Composite Query Rulings (v2.5+)
 
 Rulings for `or` & `and` composite query are ready, rulings works with nested query, example:
 
