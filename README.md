@@ -126,7 +126,7 @@ Official SDK runtime error:
 Firelord compile time error:  
 ![nested composite query ruling](./img/composite1.png)
 
-It has all the normal query rulings plus new rulings specified to composite query.
+It has all the regular rulings plus new composite rulings.
 
 ## NextJS TroubleShooting
 
