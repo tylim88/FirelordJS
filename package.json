@@ -99,8 +99,5 @@
 		"tsdoc": "^0.0.4",
 		"typescript": "^5.0.2",
 		"vitest": "^0.29.7"
-	},
-	"peerDependencies": {
-		"firebase": "^9.17.1"
 	}
 }

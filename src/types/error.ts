@@ -36,7 +36,7 @@ export type ErrorNumberOfForwardSlashIsNotEqual<
 > = `Error: Invalid query, forward slash count mismatched, current count is ${Current}, need ${Correct}.`
 export type ErrorEmptyUpdate = `Error: Update data is an empty object literal`
 export type ErrorPossiblyUndefinedAsArrayElement =
-	`Error: You cannot assign PossiblyUndefined as array element, eg: 'PossiblyUndefined[]', you can however indirectly assign PossiblyUndefined in array, eg: < { a : number | PossiblyUndefined }[] >`
+	`Error: You cannot assign PossiblyUndefined as array element, eg: 'PossiblyUndefined[]', you can however assign PossiblyUndefined anyway you want to array element, eg: < { a : number | PossiblyUndefined }[] >`
 export type ErrorMoreThanOnceDocSnapshotInCursor =
 	`Error: If cursors has a DocumentSnapshot(or QueryDocumentSnapshot) argument, then DocumentSnapshot(or QueryDocumentSnapshot) should be the one and only argument`
 export type ErrorLimitInvalidNumber =

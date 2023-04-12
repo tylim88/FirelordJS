@@ -90,7 +90,7 @@
 </div>
 <br>
 <div align="center">
-<a href="https://firelordjs.com/quick_start" target="_blank" style="color:blue"><strong>Documentation</strong></a>
+<a href="https://firelordjs.com/quick_start" target="_blank" style="color:blue"><strong>Doc</strong></a>
 </div>
 <br/>
 
