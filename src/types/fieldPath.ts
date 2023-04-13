@@ -50,9 +50,7 @@ export type GetCorrectDocumentIdBasedOnRef<
 	? Value extends string
 		? IsEqual<CollectionReference<T>, Q> extends true
 			? string extends T['docID']
-				? Value extends T['docID']
-					? IsValidID<Value, 'Document', 'ID'>
-					: T['docID']
+				? IsValidID<Value, 'Document', 'ID'>
 				: string extends Value
 				? ErrorPleaseDoConstAssertion
 				: Value extends T['docID']
