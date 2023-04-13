@@ -7,7 +7,6 @@ export type Where = <
 	T extends MetaType,
 	FieldPath extends (keyof T['writeFlatten'] & string) | DocumentId,
 	OpStr extends WhereFilterOp,
-	// eslint-disable-next-line prettier/prettier
 	const Value
 >(
 	fieldPath: FieldPath,

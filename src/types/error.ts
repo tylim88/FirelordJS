@@ -85,9 +85,11 @@ export type ErrorOrAndInvalidConstraints =
 	`Error: 'or' & 'and' queries accept only 'where' clause and 'or' & 'and' queries`
 export type ErrorInvalidTopLevelFilter =
 	`Error: When using composite filters, you cannot use more than one filter('and' 'when' 'or') at the top level. Consider nesting the multiple filters within an 'and(...)' statement. For example: change 'query(query, where(...), or(...))' to 'query(query, and(where(...), or(...)))'.`
-export type ErrorCannotUseNotInOrQuery = // ! only throw if 'or' has more than one clauses
+export type ErrorCannotUseNotInOrQuery = // ! only throw at runtime if 'or' has more than one clauses
 	"Error: You cannot use 'not-in' in 'or' query, nested or not. But can be neighbor in 'and' query , eg: and(where('a','not-in',[1]), or(where('b','>',2), where('c','<',1)))"
 export type ErrorEmptyCompositeFilter = 'Error: Your filter is empty'
+export type ErrorFieldPathDoesNotExist<T extends string> =
+	`Error: Field path ${T} does not exist`
 
 export type ErrorMsgs =
 	| ErrorUndefined
@@ -132,6 +134,7 @@ export type ErrorMsgs =
 	| ErrorInvalidTopLevelFilter
 	| ErrorCannotUseNotInOrQuery
 	| ErrorEmptyCompositeFilter
+	| ErrorFieldPathDoesNotExist<string>
 
 // unused
 export type ReplaceErrorMsgsWithNever<T> = T extends ErrorMsgs ? never : T

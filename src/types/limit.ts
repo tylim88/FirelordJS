@@ -5,10 +5,7 @@ import { ErrorLimitInvalidNumber } from './error'
 export type LimitCreator = <Type extends 'limit' | 'limitToLast'>(
 	type: Type,
 	clause: (limit: number) => QueryConstraint
-) => <
-	// eslint-disable-next-line prettier/prettier
-	const Value extends number
->(
+) => <const Value extends number>(
 	limit: Value extends 0
 		? ErrorLimitInvalidNumber
 		: number extends Value
