@@ -19,22 +19,8 @@ type abc = MetaTypeCreator<
 
 const firelordRef = getFirelord<abc>(db, 'SomeCollectionName')
 
-// abstract document ids
+// abstract doc ids
 export async function abstractDocIds<T extends MetaType>({
-	firelordRef,
-	collectionIds,
-}: {
-	firelordRef: FirelordRef<T>
-	collectionIds: GetCollectionIds<T>
-}): Promise<void> {
-	const collectionRef = firelordRef.collection(
-		// @ts-expect-error
-		...collectionIds
-	)
-}
-
-// abstract collection ids
-export async function abstractCollectionIds<T extends MetaType>({
 	firelordRef,
 	docIds,
 }: {
@@ -44,6 +30,20 @@ export async function abstractCollectionIds<T extends MetaType>({
 	const docRef = firelordRef.doc(
 		// @ts-expect-error
 		...docIds
+	)
+}
+
+// abstract collection ids
+export async function abstractCollectionIds<T extends MetaType>({
+	firelordRef,
+	collectionIds,
+}: {
+	firelordRef: FirelordRef<T>
+	collectionIds: GetCollectionIds<T>
+}): Promise<void> {
+	const collectionRef = firelordRef.collection(
+		// @ts-expect-error
+		...collectionIds
 	)
 }
 
