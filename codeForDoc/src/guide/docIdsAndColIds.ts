@@ -1,6 +1,26 @@
-import { MetaType, FirelordRef, GetDocIds, GetCollectionIds } from 'firelordjs'
+import {
+	MetaType,
+	FirelordRef,
+	GetDocIds,
+	GetCollectionIds,
+	getFirestore,
+	MetaTypeCreator,
+	getFirelord,
+} from 'firelordjs'
 
-export async function guardDocIds<T extends MetaType>({
+const db = getFirestore()
+
+type abc = MetaTypeCreator<
+	{
+		a: number
+	},
+	'SomeCollectionName'
+>
+
+const firelordRef = getFirelord<abc>(db, 'SomeCollectionName')
+
+// abstract document ids
+export async function abstractDocIds<T extends MetaType>({
 	firelordRef,
 	collectionIds,
 }: {
@@ -13,7 +33,8 @@ export async function guardDocIds<T extends MetaType>({
 	)
 }
 
-export async function guardCollectionIds<T extends MetaType>({
+// abstract collection ids
+export async function abstractCollectionIds<T extends MetaType>({
 	firelordRef,
 	docIds,
 }: {
@@ -26,7 +47,10 @@ export async function guardCollectionIds<T extends MetaType>({
 	)
 }
 
-export async function guardDocIdsAndCollectionIds<T extends MetaType>({
+// abstract both document and collection ids
+// The collection ids is basically document ids with the last element removed
+// so you can just reuse the document Ids here
+export async function abstractDocIdsAndCollectionIds<T extends MetaType>({
 	firelordRef,
 	docIds,
 }: {
@@ -43,3 +67,6 @@ export async function guardDocIdsAndCollectionIds<T extends MetaType>({
 		...collectionIds
 	)
 }
+
+// Example of calling it
+abstractDocIdsAndCollectionIds({ firelordRef, docIds: ['abc'] })
