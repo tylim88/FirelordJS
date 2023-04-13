@@ -58,6 +58,15 @@ describe('test document id type', () => {
 		)
 	})
 
+	it('test document id type is string', () => {
+		query(
+			collectionGroupRef,
+			// @ts-expect-error
+			where(documentId(), '==', fullDocPath as string)
+		)
+		query(collectionRef, where(documentId(), '!=', 'a' as string))
+	})
+
 	it('test correct input', async () => {
 		await expect(
 			getDocs(query(collectionGroupRef, where(documentId(), '==', fullDocPath)))
