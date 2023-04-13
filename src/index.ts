@@ -124,4 +124,7 @@ export type {
 	WriteBatch,
 	RunTransaction,
 	AbstractMetaTypeCreator,
+	GetDocIds,
+	Transaction,
+	GetCollectionIds,
 } from './types'
