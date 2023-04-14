@@ -9,7 +9,7 @@ import { DocumentSnapshot, QueryDocumentSnapshot } from './snapshot'
 
 export type CursorType = 'startAt' | 'startAfter' | 'endAt' | 'endBefore'
 
-export type Cursor<Type extends CursorType> = <Values extends unknown[]>(
+export type Cursor<Type extends CursorType> = <const Values extends unknown[]>(
 	...snapshotOrFieldValues: Values['length'] extends 0
 		? [ErrorEmptyCursor]
 		: number extends Values['length']

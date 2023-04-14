@@ -14,12 +14,12 @@ import {
 import { CursorType } from '../cursor'
 import { QueryDocumentSnapshot, DocumentSnapshot } from '../snapshot'
 import { GetAllOrderBy } from './orderBy'
-import { Query, CollectionReference } from '../refs'
+import { Query } from '../refs'
 
 // Too many arguments provided to startAt(). The number of arguments must be less than or equal to the number of orderBy() clauses
 type ValidateCursorOrderBy<
 	T extends MetaType,
-	Q extends Query<T> | CollectionReference<T>,
+	Q extends Query<T>,
 	Values extends unknown[],
 	AllOrderBy extends OrderByConstraint<string, OrderByDirection | undefined>[]
 > = Values extends [infer Head, ...infer Rest]
@@ -52,7 +52,7 @@ type ValidateCursorOrderBy<
 
 export type CursorConstraintLimitation<
 	T extends MetaType,
-	Q extends Query<T> | CollectionReference<T>,
+	Q extends Query<T>,
 	U extends CursorConstraint<CursorType, unknown[]>,
 	PreviousQCs extends readonly QueryConstraints<T>[]
 > = CursorConstraint<
