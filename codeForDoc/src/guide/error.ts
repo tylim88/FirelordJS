@@ -9,6 +9,8 @@ import {
 } from 'firelordjs'
 import { initializeApp } from 'firebase/app'
 
+// not yet finish
+
 export type Example = MetaTypeCreator<
 	{
 		a: number
@@ -30,4 +32,8 @@ export const example = getFirelord<Example>(db, 'SomeCollectionName')
 //
 //
 //
-query(example.collection(), where('a.b', '!=', 'z'))
+query(
+	example.collection(),
+	// @ts-expect-error
+	where('a.b', '!=', 'z')
+)
