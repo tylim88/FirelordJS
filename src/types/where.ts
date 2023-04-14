@@ -1,20 +1,15 @@
 import { WhereConstraint } from './constraints'
 import { MetaType } from './metaTypeCreator'
 import { WhereFilterOp } from './alias'
-import { DocumentId, __name__ } from './fieldPath'
+import { __name__ } from './fieldPath'
 
 export type Where = <
 	T extends MetaType,
-	FieldPath extends (keyof T['writeFlatten'] & string) | DocumentId,
+	FieldPath extends (keyof T['writeFlatten'] & string) | __name__,
 	OpStr extends WhereFilterOp,
 	const Value
 >(
 	fieldPath: FieldPath,
 	opStr: OpStr,
 	value: Value
-) => WhereConstraint<
-	T,
-	FieldPath extends DocumentId ? __name__ : FieldPath,
-	OpStr,
-	Value
->
+) => WhereConstraint<T, FieldPath, OpStr, Value>

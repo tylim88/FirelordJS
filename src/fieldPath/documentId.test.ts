@@ -1,5 +1,5 @@
 import { documentId } from './documentId'
-import { DocumentId, IsTrue, IsSame, DocumentReference } from '../types'
+import { __name__, IsTrue, IsSame, DocumentReference } from '../types'
 import { query } from '../refs'
 import { where } from '../queryClauses'
 import {
@@ -9,7 +9,7 @@ import {
 	compareWriteDataWithDocSnapData,
 	Parent,
 } from '../utilForTests'
-import { setDoc, getDocs, getDoc } from '../operations'
+import { setDoc, getDocs } from '../operations'
 initializeApp()
 const userRef = userRefCreator()
 const collectionGroupRef = userRef.collectionGroup()
@@ -22,12 +22,14 @@ const docRef = userRefCreator().doc(
 	'testCollectionWithDocumentId'
 )
 const data = generateRandomData()
-// documentId is also tested in query for common test
+// documentId common behavior is tested in query.test.ts
 describe('test document id type', () => {
 	it('test return type', () => {
 		type A = ReturnType<typeof documentId>
-		type B = DocumentId
+		type B = __name__
 		IsTrue<IsSame<A, B>>()
+
+		expect(documentId()).toBe('__name__')
 	})
 
 	it('test __name__, positive test', async () => {

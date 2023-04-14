@@ -63,7 +63,7 @@ export type QueryConstraintLimitation<
 				: Head extends WhereConstraint<T, string, WhereFilterOp, unknown>
 				? WhereConstraintLimitation<T, Q, Head, PreviousQCs>
 				: Head extends CursorConstraint<CursorType, unknown[]>
-				? CursorConstraintLimitation<T, Head, PreviousQCs>
+				? CursorConstraintLimitation<T, Q, Head, PreviousQCs>
 				: Head extends QueryCompositeFilterConstraint<
 						T,
 						'and' | 'or',

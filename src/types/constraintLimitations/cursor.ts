@@ -1,19 +1,25 @@
 import { MetaType } from '../metaTypeCreator'
 import { OrderByDirection } from '../alias'
-import { ErrorCursorTooManyArguments, ErrorCursor__name__ } from '../error'
+import { ErrorCursorTooManyArguments } from '../error'
 import {
 	QueryConstraints,
 	OrderByConstraint,
 	CursorConstraint,
 } from '../constraints'
-import { RemoveSentinelFieldPathFromCompare, __name__ } from '../fieldPath'
+import {
+	__name__,
+	GetCorrectDocumentIdBasedOnRef,
+	RemoveSentinelFieldPathFromCompare,
+} from '../fieldPath'
 import { CursorType } from '../cursor'
 import { QueryDocumentSnapshot, DocumentSnapshot } from '../snapshot'
 import { GetAllOrderBy } from './orderBy'
+import { Query, CollectionReference } from '../refs'
 
 // Too many arguments provided to startAt(). The number of arguments must be less than or equal to the number of orderBy() clauses
 type ValidateCursorOrderBy<
 	T extends MetaType,
+	Q extends Query<T> | CollectionReference<T>,
 	Values extends unknown[],
 	AllOrderBy extends OrderByConstraint<string, OrderByDirection | undefined>[]
 > = Values extends [infer Head, ...infer Rest]
@@ -21,9 +27,7 @@ type ValidateCursorOrderBy<
 		? H extends OrderByConstraint<string, OrderByDirection | undefined>
 			? [
 					H['_field'] extends __name__
-						? string extends Head
-							? ErrorCursor__name__
-							: T['docPath']
+						? GetCorrectDocumentIdBasedOnRef<T, Q, H['_field'], Head>
 						: Head extends
 								| T['compare'][H['_field']]
 								| QueryDocumentSnapshot<T>
@@ -35,6 +39,7 @@ type ValidateCursorOrderBy<
 								| DocumentSnapshot<T>,
 					...ValidateCursorOrderBy<
 						T,
+						Q,
 						Rest,
 						R extends OrderByConstraint<string, OrderByDirection | undefined>[]
 							? R
@@ -47,12 +52,14 @@ type ValidateCursorOrderBy<
 
 export type CursorConstraintLimitation<
 	T extends MetaType,
+	Q extends Query<T> | CollectionReference<T>,
 	U extends CursorConstraint<CursorType, unknown[]>,
 	PreviousQCs extends readonly QueryConstraints<T>[]
 > = CursorConstraint<
 	CursorType,
 	ValidateCursorOrderBy<
 		RemoveSentinelFieldPathFromCompare<T>,
+		Q,
 		U['_docOrFields'],
 		GetAllOrderBy<T, PreviousQCs, []>
 	>

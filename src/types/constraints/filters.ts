@@ -1,7 +1,6 @@
 import { MetaType } from '../metaTypeCreator'
 import { WhereFilterOp, OrderByDirection } from '../alias'
 import { CursorType } from '../cursor'
-import { DocumentId } from '../fieldPath'
 
 export type WhereConstraint<
 	T extends MetaType,
@@ -16,7 +15,7 @@ export type WhereConstraint<
 }
 
 export type OrderByConstraint<
-	FieldPath extends string | DocumentId,
+	FieldPath extends string,
 	DirectionStr extends OrderByDirection | undefined = undefined
 > = {
 	type: 'orderBy'

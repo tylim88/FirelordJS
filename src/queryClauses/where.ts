@@ -26,10 +26,5 @@ export const where: Where = (fieldPath, opStr, value) => {
 		] as typeof newValue
 	}
 
-	return where_(
-		// @ts-expect-error
-		fieldPath,
-		opStr,
-		newValue
-	)
+	return where_(fieldPath, opStr, newValue)
 }

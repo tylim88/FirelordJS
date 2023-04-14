@@ -1,3 +1,5 @@
+import { GetNumberOfPathSlash } from './validID'
+
 export type ErrorUndefined = `Error: undefined is not a valid Firestore type`
 export type ErrorNullBanned = `Error: Null type is banned in the setting`
 export type ErrorTypesBanned = `Error: This type(s) is banned in the setting`
@@ -31,16 +33,18 @@ export type ErrorEmptyDocumentOrCollectionID<
 	T extends 'Document' | 'Collection'
 > = `Error: ${T} ID is empty`
 export type ErrorNumberOfForwardSlashIsNotEqual<
-	Correct extends number,
-	Current extends number
-> = `Error: ${Current extends 0
-	? `You need to assert your value for documentId() as const, eg: ''a/b/c' as const' or else the forward slash count would be 0`
-	: `Invalid query, forward slash count mismatched`}, current count is ${Current}, need ${Correct}.`
+	Value extends string,
+	Type extends string
+> = `Error: ${GetNumberOfPathSlash<Value> extends 0
+	? `The type in need is ${Type}.${string extends Value
+			? `Detected type is 'string', you seem to forget to assert your value as const, eg: ''a/b/c' as const'`
+			: ''}`
+	: `Invalid query, forward slash count mismatched`}, current count is ${GetNumberOfPathSlash<Value>}, need ${GetNumberOfPathSlash<Type>}.`
 export type ErrorEmptyUpdate = `Error: Update data is an empty object literal`
 export type ErrorPossiblyUndefinedAsArrayElement =
 	`Error: You cannot assign PossiblyUndefined as array element, eg: 'PossiblyUndefined[]', you can however assign PossiblyUndefined anyway you want to array element, eg: < { a : number | PossiblyUndefined }[] >`
 export type ErrorMoreThanOnceDocSnapshotInCursor =
-	`Error: If cursors has a DocumentSnapshot(or QueryDocumentSnapshot) argument, then DocumentSnapshot(or QueryDocumentSnapshot) should be the one and only argument`
+	`Error: If cursors has a DocumentSnapshot(or QueryDocumentSnapshot) argument, then DocumentSnapshot(or QueryDocumentSnapshot) should be the one and only one argument`
 export type ErrorLimitInvalidNumber =
 	`Error: do not use negative, 0 or decimal value`
 export type ErrorLimitToLastOrderBy = // ! sometime throw sometime doesn't, weird
@@ -72,8 +76,6 @@ export type ErrorUnknownMember<T> =
 	`Error: Please remove the unknown member '${T & string}'`
 export type ErrorWhereDocumentFieldPath =
 	`If field path is document ID, then value must be string`
-export type ErrorCursor__name__ =
-	`Error: detected type is 'string', please do const assertion`
 export type ErrorArrayFieldValueEmpty =
 	`Error: arrayUnion and arrayRemove need at least 1 argument`
 export type ErrorEmptyCursor = `Error: cursor need at least 1 argument.`
@@ -90,8 +92,8 @@ export type ErrorInvalidTopLevelFilter =
 export type ErrorCannotUseNotInOrQuery = // ! only throw at runtime if 'or' has more than one clauses
 	"Error: You cannot use 'not-in' in 'or' query, nested or not. But can be neighbor in 'and' query , eg: and(where('a','not-in',[1]), or(where('b','>',2), where('c','<',1)))"
 export type ErrorEmptyCompositeFilter = 'Error: Your filter is empty'
-export type ErrorFieldPathDoesNotExist<T extends string> =
-	`Error: Field path ${T} does not exist`
+export type ErrorColRefOrderByDocumentIDCursorNoSlash<T extends string> =
+	`Error: When querying a collection and ordering by documentId(), the value passed to endAt() must be a plain document ID, but ${T} contains a slash.`
 
 export type ErrorMsgs =
 	| ErrorUndefined
@@ -104,7 +106,7 @@ export type ErrorMsgs =
 	| ErrorUnionInvolveObjectType
 	| ErrorDeleteFieldMerge
 	| ErrorDeleteFieldUnion<string>
-	| ErrorNumberOfForwardSlashIsNotEqual<number, number>
+	| ErrorNumberOfForwardSlashIsNotEqual<string, string>
 	| ErrorPleaseDoConstAssertion
 	| ErrorEndOfID
 	| ErrorCollectionIDString
@@ -126,7 +128,6 @@ export type ErrorMsgs =
 	| ErrorUnknownMember<string>
 	| ErrorWhereDocumentFieldPath
 	| ErrorWhereNoNeverEmptyArray
-	| ErrorCursor__name__
 	| ErrorArrayFieldValueEmpty
 	| ErrorEmptyCursor
 	| ErrorCursorNoArray
@@ -136,7 +137,7 @@ export type ErrorMsgs =
 	| ErrorInvalidTopLevelFilter
 	| ErrorCannotUseNotInOrQuery
 	| ErrorEmptyCompositeFilter
-	| ErrorFieldPathDoesNotExist<string>
+	| ErrorColRefOrderByDocumentIDCursorNoSlash<string>
 
 // unused
 export type ReplaceErrorMsgsWithNever<T> = T extends ErrorMsgs ? never : T

@@ -11,10 +11,8 @@ type AllowInvalidIDCharacter<S extends InvalidIDCharacter> = Exclude<
 	InvalidIDCharacter,
 	S
 >
-export type GetNumberOfSlash<ID extends string> = GetNumberOfInvalidCharacter<
-	ID,
-	'/'
->
+export type GetNumberOfPathSlash<ID extends string> =
+	GetNumberOfInvalidCharacter<ID, '/'>
 
 export type GetNumberOfInvalidCharacter<
 	ID extends string,
