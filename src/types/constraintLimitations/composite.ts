@@ -57,7 +57,7 @@ export type ValidateTopLevelQueryCompositeFilterPartOne<
 		: GetAllQueryFilterCompositeConstraint<T, AllQQCs, never> extends never
 		? true
 		: ErrorInvalidTopLevelFilter
-	: never
+	: true
 
 // `Error: When using composite filters, you cannot use more than one filter('and' 'when' 'or') at the top level. Consider nesting the multiple filters within an 'and(...)' statement. For example: change 'query(query, where(...), or(...))' to 'query(query, and(where(...), or(...)))'.`
 // check or/and + or/and

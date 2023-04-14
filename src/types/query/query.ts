@@ -12,7 +12,6 @@ import {
 	ValidateOrderByAndInequalityWhere,
 } from '../constraintLimitations'
 import { Query, CollectionReference } from '../refs'
-import { IsSame } from '../utils'
 
 export type QueryRef = <
 	Z extends MetaType,
@@ -25,31 +24,32 @@ export type QueryRef = <
 	...queryConstraints: QQCs extends never
 		? QQCs
 		: AddSentinelFieldPathToCompare<Z> extends infer T extends MetaType
-		? ValidateTopLevelQueryCompositeFilterPartOne<T, QQCs> extends infer B
-			? IsSame<B, string> extends true
-				? B
-				: ValidateTopLevelQueryCompositeFilterPartTwo<
+		? ValidateTopLevelQueryCompositeFilterPartOne<
+				T,
+				QQCs
+		  > extends infer B extends string
+			? B
+			: ValidateTopLevelQueryCompositeFilterPartTwo<
+					T,
+					QQCs
+			  > extends infer C extends string
+			? C
+			: FlattenQueryCompositeFilterConstraint<
+					T,
+					QQCs
+			  > extends infer AllFlattenQCs extends QueryConstraints<Z>[]
+			? ValidateOrderByAndInequalityWhere<
+					T,
+					AllFlattenQCs
+			  > extends infer K extends string
+				? K
+				: QueryConstraintLimitation<
 						T,
-						QQCs
-				  > extends infer C extends string
-				? C
-				: FlattenQueryCompositeFilterConstraint<
-						T,
-						QQCs
-				  > extends infer AllFlattenQCs extends QueryConstraints<Z>[]
-				? ValidateOrderByAndInequalityWhere<
-						T,
+						AddSentinelFieldPathToCompareHighLevel<Z, Q>,
+						QQCs,
+						[],
 						AllFlattenQCs
-				  > extends infer K extends string
-					? K
-					: QueryConstraintLimitation<
-							T,
-							AddSentinelFieldPathToCompareHighLevel<Z, Q>,
-							QQCs,
-							[],
-							AllFlattenQCs
-					  >
-				: never
+				  >
 			: never
 		: never
 ) => Query<Z>

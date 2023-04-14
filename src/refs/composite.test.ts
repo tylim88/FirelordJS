@@ -19,7 +19,7 @@ describe('test query ref', async () => {
 			or()
 		}).not.toThrow()
 	})
-	it('cannot use where with or query in top level, negative case', () => {
+	it('cannot use where/or/and with or/and query in top level, negative case', () => {
 		expect(() =>
 			query(
 				ref,
@@ -34,9 +34,9 @@ describe('test query ref', async () => {
 			query(
 				ref,
 				// @ts-expect-error
-				and(where('a.b.c', '<', 2)),
+				or(where('a.b.c', '<', 2)),
 				limit(1),
-				where('age', '>', 2)
+				where('age', '==', 2)
 			)
 		).toThrow()
 

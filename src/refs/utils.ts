@@ -28,7 +28,7 @@ export const queryBuilder = (
 				type === 'endAt' ||
 				type === 'endBefore'
 			) {
-				qc._docOrFields.length !== 0 && acc.push(qc)
+				qc._docOrFields.length > 0 && acc.push(qc)
 			} else if (
 				type === 'or' ||
 				type === 'and' ||
