@@ -15,6 +15,7 @@ import {
 import { DocumentReference } from './refs'
 import { IsTrue, IsSame, IsEqual } from './utils'
 import { Parent, User } from '../utilForTests'
+import { __name__Record } from './fieldPath'
 
 describe('test Firelord type', () => {
 	it('test parents equal', () => {
@@ -157,7 +158,7 @@ describe('test Firelord type', () => {
 			'b.j': Timestamp | Date | null
 			'b.k': DocumentReference<MetaType> | null
 			'b.d.e': false
-		}
+		} & __name__Record
 
 		type Read = A['read']
 		type Write = A['write']
@@ -304,7 +305,7 @@ describe('test Firelord type', () => {
 				  }[]
 			'b.j': Timestamp | Date | null
 			'b.k': DocumentReference<MetaType> | null
-		}
+		} & __name__Record
 
 		type Read = A['read']
 		type Write = A['write']
@@ -454,7 +455,7 @@ describe('test Firelord type', () => {
 			h: string | ErrorNullBanned
 			i: number | ErrorNullBanned
 			'b.k': DocumentReference<MetaType> | ErrorNullBanned
-		}
+		} & __name__Record
 
 		type Read = A['read']
 		type Write = A['write']
@@ -617,7 +618,7 @@ describe('test Firelord type', () => {
 			'b.j': Timestamp | Date | null
 			'b.k': DocumentReference<MetaType> | null
 			'b.d.e': false
-		}
+		} & __name__Record
 
 		type Read = A['read']
 		type Write = A['write']
@@ -660,7 +661,7 @@ describe('test Firelord type', () => {
 			b: ErrorDirectNested
 			c: ErrorDirectNested
 			d: ErrorDirectNested
-		}
+		} & __name__Record
 
 		type ExpectedWrite = {
 			a: ErrorDirectNested
@@ -727,7 +728,7 @@ describe('test Firelord type', () => {
 			'd.a': GeoPoint
 			'd.b': Bytes
 			'd.c': DocumentReference<User>
-		}
+		} & __name__Record
 
 		IsTrue<IsSame<ExpectedRead, Read>>()
 		IsTrue<IsSame<ExpectedWrite, Write>>()

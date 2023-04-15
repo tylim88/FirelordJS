@@ -10,32 +10,8 @@ import {
 declare const documentIdSymbol: unique symbol
 export type DocumentIdSymbol = typeof documentIdSymbol
 
-export type AddSentinelFieldPathToCompare<T extends MetaType> = StrictOmit<
-	T,
-	'compare'
-> & {
-	compare: T['compare'] & {
-		[K in __name__]: unknown
-	}
-}
-
-export type AddSentinelFieldPathToCompareHighLevel<
-	T extends MetaType,
-	Q extends Query<T>
-> = IsEqual<Query<AddSentinelFieldPathToCompare<T>>, Q> extends true
-	? Query<AddSentinelFieldPathToCompare<T>>
-	: IsEqual<CollectionReference<T>, Q> extends true
-	? CollectionReference<AddSentinelFieldPathToCompare<T>>
-	: never // impossible route
-
-export type RemoveSentinelFieldPathFromCompare<T extends MetaType> = StrictOmit<
-	T,
-	'compare'
-> & {
-	compare: StrictOmit<T['compare'], __name__>
-}
-
 export type __name__ = '__name__'
+export type __name__Record = Record<__name__, unknown>
 
 export type GetCorrectDocumentIdBasedOnRef<
 	T extends MetaType,
@@ -44,9 +20,7 @@ export type GetCorrectDocumentIdBasedOnRef<
 	Value
 > = FieldPath extends __name__
 	? Value extends string
-		? true extends
-				| IsEqual<CollectionReference<AddSentinelFieldPathToCompare<T>>, Q>
-				| IsEqual<CollectionReference<T>, Q>
+		? true extends IsEqual<CollectionReference<T>, Q>
 			? string extends T['docID']
 				? IsValidID<Value, 'Document', 'ID'>
 				: string extends Value
@@ -54,9 +28,7 @@ export type GetCorrectDocumentIdBasedOnRef<
 				: Value extends T['docID']
 				? IsValidID<Value, 'Document', 'ID'>
 				: T['docID']
-			: true extends
-					| IsEqual<Query<AddSentinelFieldPathToCompare<T>>, Q>
-					| IsEqual<Query<T>, Q>
+			: true extends IsEqual<Query<T>, Q>
 			? string extends Value
 				? ErrorPleaseDoConstAssertion
 				: GetNumberOfPathSlash<Value> extends GetNumberOfPathSlash<T['docPath']> // checking number of slash is a must, because the docID type most likely is string, and will accept any string
@@ -65,7 +37,7 @@ export type GetCorrectDocumentIdBasedOnRef<
 					: T['docPath']
 				: ErrorNumberOfForwardSlashIsNotEqual<Value, T['docPath']>
 			: never // impossible route
-		: DocumentReference<RemoveSentinelFieldPathFromCompare<T>>
+		: DocumentReference<T>
 	: FieldPath extends string
 	? T['compare'][FieldPath]
 	: never // impossible route

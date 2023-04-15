@@ -3,10 +3,6 @@ import {
 	QueryCompositeFilterConstraint,
 	QueryFilterConstraints,
 } from '../constraints'
-import {
-	AddSentinelFieldPathToCompare,
-	AddSentinelFieldPathToCompareHighLevel,
-} from '../fieldPath'
 import { QueryFilterConstraintLimitation } from '../constraintLimitations'
 import { Query, CollectionReference } from '../refs'
 import { ErrorEmptyCompositeFilter } from '../error'
@@ -16,17 +12,17 @@ export type QueryCompositeFilter<
 	Type extends 'and' | 'or'
 > = <
 	Q extends Query<T> | CollectionReference<T>,
-	QFC extends QueryFilterConstraints<AddSentinelFieldPathToCompare<T>>[]
+	QFCs extends QueryFilterConstraints<T>[]
 >(
-	...queryFilterConstraints: QFC extends never
-		? QFC
-		: QFC extends never[]
+	...queryFilterConstraints: QFCs extends never
+		? QFCs
+		: QFCs extends never[]
 		? ErrorEmptyCompositeFilter
 		: QueryFilterConstraintLimitation<
-				AddSentinelFieldPathToCompare<T>,
-				AddSentinelFieldPathToCompareHighLevel<T, Q>,
-				QFC,
+				T,
+				Q,
+				QFCs,
 				[],
-				QueryCompositeFilterConstraint<T, Type, QFC>
+				QueryCompositeFilterConstraint<T, Type, QFCs>
 		  >
-) => QueryCompositeFilterConstraint<T, Type, QFC>
+) => QueryCompositeFilterConstraint<T, Type, QFCs>

@@ -21,6 +21,7 @@ import { ObjectFlatten } from './objectFlatten'
 import { RecursiveReplaceUnionInvolveObjectTypeWithErrorMsg } from './markUnionObjectAsError'
 import { StrictOmit } from './utils'
 import { DocumentReference } from './refs'
+import { __name__Record } from './fieldPath'
 
 export type MetaType = {
 	collectionPath: string
@@ -77,7 +78,7 @@ export type MetaTypeCreator<
 					write: WriteConverter<Q, S>
 					writeMerge: WriteUpdateConverter<Q, S>
 					writeFlatten: WriteUpdateConverter<R, S>
-					compare: CompareConverter<R, S>
+					compare: CompareConverter<R, S> & __name__Record
 					collectionID: NoUndefinedAndBannedTypes<
 						string extends CollectionID
 							? ErrorCollectionIDString

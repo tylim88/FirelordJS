@@ -1,10 +1,6 @@
 import { MetaType } from '../metaTypeCreator'
 import { QueryAllConstraints, QueryConstraints } from '../constraints'
 import {
-	AddSentinelFieldPathToCompare,
-	AddSentinelFieldPathToCompareHighLevel,
-} from '../fieldPath'
-import {
 	QueryConstraintLimitation,
 	FlattenQueryCompositeFilterConstraint,
 	ValidateTopLevelQueryCompositeFilterPartOne,
@@ -16,14 +12,12 @@ import { Query, CollectionReference } from '../refs'
 export type QueryRef = <
 	Z extends MetaType,
 	Q extends Query<Z> | CollectionReference<Z>,
-	const QQCs extends readonly QueryAllConstraints<
-		AddSentinelFieldPathToCompare<Z>
-	>[]
+	const QQCs extends readonly QueryAllConstraints<Z>[]
 >(
 	query: Q extends never ? Q : Query<Z> | CollectionReference<Z>,
 	...queryConstraints: QQCs extends never
 		? QQCs
-		: AddSentinelFieldPathToCompare<Z> extends infer T extends MetaType
+		: Z extends infer T extends MetaType
 		? ValidateTopLevelQueryCompositeFilterPartOne<
 				T,
 				QQCs
@@ -43,13 +37,7 @@ export type QueryRef = <
 					AllFlattenQCs
 			  > extends infer K extends string
 				? K
-				: QueryConstraintLimitation<
-						T,
-						AddSentinelFieldPathToCompareHighLevel<Z, Q>,
-						QQCs,
-						[],
-						AllFlattenQCs
-				  >
+				: QueryConstraintLimitation<T, Q, QQCs, [], AllFlattenQCs>
 			: never
 		: never
 ) => Query<Z>

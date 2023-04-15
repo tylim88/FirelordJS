@@ -6,11 +6,7 @@ import {
 	OrderByConstraint,
 	CursorConstraint,
 } from '../constraints'
-import {
-	__name__,
-	GetCorrectDocumentIdBasedOnRef,
-	RemoveSentinelFieldPathFromCompare,
-} from '../fieldPath'
+import { __name__, GetCorrectDocumentIdBasedOnRef } from '../fieldPath'
 import { CursorType } from '../cursor'
 import { QueryDocumentSnapshot, DocumentSnapshot } from '../snapshot'
 import { GetAllOrderBy } from './orderBy'
@@ -58,7 +54,7 @@ export type CursorConstraintLimitation<
 > = CursorConstraint<
 	CursorType,
 	ValidateCursorOrderBy<
-		RemoveSentinelFieldPathFromCompare<T>,
+		T,
 		Q,
 		U['_docOrFields'],
 		GetAllOrderBy<T, PreviousQCs, []>
