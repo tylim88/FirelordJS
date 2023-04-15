@@ -7,9 +7,6 @@ import {
 	ErrorPleaseDoConstAssertion,
 } from './error'
 
-declare const documentIdSymbol: unique symbol
-export type DocumentIdSymbol = typeof documentIdSymbol
-
 export type __name__ = '__name__'
 export type __name__Record = Record<__name__, unknown>
 

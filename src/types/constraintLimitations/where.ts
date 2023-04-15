@@ -184,7 +184,7 @@ export type WhereConstraintLimitation<
 			T,
 			U['_field'],
 			U['_op'],
-			U['_value'] extends readonly never[] | readonly []
+			U['_value'] extends readonly never[]
 				? ErrorWhereNoNeverEmptyArray
 				: U['_value'] extends readonly (infer P)[]
 				? readonly GetCorrectDocumentIdBasedOnRef<T, Q, U['_field'], P>[]
@@ -195,7 +195,7 @@ export type WhereConstraintLimitation<
 			T,
 			U['_field'],
 			U['_op'],
-			U['_value'] extends readonly never[] | readonly []
+			U['_value'] extends readonly never[]
 				? ErrorWhereNoNeverEmptyArray
 				: T['compare'][U['_field']] extends readonly unknown[]
 				? T['compare'][U['_field']]
