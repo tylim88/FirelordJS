@@ -15,7 +15,7 @@ export type AddSentinelFieldPathToCompare<T extends MetaType> = StrictOmit<
 	'compare'
 > & {
 	compare: T['compare'] & {
-		[K in __name__]: string | DocumentReference<T>
+		[K in __name__]: unknown
 	}
 }
 
