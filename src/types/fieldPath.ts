@@ -1,5 +1,5 @@
 import { MetaType } from './metaTypeCreator'
-import { StrictOmit, IsEqual } from './utils'
+import { IsEqual } from './utils'
 import { DocumentReference, Query, CollectionReference } from './refs'
 import { IsValidID, GetNumberOfPathSlash } from './validID'
 import {
