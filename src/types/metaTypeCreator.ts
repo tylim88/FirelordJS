@@ -125,7 +125,7 @@ type ReadConverterArray<
 		?
 				| Timestamp
 				| (InArray extends true ? never : allFieldsPossiblyReadAsUndefined)
-		: T extends DocumentReference<any> | Bytes | GeoPoint
+		: T extends DocumentReference<MetaType> | Bytes | GeoPoint
 		? T | (InArray extends true ? never : allFieldsPossiblyReadAsUndefined)
 		: T extends PossiblyReadAsUndefined
 		? InArray extends true
@@ -161,7 +161,7 @@ type ReadConverter<T, allFieldsPossiblyReadAsUndefined, BannedTypes> =
 					| allFieldsPossiblyReadAsUndefined
 			: T extends ServerTimestamp | Date | Timestamp
 			? Timestamp | allFieldsPossiblyReadAsUndefined
-			: T extends DocumentReference<any> | Bytes | GeoPoint
+			: T extends DocumentReference<MetaType> | Bytes | GeoPoint
 			? T | allFieldsPossiblyReadAsUndefined
 			: T extends DeleteField | PossiblyReadAsUndefined
 			? undefined
@@ -190,7 +190,7 @@ type CompareConverterArray<T, BannedTypes> = NoDirectNestedArray<
 		? ErrorFieldValueInArray
 		: T extends Date | Timestamp
 		? Timestamp | Date
-		: T extends DocumentReference<any> | Bytes | GeoPoint
+		: T extends DocumentReference<MetaType> | Bytes | GeoPoint
 		? T
 		: T extends PossiblyReadAsUndefined
 		? never
@@ -207,7 +207,7 @@ type CompareConverter<T, BannedTypes> = NoDirectNestedArray<
 		? readonly CompareConverterArray<A, BannedTypes>[]
 		: T extends ServerTimestamp | Date | Timestamp
 		? Timestamp | Date
-		: T extends DocumentReference<any> | Bytes | GeoPoint
+		: T extends DocumentReference<MetaType> | Bytes | GeoPoint
 		? T
 		: T extends UnassignedAbleFieldValue
 		? ErrorUnassignedAbleFieldValue
@@ -228,7 +228,7 @@ type ArrayWriteConverter<T, BannedTypes> = NoDirectNestedArray<
 		? ErrorFieldValueInArray
 		: T extends Timestamp | Date
 		? Timestamp | Date
-		: T extends DocumentReference<any> | Bytes | GeoPoint
+		: T extends DocumentReference<MetaType> | Bytes | GeoPoint
 		? T
 		: T extends PossiblyReadAsUndefined
 		? never
@@ -245,7 +245,7 @@ type WriteConverter<T, BannedTypes> = NoDirectNestedArray<
 		?
 				| readonly ArrayWriteConverter<A, BannedTypes>[]
 				| ArrayUnionOrRemove<ArrayWriteConverter<A, BannedTypes>>
-		: T extends DocumentReference<any> | ServerTimestamp | GeoPoint
+		: T extends DocumentReference<MetaType> | ServerTimestamp | GeoPoint
 		? T
 		: T extends number
 		? number extends T
@@ -271,7 +271,7 @@ type WriteUpdateConverter<T, BannedTypes> = NoDirectNestedArray<
 				| readonly ArrayWriteConverter<A, BannedTypes>[]
 				| ArrayUnionOrRemove<ArrayWriteConverter<A, BannedTypes>>
 		: T extends
-				| DocumentReference<any>
+				| DocumentReference<MetaType>
 				| ServerTimestamp
 				| DeleteField
 				| GeoPoint
