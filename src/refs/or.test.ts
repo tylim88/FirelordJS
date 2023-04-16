@@ -378,9 +378,11 @@ describe('test query ref', async () => {
 			getDocs(
 				query(
 					ref,
-					where('a.e', 'in', [['1']]),
 					limit(1),
-					where('a.e', 'array-contains-any', ['1'])
+					or(
+						where('a.e', 'in', [['1']]),
+						where('a.e', 'array-contains-any', ['1'])
+					)
 				)
 			)
 		).resolves.not.toThrow()
@@ -390,9 +392,8 @@ describe('test query ref', async () => {
 			getDocs(
 				query(
 					ref,
-					where('a.e', 'in', [['1']]),
 					limit(1),
-					where('a.e', 'in', [['1']])
+					or(where('a.e', 'in', [['1']]), where('a.e', 'in', [['1']]))
 				)
 			)
 		).resolves.not.toThrow()
@@ -401,18 +402,26 @@ describe('test query ref', async () => {
 		expect(() =>
 			query(
 				ref,
-				where(documentId(), 'not-in', [fullDocPath]),
-				limit(1), // @ts-expect-error
-				where('a.e', 'array-contains-any', ['1'])
+				limit(1),
+				// @ts-expect-error
+				or(
+					// @ts-expect-error
+					where(documentId(), 'not-in', [fullDocPath]),
+					where('a.e', 'array-contains-any', ['1'])
+				)
 			)
 		).toThrow()
 
 		expect(() =>
 			query(
 				ref,
-				where('name', 'not-in', ['1']),
-				limit(1), // @ts-expect-error
-				where('a.e', 'array-contains-any', ['1'])
+				limit(1),
+				// @ts-expect-error
+				or(
+					// @ts-expect-error
+					where('name', 'not-in', ['1']),
+					where('a.e', 'array-contains-any', ['1'])
+				)
 			)
 		).toThrow()
 
@@ -421,9 +430,13 @@ describe('test query ref', async () => {
 			getDocs(
 				query(
 					ref,
-					where('a.e', 'array-contains-any', ['1']),
-					limit(1), // @ts-expect-error
-					where('a.e', 'array-contains-any', ['1'])
+					limit(1),
+					// @ts-expect-error
+					or(
+						where('a.e', 'array-contains-any', ['1']),
+						// @ts-expect-error
+						where('a.e', 'array-contains-any', ['1'])
+					)
 				)
 			)
 		).rejects.toThrow()
@@ -431,18 +444,25 @@ describe('test query ref', async () => {
 		expect(() =>
 			query(
 				ref,
-				where('name', 'not-in', ['1']),
-				limit(1), // @ts-expect-error
-				where('a.e', 'in', [['1']])
+				limit(1),
+				// @ts-expect-error
+				or(
+					// @ts-expect-error
+					where('name', 'not-in', ['1']),
+					where('a.e', 'in', [['1']])
+				)
 			)
 		).toThrow()
 
 		expect(() =>
 			query(
 				ref,
-				where('name', 'not-in', ['1']),
 				limit(1), // @ts-expect-error
-				where('a.e', 'not-in', [['1']])
+				or(
+					// @ts-expect-error
+					where('name', 'not-in', ['1']),
+					where('a.e', 'not-in', [['1']])
+				)
 			)
 		).toThrow()
 	})
@@ -450,20 +470,26 @@ describe('test query ref', async () => {
 		expect(() =>
 			query(
 				ref,
-				where(documentId(), 'not-in', [fullDocPath]),
 				limit(1),
 				// @ts-expect-error
-				where('age', '!=', 1)
+				or(
+					// @ts-expect-error
+					where(documentId(), 'not-in', [fullDocPath]),
+					where('age', '!=', 1)
+				)
 			)
 		).toThrow()
 
 		expect(() =>
 			query(
 				ref,
-				where('age', 'not-in', [1]),
 				limit(1),
 				// @ts-expect-error
-				where('age', '!=', 1)
+				or(
+					// @ts-expect-error
+					where('age', 'not-in', [1]),
+					where('age', '!=', 1)
+				)
 			)
 		).toThrow()
 	})
@@ -474,10 +500,13 @@ describe('test query ref', async () => {
 			getDocs(
 				query(
 					ref,
-					where('a.e', 'array-contains', '1'),
 					limit(1),
 					// @ts-expect-error
-					where('a.e', 'array-contains', '2')
+					or(
+						where('a.e', 'array-contains', '1'),
+						// @ts-expect-error
+						where('a.e', 'array-contains', '2')
+					)
 				)
 			)
 		).rejects.toThrow()
@@ -486,10 +515,13 @@ describe('test query ref', async () => {
 			getDocs(
 				query(
 					ref,
-					where('a.e', 'array-contains', '1'),
 					limit(1),
 					// @ts-expect-error
-					where('a.e', 'array-contains-any', ['2'])
+					or(
+						where('a.e', 'array-contains', '1'),
+						// @ts-expect-error
+						where('a.e', 'array-contains-any', ['2'])
+					)
 				)
 			)
 		).rejects.toThrow()
@@ -499,10 +531,13 @@ describe('test query ref', async () => {
 			getDocs(
 				query(
 					ref,
-					where('a.e', 'array-contains-any', ['2']),
 					limit(1),
 					// @ts-expect-error
-					where('a.e', 'array-contains', '1')
+					or(
+						where('a.e', 'array-contains-any', ['2']),
+						// @ts-expect-error
+						where('a.e', 'array-contains', '1')
+					)
 				)
 			)
 		).rejects.toThrow()
@@ -512,30 +547,39 @@ describe('test query ref', async () => {
 		expect(() =>
 			query(
 				ref,
-				where(documentId(), '!=', fullDocPath),
 				limit(1),
 				// @ts-expect-error
-				where('age', '!=', 1)
+				or(
+					where(documentId(), '!=', fullDocPath),
+					// @ts-expect-error
+					where('age', '!=', 1)
+				)
 			)
 		).toThrow()
 
 		expect(() =>
 			query(
 				ref,
-				where('age', '!=', 1),
 				limit(1),
 				// @ts-expect-error
-				where('age', '!=', 1)
+				or(
+					where('age', '!=', 1),
+					// @ts-expect-error
+					where('age', '!=', 1)
+				)
 			)
 		).toThrow()
 
 		expect(() =>
 			query(
 				ref,
-				where('age', '!=', 1),
 				limit(1),
 				// @ts-expect-error
-				where('a.b.c', '!=', 1)
+				or(
+					where('age', '!=', 1),
+					// @ts-expect-error
+					where('a.b.c', '!=', 1)
+				)
 			)
 		).toThrow()
 	})

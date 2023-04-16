@@ -70,7 +70,7 @@
 </div>
 <br/>
 <div align="center">
-		<i>Extremely High Precision Firestore Web Typescript Wrapper, Providing Unparalleled Type Safety and Dev Experience</i>
+		<i>High Precision Firestore Web Typescript Wrapper, Providing Unparalleled Type Safety and Dev Experience</i>
 </div>
 <br/>
 <div align="center">
@@ -105,9 +105,11 @@ FirelordJS:
 - Offers truly generic type safe solutions, see [Transformative Type](https://firelordjs.com/highlights/type_conversion).
 - Package size is the [smallest](https://firelordjs.com/minified_size).
 - Needs **no** code generation and schema language, just pure Typescript.
-- Supports [@firebase/rules-unit-testing and emulator](https://firelordjs.com/guides/tests), no extra API is needed!
+- Supports [@firebase/rules-unit-testing and emulator](https://firelordjs.com/guides/tests), tested with emulator and no extra API is needed!
 - Is thoroughly tested, we test beyond source code, we test built files and published package. (test source code -> build -> test built files -> publish -> test published)
-- Has no mock test, all 250 tests test against live database and emulator to ensure the highest certainty.
+- Does not do mock test, all 250 tests test against live database to ensure the highest certainty.
+- Takes care of annoying runtime errors like empty array errors([filter](https://firelordjs.com/highlights/where#dealing-with-empty-array-%EF%B8%8F) & [cursors](https://firelordjs.com/highlights/cursor#empty-rest-parameter)) and [implicit data deletion in update operation](https://firelordjs.com/highlights/update#implicit-data-deletion) for you.
+- Remove the need to write collection ID.
 - Blocks undocumented errors and provides over [30 custom error messages](https://github.com/tylim88/FirelordJS/blob/main/src/types/error.ts) to assist you in writing proper Firestore code! Here is an example:
   ![custom error message](./img/custom.png)
 
@@ -126,7 +128,7 @@ Official SDK runtime error:
 Firelord compile time error:  
 ![nested composite query ruling](./img/composite1.png)
 
-It has all the regular rulings plus new composite rulings.
+It has all the regular rulings plus new composite rulings. See also [peeling composite query error messages](https://firelordjs.com/guides/understanding_error#peeling-composite-query-error-messages)
 
 ## NextJS TroubleShooting
 
