@@ -154,13 +154,15 @@ It has all the regular rulings plus new composite rulings. See also [peeling com
 
 - Narrow read type base on query constraint. For example `where('a', '==', true)` will narrow the read type of field `a` to `true`, it should be able to narrow down complex case like `where('a.b.c', '==', { d:[{e:1}] })`. Expected to support `==` comparator for all types and _possibly_ `!=` comparator for literal type(type filtering for`!=` comparator poses great complexity hence I may not work on it). Update: I decided to give this up because with the introduction of composite query, it will be extremely difficult to implement this. Plus unlike narrowing down write type, narrowing down the read type does not contribute to type safety, it just makes thing slightly simpler(skip exhaustive check).
 
-### Possible Architecture Changes in V3
+## Possible Architecture Changes in V3
 
 Firelord follows a type-first approach, which means that every entity starts with a type. While this approach has its benefits, it can be seen as objectively inferior to a code-first approach since we can always infer types from code(with code-first approach), but not the other way around(with type-first approach). A good example of this is tools that build on top of `zod`, like [trpc](https://github.com/trpc/trpc), which provides both validation and type inference, but this is not possible for Firelord.
 
 Some may question why embedded validation is necessary for databases API, as they are not endpoints(where data validation usually takes place). However, Firestore is a database that directly interacts with clients. Therefore, it is necessary to have validation for triggers, as security rules may not always suffice and do not have type safe.
 
-Type-first approach offers better developer experience, but it cannot do anything at runtime. On the other hand, the code-first approach may require some initial trade-offs in developer experience, but it can be more adaptable in the long term.
+Type-first approach offers better developer experience, but it doesn't anything at runtime. On the other hand, the code-first approach may require some initial trade-offs in developer experience, but it can do everything.
+
+Another alternative is code generation, keeping the original developer experience and generate `zod` validation for those working with triggers. I want to avoid code generation if possible, because our single source of truth now involving 2 steps(changing types and generating code), which can be a potential point of failure if we forget to generate code after changing types.
 
 ## Trivial
 

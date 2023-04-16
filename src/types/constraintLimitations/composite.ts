@@ -136,7 +136,12 @@ export type QueryFilterConstraintLimitation<
 				: Head extends WhereConstraint<T, string, WhereFilterOp, unknown>
 				? Head['_op'] extends NotIn
 					? 'or' extends ParentConstraint['type']
-						? ErrorCannotUseNotInOrQuery
+						? StrictExclude<
+								ParentConstraint['do_not_access.query_filter_constraint'],
+								undefined
+						  >['length'] extends 1
+							? WhereConstraintLimitation<T, Q, Head, PreviousQCs>
+							: ErrorCannotUseNotInOrQuery
 						: WhereConstraintLimitation<T, Q, Head, PreviousQCs>
 					: WhereConstraintLimitation<T, Q, Head, PreviousQCs>
 				: Head extends QueryCompositeFilterConstraint<

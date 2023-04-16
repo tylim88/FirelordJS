@@ -8,6 +8,7 @@ import { getDocs } from '../operations'
 initializeApp()
 const ref = userRefCreator().collectionGroup()
 const or = userRefCreator().or
+const and = userRefCreator().and
 const fullDocPath = 'topLevel/FirelordTest/Users/a'
 describe('test query ref', async () => {
 	it('In a compound query, range (<, <=, >, >=) and not equals (!=, not-in) comparisons must all filter on the same field, negative test', () => {
@@ -399,6 +400,13 @@ describe('test query ref', async () => {
 		).resolves.not.toThrow()
 	})
 	it(`You can't combine 'not-in' with 'or', 'in', 'array-contains-any', or '!=' in the same query.. negative case`, async () => {
+		// ! this is a special case, it does not throw if there is only one clause in `or` query
+		await expect(
+			getDocs(
+				query(ref, limit(1), or(where(documentId(), 'not-in', [fullDocPath])))
+			)
+		).resolves.not.toThrow()
+
 		expect(() =>
 			query(
 				ref,
@@ -504,10 +512,15 @@ describe('test query ref', async () => {
 					ref,
 					limit(1),
 					// @ts-expect-error
+
 					or(
 						where('a.e', 'array-contains', '1'),
 						// @ts-expect-error
-						where('a.e', 'array-contains', '2')
+						and(
+							where('a.e', 'array-contains', '2'),
+							// @ts-expect-error
+							or(where('a.e', 'array-contains', '2'))
+						)
 					)
 				)
 			)
