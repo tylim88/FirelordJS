@@ -415,6 +415,19 @@ describe('test query ref', async () => {
 				or(
 					// @ts-expect-error
 					where(documentId(), 'not-in', [fullDocPath]),
+					where('age', '==', '1')
+				)
+			)
+		).not.toThrow()
+
+		expect(() =>
+			query(
+				ref,
+				limit(1),
+				// @ts-expect-error
+				or(
+					// @ts-expect-error
+					where(documentId(), 'not-in', [fullDocPath]),
 					where('a.e', 'array-contains-any', ['1'])
 				)
 			)
