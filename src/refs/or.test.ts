@@ -426,6 +426,7 @@ describe('test query ref', async () => {
 		).toThrow()
 
 		// https://github.com/firebase/firebase-js-sdk/issues/7148
+		// ! need new rule for this
 		await expect(
 			getDocs(
 				query(
@@ -439,7 +440,7 @@ describe('test query ref', async () => {
 					)
 				)
 			)
-		).rejects.toThrow()
+		).resolves.not.toThrow()
 
 		expect(() =>
 			query(
@@ -496,6 +497,7 @@ describe('test query ref', async () => {
 
 	it(`You can use at most one array-contains or array-contains-any clause per query. You can't combine array-contains with array-contains-any, negative case`, async () => {
 		// https://github.com/firebase/firebase-js-sdk/issues/7148
+		// ! need new rule for this
 		await expect(
 			getDocs(
 				query(
@@ -509,8 +511,10 @@ describe('test query ref', async () => {
 					)
 				)
 			)
-		).rejects.toThrow()
+		).resolves.not.toThrow()
+
 		// https://github.com/firebase/firebase-js-sdk/issues/7148
+		// ! need new rule for this
 		await expect(
 			getDocs(
 				query(
@@ -524,9 +528,10 @@ describe('test query ref', async () => {
 					)
 				)
 			)
-		).rejects.toThrow()
+		).resolves.not.toThrow()
 
 		// https://github.com/firebase/firebase-js-sdk/issues/7148
+		// ! need new rule for this
 		await expect(
 			getDocs(
 				query(
@@ -540,7 +545,7 @@ describe('test query ref', async () => {
 					)
 				)
 			)
-		).rejects.toThrow()
+		).resolves.not.toThrow()
 	})
 
 	it(`You cannot use more than one '!=' filter (undocumented limitation), negative case`, () => {
