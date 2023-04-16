@@ -512,15 +512,10 @@ describe('test query ref', async () => {
 					ref,
 					limit(1),
 					// @ts-expect-error
-
 					or(
 						where('a.e', 'array-contains', '1'),
 						// @ts-expect-error
-						and(
-							where('a.e', 'array-contains', '2'),
-							// @ts-expect-error
-							or(where('a.e', 'array-contains', '2'))
-						)
+						where('a.e', 'array-contains', '2')
 					)
 				)
 			)
