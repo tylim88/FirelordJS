@@ -62,7 +62,7 @@ type ValidateWhereNotEqual<
 	: true
 
 // You can use at most one array-contains or array-contains-any clause per query. You can't combine array-contains with array-contains-any.
-type ValidateWhereArrayContainsArrayContainsAny<
+export type ValidateWhereArrayContainsArrayContainsAny<
 	T extends MetaType,
 	U extends WhereConstraint<T, string, WhereFilterOp, unknown>,
 	PreviousQCs extends readonly QueryConstraints<T>[]
@@ -160,12 +160,6 @@ export type WhereConstraintLimitation<
 	? R
 	: ValidateWhereNotEqual<T, U, PreviousQCs> extends infer P extends string
 	? P
-	: ValidateWhereArrayContainsArrayContainsAny<
-			T,
-			U,
-			PreviousQCs
-	  > extends infer Y extends string
-	? Y
 	: ValidateWhereInequalityOpStrSameField<
 			T,
 			U,

@@ -446,23 +446,6 @@ describe('test query ref', async () => {
 			)
 		).toThrow()
 
-		// https://github.com/firebase/firebase-js-sdk/issues/7148
-		// ! need new rule for this
-		await expect(
-			getDocs(
-				query(
-					ref,
-					limit(1),
-					// @ts-expect-error
-					or(
-						where('a.e', 'array-contains-any', ['1']),
-						// @ts-expect-error
-						where('a.e', 'array-contains-any', ['1'])
-					)
-				)
-			)
-		).resolves.not.toThrow()
-
 		expect(() =>
 			query(
 				ref,
@@ -516,18 +499,17 @@ describe('test query ref', async () => {
 		).toThrow()
 	})
 
-	it(`You can use at most one array-contains or array-contains-any clause per query. You can't combine array-contains with array-contains-any, negative case`, async () => {
+	it(`You can use at most one array-contains or array-contains-any clause per query. You can't combine array-contains with array-contains-any, except for or query`, async () => {
 		// https://github.com/firebase/firebase-js-sdk/issues/7148
 		// ! need new rule for this
+		// currently no rule
 		await expect(
 			getDocs(
 				query(
 					ref,
 					limit(1),
-					// @ts-expect-error
 					or(
 						where('a.e', 'array-contains', '1'),
-						// @ts-expect-error
 						where('a.e', 'array-contains', '2')
 					)
 				)
@@ -536,15 +518,14 @@ describe('test query ref', async () => {
 
 		// https://github.com/firebase/firebase-js-sdk/issues/7148
 		// ! need new rule for this
+		// currently no rule
 		await expect(
 			getDocs(
 				query(
 					ref,
 					limit(1),
-					// @ts-expect-error
 					or(
 						where('a.e', 'array-contains', '1'),
-						// @ts-expect-error
 						where('a.e', 'array-contains-any', ['2'])
 					)
 				)
@@ -553,16 +534,31 @@ describe('test query ref', async () => {
 
 		// https://github.com/firebase/firebase-js-sdk/issues/7148
 		// ! need new rule for this
+		// currently no rule
 		await expect(
 			getDocs(
 				query(
 					ref,
 					limit(1),
-					// @ts-expect-error
 					or(
 						where('a.e', 'array-contains-any', ['2']),
-						// @ts-expect-error
 						where('a.e', 'array-contains', '1')
+					)
+				)
+			)
+		).resolves.not.toThrow()
+
+		// https://github.com/firebase/firebase-js-sdk/issues/7148
+		// ! need new rule for this
+		// currently no rule
+		await expect(
+			getDocs(
+				query(
+					ref,
+					limit(1),
+					or(
+						where('a.e', 'array-contains-any', ['1']),
+						where('a.e', 'array-contains-any', ['1'])
 					)
 				)
 			)

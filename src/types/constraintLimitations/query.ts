@@ -15,7 +15,11 @@ import { CursorType } from '../cursor'
 import { LimitToLastConstraintLimitation } from './limit'
 import { CursorConstraintLimitation } from './cursor'
 import { OrderByConstraintLimitation, GetFirstOrderBy } from './orderBy'
-import { GetFirstInequalityWhere, WhereConstraintLimitation } from './where'
+import {
+	GetFirstInequalityWhere,
+	WhereConstraintLimitation,
+	ValidateWhereArrayContainsArrayContainsAny,
+} from './where'
 import { InequalityOpStr } from './utils'
 import { IsSame } from '../utils'
 import { ErrorWhereOrderByAndInEquality } from '../error'
@@ -61,7 +65,13 @@ export type QueryConstraintLimitation<
 				: Head extends LimitConstraint<'limitToLast', number>
 				? LimitToLastConstraintLimitation<T, Head, AllQCs>
 				: Head extends WhereConstraint<T, string, WhereFilterOp, unknown>
-				? WhereConstraintLimitation<T, Q, Head, PreviousQCs>
+				? ValidateWhereArrayContainsArrayContainsAny<
+						T,
+						Head,
+						PreviousQCs
+				  > extends infer J extends string
+					? J
+					: WhereConstraintLimitation<T, Q, Head, PreviousQCs>
 				: Head extends CursorConstraint<CursorType, unknown[]>
 				? CursorConstraintLimitation<T, Q, Head, PreviousQCs>
 				: Head extends QueryCompositeFilterConstraint<
