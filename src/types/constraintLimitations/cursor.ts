@@ -11,6 +11,7 @@ import { CursorType } from '../cursor'
 import { QueryDocumentSnapshot, DocumentSnapshot } from '../snapshot'
 import { GetAllOrderBy } from './orderBy'
 import { Query } from '../refs'
+import { DeepValue } from '../objectFlatten'
 
 // Too many arguments provided to startAt(). The number of arguments must be less than or equal to the number of orderBy() clauses
 type ValidateCursorOrderBy<
@@ -25,12 +26,12 @@ type ValidateCursorOrderBy<
 					H['_field'] extends __name__
 						? GetCorrectDocumentIdBasedOnRef<T, Q, H['_field'], Head>
 						: Head extends
-								| T['compare'][H['_field']]
+								| DeepValue<T['compare'], H['_field']>
 								| QueryDocumentSnapshot<T>
 								| DocumentSnapshot<T>
 						? Head | QueryDocumentSnapshot<T> | DocumentSnapshot<T>
 						:
-								| T['compare'][H['_field']]
+								| DeepValue<T['compare'], H['_field']>
 								| QueryDocumentSnapshot<T>
 								| DocumentSnapshot<T>,
 					...ValidateCursorOrderBy<

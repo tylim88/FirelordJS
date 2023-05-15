@@ -1,5 +1,6 @@
 import { setCreator } from './set'
 import { updateCreator } from './update'
+import { updateNoFlattenCreator } from './updateNoFlatten'
 import { getCreator } from './get'
 import { deleteCreator } from './delete'
 import { RunTransaction } from '../types'
@@ -48,7 +49,14 @@ export const runTransaction: RunTransaction = (
 			const update = updateCreator(transaction)
 			const get = getCreator(transaction)
 			const delete_ = deleteCreator(transaction)
-			return callback({ set, update, get, delete: delete_ })
+			const updateNoFlatten = updateNoFlattenCreator(transaction)
+			return callback({
+				set,
+				update,
+				get,
+				delete: delete_,
+				updateNoFlatten,
+			})
 		},
 		transactionOptions
 	)

@@ -735,4 +735,93 @@ describe('test Firelord type', () => {
 		IsTrue<IsEqual<ExpectedWriteFlatten, WriteFlatten>>()
 		IsTrue<IsEqual<ExpectedCompare, Compare>>()
 	})
+	it('test mapped type', () => {
+		type A = MetaTypeCreator<
+			{
+				a: Record<string, string>
+				b: Record<string, { c: Record<string, number> }>
+			},
+			'test'
+		>
+
+		type ExpectRead = A['read']
+		type ExpectWrite = A['write']
+		type ExpectWriteFlatten = A['writeFlatten']
+		type ExpectWriteMerge = A['writeMerge']
+		type ExpectCompare = A['compare']
+
+		type Read = {
+			a: Record<string, string>
+			b: Record<string, { c: Record<string, number> }>
+		}
+
+		type Write = {
+			a: Record<string, string>
+			b: Record<string, { c: Record<string, number | Increment> }>
+		}
+
+		type WriteFlatten = {
+			[x: `a.${string}`]: string
+			a: Record<string, string>
+			b: {
+				// @ts-expect-error
+				[x: string]: {
+					[x: `c.${string}`]: number | Increment
+					c: Record<string, number | Increment>
+				}
+				// @ts-expect-error
+				[x: `${string}`]: {
+					c: Record<string, number | Increment>
+					[x: `c.${string}`]: number | Increment
+				}
+				// @ts-expect-error
+				[x: `${string}.c`]: Record<string, number | Increment>
+				// @ts-expect-error
+				[x: `${string}.c.${string}`]: number | Increment
+			}
+			[x: `b.${string}`]: {
+				c: Record<string, number | Increment>
+				[x: `c.${string}`]: number | Increment
+			}
+			// @ts-expect-error
+			[x: `b.${string}.c`]: Record<string, number | Increment>
+			// @ts-expect-error
+			[x: `b.${string}.c.${string}`]: number | Increment
+		}
+
+		type Compare = {
+			[x: `a.${string}`]: string
+			a: Record<string, string>
+			b: {
+				// @ts-expect-error
+				[x: string]: {
+					[x: `c.${string}`]: number
+					c: Record<string, number>
+				}
+				// @ts-expect-error
+				[x: `${string}`]: {
+					c: Record<string, number>
+					[x: `c.${string}`]: number
+				}
+				// @ts-expect-error
+				[x: `${string}.c`]: Record<string, number>
+				// @ts-expect-error
+				[x: `${string}.c.${string}`]: number
+			}
+			[x: `b.${string}`]: {
+				c: Record<string, number>
+				[x: `c.${string}`]: number
+			}
+			// @ts-expect-error
+			[x: `b.${string}.c`]: Record<string, number>
+			// @ts-expect-error
+			[x: `b.${string}.c.${string}`]: number
+		} & __name__Record
+
+		IsTrue<IsSame<ExpectRead, Read>>
+		IsTrue<IsSame<ExpectWrite, Write>>
+		IsTrue<IsSame<ExpectWriteFlatten, WriteFlatten>>
+		IsTrue<IsSame<ExpectWriteMerge, Write>>
+		IsTrue<IsSame<ExpectCompare, Compare>>
+	})
 })

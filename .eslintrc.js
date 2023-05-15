@@ -19,8 +19,19 @@ module.exports = {
 		'codeForDoc/**/*',
 		'dist/**/*', // Ignore built files.
 	],
-	plugins: ['@typescript-eslint', 'import'],
+	plugins: ['@typescript-eslint', 'import', 'unused-imports'],
 	rules: {
+		'no-unused-vars': 'off', // or "@typescript-eslint/no-unused-vars": "off",
+		'unused-imports/no-unused-imports': 'error',
+		'unused-imports/no-unused-vars': [
+			'warn',
+			{
+				vars: 'all',
+				varsIgnorePattern: '^_',
+				args: 'after-used',
+				argsIgnorePattern: '^_',
+			},
+		],
 		'import/named': 'off',
 		'import/no-unresolved': 'off',
 		'@typescript-eslint/explicit-module-boundary-types': 'off', // explicit function return type

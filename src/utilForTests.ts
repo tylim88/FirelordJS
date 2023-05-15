@@ -37,7 +37,7 @@ export type Parent = MetaTypeCreator<
 
 export type User = MetaTypeCreator<
 	{
-		age: number
+		age: number | DeleteField
 		beenTo: (
 			| Record<'US', ('Hawaii' | 'California')[]>
 			| Record<'China', ('Guangdong' | 'Shanghai')[]>

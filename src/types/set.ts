@@ -4,7 +4,7 @@ import {
 	PartialNoUndefinedAndNoUnknownMemberNoEmptyMember,
 	RecursivelyReplaceDeleteFieldWithErrorMsg,
 } from './partialNoUndefinedAndNoUnknownMember'
-import { DeepKey } from './objectFlatten'
+import { DeepKey, RemoveLastDot } from './objectFlatten'
 import { Transaction } from './transaction'
 import { WriteBatch } from './batch'
 
@@ -17,7 +17,7 @@ type SetCreator<U> = <
 				merge: boolean
 		  }
 		| {
-				mergeFields: DeepKey<Data, 'write'>[]
+				mergeFields: RemoveLastDot<DeepKey<Data>>[]
 		  }
 		| undefined = undefined
 >(
@@ -29,7 +29,7 @@ type SetCreator<U> = <
 						merge: true
 				  }
 				| {
-						mergeFields: DeepKey<Data, 'write'>[]
+						mergeFields: RemoveLastDot<DeepKey<Data>>[]
 				  }
 		? PartialNoUndefinedAndNoUnknownMemberNoEmptyMember<
 				T['writeMerge'],
@@ -37,12 +37,16 @@ type SetCreator<U> = <
 				(
 					SetOptions extends { merge: boolean }
 						? SetOptions['merge']
-						: SetOptions extends { mergeFields: DeepKey<Data, 'write'>[] }
+						: SetOptions extends {
+								mergeFields: RemoveLastDot<DeepKey<Data>>[]
+						  }
 						? SetOptions['mergeFields']
 						: false
 				) extends infer R extends boolean | string[]
 					? R
-					: never
+					: never,
+				false,
+				true
 		  >
 		: RecursivelyReplaceDeleteFieldWithErrorMsg<T['write'], Data>,
 	options?: SetOptions extends never ? SetOptions : SetOptions

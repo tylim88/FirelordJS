@@ -25,6 +25,7 @@ import {
 	ElementOfOptStr,
 	Or,
 } from './utils'
+import { DeepValue } from '../objectFlatten'
 
 // You can't combine 'not-in' with 'or', 'in', 'array-contains-any', or '!=' in the same query.
 type ValidateWhereNotIn<
@@ -191,8 +192,8 @@ export type WhereConstraintLimitation<
 			U['_op'],
 			U['_value'] extends readonly never[]
 				? ErrorWhereNoNeverEmptyArray
-				: T['compare'][U['_field']] extends readonly unknown[]
-				? T['compare'][U['_field']]
+				: DeepValue<T['compare'], U['_field']> extends readonly unknown[]
+				? DeepValue<T['compare'], U['_field']>
 				: ErrorWhereCompareValueMustBeArray<U['_field']>
 	  >
 	: U['_op'] extends ElementOfOptStr
@@ -200,7 +201,7 @@ export type WhereConstraintLimitation<
 			T,
 			U['_field'],
 			U['_op'],
-			T['compare'][U['_field']] extends readonly (infer R)[]
+			DeepValue<T['compare'], U['_field']> extends readonly (infer R)[]
 				? R
 				: ErrorWhereCompareValueMustBeArray<U['_field']>
 	  >

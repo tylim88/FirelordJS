@@ -1,42 +1,32 @@
-export type DeepKey<
-	T,
-	Mode extends 'read' | 'write',
-	K extends keyof T = keyof T
-> = K extends string
+export type RemoveLastDot<T extends string> = T extends `${infer R}.` ? R : T
+
+export type DeepKey<T, K extends keyof T = keyof T> = K extends string
 	? T[K] extends infer R
 		? R extends Record<string, unknown>
-			? Mode extends 'write'
-				? K | `${K}.${DeepKey<R, Mode>}`
-				: `${K}.${DeepKey<R, Mode>}`
-			: K
+			? `${K}.` | `${K}.${DeepKey<R>}`
+			: `${K}.`
 		: never // impossible route
 	: never // impossible route
 
-type DeepValue<
+export type DeepValue<
 	T,
-	P extends DeepKey<T, Mode>,
-	Mode extends 'read' | 'write'
+	P extends string
 > = P extends `${infer K}.${infer Rest}`
-	? K extends keyof T
-		? T[K] extends infer S
-			? S extends S
-				? Rest extends DeepKey<S, Mode>
-					? DeepValue<S, Rest, Mode>
-					: never // impossible route
-				: never // impossible route
+	? T[K & keyof T] extends infer S
+		? S extends S
+			? DeepValue<S, Rest>
 			: never // impossible route
 		: never // impossible route
-	: P extends keyof T
-	? T[P]
-	: never // impossible route
+	: T[P & keyof T]
+
 export type ObjectFlatten<Data> = Data extends Record<string, unknown>
 	? {
-			[K in DeepKey<Data, 'write'>]-?: ObjectFlatten<
-				DeepValue<Data, K, 'write'>
+			[K in DeepKey<Data> as RemoveLastDot<K>]-?: ObjectFlatten<
+				DeepValue<Data, RemoveLastDot<K>>
 			>
 	  }
 	: Data
 
-export type ObjectFlattenShallow<Read extends Record<string, unknown>> = {
-	[K in DeepKey<Read, 'read'>]: DeepValue<Read, K, 'read'>
+export type ObjectFlattenSimple<Read extends Record<string, unknown>> = {
+	[K in DeepKey<Read> as RemoveLastDot<K>]: DeepValue<Read, RemoveLastDot<K>>
 }

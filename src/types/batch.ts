@@ -1,5 +1,5 @@
 import { WriteBatchSet } from './set'
-import { WriteBatchUpdate } from './update'
+import { WriteBatchUpdate, WriteBatchUpdateNoFlatten } from './update'
 import { WriteBatchDelete } from './delete'
 
 /**
@@ -37,6 +37,19 @@ export interface WriteBatch {
 	 * @returns This `WriteBatch` instance. Used for chaining method calls.
 	 */
 	update: WriteBatchUpdate
+	/**
+	 * Updates fields in the document referred to by the provided {@link
+	 * DocumentReference}. The update will fail if applied to a document that does
+	 * not exist.
+	 *
+	 * @param documentRef - A reference to the document to be updated.
+	 * @param data - An object containing the fields and values with which to
+	 * update the document. Fields can contain dots to reference nested fields
+	 * within the document.
+	 * @throws Error - If the provided input is not valid Firestore data.
+	 * @returns This `WriteBatch` instance. Used for chaining method calls.
+	 */
+	updateNoFlatten: WriteBatchUpdateNoFlatten
 	/**
 	 * Deletes the document referred to by the provided {@link DocumentReference}.
 	 *

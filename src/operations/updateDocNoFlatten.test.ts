@@ -1,11 +1,10 @@
-import { updateDoc } from './updateDoc'
+import { updateDocNoFlatten } from './updateDocNoFlatten'
 import { deleteDoc } from './deleteDoc'
 import {
 	userRefCreator,
 	initializeApp,
 	writeThenCompareWithRead,
 	generateRandomData,
-	readThenCompareWithWriteData,
 	User,
 } from '../utilForTests'
 import { setDoc } from './setDoc'
@@ -16,7 +15,7 @@ import {
 	increment,
 } from '../fieldValue'
 import {
-	Update,
+	UpdateNoFlatten,
 	IsTrue,
 	IsSame,
 	ErrorUnknownMember,
@@ -25,15 +24,15 @@ import {
 
 initializeApp()
 // type test here include all type test of batch and transaction because it is the same type
-describe('test updateDoc', () => {
+describe('test updateDocNoFlatten', () => {
 	it('test whether the return type is correct', () => {
-		type A = typeof updateDoc
-		type B = Update
+		type A = typeof updateDocNoFlatten
+		type B = UpdateNoFlatten
 		IsTrue<IsSame<A, B>>()
 	})
 	it('test wrong type', () => {
 		;() =>
-			updateDoc(userRefCreator().doc('FirelordTest', '123'), {
+			updateDocNoFlatten(userRefCreator().doc('FirelordTest', '123'), {
 				// @ts-expect-error
 				beenTo: [{}],
 				// @ts-expect-error
@@ -48,11 +47,11 @@ describe('test updateDoc', () => {
 	it('test accept optional type, must turn on exactOptionalPropertyTypes config', () => {
 		const a = {} as unknown as DeepPartial<User['writeFlatten']>
 
-		;() => updateDoc(userRefCreator().doc('FirelordTest', '123'), a)
+		;() => updateDocNoFlatten(userRefCreator().doc('FirelordTest', '123'), a)
 	})
 	it('test undefined type, should reject undefined', () => {
 		;() =>
-			updateDoc(
+			updateDocNoFlatten(
 				userRefCreator().doc('FirelordTest', '123'),
 				// @ts-expect-error
 				{
@@ -65,14 +64,14 @@ describe('test updateDoc', () => {
 	})
 	it('test missing member, missing should be fine', () => {
 		;() =>
-			updateDoc(userRefCreator().doc('FirelordTest', '123'), {
+			updateDocNoFlatten(userRefCreator().doc('FirelordTest', '123'), {
 				beenTo: [{ China: ['Guangdong'] }],
 				name: 'abc',
 				'a.b.c': increment(1),
 				'a.b.f': [],
 			})
 		;() =>
-			updateDoc(userRefCreator().doc('FirelordTest', '123'), {
+			updateDocNoFlatten(userRefCreator().doc('FirelordTest', '123'), {
 				role: 'visitor',
 				age: 1,
 				beenTo: [],
@@ -80,13 +79,13 @@ describe('test updateDoc', () => {
 	})
 	it('test missing member with wrong type', () => {
 		;() =>
-			updateDoc(userRefCreator().doc('FirelordTest', '123'), {
+			updateDocNoFlatten(userRefCreator().doc('FirelordTest', '123'), {
 				// @ts-expect-error
 				beenTo: [{ China: ['Guangd1ong'] }],
 				name: 'abc',
 			})
 		;() =>
-			updateDoc(userRefCreator().doc('FirelordTest', '123'), {
+			updateDocNoFlatten(userRefCreator().doc('FirelordTest', '123'), {
 				role: 'visitor',
 				// @ts-expect-error
 				ag2e: 1,
@@ -99,13 +98,13 @@ describe('test updateDoc', () => {
 
 	it('test unknown member', () => {
 		;() =>
-			updateDoc(userRefCreator().doc('FirelordTest', '123'), {
+			updateDocNoFlatten(userRefCreator().doc('FirelordTest', '123'), {
 				role: 'visitor',
 				// @ts-expect-error
 				[ag2e]: 1,
 			})
 		;() =>
-			updateDoc(userRefCreator().doc('FirelordTest', '123'), {
+			updateDocNoFlatten(userRefCreator().doc('FirelordTest', '123'), {
 				role: 'visitor',
 				// @ts-expect-error
 				[ag2e]: errorUnknownMember,
@@ -117,7 +116,7 @@ describe('test updateDoc', () => {
 			[ag2e]: 1,
 		}
 		;() =>
-			updateDoc(
+			updateDocNoFlatten(
 				userRefCreator().doc('FirelordTest', '123'),
 				// @ts-expect-error
 				stale
@@ -127,7 +126,7 @@ describe('test updateDoc', () => {
 			[ag2e]: errorUnknownMember,
 		}
 		;() =>
-			updateDoc(
+			updateDocNoFlatten(
 				userRefCreator().doc('FirelordTest', '123'),
 				// @ts-expect-error
 				stale2
@@ -135,28 +134,28 @@ describe('test updateDoc', () => {
 	})
 	it('test empty object literal data', () => {
 		// @ts-expect-error
-		;() => updateDoc(userRefCreator().doc('123'), {})
+		;() => updateDocNoFlatten(userRefCreator().doc('123'), {})
 		;() =>
-			updateDoc(userRefCreator().doc('FirelordTest', '123'), {
+			updateDocNoFlatten(userRefCreator().doc('FirelordTest', '123'), {
 				// @ts-expect-error
 				a: {},
 			})
 		;() =>
-			updateDoc(userRefCreator().doc('FirelordTest', '123'), {
+			updateDocNoFlatten(userRefCreator().doc('FirelordTest', '123'), {
 				a: {
 					// @ts-expect-error
 					i: {},
 				},
 			})
 		;() =>
-			updateDoc(userRefCreator().doc('FirelordTest', '123'), {
+			updateDocNoFlatten(userRefCreator().doc('FirelordTest', '123'), {
 				// @ts-expect-error
 				'a.i': {},
 			})
 	})
 	it('test hybrid correct type', () => {
 		;() =>
-			updateDoc(userRefCreator().doc('FirelordTest', '123'), {
+			updateDocNoFlatten(userRefCreator().doc('FirelordTest', '123'), {
 				role: 'visitor',
 				age: increment(1),
 				a: { e: arrayUnion(...['1']), 'b.c': 1 },
@@ -165,21 +164,21 @@ describe('test updateDoc', () => {
 	})
 	it('test hybrid wrong type', () => {
 		;() =>
-			updateDoc(userRefCreator().doc('FirelordTest', '123'), {
+			updateDocNoFlatten(userRefCreator().doc('FirelordTest', '123'), {
 				role: 'visitor',
 				age: 1,
 				// @ts-expect-error
 				a: { e: arrayUnion([1]) },
 			})
 		;() =>
-			updateDoc(userRefCreator().doc('FirelordTest', '123'), {
+			updateDocNoFlatten(userRefCreator().doc('FirelordTest', '123'), {
 				role: 'visitor',
 				age: 1,
 				// @ts-expect-error
 				a: { 'e.h': arrayUnion(['abc']) },
 			})
 		;() =>
-			updateDoc(userRefCreator().doc('FirelordTest', '123'), {
+			updateDocNoFlatten(userRefCreator().doc('FirelordTest', '123'), {
 				role: 'visitor',
 				age: 1,
 				// @ts-expect-error
@@ -195,7 +194,7 @@ describe('test updateDoc', () => {
 			unknown: '123',
 		}
 		;() =>
-			updateDoc(
+			updateDocNoFlatten(
 				userRefCreator().doc('FirelordTest', '123'),
 				// @ts-expect-error
 				withUnknownMember
@@ -204,7 +203,7 @@ describe('test updateDoc', () => {
 	it('test full correct type with unknown member in stale value, should fail', () => {
 		const withUnknownMember = { ...generateRandomData(), unknown: '123' }
 		;() =>
-			updateDoc(
+			updateDocNoFlatten(
 				userRefCreator().doc('FirelordTest', '123'),
 				// @ts-expect-error
 				withUnknownMember
@@ -214,7 +213,7 @@ describe('test updateDoc', () => {
 		await writeThenCompareWithRead(async data => {
 			const ref = userRefCreator().doc('FirelordTest', 'updateDocTestCase')
 			await setDoc(ref, generateRandomData())
-			await updateDoc(ref, data)
+			await updateDocNoFlatten(ref, data)
 			return ref
 		})
 	})
@@ -222,29 +221,30 @@ describe('test updateDoc', () => {
 		await writeThenCompareWithRead(async data => {
 			const ref = userRefCreator().doc('FirelordTest', 'updateDocTestCase')
 			await setDoc(ref, generateRandomData())
-			await updateDoc(ref, data)
+			await updateDocNoFlatten(ref, data)
 			return ref
 		})
 	})
-	it('test same path, delete field, in hybrid', async () => {
-		const data = generateRandomData()
-		const ref = userRefCreator().doc(
-			'FirelordTest',
-			'updateDocSpecificFieldTestCase'
-		)
-		await setDoc(ref, data)
-		const date = new Date()
-		const arr = [{ g: false, h: date, m: 9 }]
-		const num = Math.random()
-		await updateDoc(ref, {
-			a: { 'i.j': deleteField() },
-			'a.b': { f: arr },
-			'a.b.c': num,
-		})
-		data.a.i.j = undefined as unknown as typeof data.a.i.j
-		data.a.b.f = arr
-		data.a.b.c = num
-		await readThenCompareWithWriteData(data, ref)
+	it('test delete field type', async () => {
+		;async () => {
+			const ref = userRefCreator().doc(
+				'FirelordTest',
+				'updateDocSpecificFieldTestCase'
+			)
+			const date = new Date()
+			const arr = [{ g: false, h: date, m: 9 }]
+			const num = Math.random()
+			await updateDocNoFlatten(ref, {
+				age: deleteField(),
+				a: {
+					// cannot assign delete field in nested property of non-flatten operation data
+					// @ts-expect-error
+					'i.j': deleteField(),
+				},
+				'a.b': { f: arr },
+				'a.b.c': num,
+			})
+		}
 	})
 	it('test update non-existing doc', async () => {
 		// ! admin doesn't throw when updating non existing doc
@@ -252,7 +252,7 @@ describe('test updateDoc', () => {
 		deleteDoc(docRef)
 		expect.assertions(1)
 		try {
-			await updateDoc(
+			await updateDocNoFlatten(
 				docRef,
 				// @ts-expect-error
 				{}
