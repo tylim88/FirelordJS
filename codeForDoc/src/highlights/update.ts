@@ -37,11 +37,8 @@ type abc2 = DocumentReference<{
 	e: { f: number; g: number }
 }>
 
-updateDoc(
-	doc(getFirestore(), 'abc/efg') as abc2,
-	{
-		a: 1,
-		b: { c: 1 }, // nested form
-		'e.f': 1,
-	} // dot notation form
-) // type pass, seem reasonable
+updateDoc(doc(getFirestore(), 'abc/efg') as abc2, {
+	a: 1,
+	b: { c: 1 },
+	'e.f': 1,
+}) // type pass, seem reasonable
