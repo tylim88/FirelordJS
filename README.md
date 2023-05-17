@@ -107,7 +107,7 @@ FirelordJS:
 - Needs **no** code generation and schema language, just pure Typescript.
 - Supports [@firebase/rules-unit-testing and emulator](https://firelordjs.com/guides/tests), tested with emulator and no extra API is needed!
 - Is thoroughly tested, we test beyond source code, we test built files and published package. (test source code -> build -> test built files -> publish -> test published)
-- Does not do mock test, all 250 tests test against live database to ensure the highest certainty.
+- No mock test, all 250 tests test against live database to ensure the highest certainty.
 - Takes care of annoying runtime errors like empty array errors([filter](https://firelordjs.com/highlights/where#dealing-with-empty-array-%EF%B8%8F) & [cursors](https://firelordjs.com/highlights/cursor#empty-rest-parameter)) and [implicit data deletion in update operation](https://firelordjs.com/highlights/update#implicit-data-deletion) for you.
 - Remove the need to write collection ID.
 - Blocks undocumented errors and provides over [30 custom error messages](https://github.com/tylim88/FirelordJS/blob/main/src/types/error.ts) to assist you in writing proper Firestore code! Here is an example:
@@ -115,7 +115,7 @@ FirelordJS:
 
 FirelordJS is the only library capable of **[typing against](https://firelordjs.com/highlights/query_rule_typing)** Firestore limitations. I am confident it has the best type safe and nothing come close. I put money on my words and I will buy you [x cups of coffee](https://www.buymeacoffee.com/) if you:
 
-1. found something better: 75 cups
+1. found something better: 100 cups
 2. created something better: 1000 cups (you don't need to a make full fledge library, something that is minimally better is enough, open an issue if you want to take this challenge)
 
 ## Nested Composite Query Rulings (v2.5+)
