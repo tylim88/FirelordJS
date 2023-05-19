@@ -28,7 +28,7 @@ export interface ServerTimestamp
 	extends OriFieldValue,
 		FieldValue<ServerTimestampSymbol> {}
 
-// deleteField must appear at the top level of the data, however dot notation(update) is also considered as top level
+// deleteField must appear at the top level of the data
 export interface DeleteField
 	extends OriFieldValue,
 		FieldValue<DeleteFieldSymbol> {}
