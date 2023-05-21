@@ -102,6 +102,7 @@ FirelordJS:
 
 - Learning curve is the lowest (API is nearly identical to the original API).
 - Technical debt is the lowest (easy to revert to the official API).
+- Minimum types creation and no type assertion.
 - Offers truly generic type safe solutions, see [Transformative Type](https://firelordjs.com/highlights/type_conversion).
 - Package size is the [smallest](https://firelordjs.com/minified_size).
 - Needs **no** code generation and schema language, just pure Typescript.
@@ -115,8 +116,8 @@ FirelordJS:
 
 FirelordJS is the only library capable of **[typing against](https://firelordjs.com/highlights/query_rule_typing)** Firestore limitations. I am confident it has the best type safe and nothing come close. I put money on my words and I will buy you [x cups of coffee](https://www.buymeacoffee.com/) if you:
 
-1. found something better: 100 cups
-2. created something better: 1000 cups (you don't need to a make full fledge library, something that is minimally better is enough, open an issue if you want to take this challenge)
+1. found something better: 150 cups
+2. created something better: 1500 cups (you don't need to a make full fledge library, something that is minimally better is enough, open an issue if you want to take this challenge)
 
 ## Nested Composite Query Rulings (v2.5+)
 
@@ -146,7 +147,7 @@ It has all the regular rulings plus new composite rulings. See also [peeling com
 
 ## Dropped TO DO
 
-- Support for wide numeric key and wide string key (Record<number, unknown> and Record<string, unknown>). It still needs more consideration because this data type is pointless to query(we need to know what the key is first, it would be better to just save the document ID somewhere) and we need to constantly aware of the document size limit. If you don't care about query and you sure that the size limit will not exceed 1 MB, then this is for you. But allowing this also open up for mistake and bad practice for those who are not aware. Most likely I will not implement this but will give it deeper thoughts in the future. (**Update: This is implemented, see https://github.com/tylim88/Firelord/issues/20**)
+- Support for wide numeric key and wide string key (Record<number, unknown> and Record<string, unknown>). It still needs more consideration because this data type is pointless to query(we need to know what the key is first, it would be better to just save the document ID somewhere) and we need to constantly aware of the document size limit. If you don't care about query and you sure that the size limit will not exceed 1 MB, then this is for you. But allowing this also open up for mistake and bad practice for those who are not aware. Most likely I will not implement this but will give it deeper thoughts in the future. (**Update: This is implemented, see this [issue](https://github.com/tylim88/Firelord/issues/20)**)
 
 - Support for object unions type. Objects unions type seem to be a good type to have in NoSQL database because of how ever-changing NoSQL schema is. However, this is not the case because it brings uncertainty that cannot be handled reasonably. For example, with `{a:number}|{b:string}`, you can set `{a:1}` then update `{b:"x"}`, in this case the type is no longer unions type but an intersection type: `{a:number} & {b:string}`. So I will not implement this feature and will remove it from [FireSageJS](https://github.com/tylim88/FireSageJS) too. A better way to solve this is to use [`PossiblyReadAsUndefined`](https://firelordjs.com/guides/possibly_read_as_undefined) label on newly add field instead(you can also label abandoned fields as `PossiblyReadAsUndefined`, but an easier way is to totally ignore them).
 
