@@ -77,6 +77,14 @@ export const parentColGroupRef = parentRef.collectionGroup()
 export const childColGroupRef = childRef.collectionGroup()
 export const grandChildColGroupRef = grandChildRef.collectionGroup()
 
+// ancestor type awareness
+grandChildDocRef.parent // GrandChild CollectionReference
+grandChildDocRef.parent.parent // Child DocumentReference
+grandChildDocRef.parent.parent.parent // Child CollectionReference
+grandChildDocRef.parent.parent.parent.parent // Parent DocumentReference
+grandChildDocRef.parent.parent.parent.parent.parent // Parent CollectionReference
+grandChildDocRef.parent.parent.parent.parent.parent.parent // null
+
 const firelordRef2 = getFirelord<GrandChild>(
 	db,
 	'columnIDLevel1',

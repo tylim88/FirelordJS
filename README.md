@@ -142,7 +142,8 @@ FirelordJS:
 - Technical debt is the lowest (easy to revert to the official API).
 - Minimum types creation and no type assertion.
 - Offers truly generic type safe solutions, support deeply nested object type: `Record<string,Record<string,Record<string,...>>>`, max 1000 levels.
-- Supports deeply [nested sub collection](https://firelordjs.com/guides/metatype), all children are aware of all ancestors' type, max 100 generations.
+- Supports all possible flatten paths combinations (eg: `a`, `a.b`, `a.b.c`, `a.b.d`, `a.x`, `a.x.y`, `a.x.z`) with type safety.
+- Supports deeply [nested sub collection](https://firelordjs.com/guides/metatype), all children are aware of all their ancestors type, max 100 generations.
 - Generates different types for different operations, see [Type Conversion](https://firelordjs.com/highlights/type_conversion) for complete list of type transformations.
 - Package size is the [smallest](https://firelordjs.com/minified_size).
 - Needs **no** code generation and schema language, just pure Typescript.
