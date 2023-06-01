@@ -26,7 +26,3 @@ export type ObjectFlatten<Data> = Data extends Record<string, unknown>
 			>
 	  }
 	: Data
-
-export type ObjectFlattenSimple<Read extends Record<string, unknown>> = {
-	[K in DeepKey<Read> as RemoveLastDot<K>]: DeepValue<Read, RemoveLastDot<K>>
-}
