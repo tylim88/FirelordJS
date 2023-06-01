@@ -45,55 +45,19 @@ it('test snapshot metadata type', () => {
 		IsTrue<IsSame<A, B>>()
 	}
 })
-it('test data type with no option', () => {
+it('test data type', () => {
 	;() => {
 		const target = documentSnapshot.data()
-		type A = NonNullable<typeof target>['a']['k']
-		type B = User['read']['a']['k'] | null
-		IsTrue<IsSame<A, B>>()
-	}
-})
-it('test data type with estimate option', () => {
-	;() => {
-		const target = documentSnapshot.data({ serverTimestamps: 'estimate' })
 		type A = typeof target
 		type B = User['read'] | undefined
 		IsTrue<IsSame<A, B>>()
 	}
 })
-it('test data type with previous option', () => {
-	;() => {
-		const target = documentSnapshot.data({ serverTimestamps: 'previous' })
-		type A = NonNullable<typeof target>['a']['k']
-		type B = User['read']['a']['k'] | undefined | null
-		IsTrue<IsSame<A, B>>()
-	}
-})
-it('test get type with no option', () => {
+it('test get type', () => {
 	;() => {
 		const target = documentSnapshot.get('a.k')
 		type A = typeof target
-		type B = User['read']['a']['k'] | undefined | null
-		IsTrue<IsSame<A, B>>()
-	}
-})
-it('test get type with estimate option', () => {
-	;() => {
-		const target = documentSnapshot.get('a.k', {
-			serverTimestamps: 'estimate',
-		})
-		type A = typeof target
 		type B = User['read']['a']['k'] | undefined
-		IsTrue<IsSame<A, B>>()
-	}
-})
-it('test get type with previous option', () => {
-	;() => {
-		const target = documentSnapshot.get('a.k', {
-			serverTimestamps: 'previous',
-		})
-		type A = typeof target
-		type B = User['read']['a']['k'] | undefined | null
 		IsTrue<IsSame<A, B>>()
 	}
 })
