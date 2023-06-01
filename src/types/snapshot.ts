@@ -5,12 +5,8 @@ import {
 	SnapshotListenOptions,
 	DocumentChangeType,
 } from './alias'
-import {
-	UnionReadServerTimestampWithNullFlatten,
-	UnionReadServerTimestampWithNull,
-} from './unionReadTimestampWithNull'
 import { DocumentReference, Query } from './refs'
-
+import { DeepValue, ObjectFlatten } from './objectFlatten'
 /**
  * A `DocumentSnapshot` contains data read from a document in your Firestore
  * database. The data can be extracted with `.data()` or `.get(<field>)` to
@@ -44,9 +40,7 @@ export interface DocumentSnapshot<T extends MetaType> {
 	 * @returns An `Object` containing all fields in the document or `undefined` if
 	 * the document doesn't exist.
 	 */
-	data: <U extends SnapshotOptions = never>(
-		options?: U
-	) => UnionReadServerTimestampWithNull<T, U> | undefined
+	data: (options?: SnapshotOptions) => T['read'] | undefined
 	/**
 	 * Retrieves the field specified by `fieldPath`. Returns `undefined` if the
 	 * document or field doesn't exist.
@@ -63,13 +57,10 @@ export interface DocumentSnapshot<T extends MetaType> {
 	 * @returns The data at the specified field location or undefined if no such
 	 * field exists in the document.
 	 */
-	get<
-		FieldPath extends keyof UnionReadServerTimestampWithNullFlatten<T, U>,
-		U extends SnapshotOptions = never
-	>(
+	get<FieldPath extends keyof T['writeFlatten'] & string>(
 		fieldPath: FieldPath,
-		options?: U
-	): UnionReadServerTimestampWithNullFlatten<T, U>[FieldPath] | undefined
+		options?: SnapshotOptions
+	): DeepValue<ObjectFlatten<T['read']>, FieldPath> | undefined
 	/**
 	 * Property of the `DocumentSnapshot` that provides the document's ID.
 	 */
@@ -153,9 +144,7 @@ export interface QueryDocumentSnapshot<T extends MetaType>
 	 * have not yet been set to their final value).
 	 * @returns An `Object` containing all fields in the document.
 	 */
-	data: <U extends SnapshotOptions = never>(
-		options?: U
-	) => UnionReadServerTimestampWithNull<T, U>
+	data: (options?: SnapshotOptions) => T['read'] | undefined
 }
 
 /**
