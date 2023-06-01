@@ -1,5 +1,5 @@
-import { MetaType } from './metaTypeCreator'
-import { DocumentReference, CollectionReference } from './refs'
+import { MetaType } from '../metaTypeCreator'
+import { DocumentReference, CollectionReference } from '../refs'
 
 export type RefEqual = <
 	T extends DocumentReference<MetaType> | CollectionReference<MetaType>,
