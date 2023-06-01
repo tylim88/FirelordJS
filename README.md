@@ -98,6 +98,44 @@
 
 FirelordJS is the only library capable of providing insane type safety while exposing almost all the API of the official Firestore SDK. The goal is to end Firestore typing madness.
 
+```ts
+import {
+	getFirelord,
+	getFirestore,
+	MetaTypeCreator,
+	serverTimestamp,
+	ServerTimestamp,
+	setDoc,
+	where,
+	query,
+	getDoc,
+	Timestamp,
+} from 'firelordjs'
+import { initializeApp } from 'firebase/app'
+type Example = MetaTypeCreator<
+	{
+		a: ServerTimestamp
+	},
+	'SomeCollectionName'
+>
+const app = initializeApp({ projectId: '### PROJECT ID ###' })
+const db = getFirestore(app)
+const example = getFirelord<Example>(db, 'SomeCollectionName')
+
+// In write operation, Firelord does not convert ServerTimestamp
+setDoc(example.doc('SomeDocName'), { a: serverTimestamp() })
+// In query operation, Firelord converts ServerTimestamp to Timestamp | Date
+query(example.collection(), where('a', '<', new Date()))
+query(example.collection(), where('a', '<', Timestamp.now()))
+// In read operation, Firelord converts ServerTimestamp to Timestamp
+getDoc(example.doc('SomeDocName')).then(snapshot => {
+	const data = snapshot.data()
+	if (data) {
+		const a = data.a // Timestamp
+	}
+})
+```
+
 FirelordJS:
 
 - Learning curve is the lowest (API is nearly identical to the original API).
@@ -105,59 +143,20 @@ FirelordJS:
 - Minimum types creation and no type assertion.
 - Offers truly generic type safe solutions, support deeply nested object type: `Record<string,Record<string,Record<string,...>>>`, max 1000 levels.
 - Supports deeply [nested sub collection](https://firelordjs.com/guides/metatype), all children are aware of all ancestors' type, max 100 generations.
-- Generates different types for different operations, example `ServerTimestamp` type:
-
-  ```ts
-  import {
-  	getFirelord,
-  	getFirestore,
-  	MetaTypeCreator,
-  	serverTimestamp,
-  	ServerTimestamp,
-  	setDoc,
-  	where,
-  	query,
-  	getDoc,
-  	Timestamp,
-  } from 'firelordjs'
-  import { initializeApp } from 'firebase/app'
-  type Example = MetaTypeCreator<
-  	{
-  		a: ServerTimestamp
-  	},
-  	'SomeCollectionName'
-  >
-  const app = initializeApp({ projectId: '### PROJECT ID ###' })
-  const db = getFirestore(app)
-  const example = getFirelord<Example>(db, 'SomeCollectionName')
-
-  // In write operation, Firelord does not convert ServerTimestamp
-  setDoc(example.doc('SomeDocName'), { a: serverTimestamp() })
-  // In query operation, Firelord converts ServerTimestamp to Timestamp | Date
-  query(example.collection(), where('a', '<', new Date()))
-  query(example.collection(), where('a', '<', Timestamp.now()))
-  // In read operation, Firelord converts ServerTimestamp to Timestamp | null
-  getDoc(example.doc('SomeDocName')).then(snapshot => {
-  	const data = snapshot.data()
-  	if (data) {
-  		const a = data.a // Timestamp
-  	}
-  })
-  ```
-
-  See [Type Conversion](https://firelordjs.com/highlights/type_conversion) for complete list of type transformations.
-
+- Generates different types for different operations, see [Type Conversion](https://firelordjs.com/highlights/type_conversion) for complete list of type transformations.
 - Package size is the [smallest](https://firelordjs.com/minified_size).
 - Needs **no** code generation and schema language, just pure Typescript.
 - Supports [@firebase/rules-unit-testing and emulator](https://firelordjs.com/guides/tests), tested with emulator and no extra API is needed!
 - Is thoroughly tested, we test beyond source code, we test built files and published package. (test source code -> build -> test built files -> publish -> test published)
 - No mock test, all 250 tests test against live database to ensure the highest certainty.
 - Takes care of annoying runtime errors like empty array errors([filter](https://firelordjs.com/highlights/where#dealing-with-empty-array-%EF%B8%8F) & [cursors](https://firelordjs.com/highlights/cursor#empty-rest-parameter)) and [implicit data deletion in update operation](https://firelordjs.com/highlights/update#implicit-data-deletion) for you.
-- Remove the need to write collection ID.
+- Remove the need to write collection ID repetitively.
 - Blocks undocumented errors and provides over [30 custom error messages](https://github.com/tylim88/FirelordJS/blob/main/src/types/error.ts) to assist you in writing proper Firestore code! Here is an example:
   ![custom error message](./img/custom.png)
 
-FirelordJS is the only library capable of **[typing against](https://firelordjs.com/highlights/query_rule_typing)** Firestore limitations. I am confident it has the best type safe and nothing come close. I put money on my words and I will buy you [x cups of coffee](https://www.buymeacoffee.com/) if you:
+FirelordJS is the only library capable of **[typing against](https://firelordjs.com/highlights/query_rule_typing)** Firestore limitations.
+
+I am confident it has the best type safe and nothing come close. I put money on my words and I will buy you [x cups of coffee](https://www.buymeacoffee.com/) if you:
 
 1. found something better: 150 cups
 2. created something better: 1500 cups (you don't need to a make full fledge library, something that is minimally better is enough, open an issue if you want to take this challenge)
