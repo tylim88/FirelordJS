@@ -26,10 +26,4 @@ export type OnSnapshot = {
 		onNext: (snapshot: QuerySnapshot<T>) => void,
 		options?: SnapshotListenOptions
 	): Unsubscribe
-	<T extends MetaType>(
-		reference: Query<T>,
-		onNext: (snapshot: QuerySnapshot<T>) => void,
-		onError?: (error: FirestoreError) => void,
-		options?: SnapshotListenOptions
-	): Unsubscribe
 }
