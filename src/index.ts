@@ -99,7 +99,7 @@ export {
 	connectFirestoreEmulator,
 } from 'firebase/firestore'
 
-export * from './writeBatch'
+export * from './batch'
 export * from './transaction'
 export * from './fieldValue'
 export * from './fieldPath'
