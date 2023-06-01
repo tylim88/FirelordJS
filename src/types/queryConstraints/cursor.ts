@@ -1,13 +1,21 @@
-import { MetaType } from './metaTypeCreator'
+import { MetaType } from '../metaTypeCreator'
 import {
 	ErrorMoreThanOnceDocSnapshotInCursor,
 	ErrorEmptyCursor,
 	ErrorCursorNoArray,
-} from './error'
-import { CursorConstraint } from './queryConstraints'
-import { DocumentSnapshot, QueryDocumentSnapshot } from './snapshot'
+} from '../error'
+import { DocumentSnapshot, QueryDocumentSnapshot } from '../snapshot'
 
 export type CursorType = 'startAt' | 'startAfter' | 'endAt' | 'endBefore'
+
+export type CursorConstraint<
+	Type extends CursorType,
+	Values extends unknown[]
+> = {
+	type: Type
+	_docOrFields: Values
+	_inclusive: boolean
+}
 
 export type Cursor<Type extends CursorType> = <const Values extends unknown[]>(
 	...snapshotOrFieldValues: Values['length'] extends 0

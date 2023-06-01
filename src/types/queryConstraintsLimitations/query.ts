@@ -9,9 +9,9 @@ import {
 	QueryAllConstraints,
 	QueryCompositeFilterConstraint,
 	QueryFilterConstraints,
+	CursorType,
 } from '../queryConstraints'
 import { Query } from '../refs'
-import { CursorType } from '../cursor'
 import { LimitToLastConstraintLimitation } from './limit'
 import { CursorConstraintLimitation } from './cursor'
 import { OrderByConstraintLimitation, GetFirstOrderBy } from './orderBy'

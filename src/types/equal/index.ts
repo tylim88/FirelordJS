@@ -1,3 +1,3 @@
-export * from './queryEqual'
-export * from './snapshotEqual'
-export * from './refEqual'
+export * from './query'
+export * from './snapshot'
+export * from './ref'

@@ -1,12 +1,9 @@
-import {
-	WhereConstraint,
-	LimitConstraint,
-	CursorConstraint,
-	OrderByConstraint,
-} from './filters'
 import { MetaType } from '../metaTypeCreator'
 import { WhereFilterOp, OrderByDirection } from '../alias'
-import { CursorType } from '../cursor'
+import { CursorType, CursorConstraint } from './cursor'
+import { WhereConstraint } from './where'
+import { LimitConstraint } from './limit'
+import { OrderByConstraint } from './orderBy'
 import { QueryCompositeFilterConstraint } from './composite'
 
 type QueryNonFilterConstraints<T extends MetaType> =
