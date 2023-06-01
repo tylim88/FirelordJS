@@ -144,7 +144,7 @@ export interface QueryDocumentSnapshot<T extends MetaType>
 	 * have not yet been set to their final value).
 	 * @returns An `Object` containing all fields in the document.
 	 */
-	data: (options?: SnapshotOptions) => T['read'] | undefined
+	data: (options?: SnapshotOptions) => T['read']
 }
 
 /**
