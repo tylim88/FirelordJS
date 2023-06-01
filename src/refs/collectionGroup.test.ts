@@ -32,4 +32,8 @@ describe('test collection with documentId', () => {
 			)
 		).toThrow()
 	})
+
+	it('test type', () => {
+		expect(colGroupRef.type).toBe('query')
+	})
 })

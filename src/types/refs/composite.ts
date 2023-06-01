@@ -4,7 +4,8 @@ import {
 	QueryFilterConstraints,
 } from '../queryConstraints'
 import { QueryFilterConstraintLimitation } from '../queryConstraintsLimitations'
-import { Query, CollectionReference } from '../refs'
+import { CollectionReference } from './collection'
+import { Query } from './query'
 import { ErrorEmptyCompositeFilter } from '../error'
 
 export type QueryCompositeFilter<
