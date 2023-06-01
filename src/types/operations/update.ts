@@ -1,9 +1,9 @@
-import { PartialNoUndefinedAndNoUnknownMemberNoEmptyMember } from './partialNoUndefinedAndNoUnknownMember'
-import { DocumentReference } from './refs'
-import { DocumentData } from './alias'
-import { Transaction } from './transaction'
-import { WriteBatch } from './batch'
-import { MetaType } from './metaTypeCreator'
+import { PartialNoUndefinedAndNoUnknownMemberNoEmptyMember } from '../partialNoUndefinedAndNoUnknownMember'
+import { DocumentReference } from '../refs'
+import { DocumentData } from '../alias'
+import { Transaction } from '../transaction'
+import { WriteBatch } from '../batch'
+import { MetaType } from '../metaTypeCreator'
 
 export type UpdateCreator<U, NoFlatten extends boolean> = <
 	T extends MetaType,

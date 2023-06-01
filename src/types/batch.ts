@@ -1,6 +1,9 @@
-import { WriteBatchSet } from './set'
-import { WriteBatchUpdate, WriteBatchUpdateNoFlatten } from './update'
-import { WriteBatchDelete } from './delete'
+import {
+	WriteBatchSet,
+	WriteBatchUpdate,
+	WriteBatchUpdateNoFlatten,
+	WriteBatchDelete,
+} from './operations'
 
 /**
  * A write batch, used to perform multiple writes as a single atomic unit.

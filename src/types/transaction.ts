@@ -1,7 +1,10 @@
-import { GetDoc } from './getDoc'
-import { TransactionSet } from './set'
-import { TransactionUpdate, TransactionUpdateNoFlatten } from './update'
-import { TransactionDelete } from './delete'
+import {
+	GetDoc,
+	TransactionSet,
+	TransactionUpdate,
+	TransactionUpdateNoFlatten,
+	TransactionDelete,
+} from './operations'
 import { Firestore, TransactionOptions } from './alias'
 
 /**

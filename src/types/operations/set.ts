@@ -1,12 +1,12 @@
-import { MetaType } from './metaTypeCreator'
-import { DocumentReference } from './refs'
+import { MetaType } from '../metaTypeCreator'
+import { DocumentReference } from '../refs'
 import {
 	PartialNoUndefinedAndNoUnknownMemberNoEmptyMember,
 	RecursivelyReplaceDeleteFieldWithErrorMsg,
-} from './partialNoUndefinedAndNoUnknownMember'
-import { DeepKey, RemoveLastDot } from './objectFlatten'
-import { Transaction } from './transaction'
-import { WriteBatch } from './batch'
+} from '../partialNoUndefinedAndNoUnknownMember'
+import { DeepKey, RemoveLastDot } from '../objectFlatten'
+import { Transaction } from '../transaction'
+import { WriteBatch } from '../batch'
 
 type SetCreator<U> = <
 	T extends MetaType,

@@ -1,7 +1,7 @@
-import { MetaType } from './metaTypeCreator'
-import { DocumentReference } from './refs'
-import { Transaction } from './transaction'
-import { WriteBatch } from './batch'
+import { MetaType } from '../metaTypeCreator'
+import { DocumentReference } from '../refs'
+import { Transaction } from '../transaction'
+import { WriteBatch } from '../batch'
 
 type DeleteCreator<U> = <T extends MetaType>(
 	reference: DocumentReference<T>
