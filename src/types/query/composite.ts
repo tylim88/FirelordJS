@@ -2,8 +2,8 @@ import { MetaType } from '../metaTypeCreator'
 import {
 	QueryCompositeFilterConstraint,
 	QueryFilterConstraints,
-} from '../constraints'
-import { QueryFilterConstraintLimitation } from '../constraintLimitations'
+} from '../queryConstraints'
+import { QueryFilterConstraintLimitation } from '../queryConstraintsLimitations'
 import { Query, CollectionReference } from '../refs'
 import { ErrorEmptyCompositeFilter } from '../error'
 

@@ -1,12 +1,12 @@
 import { MetaType } from '../metaTypeCreator'
-import { QueryAllConstraints, QueryConstraints } from '../constraints'
+import { QueryAllConstraints, QueryConstraints } from '../queryConstraints'
 import {
 	QueryConstraintLimitation,
 	FlattenQueryCompositeFilterConstraint,
 	ValidateTopLevelQueryCompositeFilterPartOne,
 	ValidateTopLevelQueryCompositeFilterPartTwo,
 	ValidateOrderByAndInequalityWhere,
-} from '../constraintLimitations'
+} from '../queryConstraintsLimitations'
 import { Query, CollectionReference } from '../refs'
 
 export type QueryRef = <

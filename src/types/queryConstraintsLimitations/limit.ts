@@ -1,6 +1,6 @@
 import { MetaType } from '../metaTypeCreator'
 import { ErrorLimitToLastOrderBy } from '../error'
-import { QueryConstraints, LimitConstraint } from '../constraints'
+import { QueryConstraints, LimitConstraint } from '../queryConstraints'
 
 export type LimitToLastConstraintLimitation<
 	T extends MetaType,

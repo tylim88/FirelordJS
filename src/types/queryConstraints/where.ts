@@ -1,7 +1,7 @@
-import { WhereConstraint } from './constraints'
-import { MetaType } from './metaTypeCreator'
-import { WhereFilterOp } from './alias'
-import { __name__ } from './fieldPath'
+import { WhereConstraint } from '../queryConstraints'
+import { MetaType } from '../metaTypeCreator'
+import { WhereFilterOp } from '../alias'
+import { __name__ } from '../fieldPath'
 
 export type Where = <
 	T extends MetaType,

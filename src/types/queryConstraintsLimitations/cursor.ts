@@ -5,7 +5,7 @@ import {
 	QueryConstraints,
 	OrderByConstraint,
 	CursorConstraint,
-} from '../constraints'
+} from '../queryConstraints'
 import { __name__, GetCorrectDocumentIdBasedOnRef } from '../fieldPath'
 import { CursorType } from '../cursor'
 import { QueryDocumentSnapshot, DocumentSnapshot } from '../snapshot'

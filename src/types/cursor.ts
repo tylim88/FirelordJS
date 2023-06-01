@@ -4,7 +4,7 @@ import {
 	ErrorEmptyCursor,
 	ErrorCursorNoArray,
 } from './error'
-import { CursorConstraint } from './constraints'
+import { CursorConstraint } from './queryConstraints'
 import { DocumentSnapshot, QueryDocumentSnapshot } from './snapshot'
 
 export type CursorType = 'startAt' | 'startAfter' | 'endAt' | 'endBefore'

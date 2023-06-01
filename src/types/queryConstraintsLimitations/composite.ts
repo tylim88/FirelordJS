@@ -9,7 +9,7 @@ import {
 	QueryCompositeFilterConstraint,
 	QueryConstraints,
 	QueryAllConstraints,
-} from '../constraints'
+} from '../queryConstraints'
 import { Query } from '../refs'
 import { CursorType } from '../cursor'
 import { WhereConstraintLimitation } from './where'
