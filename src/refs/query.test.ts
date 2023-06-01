@@ -1,5 +1,5 @@
 import { query } from './query'
-import { limit, orderBy, where } from '../queryClauses'
+import { limit, orderBy, where } from '../queryConstraints'
 import { userRefCreator, initializeApp } from '../utilForTests'
 import { documentId } from '../fieldPath'
 import { Timestamp } from 'firebase/firestore'

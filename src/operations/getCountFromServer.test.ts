@@ -5,7 +5,7 @@ import {
 	userRefCreator,
 } from '../utilForTests'
 import { query } from '../refs'
-import { where } from '../queryClauses'
+import { where } from '../queryConstraints'
 import { setDoc } from './setDoc'
 import { deleteDoc } from './deleteDoc'
 import crypto from 'crypto'

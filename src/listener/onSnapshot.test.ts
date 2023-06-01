@@ -15,7 +15,7 @@ import {
 	QueryDocumentSnapshot,
 } from '../types'
 import { query } from '../refs'
-import { where } from '../queryClauses'
+import { where } from '../queryConstraints'
 
 initializeApp()
 const docId1 = 'onSnapshotOneDocTest'

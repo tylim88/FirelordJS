@@ -16,7 +16,7 @@ import {
 	DocumentReference,
 } from '../types'
 import { query } from '../refs'
-import { where } from '../queryClauses'
+import { where } from '../queryConstraints'
 import { snapshotEqual, queryEqual, refEqual } from '../equal'
 
 initializeApp()

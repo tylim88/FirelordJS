@@ -1,5 +1,5 @@
 import { getDocs, setDoc } from '../operations'
-import { where } from '../queryClauses'
+import { where } from '../queryConstraints'
 import {
 	initializeApp,
 	userRefCreator,

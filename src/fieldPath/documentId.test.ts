@@ -1,7 +1,7 @@
 import { documentId } from './documentId'
 import { __name__, IsTrue, IsSame, DocumentReference } from '../types'
 import { query } from '../refs'
-import { where } from '../queryClauses'
+import { where } from '../queryConstraints'
 import {
 	userRefCreator,
 	initializeApp,
