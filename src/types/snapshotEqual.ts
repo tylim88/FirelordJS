@@ -1,7 +1,7 @@
 import { DocumentSnapshot, QuerySnapshot } from './snapshot'
-
+import { MetaType } from './metaTypeCreator'
 export type SnapshotEqual = <
-	T extends DocumentSnapshot<any> | QuerySnapshot<any>, // * need to keep the `any` type
+	T extends DocumentSnapshot<MetaType> | QuerySnapshot<MetaType>,
 	U extends T
 >(
 	left: T,
