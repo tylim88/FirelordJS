@@ -7,7 +7,6 @@ import { startAfter } from './startAfter'
 import { startAt } from './startAt'
 import { endAt } from './endAt'
 import { QueryDocumentSnapshot, DocumentSnapshot } from '../types'
-import { documentId } from '../fieldPath'
 import { getDocs } from '../operations'
 
 initializeApp()
@@ -22,14 +21,14 @@ const UserQueryDocumentSnapshot = 1 as unknown as QueryDocumentSnapshot<User>
 describe('test query ref', () => {
 	it('test collection ref orderby documentId, positive test', async () => {
 		await expect(
-			getDocs(query(colRef, orderBy(documentId()), endAt('abc')))
+			getDocs(query(colRef, orderBy('__name__'), endAt('abc')))
 		).resolves.not.toThrow()
 
 		await expect(
 			getDocs(
 				query(
 					colGroupRef,
-					orderBy(documentId()),
+					orderBy('__name__'),
 					endAt('topLevel/FirelordTest/Users/abc')
 				)
 			)
@@ -40,7 +39,7 @@ describe('test query ref', () => {
 		expect(() =>
 			query(
 				colGroupRef,
-				orderBy(documentId()),
+				orderBy('__name__'),
 				// @ts-expect-error
 				endAt('abc')
 			)
@@ -49,7 +48,7 @@ describe('test query ref', () => {
 		expect(() =>
 			query(
 				colRef,
-				orderBy(documentId()),
+				orderBy('__name__'),
 				// @ts-expect-error
 				endAt('topLevel/FirelordTest/Users/abc')
 			)
@@ -189,7 +188,7 @@ describe('test query ref', () => {
 			query(
 				colGroupRef,
 				orderBy('a.b.c'),
-				orderBy(documentId()),
+				orderBy('__name__'),
 				limit(1),
 				startAt(1),
 				// @ts-expect-error
@@ -210,7 +209,7 @@ describe('test query ref', () => {
 		query(
 			colGroupRef,
 			orderBy('a.b.c'),
-			orderBy(documentId()),
+			orderBy('__name__'),
 			limit(1),
 			startAt(1),
 			// @ts-expect-error

@@ -1,7 +1,6 @@
 import { query } from '../refs'
 import { where } from './where'
 import { userRefCreator, initializeApp } from '../utilForTests'
-import { documentId } from '../fieldPath'
 
 initializeApp()
 const ref = userRefCreator().collectionGroup()
@@ -63,14 +62,14 @@ describe('test query ref', () => {
 			query(
 				ref,
 				// @ts-expect-error
-				where(documentId(), '>=', 1) // documentId must be string else throw
+				where('__name__', '>=', 1) // documentId must be string else throw
 			)
 		).toThrow()
 		expect(() =>
 			query(
 				ref,
 				// @ts-expect-error
-				where(documentId(), '>=', 'a/b/c') // documentId must contain no segment
+				where('__name__', '>=', 'a/b/c') // documentId must contain no segment
 			)
 		).toThrow()
 	})

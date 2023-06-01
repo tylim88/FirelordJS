@@ -1,7 +1,6 @@
 import { query } from './query'
 import { limit, orderBy, where } from '../queryConstraints'
 import { userRefCreator, initializeApp } from '../utilForTests'
-import { documentId } from '../fieldPath'
 import { Timestamp } from 'firebase/firestore'
 import { getDocs } from '../operations'
 
@@ -19,7 +18,7 @@ describe('test query ref', async () => {
 				and(
 					where('a.b.c', '!=', 2),
 					// @ts-expect-error
-					where(documentId(), '>', fullDocPath)
+					where('__name__', '>', fullDocPath)
 				)
 			)
 		).toThrow()
@@ -80,8 +79,8 @@ describe('test query ref', async () => {
 				query(
 					ref,
 					and(
-						where(documentId(), '>', fullDocPath),
-						where(documentId(), '!=', fullDocPath)
+						where('__name__', '>', fullDocPath),
+						where('__name__', '!=', fullDocPath)
 					),
 					limit(1)
 				)
@@ -178,7 +177,7 @@ describe('test query ref', async () => {
 			query(
 				ref,
 				// @ts-expect-error
-				and(where(documentId(), 'not-in', ['a'])),
+				and(where('__name__', 'not-in', ['a'])),
 				limit(1),
 				orderBy('beenTo')
 			)
@@ -220,7 +219,7 @@ describe('test query ref', async () => {
 			getDocs(
 				query(
 					ref,
-					where(documentId(), '>=', fullDocPath),
+					where('__name__', '>=', fullDocPath),
 					limit(1),
 					orderBy('__name__')
 				)
@@ -235,7 +234,7 @@ describe('test query ref', async () => {
 				query(
 					ref,
 					orderBy('__name__'),
-					and(where(documentId(), '==', fullDocPath))
+					and(where('__name__', '==', fullDocPath))
 				)
 			)
 		).resolves.not.toThrow()
@@ -316,8 +315,8 @@ describe('test query ref', async () => {
 			getDocs(
 				query(
 					ref,
-					orderBy(documentId()),
-					and(where(documentId(), '>', fullDocPath))
+					orderBy('__name__'),
+					and(where('__name__', '>', fullDocPath))
 				)
 			)
 		).resolves.not.toThrow()
@@ -380,7 +379,7 @@ describe('test query ref', async () => {
 				limit(1),
 				// @ts-expect-error
 				and(
-					where(documentId(), 'not-in', [fullDocPath]),
+					where('__name__', 'not-in', [fullDocPath]),
 					// @ts-expect-error
 					where('a.e', 'array-contains-any', ['1'])
 				)
@@ -432,7 +431,7 @@ describe('test query ref', async () => {
 				limit(1),
 				// @ts-expect-error
 				and(
-					where(documentId(), 'not-in', [fullDocPath]),
+					where('__name__', 'not-in', [fullDocPath]),
 					// @ts-expect-error
 					where('age', '!=', 1)
 				)
@@ -524,7 +523,7 @@ describe('test query ref', async () => {
 				limit(1),
 				// @ts-expect-error
 				and(
-					where(documentId(), '!=', fullDocPath),
+					where('__name__', '!=', fullDocPath),
 					// @ts-expect-error
 					where('age', '!=', 1)
 				)

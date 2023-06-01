@@ -1,14 +1,12 @@
 import { query } from './query'
 import { limit, orderBy, where } from '../queryConstraints'
 import { userRefCreator, initializeApp } from '../utilForTests'
-import { documentId } from '../fieldPath'
 import { Timestamp } from 'firebase/firestore'
 import { getDocs } from '../operations'
 
 initializeApp()
 const ref = userRefCreator().collectionGroup()
 const or = userRefCreator().or
-const and = userRefCreator().and
 const fullDocPath = 'topLevel/FirelordTest/Users/a'
 describe('test query ref', async () => {
 	it('In a compound query, range (<, <=, >, >=) and not equals (!=, not-in) comparisons must all filter on the same field, negative test', () => {
@@ -18,7 +16,7 @@ describe('test query ref', async () => {
 				limit(1),
 				// @ts-expect-error
 				or(
-					where(documentId(), '>', fullDocPath),
+					where('__name__', '>', fullDocPath),
 					// @ts-expect-error
 					where('a.b.c', '!=', 2)
 				)
@@ -57,8 +55,8 @@ describe('test query ref', async () => {
 					ref,
 					limit(1),
 					or(
-						where(documentId(), '>', fullDocPath),
-						where(documentId(), '!=', fullDocPath)
+						where('__name__', '>', fullDocPath),
+						where('__name__', '!=', fullDocPath)
 					)
 				)
 			)
@@ -202,7 +200,7 @@ describe('test query ref', async () => {
 				limit(1),
 				orderBy('beenTo'),
 				// @ts-expect-error
-				or(where(documentId(), 'not-in', ['a']), where('a.b.c', '<', 1))
+				or(where('__name__', 'not-in', ['a']), where('a.b.c', '<', 1))
 			)
 		).toThrow()
 
@@ -252,7 +250,7 @@ describe('test query ref', async () => {
 			getDocs(
 				query(
 					ref,
-					or(where(documentId(), '>=', fullDocPath)),
+					or(where('__name__', '>=', fullDocPath)),
 					limit(1),
 					orderBy('__name__')
 				)
@@ -267,7 +265,7 @@ describe('test query ref', async () => {
 				query(
 					ref,
 					orderBy('__name__'),
-					or(where(documentId(), '==', fullDocPath))
+					or(where('__name__', '==', fullDocPath))
 				)
 			)
 		).resolves.not.toThrow()
@@ -346,11 +344,7 @@ describe('test query ref', async () => {
 	it(`You can't order your query by a field included in an equality (==) or in clause, positive case`, async () => {
 		await expect(
 			getDocs(
-				query(
-					ref,
-					orderBy(documentId()),
-					or(where(documentId(), '>', fullDocPath))
-				)
+				query(ref, orderBy('__name__'), or(where('__name__', '>', fullDocPath)))
 			)
 		).resolves.not.toThrow()
 
@@ -403,7 +397,7 @@ describe('test query ref', async () => {
 		// ! this is a special case, it does not throw if there is only one clause in `or` query
 		await expect(
 			getDocs(
-				query(ref, limit(1), or(where(documentId(), 'not-in', [fullDocPath])))
+				query(ref, limit(1), or(where('__name__', 'not-in', [fullDocPath])))
 			)
 		).resolves.not.toThrow()
 
@@ -414,7 +408,7 @@ describe('test query ref', async () => {
 				// @ts-expect-error
 				or(
 					// @ts-expect-error
-					where(documentId(), 'not-in', [fullDocPath]),
+					where('__name__', 'not-in', [fullDocPath]),
 					where('age', '==', '1')
 				)
 			)
@@ -427,7 +421,7 @@ describe('test query ref', async () => {
 				// @ts-expect-error
 				or(
 					// @ts-expect-error
-					where(documentId(), 'not-in', [fullDocPath]),
+					where('__name__', 'not-in', [fullDocPath]),
 					where('a.e', 'array-contains-any', ['1'])
 				)
 			)
@@ -479,7 +473,7 @@ describe('test query ref', async () => {
 				// @ts-expect-error
 				or(
 					// @ts-expect-error
-					where(documentId(), 'not-in', [fullDocPath]),
+					where('__name__', 'not-in', [fullDocPath]),
 					where('age', '!=', 1)
 				)
 			)
@@ -572,7 +566,7 @@ describe('test query ref', async () => {
 				limit(1),
 				// @ts-expect-error
 				or(
-					where(documentId(), '!=', fullDocPath),
+					where('__name__', '!=', fullDocPath),
 					// @ts-expect-error
 					where('age', '!=', 1)
 				)

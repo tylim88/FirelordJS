@@ -1,7 +1,6 @@
 import { query } from './query'
 import { limit, orderBy, where } from '../queryConstraints'
 import { userRefCreator, initializeApp } from '../utilForTests'
-import { documentId } from '../fieldPath'
 import { Timestamp } from 'firebase/firestore'
 import { getDocs } from '../operations'
 
@@ -15,7 +14,7 @@ describe('test query ref', async () => {
 		expect(() =>
 			query(
 				ref,
-				where(documentId(), '>', fullDocPath),
+				where('__name__', '>', fullDocPath),
 				limit(1),
 				// @ts-expect-error
 				where('a.b.c', '!=', 2)
@@ -64,9 +63,9 @@ describe('test query ref', async () => {
 			getDocs(
 				query(
 					ref,
-					where(documentId(), '>', fullDocPath),
+					where('__name__', '>', fullDocPath),
 					limit(1),
-					where(documentId(), '!=', fullDocPath)
+					where('__name__', '!=', fullDocPath)
 				)
 			)
 		).resolves.not.toThrow()
@@ -148,7 +147,7 @@ describe('test query ref', async () => {
 			query(
 				ref,
 				// @ts-expect-error
-				where(documentId(), 'not-in', ['a']),
+				where('__name__', 'not-in', ['a']),
 				limit(1),
 				orderBy('beenTo')
 			)
@@ -190,7 +189,7 @@ describe('test query ref', async () => {
 			getDocs(
 				query(
 					ref,
-					where(documentId(), '>=', fullDocPath),
+					where('__name__', '>=', fullDocPath),
 					limit(1),
 					orderBy('__name__')
 				)
@@ -202,7 +201,7 @@ describe('test query ref', async () => {
 		// ! orderBy __name__ does not trigger runtime error, this is a special case
 		await expect(
 			getDocs(
-				query(ref, orderBy('__name__'), where(documentId(), '==', fullDocPath))
+				query(ref, orderBy('__name__'), where('__name__', '==', fullDocPath))
 			)
 		).resolves.not.toThrow()
 
@@ -280,7 +279,7 @@ describe('test query ref', async () => {
 	it(`You can't order your query by a field included in an equality (==) or in clause, positive case`, async () => {
 		await expect(
 			getDocs(
-				query(ref, orderBy(documentId()), where(documentId(), '>', fullDocPath))
+				query(ref, orderBy('__name__'), where('__name__', '>', fullDocPath))
 			)
 		).resolves.not.toThrow()
 		await expect(
@@ -332,7 +331,7 @@ describe('test query ref', async () => {
 		expect(() =>
 			query(
 				ref,
-				where(documentId(), 'not-in', [fullDocPath]),
+				where('__name__', 'not-in', [fullDocPath]),
 				limit(1), // @ts-expect-error
 				where('a.e', 'array-contains-any', ['1'])
 			)
@@ -381,7 +380,7 @@ describe('test query ref', async () => {
 		expect(() =>
 			query(
 				ref,
-				where(documentId(), 'not-in', [fullDocPath]),
+				where('__name__', 'not-in', [fullDocPath]),
 				limit(1),
 				// @ts-expect-error
 				where('age', '!=', 1)
@@ -443,7 +442,7 @@ describe('test query ref', async () => {
 		expect(() =>
 			query(
 				ref,
-				where(documentId(), '!=', fullDocPath),
+				where('__name__', '!=', fullDocPath),
 				limit(1),
 				// @ts-expect-error
 				where('age', '!=', 1)

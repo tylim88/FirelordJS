@@ -102,7 +102,6 @@ export {
 export * from './batch'
 export * from './transaction'
 export * from './fieldValue'
-export * from './fieldPath'
 export * from './listener'
 export * from './operations'
 export * from './queryConstraints'
