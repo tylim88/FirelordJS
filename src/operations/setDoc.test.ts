@@ -8,7 +8,7 @@ import {
 	readThenCompareWithWriteData,
 	User,
 } from '../utilForTests'
-import { increment, arrayUnion, serverTimestamp } from '../fieldValue'
+import { increment, arrayUnion, serverTimestamp } from '../fieldValues'
 import { Set, IsTrue, IsSame, DeepPartial } from '../types'
 
 initializeApp()

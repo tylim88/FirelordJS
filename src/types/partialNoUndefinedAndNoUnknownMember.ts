@@ -5,7 +5,7 @@ import {
 	ErrorUnknownMember,
 	ErrorNonTopLevelDeleteField,
 } from './error'
-import { ArrayUnionOrRemove, DeleteField } from './fieldValue'
+import { ArrayUnionOrRemove, DeleteField } from './fieldValues'
 import { DeepValue } from './objectFlatten'
 
 type HandleUnknownMember<T extends Record<string, unknown>, Data> = Omit<

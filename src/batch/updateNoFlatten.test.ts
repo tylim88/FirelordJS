@@ -6,7 +6,7 @@ import {
 	readThenCompareWithWriteData,
 } from '../utilForTests'
 import { setDoc } from '../operations'
-import { deleteField } from '../fieldValue'
+import { deleteField } from '../fieldValues'
 import { getFirestore } from 'firebase/firestore'
 import { WriteBatchUpdateNoFlatten, IsTrue, IsSame } from '../types'
 

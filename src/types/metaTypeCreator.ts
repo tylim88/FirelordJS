@@ -16,7 +16,7 @@ import {
 	DeleteField,
 	ServerTimestamp,
 	PossiblyReadAsUndefined,
-} from './fieldValue'
+} from './fieldValues'
 import { ObjectFlatten, DeepValue } from './objectFlatten'
 import { RecursiveReplaceUnionInvolveObjectTypeWithErrorMsg } from './markUnionObjectAsError'
 import { StrictOmit } from './utils'

@@ -14,7 +14,7 @@ import {
 	serverTimestamp,
 	deleteField,
 	increment,
-} from '../fieldValue'
+} from '../fieldValues'
 import {
 	Update,
 	IsTrue,

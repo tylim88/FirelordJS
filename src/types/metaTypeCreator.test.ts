@@ -11,7 +11,7 @@ import {
 	ServerTimestamp,
 	PossiblyReadAsUndefined,
 	DeleteField,
-} from './fieldValue'
+} from './fieldValues'
 import { DocumentReference } from './refs'
 import { IsTrue, IsSame, IsEqual } from './utils'
 import { Parent, User } from '../utilForTests'

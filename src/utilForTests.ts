@@ -14,7 +14,7 @@ import { getDoc, getDocFromCache, getDocFromServer } from './operations'
 import { flatten } from './utils'
 import { cloneDeep } from 'lodash'
 import { snapshotEqual } from './equal'
-import { arrayUnion, increment, serverTimestamp } from './fieldValue'
+import { arrayUnion, increment, serverTimestamp } from './fieldValues'
 
 export const initializeApp = () => {
 	const env = process.env

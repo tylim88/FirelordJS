@@ -8,7 +8,7 @@ import {
 } from '../utilForTests'
 import { IsTrue, IsSame, TransactionUpdate } from '../types'
 import { setDoc } from '../operations'
-import { deleteField } from '../fieldValue'
+import { deleteField } from '../fieldValues'
 import { updateCreator } from './update'
 
 initializeApp()

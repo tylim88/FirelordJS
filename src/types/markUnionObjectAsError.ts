@@ -1,6 +1,10 @@
 import { IsUnion } from './utils'
 import { ErrorUnionInvolveObjectType } from './error'
-import { FieldValues, PossiblyReadAsUndefined, DeleteField } from './fieldValue'
+import {
+	FieldValues,
+	PossiblyReadAsUndefined,
+	DeleteField,
+} from './fieldValues'
 
 type FilterInNonObject<T> = Extract<T, Record<string, unknown>>
 

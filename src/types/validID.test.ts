@@ -4,7 +4,7 @@ import {
 	ErrorInvalidDocumentOrCollectionIDStart,
 	ErrorEndOfID,
 } from './error'
-import { PossiblyReadAsUndefined } from './fieldValue'
+import { PossiblyReadAsUndefined } from './fieldValues'
 import { IsTrue, IsSame } from './utils'
 
 describe('test Firelord type', () => {
