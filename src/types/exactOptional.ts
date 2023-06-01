@@ -41,33 +41,26 @@ type IsSetDeleteAbleFieldValueValid<
 	: T
 
 // type checking for array in update operation
-type PartialNoUndefinedAndNoUnknownMemberInArray<T, Data> =
-	T extends (infer ElementOfBase)[]
-		? Data extends (infer ElementOfData)[]
-			? Data extends never[]
-				? T
-				: ElementOfData extends ElementOfBase
-				? PartialNoUndefinedAndNoUnknownMemberInArray<
-						ElementOfBase,
-						ElementOfData
-				  >[]
-				: T
+type ExactOptionalArray<T, Data> = T extends (infer ElementOfBase)[]
+	? Data extends (infer ElementOfData)[]
+		? Data extends never[]
+			? T
+			: ElementOfData extends ElementOfBase
+			? ExactOptionalArray<ElementOfBase, ElementOfData>[]
 			: T
-		: T extends Record<string, unknown>
-		? keyof Data extends keyof T
-			? keyof T extends keyof Data
-				? {
-						[K in keyof T]-?: PartialNoUndefinedAndNoUnknownMemberInArray<
-							T[K],
-							Data[K]
-						>
-				  }
-				: T
-			: HandleUnknownMember<T, Data>
 		: T
+	: T extends Record<string, unknown>
+	? keyof Data extends keyof T
+		? keyof T extends keyof Data
+			? {
+					[K in keyof T]-?: ExactOptionalArray<T[K], Data[K]>
+			  }
+			: T
+		: HandleUnknownMember<T, Data>
+	: T
 
 // type checking for non-array in update operation
-export type PartialNoUndefinedAndNoUnknownMemberNoEmptyMember<
+export type ExactOptional<
 	T extends Record<string, unknown>,
 	Data extends Record<string, unknown>,
 	Merge extends boolean | string[], // this is for set merge operation only
@@ -81,7 +74,7 @@ export type PartialNoUndefinedAndNoUnknownMemberNoEmptyMember<
 				? S[] extends Record<string, unknown>[]
 					? Data[K] extends infer R
 						? R extends Record<string, unknown>
-							? PartialNoUndefinedAndNoUnknownMemberNoEmptyMember<
+							? ExactOptional<
 									S & Record<string, unknown>,
 									R,
 									Merge,
@@ -97,10 +90,7 @@ export type PartialNoUndefinedAndNoUnknownMemberNoEmptyMember<
 						? Data[K] extends never[] // https://stackoverflow.com/questions/71193522/typescript-inferred-never-is-not-never
 							? S
 							: DataKeyElement extends BaseKeyElement
-							? PartialNoUndefinedAndNoUnknownMemberInArray<
-									BaseKeyElement,
-									DataKeyElement
-							  >[]
+							? ExactOptionalArray<BaseKeyElement, DataKeyElement>[]
 							: BaseKeyElement[]
 						: IsSetDeleteAbleFieldValueValid<S, Data[K], K & string, Merge>
 					: Data[K] extends DeleteField

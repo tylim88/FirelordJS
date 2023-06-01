@@ -1,9 +1,9 @@
 import { MetaType } from '../metaTypeCreator'
 import { DocumentReference } from '../refs'
 import {
-	PartialNoUndefinedAndNoUnknownMemberNoEmptyMember,
+	ExactOptional,
 	RecursivelyReplaceDeleteFieldWithErrorMsg,
-} from '../partialNoUndefinedAndNoUnknownMember'
+} from '../exactOptional'
 import { DeepKey, RemoveLastDot } from '../objectFlatten'
 import { Transaction } from '../transaction'
 import { WriteBatch } from '../batch'
@@ -31,7 +31,7 @@ type SetCreator<U> = <
 				| {
 						mergeFields: RemoveLastDot<DeepKey<Data>>[]
 				  }
-		? PartialNoUndefinedAndNoUnknownMemberNoEmptyMember<
+		? ExactOptional<
 				T['writeMerge'],
 				Data,
 				(

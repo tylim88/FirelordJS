@@ -1,4 +1,4 @@
-import { PartialNoUndefinedAndNoUnknownMemberNoEmptyMember } from '../partialNoUndefinedAndNoUnknownMember'
+import { ExactOptional } from '../exactOptional'
 import { DocumentReference } from '../refs'
 import { DocumentData } from '../alias'
 import { Transaction } from '../transaction'
@@ -12,13 +12,7 @@ export type UpdateCreator<U, NoFlatten extends boolean> = <
 	reference: DocumentReference<T>,
 	data: Data extends never
 		? Data
-		: PartialNoUndefinedAndNoUnknownMemberNoEmptyMember<
-				T['writeFlatten'],
-				Data,
-				false,
-				NoFlatten,
-				true
-		  >
+		: ExactOptional<T['writeFlatten'], Data, false, NoFlatten, true>
 ) => U
 
 export type Update = UpdateCreator<Promise<void>, false>
