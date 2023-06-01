@@ -103,7 +103,50 @@ FirelordJS:
 - Learning curve is the lowest (API is nearly identical to the original API).
 - Technical debt is the lowest (easy to revert to the official API).
 - Minimum types creation and no type assertion.
-- Offers truly generic type safe solutions, see [Transformative Type](https://firelordjs.com/highlights/type_conversion).
+- Offers truly generic type safe solutions, support deeply nested object type: `Record<string,Record<string,Record<string,...>>>`, max 1000 levels.
+- Supports deeply [nested sub collection](https://firelordjs.com/guides/metatype), all children are aware of all ancestors' type, max 100 generations.
+- Generates different types for different operations, example `ServerTimestamp` type:
+
+  ```ts
+  import {
+  	getFirelord,
+  	getFirestore,
+  	MetaTypeCreator,
+  	serverTimestamp,
+  	ServerTimestamp,
+  	setDoc,
+  	where,
+  	query,
+  	getDoc,
+  	Timestamp,
+  } from 'firelordjs'
+  import { initializeApp } from 'firebase/app'
+  type Example = MetaTypeCreator<
+  	{
+  		a: ServerTimestamp
+  	},
+  	'SomeCollectionName'
+  >
+  const app = initializeApp({ projectId: '### PROJECT ID ###' })
+  const db = getFirestore(app)
+  const example = getFirelord<Example>(db, 'SomeCollectionName')
+
+  // In write operation, Firelord does not convert ServerTimestamp
+  setDoc(example.doc('SomeDocName'), { a: serverTimestamp() })
+  // In query operation, Firelord converts ServerTimestamp to Timestamp | Date
+  query(example.collection(), where('a', '<', new Date()))
+  query(example.collection(), where('a', '<', Timestamp.now()))
+  // In read operation, Firelord converts ServerTimestamp to Timestamp | null
+  getDoc(example.doc('SomeDocName')).then(snapshot => {
+  	const data = snapshot.data()
+  	if (data) {
+  		const a = data.a // Timestamp
+  	}
+  })
+  ```
+
+  See [Type Conversion](https://firelordjs.com/highlights/type_conversion) for complete list of type transformations.
+
 - Package size is the [smallest](https://firelordjs.com/minified_size).
 - Needs **no** code generation and schema language, just pure Typescript.
 - Supports [@firebase/rules-unit-testing and emulator](https://firelordjs.com/guides/tests), tested with emulator and no extra API is needed!
