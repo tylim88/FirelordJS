@@ -1,8 +1,6 @@
 import {
 	query,
 	where,
-	orderBy,
-	limit,
 	MetaTypeCreator,
 	getFirelord,
 	getFirestore,

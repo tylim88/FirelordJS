@@ -141,9 +141,10 @@ FirelordJS:
 - Learning curve is the lowest (API is nearly identical to the original API).
 - Technical debt is the lowest (easy to revert to the official API).
 - Minimum types creation and no type assertion.
-- Offers truly generic type safe solutions, support deeply nested object type: `Record<string,Record<string,Record<string,...>>>`, max 1000 levels.
-- Supports all possible flatten paths combinations (eg: `a`, `a.b`, `a.b.c`, `a.b.d`, `a.x`, `a.x.y`, `a.x.z`) with type safety.
+- Offers truly generic type safe solutions, declare any data shape you want.
+- Supports deeply nested object type: `Record<string,Record<string,Record<string,...>>>`, max 1000 levels.
 - Supports deeply [nested sub collection](https://firelordjs.com/guides/metatype), all children are aware of all their ancestors type, max 100 generations.
+- Generates all possible flatten paths combinations from declared type(eg: `a`, `a.b`, `a.b.c`, `a.b.d`, `a.x`, `a.x.y`, `a.x.z`) with type safety.
 - Generates different types for different operations, see [Type Conversion](https://firelordjs.com/highlights/type_conversion) for complete list of type transformations.
 - Package size is the [smallest](https://firelordjs.com/minified_size).
 - Needs **no** code generation and schema language, just pure Typescript.
@@ -186,7 +187,7 @@ It has all the regular rulings plus new composite rulings. See also [peeling com
 
 - Replace `set merge` with `upset`(update if exists, else set). It will receive 1 doc ref argument and 2 data arguments(partial data and complete data). It will attempt to update the document with partial data or create a document with complete data if the document does not exist.
 
-- Fix in code documentation not working(alternative solution is available, [TS bug?](https://github.com/microsoft/TypeScript/issues/53424))
+- Fix in code documentation not working(alternative solution is available, [TS bug?](https://github.com/microsoft/TypeScript/issues/53424))(update: Typescript v5.1.3)
 
 ## Dropped TO DO
 

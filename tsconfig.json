@@ -18,7 +18,8 @@
 		"noEmit": true,
 		"exactOptionalPropertyTypes": true,
 		"moduleResolution": "node",
-		"types": ["vitest/globals"]
+		"types": ["vitest/globals"],
+		"skipLibCheck": true
 	},
 	"include": ["src/**/*", "scripts/**/*"]
 }
