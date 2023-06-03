@@ -1,6 +1,6 @@
 {
 	"emulators": {
-		"single_project_mode": false,
+		"singleProjectMode": false,
 		"firestore": {
 			"port": 8080
 		},

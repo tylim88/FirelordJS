@@ -12,5 +12,4 @@ import { ArrayRemoveOrUnion } from '../types'
  * @returns The `FieldValue` sentinel for use in a call to `setDoc()` or
  * `updateDoc()`
  */
-export const arrayRemove: ArrayRemoveOrUnion = (...elements) =>
-	arrayRemove_(...elements)
+export const arrayRemove: ArrayRemoveOrUnion = arrayRemove_
