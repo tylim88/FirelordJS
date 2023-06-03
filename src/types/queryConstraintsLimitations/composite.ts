@@ -9,8 +9,9 @@ import {
 	QueryConstraints,
 	QueryAllConstraints,
 	CursorType,
+	QueryCompositeFilterConstraint,
 } from '../queryConstraints'
-import { Query, QueryCompositeFilterConstraint } from '../refs'
+import { Query } from '../refs'
 import { WhereConstraintLimitation } from './where'
 import {
 	ErrorOrAndInvalidConstraints,

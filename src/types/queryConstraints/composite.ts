@@ -1,8 +1,7 @@
 import { MetaType } from '../metaTypeCreator'
 import { QueryFilterConstraints } from '../queryConstraints'
 import { QueryFilterConstraintLimitation } from '../queryConstraintsLimitations'
-import { CollectionReference } from './collection'
-import { Query } from './query'
+import { Query, CollectionReference } from '../refs'
 import { ErrorEmptyCompositeFilter } from '../error'
 import { OriQueryCompositeFilterConstraint } from '../alias'
 

@@ -4,7 +4,7 @@ import { CursorType, CursorConstraint } from './cursor'
 import { WhereConstraint } from './where'
 import { LimitConstraint } from './limit'
 import { OrderByConstraint } from './orderBy'
-import { QueryCompositeFilterConstraint } from '../refs'
+import { QueryCompositeFilterConstraint } from './composite'
 
 type QueryNonFilterConstraints<T extends MetaType> =
 	| LimitConstraint<'limit' | 'limitToLast'>
