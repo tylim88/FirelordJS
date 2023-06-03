@@ -6,12 +6,12 @@ import {
 	DeleteField,
 } from './fieldValues'
 
-type FilterInNonObject<T> = Extract<T, Record<string, unknown>>
+type ExtractObject<T> = Extract<T, Record<string, unknown>>
 
-type ReplaceUnionInvolveObjectTypeWithErrorMsg<T> = IsUnion<
+export type NoObjectUnion<T> = IsUnion<
 	Exclude<T, PossiblyReadAsUndefined | DeleteField>
 > extends true
-	? FilterInNonObject<
+	? ExtractObject<
 			Exclude<T, PossiblyReadAsUndefined | DeleteField>
 	  > extends never
 		? T
@@ -19,11 +19,7 @@ type ReplaceUnionInvolveObjectTypeWithErrorMsg<T> = IsUnion<
 	: T extends FieldValues
 	? T
 	: T extends Record<string, unknown>
-	? RecursiveReplaceUnionInvolveObjectTypeWithErrorMsg<T>
+	? {
+			[K in keyof T]: NoObjectUnion<T[K]>
+	  }
 	: T
-
-export type RecursiveReplaceUnionInvolveObjectTypeWithErrorMsg<
-	T extends Record<string, unknown>
-> = {
-	[K in keyof T]: ReplaceUnionInvolveObjectTypeWithErrorMsg<T[K]>
-}

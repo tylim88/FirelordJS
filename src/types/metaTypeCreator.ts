@@ -18,7 +18,7 @@ import {
 	PossiblyReadAsUndefined,
 } from './fieldValues'
 import { ObjectFlatten, DeepValue } from './objectFlatten'
-import { RecursiveReplaceUnionInvolveObjectTypeWithErrorMsg } from './markUnionObjectAsError'
+import { NoObjectUnion } from './noObjectUnion'
 import { StrictOmit } from './utils'
 import { DocumentReference } from './refs'
 import { __name__Record } from './fieldPath'
@@ -60,7 +60,7 @@ export type MetaTypeCreator<
 		allFieldsPossiblyReadAsUndefined?: boolean
 		banNull?: boolean
 	} = { allFieldsPossiblyReadAsUndefined: false; banNull: false }
-> = RecursiveReplaceUnionInvolveObjectTypeWithErrorMsg<Base> extends infer Q
+> = NoObjectUnion<Base> extends infer Q
 	? ObjectFlatten<Q> extends infer R
 		? (Settings['banNull'] extends true ? null : never) extends infer S
 			? {
