@@ -152,7 +152,7 @@ FirelordJS:
 - Is tested beyond source code, we also test built files and published package. (test source code -> build -> test built files -> publish -> test published)
 - No mock test, all 250 tests test against live database to ensure the highest certainty.
 - Takes care pesky runtime errors like empty array errors([filter](https://firelordjs.com/highlights/where#dealing-with-empty-array-%EF%B8%8F) & [cursors](https://firelordjs.com/highlights/cursor#empty-rest-parameter)) and [implicit data deletion in update operation](https://firelordjs.com/highlights/update#implicit-data-deletion).
-- Remove the need to write collection ID repetitively.
+- Eliminates the repetitive tasks of writing collections ID and assigning the Firestore instance.
 - Blocks undocumented errors and provides over [30 custom error messages](https://github.com/tylim88/FirelordJS/blob/main/src/types/error.ts) to assist you in writing proper Firestore code! Here is an example:
   ![custom error message](./img/custom.png)
 
@@ -187,7 +187,9 @@ It has all the regular rulings plus new composite rulings. See also [peeling com
 
 - Replace `set merge` with `upset`(update if exists, else set). It will receive 1 doc ref argument and 2 data arguments(partial data and complete data). It will attempt to update the document with partial data or create a document with complete data if the document does not exist.
 
-- Fix in code documentation not working(alternative solution is available, [TS bug?](https://github.com/microsoft/TypeScript/issues/53424))(update: Typescript v5.1.3 solved this issue)
+- Proper way to test published package.
+
+- More in code documentation and tests.
 
 ## Dropped TO DO
 
