@@ -15,16 +15,13 @@ import { flatten } from './utils'
 import { cloneDeep } from 'lodash'
 import { snapshotEqual } from './equal'
 import { arrayUnion, increment, serverTimestamp } from './fieldValues'
+import env from '../env.json'
 
 export const initializeApp = () => {
-	const env = process.env
-	if (!env.PROJECT_ID) {
-		throw 'PROJECT_ID is empty'
+	if (env.projectId) {
+		return initializeApp_(env)
 	}
-	const config = {
-		projectId: env.PROJECT_ID,
-	}
-	return initializeApp_(config)
+	throw 'PROJECT_ID is empty'
 }
 
 export type Parent = MetaTypeCreator<
