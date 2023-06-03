@@ -23,7 +23,6 @@ import {
 	startAt,
 	getCountFromServer,
 } from 'firelordjs'
-import firebasejson from '../firebase.json'
 import {
 	User,
 	readThenCompareWithWriteData,
@@ -32,17 +31,13 @@ import {
 } from './utilForTests'
 import crypto from 'crypto'
 
-const port = firebasejson.emulators.firestore.port
 let userRef: FirelordRef<User> = undefined!
 let firestore: ReturnType<RulesTestContext['firestore']> = undefined!
 let testEnv: RulesTestEnvironment = undefined!
 
 describe('test whether works with rules-unit-testing', () => {
 	beforeAll(async () => {
-		testEnv = await initializeTestEnvironment({
-			projectId: 'any',
-			firestore: { host: 'localhost', port },
-		})
+		testEnv = await initializeTestEnvironment({ projectId: 'any' })
 		await testEnv.clearFirestore()
 		firestore = testEnv
 			.authenticatedContext('alice', {

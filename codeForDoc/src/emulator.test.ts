@@ -29,7 +29,7 @@ import crypto from 'crypto'
 initializeApp()
 const port = firebasejson.emulators.firestore.port
 const firestore = getFirestore()
-connectFirestoreEmulator(firestore, 'localhost', port)
+connectFirestoreEmulator(firestore, firebasejson.emulators.firestore.host, port)
 const userRef = getFirelord<User>(firestore, 'topLevel', 'Users')
 
 describe('test whether works with emulator', () => {
