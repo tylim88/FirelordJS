@@ -19,15 +19,12 @@ import {
 	writeBatch,
 	FirelordRef,
 } from '.'
-import firebasejson from '../firebase.json'
 import {
 	User,
 	readThenCompareWithWriteData,
 	generateRandomData,
 	compareWriteDataWithDocSnapData,
 } from './utilForTests'
-
-const port = firebasejson.emulators.firestore.port
 
 let userRef = undefined as unknown as FirelordRef<User>
 let firestore = undefined as unknown as ReturnType<
@@ -37,10 +34,7 @@ let testEnv = undefined as unknown as RulesTestEnvironment
 
 describe('test whether works with rules-unit-testing', () => {
 	beforeAll(async () => {
-		testEnv = await initializeTestEnvironment({
-			projectId: 'any',
-			firestore: { host: 'localhost', port },
-		})
+		testEnv = await initializeTestEnvironment({})
 		await testEnv.clearFirestore()
 		firestore = testEnv
 			.authenticatedContext('alice', {
