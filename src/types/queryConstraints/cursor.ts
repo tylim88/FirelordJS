@@ -5,6 +5,7 @@ import {
 	ErrorCursorNoArray,
 } from '../error'
 import { DocumentSnapshot, QueryDocumentSnapshot } from '../snapshot'
+import { OriQueryConstraint } from '../alias'
 
 export type CursorType = 'startAt' | 'startAfter' | 'endAt' | 'endBefore'
 
@@ -13,8 +14,13 @@ export type CursorConstraint<
 	Values extends unknown[]
 > = {
 	type: Type
-	_docOrFields: Values
-	_inclusive: boolean
+	values: Values
+	ref: QueryConstraint<Type>
+}
+
+export interface QueryConstraint<T extends CursorType>
+	extends OriQueryConstraint {
+	type: T
 }
 
 export type Cursor<Type extends CursorType> = <const Values extends unknown[]>(

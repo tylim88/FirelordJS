@@ -1,14 +1,11 @@
-import { OrderByDirection } from '../alias'
+import { OrderByDirection, QueryOrderByConstraint } from '../alias'
 import { MetaType } from '../metaTypeCreator'
 import { __name__ } from '../fieldPath'
 
-export type OrderByConstraint<
-	FieldPath extends string,
-	DirectionStr extends OrderByDirection | undefined = undefined
-> = {
+export type OrderByConstraint<FieldPath extends string> = {
 	type: 'orderBy'
-	_field: FieldPath
-	_direction: DirectionStr
+	fieldPath: FieldPath
+	ref: QueryOrderByConstraint
 }
 
 export type OrderBy = <
@@ -18,4 +15,4 @@ export type OrderBy = <
 >(
 	fieldPath: FieldPath,
 	directionStr?: DirectionStr
-) => OrderByConstraint<FieldPath, DirectionStr>
+) => OrderByConstraint<FieldPath>

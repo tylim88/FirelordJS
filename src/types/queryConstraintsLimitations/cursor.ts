@@ -1,5 +1,4 @@
 import { MetaType } from '../metaTypeCreator'
-import { OrderByDirection } from '../alias'
 import { ErrorCursorTooManyArguments } from '../error'
 import {
 	QueryConstraints,
@@ -18,29 +17,27 @@ type ValidateCursorOrderBy<
 	T extends MetaType,
 	Q extends Query<T>,
 	Values extends unknown[],
-	AllOrderBy extends OrderByConstraint<string, OrderByDirection | undefined>[]
+	AllOrderBy extends OrderByConstraint<string>[]
 > = Values extends [infer Head, ...infer Rest]
 	? AllOrderBy extends [infer H, ...infer R]
-		? H extends OrderByConstraint<string, OrderByDirection | undefined>
+		? H extends OrderByConstraint<string>
 			? [
-					H['_field'] extends __name__
-						? GetCorrectDocumentIdBasedOnRef<T, Q, H['_field'], Head>
+					H['fieldPath'] extends __name__
+						? GetCorrectDocumentIdBasedOnRef<T, Q, H['fieldPath'], Head>
 						: Head extends
-								| DeepValue<T['compare'], H['_field']>
+								| DeepValue<T['compare'], H['fieldPath']>
 								| QueryDocumentSnapshot<T>
 								| DocumentSnapshot<T>
 						? Head | QueryDocumentSnapshot<T> | DocumentSnapshot<T>
 						:
-								| DeepValue<T['compare'], H['_field']>
+								| DeepValue<T['compare'], H['fieldPath']>
 								| QueryDocumentSnapshot<T>
 								| DocumentSnapshot<T>,
 					...ValidateCursorOrderBy<
 						T,
 						Q,
 						Rest,
-						R extends OrderByConstraint<string, OrderByDirection | undefined>[]
-							? R
-							: []
+						R extends OrderByConstraint<string>[] ? R : []
 					>
 			  ]
 			: never // impossible route
@@ -54,10 +51,5 @@ export type CursorConstraintLimitation<
 	PreviousQCs extends readonly QueryConstraints<T>[]
 > = CursorConstraint<
 	CursorType,
-	ValidateCursorOrderBy<
-		T,
-		Q,
-		U['_docOrFields'],
-		GetAllOrderBy<T, PreviousQCs, []>
-	>
+	ValidateCursorOrderBy<T, Q, U['values'], GetAllOrderBy<T, PreviousQCs, []>>
 >

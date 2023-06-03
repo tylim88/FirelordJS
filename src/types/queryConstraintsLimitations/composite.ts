@@ -1,24 +1,22 @@
 import { MetaType } from '../metaTypeCreator'
-import { WhereFilterOp, OrderByDirection } from '../alias'
+import { WhereFilterOp } from '../alias'
 import {
 	WhereConstraint,
 	OrderByConstraint,
 	CursorConstraint,
 	LimitConstraint,
 	QueryFilterConstraints,
-	QueryCompositeFilterConstraint,
 	QueryConstraints,
 	QueryAllConstraints,
 	CursorType,
 } from '../queryConstraints'
-import { Query } from '../refs'
+import { Query, QueryCompositeFilterConstraint } from '../refs'
 import { WhereConstraintLimitation } from './where'
 import {
 	ErrorOrAndInvalidConstraints,
 	ErrorInvalidTopLevelFilter,
 	ErrorCannotUseNotInOrQuery,
 } from '../error'
-import { StrictExclude } from '../utils'
 import { NotIn } from './utils'
 
 type GetAllQueryFilterCompositeConstraint<
@@ -96,10 +94,7 @@ export type FlattenQueryCompositeFilterConstraint<
 						...ACC,
 						...FlattenQueryCompositeFilterConstraint<
 							T,
-							StrictExclude<
-								Head['do_not_access.query_filter_constraint'],
-								undefined
-							>,
+							Head['constraints'],
 							ACC
 						>
 				  ]
@@ -129,17 +124,14 @@ export type QueryFilterConstraintLimitation<
 ]
 	? [
 			Head extends
-				| LimitConstraint<'limit' | 'limitToLast', number>
-				| OrderByConstraint<string, OrderByDirection | undefined>
+				| LimitConstraint<'limit' | 'limitToLast'>
+				| OrderByConstraint<string>
 				| CursorConstraint<CursorType, unknown[]>
 				? ErrorOrAndInvalidConstraints
 				: Head extends WhereConstraint<T, string, WhereFilterOp, unknown>
-				? Head['_op'] extends NotIn
+				? Head['opStr'] extends NotIn
 					? 'or' extends ParentConstraint['type']
-						? StrictExclude<
-								ParentConstraint['do_not_access.query_filter_constraint'],
-								undefined
-						  >['length'] extends 1
+						? ParentConstraint['constraints']['length'] extends 1
 							? WhereConstraintLimitation<T, Q, Head, PreviousQCs>
 							: ErrorCannotUseNotInOrQuery
 						: WhereConstraintLimitation<T, Q, Head, PreviousQCs>
@@ -155,10 +147,7 @@ export type QueryFilterConstraintLimitation<
 						QueryFilterConstraintLimitation<
 							T,
 							Q,
-							StrictExclude<
-								Head['do_not_access.query_filter_constraint'],
-								undefined
-							>,
+							Head['constraints'],
 							PreviousQCs,
 							Head
 						>

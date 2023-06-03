@@ -46,15 +46,36 @@ export type SnapshotOptions = import('firebase/firestore').SnapshotOptions
 export type SnapshotMetadata = import('firebase/firestore').SnapshotMetadata
 
 /**
- * A `QueryConstraint` is used to narrow the set of documents returned by a
- * Firestore query. `QueryConstraint`s are created by invoking {@link where},
- * {@link orderBy}, {@link (startAt:1)}, {@link (startAfter:1)}, {@link
- * (endBefore:1)}, {@link (endAt:1)}, {@link limit}, {@link limitToLast} and
- * can then be passed to {@link (query:1)} to create a new query instance that
- * also contains this `QueryConstraint`.
+ * A `QueryFieldFilterConstraint` is used to narrow the set of documents returned by
+ * a Firestore query by filtering on one or more document fields.
+ * `QueryFieldFilterConstraint`s are created by invoking {@link where} and can then
+ * be passed to {@link (query:1)} to create a new query instance that also contains
+ * this `QueryFieldFilterConstraint`.
  */
-export type QueryConstraint = import('firebase/firestore').QueryConstraint
+export type QueryFieldFilterConstraint =
+	import('firebase/firestore').QueryFieldFilterConstraint
 
+/**
+ * A `QueryOrderByConstraint` is used to sort the set of documents returned by a
+ * Firestore query. `QueryOrderByConstraint`s are created by invoking
+ * {@link orderBy} and can then be passed to {@link (query:1)} to create a new query
+ * instance that also contains this `QueryOrderByConstraint`.
+ *
+ * Note: Documents that do not contain the orderBy field will not be present in
+ * the query result.
+ */
+export type QueryOrderByConstraint =
+	import('firebase/firestore').QueryOrderByConstraint
+
+/**
+ * A `QueryLimitConstraint` is used to limit the number of documents returned by
+ * a Firestore query.
+ * `QueryLimitConstraint`s are created by invoking {@link limit} or
+ * {@link limitToLast} and can then be passed to {@link (query:1)} to create a new
+ * query instance that also contains this `QueryLimitConstraint`.
+ */
+export type QueryLimitConstraint =
+	import('firebase/firestore').QueryLimitConstraint
 /**
  * An options object that can be passed to {@link (onSnapshot:1)} and {@link
  * QuerySnapshot.docChanges} to control which types of changes to include in the
@@ -150,3 +171,5 @@ export type OriFieldValue = import('firebase/firestore').FieldValue
 
 export type OriQueryCompositeFilterConstraint =
 	import('firebase/firestore').QueryCompositeFilterConstraint
+
+export type OriQueryConstraint = import('firebase/firestore').QueryConstraint

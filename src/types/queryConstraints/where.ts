@@ -1,5 +1,5 @@
 import { MetaType } from '../metaTypeCreator'
-import { WhereFilterOp } from '../alias'
+import { WhereFilterOp, QueryFieldFilterConstraint } from '../alias'
 import { __name__ } from '../fieldPath'
 
 export type WhereConstraint<
@@ -9,9 +9,10 @@ export type WhereConstraint<
 	Value
 > = {
 	type: 'where'
-	_field: FieldPath
-	_op: OpStr
-	_value: Value
+	fieldPath: FieldPath
+	opStr: OpStr
+	value: Value
+	ref: QueryFieldFilterConstraint
 }
 
 export type Where = <

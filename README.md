@@ -36,7 +36,7 @@
 			</a>
 			&nbsp;
 			<img
-				src="https://img.shields.io/badge/gzipped-2.5KB-brightgreen"
+				src="https://img.shields.io/badge/gzipped-2.6KB-brightgreen"
 				alt="package size"
 			/>
 			&nbsp;

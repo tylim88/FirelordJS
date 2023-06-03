@@ -1,23 +1,14 @@
-import { QueryConstraint } from '../alias'
+import { QueryLimitConstraint } from '../alias'
 import { ErrorLimitInvalidNumber } from '../error'
 
-type LimitType = {
-	limit: 'F'
-	limitToLast: 'L'
-}
-
-export type LimitConstraint<
-	Type extends 'limit' | 'limitToLast',
-	Value extends number
-> = {
+export type LimitConstraint<Type extends 'limit' | 'limitToLast'> = {
 	type: Type
-	_limit: Value
-	_limitType: LimitType[Type]
+	ref: QueryLimitConstraint
 }
 
 export type LimitCreator = <Type extends 'limit' | 'limitToLast'>(
 	type: Type,
-	clause: (limit: number) => QueryConstraint
+	clause: (limit: number) => QueryLimitConstraint
 ) => <const Value extends number>(
 	limit: Value extends 0
 		? ErrorLimitInvalidNumber
@@ -28,4 +19,4 @@ export type LimitCreator = <Type extends 'limit' | 'limitToLast'>(
 			? ErrorLimitInvalidNumber
 			: Value
 		: never // impossible route
-) => LimitConstraint<Type, Value>
+) => LimitConstraint<Type>

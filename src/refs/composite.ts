@@ -6,11 +6,11 @@ export const queryCompositeFilterCreator =
 	<T extends MetaType, Type extends 'or' | 'and'>(
 		type: Type
 	): QueryCompositeFilter<T, Type> =>
-	// @ts-expect-error
 	(...queryConstraints) => {
-		if (type === 'and') {
-			return and(...queryBuilder(queryConstraints))
-		} else {
-			return or(...queryBuilder(queryConstraints))
+		const constraints = queryBuilder(queryConstraints)
+		return {
+			type,
+			constraints,
+			ref: type === 'and' ? and(...constraints) : or(...constraints),
 		}
 	}

@@ -1,4 +1,3 @@
-export * from './composite'
 export * from './query'
 export * from './where'
 export * from './limit'

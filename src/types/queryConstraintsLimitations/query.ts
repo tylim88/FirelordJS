@@ -1,5 +1,5 @@
 import { MetaType } from '../metaTypeCreator'
-import { WhereFilterOp, OrderByDirection } from '../alias'
+import { WhereFilterOp } from '../alias'
 import {
 	QueryConstraints,
 	WhereConstraint,
@@ -7,11 +7,10 @@ import {
 	CursorConstraint,
 	LimitConstraint,
 	QueryAllConstraints,
-	QueryCompositeFilterConstraint,
 	QueryFilterConstraints,
 	CursorType,
 } from '../queryConstraints'
-import { Query } from '../refs'
+import { QueryCompositeFilterConstraint, Query } from '../refs'
 import { LimitToLastConstraintLimitation } from './limit'
 import { CursorConstraintLimitation } from './cursor'
 import { OrderByConstraintLimitation, GetFirstOrderBy } from './orderBy'
@@ -39,10 +38,10 @@ export type ValidateOrderByAndInequalityWhere<
 	unknown
 >
 	? GetFirstOrderBy<T, AllQCs> extends infer O
-		? O extends OrderByConstraint<string, OrderByDirection | undefined>
-			? IsSame<W['_field'], O['_field']> extends true
+		? O extends OrderByConstraint<string>
+			? IsSame<W['fieldPath'], O['fieldPath']> extends true
 				? true
-				: ErrorWhereOrderByAndInEquality<O['_field'], W['_field']>
+				: ErrorWhereOrderByAndInEquality<O['fieldPath'], W['fieldPath']>
 			: true // orderBy not found
 		: true // inequality Where not found
 	: true // impossible route
@@ -58,11 +57,11 @@ export type QueryConstraintLimitation<
 	...infer Rest extends QueryAllConstraints<T>[]
 ]
 	? [
-			Head extends LimitConstraint<'limit', number>
+			Head extends LimitConstraint<'limit'>
 				? Head
-				: Head extends OrderByConstraint<string, OrderByDirection | undefined>
+				: Head extends OrderByConstraint<string>
 				? OrderByConstraintLimitation<T, Head, AllQCs>
-				: Head extends LimitConstraint<'limitToLast', number>
+				: Head extends LimitConstraint<'limitToLast'>
 				? LimitToLastConstraintLimitation<T, Head, AllQCs>
 				: Head extends WhereConstraint<T, string, WhereFilterOp, unknown>
 				? ValidateWhereArrayContainsArrayContainsAny<

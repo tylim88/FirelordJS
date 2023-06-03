@@ -18,28 +18,12 @@ export const queryBuilder = (
 		| QueryAllConstraints<MetaType>[]
 		| QueryFilterConstraints<MetaType>[]
 ) =>
-	queryConstraints
-		// @ts-expect-error
-		.reduce((acc, qc) => {
-			const type = qc.type
-			if (
-				type === 'startAt' ||
-				type === 'startAfter' ||
-				type === 'endAt' ||
-				type === 'endBefore'
-			) {
-				qc._docOrFields.length > 0 && acc.push(qc)
-			} else if (
-				type === 'or' ||
-				type === 'and' ||
-				type === 'where' ||
-				type === 'orderBy' ||
-				type === 'limit' ||
-				type === 'limitToLast'
-			) {
-				acc.push(qc)
-			} else {
-				acc.push(qc.ref)
-			}
-			return acc
-		}, [])
+	// @ts-expect-error
+	queryConstraints.reduce((acc, qc) => {
+		const type = qc.type
+		;(['startAt', 'startAfter', 'endAt', 'endBefore'].includes(type)
+			? qc.values.length > 0
+			: true) && acc.push(qc.ref)
+
+		return acc
+	}, [])

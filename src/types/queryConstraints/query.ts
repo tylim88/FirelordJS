@@ -1,15 +1,15 @@
 import { MetaType } from '../metaTypeCreator'
-import { WhereFilterOp, OrderByDirection } from '../alias'
+import { WhereFilterOp } from '../alias'
 import { CursorType, CursorConstraint } from './cursor'
 import { WhereConstraint } from './where'
 import { LimitConstraint } from './limit'
 import { OrderByConstraint } from './orderBy'
-import { QueryCompositeFilterConstraint } from './composite'
+import { QueryCompositeFilterConstraint } from '../refs'
 
 type QueryNonFilterConstraints<T extends MetaType> =
-	| LimitConstraint<'limit' | 'limitToLast', number>
+	| LimitConstraint<'limit' | 'limitToLast'>
 	| CursorConstraint<CursorType, unknown[]>
-	| OrderByConstraint<keyof T['compare'] & string, OrderByDirection | undefined>
+	| OrderByConstraint<keyof T['compare'] & string>
 
 export type QueryConstraints<T extends MetaType> =
 	| WhereConstraint<T, keyof T['compare'] & string, WhereFilterOp, unknown>

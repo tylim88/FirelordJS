@@ -26,5 +26,10 @@ export const where: Where = (fieldPath, opStr, value) => {
 		] as typeof newValue
 	}
 
-	return where_(fieldPath, opStr, newValue)
+	return {
+		fieldPath,
+		opStr,
+		value,
+		ref: where_(fieldPath, opStr, newValue),
+	}
 }

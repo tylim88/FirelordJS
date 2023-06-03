@@ -1,12 +1,20 @@
 import { MetaType } from '../metaTypeCreator'
-import {
-	QueryCompositeFilterConstraint,
-	QueryFilterConstraints,
-} from '../queryConstraints'
+import { QueryFilterConstraints } from '../queryConstraints'
 import { QueryFilterConstraintLimitation } from '../queryConstraintsLimitations'
 import { CollectionReference } from './collection'
 import { Query } from './query'
 import { ErrorEmptyCompositeFilter } from '../error'
+import { OriQueryCompositeFilterConstraint } from '../alias'
+
+export type QueryCompositeFilterConstraint<
+	T extends MetaType,
+	Y extends 'and' | 'or',
+	X extends QueryFilterConstraints<T>[]
+> = {
+	type: Y
+	constraints: X
+	ref: OriQueryCompositeFilterConstraint
+}
 
 export type QueryCompositeFilter<
 	T extends MetaType,

@@ -4,7 +4,7 @@ import { QueryConstraints, LimitConstraint } from '../queryConstraints'
 
 export type LimitToLastConstraintLimitation<
 	T extends MetaType,
-	U extends LimitConstraint<'limitToLast', number>,
+	U extends LimitConstraint<'limitToLast'>,
 	AllQCs extends readonly QueryConstraints<T>[]
 > = AllQCs extends (infer A)[]
 	? A extends QueryConstraints<T>
