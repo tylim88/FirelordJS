@@ -20,12 +20,12 @@ import pick from 'pick-random'
 import betwin from 'betwin'
 import { flatten } from '../../src/utils'
 import { cloneDeep } from 'lodash'
-
-import env from '../../env.json'
+import envJson from '../../env.json'
 
 export const initializeApp = () => {
-	if (env.projectId) {
-		return initializeApp_(env)
+	const projectId = envJson.projectId || process.env.PROJECT_ID
+	if (projectId) {
+		return initializeApp_({ projectId })
 	}
 	throw 'PROJECT_ID is empty'
 }

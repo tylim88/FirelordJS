@@ -15,11 +15,12 @@ import { flatten } from './utils'
 import { cloneDeep } from 'lodash'
 import { snapshotEqual } from './equal'
 import { arrayUnion, increment, serverTimestamp } from './fieldValues'
-import env from '../env.json'
+import envJson from '../env.json'
 
 export const initializeApp = () => {
-	if (env.projectId) {
-		return initializeApp_(env)
+	const projectId = envJson.projectId || process.env.PROJECT_ID
+	if (projectId) {
+		return initializeApp_({ projectId })
 	}
 	throw 'PROJECT_ID is empty'
 }
