@@ -143,15 +143,15 @@ FirelordJS:
 - Minimum types creation and no type assertion.
 - Offers truly generic type safe solutions, declare any data shape you want.
 - Supports deeply nested object type: `Record<string,Record<string,Record<string,...>>>`, max 1000 levels.
-- Supports deeply [nested sub collection](https://firelordjs.com/guides/metatype), all children are aware of all their ancestors type, max 100 generations.
-- Generates all possible flatten paths combinations from declared type(eg: `a`, `a.b`, `a.b.c`, `a.b.d`, `a.x`, `a.x.y`, `a.x.z`) with type safety.
+- Supports deeply [nested sub collection](https://firelordjs.com/guides/metatype), all children can [track back](https://firelordjs.com/guides/metatype/#know-your-ancestors) all their ancestors type, max 100 generations.
+- Generates all possible flatten paths combinations based on your declared type(e.g.: `a`, `a.b`, `a.b.c`, `a.b.d`, `a.x`, `a.x.y`, `a.x.z`) with type safety.
 - Generates different types for different operations, see [Type Conversion](https://firelordjs.com/highlights/type_conversion) for complete list of type transformations.
 - Package size is the [smallest](https://firelordjs.com/minified_size).
-- Needs **no** code generation and schema language, just pure Typescript.
-- Supports [@firebase/rules-unit-testing and emulator](https://firelordjs.com/guides/tests), tested with emulator and no extra API is needed!
-- Is thoroughly tested, we test beyond source code, we test built files and published package. (test source code -> build -> test built files -> publish -> test published)
+- Doesn't need code generation and schema language, just pure Typescript.
+- Supports [@firebase/rules-unit-testing and emulator](https://firelordjs.com/guides/tests), no extra API is needed!
+- Is tested beyond source code, we also test built files and published package. (test source code -> build -> test built files -> publish -> test published)
 - No mock test, all 250 tests test against live database to ensure the highest certainty.
-- Takes care of annoying runtime errors like empty array errors([filter](https://firelordjs.com/highlights/where#dealing-with-empty-array-%EF%B8%8F) & [cursors](https://firelordjs.com/highlights/cursor#empty-rest-parameter)) and [implicit data deletion in update operation](https://firelordjs.com/highlights/update#implicit-data-deletion) for you.
+- Takes care pesky runtime errors like empty array errors([filter](https://firelordjs.com/highlights/where#dealing-with-empty-array-%EF%B8%8F) & [cursors](https://firelordjs.com/highlights/cursor#empty-rest-parameter)) and [implicit data deletion in update operation](https://firelordjs.com/highlights/update#implicit-data-deletion).
 - Remove the need to write collection ID repetitively.
 - Blocks undocumented errors and provides over [30 custom error messages](https://github.com/tylim88/FirelordJS/blob/main/src/types/error.ts) to assist you in writing proper Firestore code! Here is an example:
   ![custom error message](./img/custom.png)
@@ -187,7 +187,7 @@ It has all the regular rulings plus new composite rulings. See also [peeling com
 
 - Replace `set merge` with `upset`(update if exists, else set). It will receive 1 doc ref argument and 2 data arguments(partial data and complete data). It will attempt to update the document with partial data or create a document with complete data if the document does not exist.
 
-- Fix in code documentation not working(alternative solution is available, [TS bug?](https://github.com/microsoft/TypeScript/issues/53424))(update: Typescript v5.1.3)
+- Fix in code documentation not working(alternative solution is available, [TS bug?](https://github.com/microsoft/TypeScript/issues/53424))(update: Typescript v5.1.3 solved this issue)
 
 ## Dropped TO DO
 
