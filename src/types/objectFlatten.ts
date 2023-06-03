@@ -1,8 +1,12 @@
+import { Timestamp } from './alias'
+
 export type RemoveLastDot<T extends string> = T extends `${infer R}.` ? R : T
 
 export type DeepKey<T, K extends keyof T = keyof T> = K extends string
 	? T[K] extends infer R
-		? R extends Record<string, unknown>
+		? R extends Timestamp
+			? `${K}.`
+			: R extends Record<string, unknown>
 			? `${K}.` | `${K}.${DeepKey<R>}`
 			: `${K}.`
 		: never // impossible route
