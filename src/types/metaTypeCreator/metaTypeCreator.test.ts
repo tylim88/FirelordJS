@@ -1,21 +1,22 @@
-import { MetaTypeCreator, MetaType } from './metaTypeCreator'
-import { Timestamp, Bytes, GeoPoint } from './alias'
+import { MetaTypeCreator } from './metaTypeCreator'
+import { MetaType } from './metaType'
+import { Timestamp, Bytes, GeoPoint } from '../alias'
 import {
 	ErrorNullBanned,
 	ErrorUnionInvolveObjectType,
 	ErrorDirectNested,
-} from './error'
+} from '../error'
 import {
 	ArrayUnionOrRemove,
 	Increment,
 	ServerTimestamp,
 	PossiblyReadAsUndefined,
 	DeleteField,
-} from './fieldValues'
-import { DocumentReference } from './refs'
-import { IsTrue, IsSame, IsEqual } from './utils'
-import { Parent, User } from '../utilForTests'
-import { __name__Record } from './fieldPath'
+} from '../fieldValues'
+import { DocumentReference } from '../refs'
+import { IsTrue, IsSame, IsEqual } from '../utils'
+import { Parent, User } from '../../utilForTests'
+import { __name__Record } from '../fieldPath'
 
 describe('test Firelord type', () => {
 	it('test parents equal', () => {
