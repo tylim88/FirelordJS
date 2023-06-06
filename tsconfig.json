@@ -20,5 +20,6 @@
 		"moduleResolution": "node",
 		"types": ["vitest/globals"],
 		"skipLibCheck": true
-	}
+	},
+	"include": ["src"]
 }
