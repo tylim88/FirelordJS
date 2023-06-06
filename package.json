@@ -8,7 +8,8 @@
 		"dist"
 	],
 	"scripts": {
-		"reinstall": "rm -rf node_modules && rm -rf package-lock.json && npm i && npx husky install",
+		"un": "rm -rf node_modules && rm -rf package-lock.json",
+		"i": " npm run un && npm i && npx husky install",
 		"tsc": "tsc",
 		"lint": "eslint . --ext .ts --fix",
 		"pretty": "pretty-quick --stage --branch main",
@@ -23,19 +24,19 @@
 		"dev": "---------------------dev------------------------",
 		"d-link": "npm run build && npm run link",
 		"d-test": "tsc && npm test",
-		"d-b-tsc": "npm run d-link && npm run b-uninstall && npm run b-tsc",
-		"d-b-test": "npm run d-b-tsc && npm run b-test",
-		"d-p-tsc": "npm run p-reinstall && npm run p-tsc",
-		"d-p-test": "npm run d-p-tsc && npm run p-test",
-		"d-pub": "npm run build && npm publish --tag beta",
+		"d-beta": "npm run build && npm publish --tag beta",
 		"built": "-------------test built file-----------------------",
+		"b-un": "cd codeForDoc && npm run un",
 		"b-tsc": "tsc -p tsconfig.doc.json",
-		"b-test": "npm run kill && (firebase emulators:exec --only firestore \"vitest --config=vitest.config.doc.ts\" || true) && npm run kill",
-		"b-uninstall": "npm --prefix codeForDoc run uninstall",
+		"b-test": "npm run kill && (firebase emulators:exec --only firestore \"vitest --config=vitest.config.doc.ts\") && npm run kill",
+		"b-q-tsc": "npm run d-link && npm run b-un && npm run b-tsc",
+		"b-q-test": "npm run b-q-tsc && npm run b-test",
 		"published": "-------------test published file-----------------------",
-		"p-reinstall": "npm --prefix codeForDoc run reinstall && babel-node -x .ts scripts/installLatest.ts",
-		"p-test": "npm --prefix codeForDoc test",
-		"p-tsc": "npm --prefix codeForDoc run tsc"
+		"p-i": "cd codeForDoc && npm run i",
+		"p-tsc": "cd codeForDoc && npm run tsc",
+		"p-test": "cd codeForDoc && npm run test",
+		"p-q-tsc": "npm run p-i && npm run p-tsc",
+		"p-q-test": "npm run p-q-tsc && npm run p-test"
 	},
 	"lint-staged": {
 		"*.{js,jsx,ts,tsx,md,json,yml}": [
@@ -63,13 +64,9 @@
 		"V9"
 	],
 	"devDependencies": {
-		"@babel/node": "^7.20.7",
-		"@babel/preset-env": "^7.20.2",
-		"@babel/preset-typescript": "^7.21.0",
 		"@firebase/rules-unit-testing": "^2.0.7",
 		"@rollup/plugin-typescript": "^11.0.0",
 		"@types/lodash": "^4.14.191",
-		"@types/shelljs": "^0.8.11",
 		"@typescript-eslint/eslint-plugin": "^5.56.0",
 		"@typescript-eslint/parser": "^5.56.0",
 		"@vitest/coverage-c8": "^0.29.7",
@@ -96,7 +93,6 @@
 		"pretty-quick": "^3.1.3",
 		"rollup": "^2.79.1",
 		"rollup-plugin-terser": "^7.0.2",
-		"shelljs": "^0.8.5",
 		"typescript": "^5.1.3",
 		"vitest": "^0.29.7"
 	},

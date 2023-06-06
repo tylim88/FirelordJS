@@ -1,4 +1,4 @@
 {
 	"extends": "../tsconfig.doc.json",
-	"include": ["src/**/*"]
+	"include": ["src", "installLatest.ts"]
 }

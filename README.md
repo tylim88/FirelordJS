@@ -187,8 +187,6 @@ It has all the regular rulings plus new composite rulings. See also [peeling com
 
 - Replace `set merge` with `upset`(update if exists, else set). It will receive 1 doc ref argument and 2 data arguments(partial data and complete data). It will attempt to update the document with partial data or create a document with complete data if the document does not exist.
 
-- Proper way to test published package.
-
 - More in code documentation and tests.
 
 ## Dropped TO DO

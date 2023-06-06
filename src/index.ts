@@ -104,6 +104,7 @@ export * from './equal'
 export type {
 	MetaType,
 	MetaTypeCreator,
+	AbstractMetaTypeCreator,
 	ServerTimestamp,
 	DeleteField,
 	PossiblyReadAsUndefined,
@@ -115,7 +116,6 @@ export type {
 	QueryDocumentSnapshot,
 	WriteBatch,
 	RunTransaction,
-	AbstractMetaTypeCreator,
 	GetDocIds,
 	Transaction,
 	GetCollectionIds,

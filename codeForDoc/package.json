@@ -4,9 +4,9 @@
 	"description": "test published Firelordjs",
 	"main": "index.js",
 	"scripts": {
-		"uninstall": "rm -rf node_modules && rm -rf package-lock.json",
-		"reinstall": "npm run uninstall && npm i",
-		"test": "npm run kill && (firebase emulators:exec --only firestore \"vitest\" || true) && npm run kill",
+		"un": "rm -rf node_modules && rm -rf package-lock.json",
+		"i": "npm run un && npm i && babel-node -x .ts installLatest.ts",
+		"test": "npm run kill && (firebase emulators:exec --only firestore \"vitest\") && npm run kill",
 		"kill": "kill-port 8080",
 		"tsc": "tsc"
 	},
@@ -15,14 +15,19 @@
 	"dependencies": {
 		"code-for-doc": "file:",
 		"firebase": "latest",
-		"firelordjs": "^2.5.14"
+		"firelordjs": "^2.5.15"
 	},
 	"devDependencies": {
+		"@babel/node": "^7.20.7",
+		"@babel/preset-env": "^7.20.2",
+		"@babel/preset-typescript": "^7.21.0",
 		"@firebase/rules-unit-testing": "^2.0.7",
 		"@types/lodash": "^4.14.191",
+		"@types/shelljs": "^0.8.12",
 		"@typescript-eslint/eslint-plugin": "^5.56.0",
 		"@typescript-eslint/parser": "^5.56.0",
 		"@vitest/coverage-c8": "^0.29.7",
+		"dotenv": "^16.1.4",
 		"eslint": "^8.36.0",
 		"eslint-cli": "^1.1.1",
 		"eslint-config-prettier": "^8.8.0",
@@ -32,6 +37,7 @@
 		"jsdom": "^21.1.1",
 		"kill-port": "^2.0.1",
 		"prettier": "^2.8.6",
+		"shelljs": "^0.8.5",
 		"typescript": "^5.0.2",
 		"vitest": "^0.29.7"
 	}
