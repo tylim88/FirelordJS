@@ -11,7 +11,7 @@ import {
 	Increment,
 	ServerTimestamp,
 	PossiblyReadAsUndefined,
-	DeleteField,
+	Delete,
 } from '../fieldValues'
 import { DocumentReference } from '../refs'
 import { IsTrue, IsSame, IsEqual } from '../utils'
@@ -472,16 +472,16 @@ describe('test Firelord type', () => {
 	it('test union involve object type & DeleteAbleFieldValue', () => {
 		type A = MetaTypeCreator<
 			{
-				a: 1 | null | DeleteField
+				a: 1 | null | Delete
 				b: {
-					c: 'a' | DeleteField
-					d: { e: false } | DeleteField
-					f: { g: Date | null; h: 2 }[] | DeleteField
-					j: ServerTimestamp | null | Date | DeleteField
-					k: DocumentReference<MetaType> | null | DeleteField
+					c: 'a' | Delete
+					d: { e: false } | Delete
+					f: { g: Date | null; h: 2 }[] | Delete
+					j: ServerTimestamp | null | Date | Delete
+					k: DocumentReference<MetaType> | null | Delete
 				}
-				h: string | DeleteField
-				i: number | null | DeleteField
+				h: string | Delete
+				i: number | null | Delete
 			},
 			'A',
 			string,
@@ -529,10 +529,10 @@ describe('test Firelord type', () => {
 		}
 
 		type ExpectedWriteMerge = {
-			a: 1 | null | DeleteField
+			a: 1 | null | Delete
 			b: {
-				c: 'a' | DeleteField
-				d: { e: false } | DeleteField
+				c: 'a' | Delete
+				d: { e: false } | Delete
 				f:
 					| readonly {
 							g: Date | Timestamp | null
@@ -542,19 +542,19 @@ describe('test Firelord type', () => {
 							g: Date | Timestamp | null
 							h: 2
 					  }>
-					| DeleteField
-				j: ServerTimestamp | null | Date | Timestamp | DeleteField
-				k: DocumentReference<MetaType> | null | DeleteField
+					| Delete
+				j: ServerTimestamp | null | Date | Timestamp | Delete
+				k: DocumentReference<MetaType> | null | Delete
 			}
-			h: string | DeleteField
-			i: number | null | Increment | DeleteField
+			h: string | Delete
+			i: number | null | Increment | Delete
 		}
 
 		type ExpectedWriteFlatten = {
-			a: 1 | null | DeleteField
+			a: 1 | null | Delete
 			b: {
-				c: 'a' | DeleteField
-				d: { e: false } | DeleteField
+				c: 'a' | Delete
+				d: { e: false } | Delete
 				f:
 					| readonly {
 							g: Timestamp | Date | null
@@ -564,13 +564,13 @@ describe('test Firelord type', () => {
 							g: Timestamp | Date | null
 							h: 2
 					  }>
-					| DeleteField
-				j: ServerTimestamp | null | Date | Timestamp | DeleteField
-				k: DocumentReference<MetaType> | null | DeleteField
+					| Delete
+				j: ServerTimestamp | null | Date | Timestamp | Delete
+				k: DocumentReference<MetaType> | null | Delete
 				'd.e': false
 			}
-			h: string | DeleteField
-			i: number | null | Increment | DeleteField
+			h: string | Delete
+			i: number | null | Increment | Delete
 			'b.f':
 				| readonly {
 						g: Timestamp | Date | null
@@ -580,11 +580,11 @@ describe('test Firelord type', () => {
 						g: Timestamp | Date | null
 						h: 2
 				  }>
-				| DeleteField
-			'b.c': 'a' | DeleteField
-			'b.d': { e: false } | DeleteField
-			'b.j': ServerTimestamp | null | Date | Timestamp | DeleteField
-			'b.k': DocumentReference<MetaType> | null | DeleteField
+				| Delete
+			'b.c': 'a' | Delete
+			'b.d': { e: false } | Delete
+			'b.j': ServerTimestamp | null | Date | Timestamp | Delete
+			'b.k': DocumentReference<MetaType> | null | Delete
 			'b.d.e': false
 		}
 

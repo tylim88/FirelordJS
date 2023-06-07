@@ -9,7 +9,7 @@ import {
 import {
 	FieldValues,
 	UnassignedAbleFieldValue,
-	DeleteField,
+	Delete,
 	ServerTimestamp,
 	PossiblyReadAsUndefined,
 } from '../fieldValues'
@@ -86,7 +86,7 @@ export type ReadConverter<T, allFieldsPossiblyReadAsUndefined, BannedTypes> =
 							>
 					  }
 					| allFieldsPossiblyReadAsUndefined
-			: T extends DeleteField | PossiblyReadAsUndefined
+			: T extends Delete | PossiblyReadAsUndefined
 			? undefined
 			: T extends UnassignedAbleFieldValue
 			? ErrorUnassignedAbleFieldValue

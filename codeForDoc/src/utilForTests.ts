@@ -11,7 +11,7 @@ import {
 	MetaTypeCreator,
 	Timestamp,
 	ServerTimestamp,
-	DeleteField,
+	Delete,
 	DocumentSnapshot,
 	getFirestore,
 } from 'firelordjs'
@@ -48,9 +48,9 @@ export type User = MetaTypeCreator<
 		role: 'admin' | 'editor' | 'visitor'
 		a: {
 			b: { c: number; f: { g: boolean; h: Date; m: number }[] }
-			i: { j: number | DeleteField; l: Date }
+			i: { j: number | Delete; l: Date }
 			e: string[]
-			k: ServerTimestamp | DeleteField
+			k: ServerTimestamp | Delete
 		}
 	},
 	'Users',

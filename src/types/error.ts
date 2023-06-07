@@ -10,11 +10,11 @@ export type ErrorFieldValueInArray =
 export type ErrorUnassignedAbleFieldValue =
 	`Error: Please do not directly assign Increment, Array Remove and Array Union Field Value`
 export type ErrorUnionInvolveObjectType =
-	`Error: Please check your type declaration, do not union object literal type with other type except PossiblyReadAsUndefined and DeleteField`
+	`Error: Please check your type declaration, do not union object literal type with other type except PossiblyReadAsUndefined and Delete`
 export type ErrorDeleteFieldMerge =
 	`Error: To use deleteField, please set 'merge' to 'true' or set 'mergeFields with an array, empty array also fine' in the options parameter.`
 export type ErrorDeleteFieldUnion<T extends string> =
-	`Error: To use 'deleteField()' on '${T}', please union 'DeleteField' type with type of '${T}' in the type definition(MetaTypeCreator)`
+	`Error: To use 'deleteField()' on '${T}', please union 'Delete' type with type of '${T}' in the type definition(MetaTypeCreator)`
 export type ErrorPleaseDoConstAssertion =
 	`Error: Please assert the value as const eg:''a' as const'`
 export type ErrorCollectionIDString =

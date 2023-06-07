@@ -2,7 +2,7 @@ import {
 	updateDoc,
 	MetaTypeCreator,
 	getFirelord,
-	DeleteField,
+	Delete,
 	deleteField,
 	getDoc,
 	setDoc,
@@ -13,7 +13,7 @@ const db = getFirestore()
 
 type abc = MetaTypeCreator<
 	{
-		a: number | DeleteField
+		a: number | Delete
 		b: number
 	},
 	'abc',
@@ -43,8 +43,8 @@ getDoc(docRef).then(docSnap => {
 
 type abc2 = MetaTypeCreator<
 	{
-		a: DeleteField[]
-		b: { c: DeleteField }[]
+		a: Delete[]
+		b: { c: Delete }[]
 	},
 	'abc',
 	string
@@ -69,7 +69,7 @@ updateDoc(docRef2, {
 
 type abc3 = MetaTypeCreator<
 	{
-		a: number[] | DeleteField
+		a: number[] | Delete
 	},
 	'abc',
 	string
@@ -85,8 +85,8 @@ updateDoc(docRef3, {
 
 type abc4 = MetaTypeCreator<
 	{
-		a: number | DeleteField
-		b: { c: string | DeleteField }
+		a: number | Delete
+		b: { c: string | Delete }
 	},
 	'abc',
 	string

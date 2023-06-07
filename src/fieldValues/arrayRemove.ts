@@ -1,5 +1,5 @@
 import { arrayRemove as arrayRemove_ } from 'firebase/firestore'
-import { ArrayRemoveOrUnion } from '../types'
+import { ArrayRemoveOrUnionFunction } from '../types'
 
 /**
  * Returns a special value that can be used with {@link (setDoc:1)} or {@link
@@ -12,4 +12,4 @@ import { ArrayRemoveOrUnion } from '../types'
  * @returns The `FieldValue` sentinel for use in a call to `setDoc()` or
  * `updateDoc()`
  */
-export const arrayRemove: ArrayRemoveOrUnion = arrayRemove_
+export const arrayRemove: ArrayRemoveOrUnionFunction = arrayRemove_

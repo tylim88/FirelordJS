@@ -1,5 +1,5 @@
 import { arrayUnion as arrayUnion_ } from 'firebase/firestore'
-import { ArrayRemoveOrUnion } from '../types'
+import { ArrayRemoveOrUnionFunction } from '../types'
 /**
  * Returns a special value that can be used with {@link @firebase/firestore/lite#(setDoc:1)} or {@link
  * @firebase/firestore/lite#(updateDoc:1)} that tells the server to union the given elements with any array
@@ -12,4 +12,4 @@ import { ArrayRemoveOrUnion } from '../types'
  * @returns The `FieldValue` sentinel for use in a call to `setDoc()` or
  * `updateDoc()`.
  */
-export const arrayUnion: ArrayRemoveOrUnion = arrayUnion_
+export const arrayUnion: ArrayRemoveOrUnionFunction = arrayUnion_

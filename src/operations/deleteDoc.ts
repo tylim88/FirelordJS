@@ -1,5 +1,5 @@
 import { deleteDoc as deleteDoc_ } from 'firebase/firestore'
-import { Delete } from '../types'
+import { DeleteDoc } from '../types'
 
 /**
  * Deletes the document referred to by the specified `DocumentReference`.
@@ -9,4 +9,4 @@ import { Delete } from '../types'
  * deleted from the backend (note that it won't resolve while you're offline).
  */
 // @ts-expect-error
-export const deleteDoc: Delete = deleteDoc_
+export const deleteDoc: DeleteDoc = deleteDoc_
