@@ -108,14 +108,7 @@ export * from './transaction'
 export * from './fieldValues'
 export * from './operations'
 export * from './queryConstraints'
-export {
-	query,
-	docCreator,
-	collectionCreator,
-	collectionGroupCreator,
-	andCreator,
-	orCreator,
-} from './refs'
+export * from './refs'
 export * from './equal'
 
 export type {
