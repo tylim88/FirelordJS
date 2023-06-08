@@ -15,7 +15,7 @@
 		"pretty": "pretty-quick --stage --branch main",
 		"rollup": "rm -rf dist && rollup -c",
 		"build": "rm -rf dist && tsc -p tsconfig.prod.json",
-		"link": "npm unlink firelordjs && npm link firelordjs && make-dir codeForDoc/node_modules/firelordjs/dist && cp -r node_modules/firelordjs/dist codeForDoc/node_modules/firelordjs/dist && cp node_modules/firelordjs/package.json codeForDoc/node_modules/firelordjs/package.json",
+		"link": "npm unlink firelordjs && npm link firelordjs && make-dir codeForDoc/node_modules/firelordjs/dist && cp -r node_modules/firelordjs codeForDoc/node_modules/firelordjs/dist && cp node_modules/firelordjs/package.json codeForDoc/node_modules/firelordjs/package.json",
 		"babel": "babel-node -x .ts -- src/fieldPath/documentId.ts",
 		"jest": "jest src/operations/getCountFromServer.test.ts --collectCoverage=false",
 		"commit": "git commit --no-verify",
@@ -65,7 +65,7 @@
 	],
 	"devDependencies": {
 		"@firebase/rules-unit-testing": "^2.0.7",
-		"@rollup/plugin-typescript": "^11.0.0",
+		"@rollup/plugin-typescript": "^11.1.1",
 		"@types/lodash": "^4.14.191",
 		"@typescript-eslint/eslint-plugin": "^5.56.0",
 		"@typescript-eslint/parser": "^5.56.0",
@@ -92,7 +92,6 @@
 		"prettier": "^2.8.6",
 		"pretty-quick": "^3.1.3",
 		"rollup": "^2.79.1",
-		"rollup-plugin-terser": "^7.0.2",
 		"typescript": "^5.1.3",
 		"vitest": "^0.29.7"
 	},

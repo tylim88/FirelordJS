@@ -25,7 +25,7 @@ type Example = MetaTypeCreator<
 >
 const db = getFirestore()
 const collectionID = 'someCollectionId_2'
-const collectionIDArr = ['someCollectionId_1', collectionID] as const // it is an array
+const collectionIDArr = ['someCollectionId_1', collectionID] as const
 
 const example1 = getFirelord<Example>(db, ...collectionIDArr)
 
