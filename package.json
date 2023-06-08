@@ -15,7 +15,7 @@
 		"pretty": "pretty-quick --stage --branch main",
 		"rollup": "rm -rf dist && rollup -c",
 		"build": "rm -rf dist && tsc -p tsconfig.prod.json",
-		"link": "npm unlink firelordjs && npm link firelordjs",
+		"link": "npm unlink firelordjs && npm link firelordjs && make-dir codeForDoc/node_modules/firelordjs/dist && cp -r node_modules/firelordjs/dist codeForDoc/node_modules/firelordjs/dist && cp node_modules/firelordjs/package.json codeForDoc/node_modules/firelordjs/package.json",
 		"babel": "babel-node -x .ts -- src/fieldPath/documentId.ts",
 		"jest": "jest src/operations/getCountFromServer.test.ts --collectCoverage=false",
 		"commit": "git commit --no-verify",
@@ -98,5 +98,8 @@
 	},
 	"peerDependencies": {
 		"firebase": "^9.19.0"
+	},
+	"dependencies": {
+		"make-dir-cli": "^3.0.0"
 	}
 }
