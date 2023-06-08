@@ -28,12 +28,18 @@ export interface CollectionReference<T extends MetaType> extends Query<T> {
 		: null
 }
 
-export type CollectionCreator = {
+export type CollectionCreator =
+	/**
+	 * Gets a `CollectionReference` instance that refers to the collection at
+	 * the specified absolute path.
+	 *
+	 * @param documentIds - all the docID(s) needed to build this collection path.
+	 * @returns The `CollectionReference` instance.
+	 */
 	<T extends MetaType>(
 		fStore: Firestore,
-		collectionIDs: string[]
-	): Collection<T>
-}
+		...collectionIDs: GetOddOrEvenSegments<T['collectionPath'], true>
+	) => Collection<T>
 
 export type Collection<T extends MetaType> = <
 	D extends GetOddOrEvenSegments<T['collectionPath'], false>

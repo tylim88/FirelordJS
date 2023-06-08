@@ -15,10 +15,7 @@ export type QueryCompositeFilterConstraint<
 	ref: OriQueryCompositeFilterConstraint
 }
 
-export type QueryCompositeFilter<
-	T extends MetaType,
-	Type extends 'and' | 'or'
-> = <
+type QueryCompositeFilter<T extends MetaType, Type extends 'and' | 'or'> = <
 	Q extends Query<T> | CollectionReference<T>,
 	QFCs extends QueryFilterConstraints<T>[]
 >(
@@ -34,3 +31,26 @@ export type QueryCompositeFilter<
 				QueryCompositeFilterConstraint<T, Type, QFCs>
 		  >
 ) => QueryCompositeFilterConstraint<T, Type, QFCs>
+
+/**
+ * Creates a new {@link QueryCompositeFilterConstraint} that is a conjunction of
+ * the given filter constraints. A conjunction filter includes a document if it
+ * satisfies all of the given filters.
+ *
+ * @param queryConstraints - Optional. The list of
+ * {@link QueryFilterConstraint}s to perform a conjunction for. These must be
+ * created with calls to {@link where}, {@link or}, or {@link and}.
+ * @returns The newly created {@link QueryCompositeFilterConstraint}.
+ */
+export type And<T extends MetaType> = QueryCompositeFilter<T, 'and'>
+/**
+ * Creates a new {@link QueryCompositeFilterConstraint} that is a disjunction of
+ * the given filter constraints. A disjunction filter includes a document if it
+ * satisfies any of the given filters.
+ *
+ * @param queryConstraints - Optional. The list of
+ * {@link QueryFilterConstraint}s to perform a disjunction for. These must be
+ * created with calls to {@link where}, {@link or}, or {@link and}.
+ * @returns The newly created {@link QueryCompositeFilterConstraint}.
+ */
+export type Or<T extends MetaType> = QueryCompositeFilter<T, 'or'>

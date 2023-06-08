@@ -3,7 +3,7 @@ import { collection } from 'firebase/firestore'
 import { buildPathFromColIDsAndDocIDs } from './utils'
 
 export const collectionCreator: CollectionCreator =
-	(fStore, collectionIDs) =>
+	(fStore, ...collectionIDs) =>
 	// @ts-expect-error
 	(...documentIDs) => {
 		return collection(

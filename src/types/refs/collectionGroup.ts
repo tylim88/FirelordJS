@@ -14,4 +14,7 @@ export interface CollectionGroupReference<T extends MetaType> extends Query<T> {
 export type CollectionGroupCreator = <T extends MetaType>(
 	fStore: Firestore,
 	collectionID: T['collectionID']
-) => () => CollectionGroupReference<T>
+) => /**
+ * @returns — The created Query.
+ */
+() => CollectionGroupReference<T>

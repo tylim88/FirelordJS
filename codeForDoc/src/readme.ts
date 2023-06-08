@@ -10,15 +10,13 @@ import {
 	getDoc,
 	Timestamp, // firestore timestamp
 } from 'firelordjs'
-import { initializeApp } from 'firebase/app'
 type Example = MetaTypeCreator<
 	{
 		a: ServerTimestamp
 	},
 	'SomeCollectionName'
 >
-const app = initializeApp({ projectId: '### PROJECT ID ###' })
-const db = getFirestore(app)
+const db = getFirestore()
 const example = getFirelord<Example>(db, 'SomeCollectionName')
 
 // In write operation, Firelord does not convert ServerTimestamp

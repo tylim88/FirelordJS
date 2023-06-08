@@ -99,27 +99,13 @@
 FirelordJS is the only library capable of providing insane type safety while exposing almost all the API of the official Firestore SDK. The goal is to end Firestore typing madness.
 
 ```ts
-import {
-	getFirelord,
-	getFirestore,
-	MetaTypeCreator,
-	serverTimestamp,
-	ServerTimestamp,
-	setDoc,
-	where,
-	query,
-	getDoc,
-	Timestamp,
-} from 'firelordjs'
-import { initializeApp } from 'firebase/app'
 type Example = MetaTypeCreator<
 	{
 		a: ServerTimestamp
 	},
 	'SomeCollectionName'
 >
-const app = initializeApp({ projectId: '### PROJECT ID ###' })
-const db = getFirestore(app)
+const db = getFirestore()
 const example = getFirelord<Example>(db, 'SomeCollectionName')
 
 // In write operation, Firelord does not convert ServerTimestamp

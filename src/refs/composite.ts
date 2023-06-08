@@ -1,16 +1,25 @@
 import { and, or } from 'firebase/firestore'
-import { QueryCompositeFilter, MetaType } from '../types'
+import { MetaType, And, Or } from '../types'
 import { queryBuilder } from './utils'
 
-export const queryCompositeFilterCreator =
-	<T extends MetaType, Type extends 'or' | 'and'>(
-		type: Type
-	): QueryCompositeFilter<T, Type> =>
+export const andCreator =
+	<T extends MetaType>(): And<T> =>
 	(...queryConstraints) => {
 		const constraints = queryBuilder(queryConstraints)
 		return {
-			type,
+			type: 'and',
 			constraints,
-			ref: type === 'and' ? and(...constraints) : or(...constraints),
+			ref: and(...constraints),
+		}
+	}
+
+export const orCreator =
+	<T extends MetaType>(): Or<T> =>
+	(...queryConstraints) => {
+		const constraints = queryBuilder(queryConstraints)
+		return {
+			type: 'or',
+			constraints,
+			ref: or(...constraints),
 		}
 	}
