@@ -29,7 +29,7 @@
 		"b-un": "cd codeForDoc && npm run un",
 		"b-tsc": "tsc -p tsconfig.doc.json",
 		"b-test": "npm run kill && (firebase emulators:exec --only firestore \"vitest --config=vitest.config.doc.ts\") && npm run kill",
-		"b-q-tsc": "npm run d-link && npm run b-un && npm run b-tsc",
+		"b-q-tsc": "npm run d-link && npm run b-tsc",
 		"b-q-test": "npm run b-q-tsc && npm run b-test",
 		"published": "-------------test published file-----------------------",
 		"p-i": "cd codeForDoc && npm run i",
