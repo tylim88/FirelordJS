@@ -16,7 +16,6 @@
 		"rollup": "rm -rf dist && rollup -c",
 		"build": "rm -rf dist && tsc -p tsconfig.prod.json",
 		"link": "npm unlink firelordjs && npm link && npm link firelordjs",
-		"jest": "jest src/operations/getCountFromServer.test.ts --collectCoverage=false",
 		"commit": "git commit --no-verify",
 		"kill": "kill-port 8080",
 		"test": "npm run kill && (firebase emulators:exec --only firestore \"vitest\") && npm run kill",
