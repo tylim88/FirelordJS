@@ -39,14 +39,14 @@ export type IsEqual<T, U> = T[] extends U[]
 
 export type GetOddOrEvenSegments<
 	T extends string,
-	ToGet extends boolean = true,
+	Mode extends 'Odd' | 'Even',
 	ACC extends string[] = []
-> = ToGet extends true
+> = Mode extends 'Odd'
 	? T extends `${infer H extends string}/${infer R extends string}`
-		? GetOddOrEvenSegments<R, false, [...ACC, H]>
+		? GetOddOrEvenSegments<R, 'Even', [...ACC, H]>
 		: [...ACC, T]
 	: T extends `${string}/${infer R extends string}`
-	? GetOddOrEvenSegments<R, true, ACC>
+	? GetOddOrEvenSegments<R, 'Odd', ACC>
 	: ACC
 
 export type DeepPartial<T> = {
@@ -54,3 +54,5 @@ export type DeepPartial<T> = {
 		? DeepPartial<T[K]>
 		: T[K]
 }
+
+export type EmptyObject = NonNullable<unknown>

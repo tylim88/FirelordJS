@@ -43,6 +43,8 @@ type QueryCompositeFilter<T extends MetaType, Type extends 'and' | 'or'> = <
  * @returns The newly created {@link QueryCompositeFilterConstraint}.
  */
 export type And<T extends MetaType> = QueryCompositeFilter<T, 'and'>
+export type AndCreator = <T extends MetaType>() => And<T>
+
 /**
  * Creates a new {@link QueryCompositeFilterConstraint} that is a disjunction of
  * the given filter constraints. A disjunction filter includes a document if it
@@ -54,3 +56,4 @@ export type And<T extends MetaType> = QueryCompositeFilter<T, 'and'>
  * @returns The newly created {@link QueryCompositeFilterConstraint}.
  */
 export type Or<T extends MetaType> = QueryCompositeFilter<T, 'or'>
+export type OrCreator = <T extends MetaType>() => Or<T>

@@ -38,16 +38,16 @@ export type CollectionCreator =
 	 */
 	<T extends MetaType>(
 		fStore: Firestore,
-		...collectionIDs: GetOddOrEvenSegments<T['collectionPath'], true>
+		...collectionIDs: GetOddOrEvenSegments<T['collectionPath'], 'Odd'>
 	) => Collection<T>
 
 export type Collection<T extends MetaType> = <
-	D extends GetOddOrEvenSegments<T['collectionPath'], false>
+	D extends GetOddOrEvenSegments<T['collectionPath'], 'Even'>
 >(
 	...documentIDs: D extends never ? D : IsValidDocIDLoop<D>
 ) => CollectionReference<T>
 
 export type GetCollectionIds<T extends MetaType> = GetOddOrEvenSegments<
 	T['collectionPath'],
-	false
+	'Even'
 >

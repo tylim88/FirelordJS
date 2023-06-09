@@ -35,7 +35,7 @@ export interface DocumentReference<T extends MetaType> {
 
 export type DocCreator = <T extends MetaType>(
 	fStore: Firestore,
-	...collectionIDs: GetOddOrEvenSegments<T['collectionPath'], true>
+	...collectionIDs: GetOddOrEvenSegments<T['collectionPath'], 'Odd'>
 ) => Doc<T>
 
 export type Doc<T extends MetaType> = {
@@ -46,7 +46,7 @@ export type Doc<T extends MetaType> = {
 	 * @param documentIds - all the docID(s) needed to build this document path.
 	 * @returns The `DocumentReference` instance.
 	 */
-	<D extends GetOddOrEvenSegments<T['docPath'], false>>(
+	<D extends GetOddOrEvenSegments<T['docPath'], 'Even'>>(
 		...documentIDs: D extends never ? D : IsValidDocIDLoop<D>
 	): DocumentReference<T>
 	(
@@ -58,5 +58,5 @@ export type Doc<T extends MetaType> = {
 
 export type GetDocIds<T extends MetaType> = GetOddOrEvenSegments<
 	T['docPath'],
-	false
+	'Even'
 >

@@ -1,9 +1,9 @@
 import { and, or } from 'firebase/firestore'
-import { MetaType, And, Or } from '../types'
+import { AndCreator, OrCreator } from '../types'
 import { queryBuilder } from './utils'
 
-export const andCreator =
-	<T extends MetaType>(): And<T> =>
+export const andCreator: AndCreator =
+	() =>
 	(...queryConstraints) => {
 		const constraints = queryBuilder(queryConstraints)
 		return {
@@ -13,8 +13,8 @@ export const andCreator =
 		}
 	}
 
-export const orCreator =
-	<T extends MetaType>(): Or<T> =>
+export const orCreator: OrCreator =
+	() =>
 	(...queryConstraints) => {
 		const constraints = queryBuilder(queryConstraints)
 		return {

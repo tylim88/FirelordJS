@@ -247,7 +247,7 @@ describe('test updateDocNoFlatten', () => {
 		}
 	})
 	it('test update non-existing doc', async () => {
-		// ! admin doesn't throw when updating non existing doc
+		// * admin doesn't throw when updating non existing doc
 		const docRef = userRefCreator().doc('FirelordTest', 'updateEmptyData')
 		deleteDoc(docRef)
 		expect.assertions(1)

@@ -15,7 +15,7 @@
 	"dependencies": {
 		"code-for-doc": "file:",
 		"firebase": "latest",
-		"firelordjs": "^2.5.15"
+		"firelordjs": "^2.5.20-beta.1"
 	},
 	"devDependencies": {
 		"@babel/node": "^7.20.7",
