@@ -1,6 +1,6 @@
 {
 	"name": "firelordjs",
-	"version": "2.5.20",
+	"version": "2.5.21",
 	"description": "🔥 High Precision Typescript Wrapper for Firestore Web, Providing Unparalleled Type Safe and Dev Experience",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",

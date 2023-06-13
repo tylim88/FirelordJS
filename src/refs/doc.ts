@@ -8,7 +8,6 @@ export const docCreator: DocCreator =
 	(collectionReferenceOrDocumentId, ...documentIDs) => {
 		if (typeof collectionReferenceOrDocumentId === 'string') {
 			return doc(
-				// @ts-expect-error
 				fStore,
 				buildPathFromColIDsAndDocIDs({
 					collectionIDs,

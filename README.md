@@ -96,7 +96,9 @@
 
 # FirelordJS
 
-FirelordJS is the only library capable of providing insane type safety while exposing almost all the API of the official Firestore SDK. The goal is to end Firestore typing madness.
+FirelordJS is the only library capable of providing truly generic type safety while exposing almost all the API of the official Firestore SDK.
+
+It is time to end Firestore typing madness once and for all.
 
 ```ts
 type Example = MetaTypeCreator<
@@ -122,12 +124,15 @@ getDoc(example.doc('SomeDocName')).then(snapshot => {
 })
 ```
 
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/AcidCoder)  
+Love our work? Support us to make it even better!
+
 FirelordJS:
 
 - Learning curve is the lowest (API is nearly identical to the original API).
 - Technical debt is the lowest (easy to revert to the official API).
 - Minimum types creation and no type assertion.
-- Offers truly generic type safe solutions, declare any data shape you want.
+- Offers truly generic type safe solutions, declare any data shape.
 - Supports deeply nested object type: `Record<string,Record<string,Record<string,...>>>`, max 1000 levels.
 - Supports deeply [nested sub collection](https://firelordjs.com/guides/metatype), all children can [track back](https://firelordjs.com/guides/metatype/#know-your-ancestors) all their ancestors type, max 100 generations.
 - Generates all possible flatten paths combinations based on your declared type(e.g.: `a`, `a.b`, `a.b.c`, `a.b.d`, `a.x`, `a.x.y`, `a.x.z`) with type safety.
@@ -177,7 +182,7 @@ It has all the regular rulings plus new composite rulings. See also [peeling com
 
 ## Dropped TO DO
 
-- Support for wide numeric key and wide string key (Record<number, unknown> and Record<string, unknown>). It still needs more consideration because this data type is pointless to query(we need to know what the key is first, it would be better to just save the document ID somewhere) and we need to constantly aware of the document size limit. If you don't care about query and you sure that the size limit will not exceed 1 MB, then this is for you. But allowing this also open up for mistake and bad practice for those who are not aware. Most likely I will not implement this but will give it deeper thoughts in the future. (**Update: This is implemented, see this [issue](https://github.com/tylim88/Firelord/issues/20)**)
+- ~~Support for wide numeric key and wide string key (Record<number, unknown> and Record<string, unknown>). It still needs more consideration because this data type is pointless to query(we need to know what the key is first, it would be better to just save the document ID somewhere) and we need to constantly aware of the document size limit. If you don't care about query and you sure that the size limit will not exceed 1 MB, then this is for you. But allowing this also open up for mistake and bad practice for those who are not aware. Most likely I will not implement this but will give it deeper thoughts in the future.~~ (**[Update: This is implemented](https://github.com/tylim88/Firelord/issues/20)**)
 
 - Support for object unions type. Objects unions type seem to be a good type to have in NoSQL database because of how ever-changing NoSQL schema is. However, this is not the case because it brings uncertainty that cannot be handled reasonably. For example, with `{a:number}|{b:string}`, you can set `{a:1}` then update `{b:"x"}`, in this case the type is no longer unions type but an intersection type: `{a:number} & {b:string}`. So I will not implement this feature and will remove it from [FireSageJS](https://github.com/tylim88/FireSageJS) too. A better way to solve this is to use [`PossiblyReadAsUndefined`](https://firelordjs.com/guides/possibly_read_as_undefined) label on newly add field instead(you can also label abandoned fields as `PossiblyReadAsUndefined`, but an easier way is to totally ignore them).
 
@@ -191,9 +196,11 @@ Firelord follows a type-first approach, which means that every entity starts wit
 
 Some may question why embedded validation is necessary for databases API, as they are not endpoints(where data validation usually takes place). However, Firestore is a database that directly interacts with clients. Therefore, it is necessary to have validation for triggers, as security rules may not always suffice and do not have type safe.
 
-Type-first approach offers better developer experience, but it doesn't anything at runtime. On the other hand, the code-first approach may require some initial trade-offs in developer experience, but it can do everything.
+Type-first approach offers better developer experience, but it doesn't anything at runtime. On the other hand, the code-first approach may require some initial trade-offs in developer experience, but it can do both typing and validation.
 
-Another alternative is code generation, keeping the original developer experience and generate `zod` validation for those working with triggers. I want to avoid code generation if possible, because our single source of truth now involving 2 steps(changing types and generating code), which can be a potential point of failure if we forget to generate code after changing types.
+~~Another alternative is code generation, keeping the original developer experience and generate `zod` validation for those working with triggers. I want to avoid code generation if possible, because our single source of truth now involving 2 steps(changing types and generating code), which can be a potential point of failure if we forget to generate code after changing types.~~
+
+Update: Only children would choose, but adults want them all. I will keep the existing type-first approach and add code-first approach. No code generation, users are free to choose type-first approach or code-first approach.
 
 ## Trivial
 

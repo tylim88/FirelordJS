@@ -7,7 +7,6 @@ export const collectionCreator: CollectionCreator =
 	// @ts-expect-error
 	(...documentIDs) => {
 		return collection(
-			// @ts-expect-error
 			fStore,
 			buildPathFromColIDsAndDocIDs({
 				collectionIDs,
