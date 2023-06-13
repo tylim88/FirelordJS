@@ -20,7 +20,10 @@ import { writeBatch as writeBatch_, getFirestore } from 'firebase/firestore'
  * writes.
  */
 export const writeBatch = (firestore?: Firestore): WriteBatch => {
-	const batch = writeBatch_(firestore || getFirestore())
+	const batch = writeBatch_(
+		// @ts-expect-error
+		firestore || getFirestore()
+	)
 	return {
 		commit: () => batch.commit(),
 		set: setCreator(batch),

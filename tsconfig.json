@@ -17,7 +17,7 @@
 		"resolveJsonModule": true,
 		"noEmit": true,
 		"exactOptionalPropertyTypes": true,
-		"moduleResolution": "bundler",
+		"moduleResolution": "node",
 		"types": ["vitest/globals"],
 		"skipLibCheck": true
 	},

@@ -42,6 +42,7 @@ export const runTransaction: RunTransaction = (
 		? updateFunction
 		: options
 	return runTransaction_(
+		// @ts-expect-error
 		fStore, // ! testing messed up the type, weird
 		async transaction => {
 			const set = setCreator(transaction)
