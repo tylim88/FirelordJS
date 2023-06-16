@@ -244,21 +244,22 @@ We are creating the best type safety tool chains for Firebase, and your support 
 
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/AcidCoder)
 
-✅ - Production Ready  
+✅ - Tested and production ready
+🚧 - Done but not tested
 📅 - Planning  
 ✍️ - To Rewrite  
-🔨 - To Repurpose  
+🔨 - To Repurpose (rewrite to do something else)  
 🔥 - Maintaining  
 🏗️ - Building  
 🛑 - On Hold  
 ❓ - May Discontinue/Cancel
 
 1. [FirelordJS](https://github.com/tylim88/FirelordJS) - Typescript wrapper for Firestore Web. ✅🔥
-2. [Firelordrn](https://github.com/tylim88/FirelordRN) - Typescript wrapper for Firestore React Native 🛑❓
+2. [Firelordrn](https://github.com/tylim88/FirelordRN) - Typescript wrapper for Firestore React Native 🚧❓
 3. [Firelord](https://github.com/tylim88/Firelord) - Typescript wrapper for Firestore Admin. ✅🔥
 4. [FireSageJS](https://github.com/tylim88/FireSageJS) - Typescript wrapper for Realtime Database Web ✅
 5. FireSage - Typescript wrapper for Realtime Database Admin. 📅❓
-6. [FireSword](https://github.com/tylim88/Firesword) - Firestore Zod Runtime Validation (Firelord Code First Approach).📅🔨
-7. [FireLaw](https://github.com/tylim88/FireLaw) - Firestore Security Rules VS Code extension type linter based on Firelord type.📅🔨
+6. [FireSword](https://github.com/tylim88/Firesword) - (new purpose) Firestore Zod Runtime Validation (Firelord Code First Approach).✅📅🔨
+7. [FireLaw](https://github.com/tylim88/FireLaw) - (new purpose) Firestore Security Rules VS Code extension type linter based on Firelord type.🛑📅🔨
 8. ??? - Firelord and Firesage Front End Intergration 📅
-9. [FireCall](https://github.com/tylim88/FireCall) - Helper Function to write easier and safer Firebase onCall function.✍️❓
+9. [FireCall](https://github.com/tylim88/FireCall) - Helper Function to write easier and safer Firebase onCall function.✅✍️❓
