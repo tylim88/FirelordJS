@@ -145,6 +145,8 @@ The bounty has been available and keeps increasing since July 14, 2022.
 
 ## ESM? CommonJS?
 
+(Web version's issue only, admin can skip this section)
+
 FirelordJS built files are a bit complicated. It is not an ESM module(no `"type":"module"` in `package.json`) but it also does not transpile `import` statements to CommonJS.
 
 Results tested with various build tools:
@@ -186,7 +188,9 @@ npm i firelordjs@cjs
 
 By design Firelord banned mapped type (e.g. `Record<string, something>`), this was until version 2.5.10. To understand why mapped was banned in the first place and why it is possible now, see this [issue](https://github.com/tylim88/Firelord/issues/20). In short, querying mapped type requires extra information, make sure you know what you are doing. This is not a limitation, this is simply how things work.
 
-## Nested Composite Query Rulings (v2.5+)
+## Nested Composite Query Rulings
+
+(Web version's issue only, admin can skip this section)
 
 Rulings for `or` & `and` composite query are ready, rulings works with nested query, example:
 
