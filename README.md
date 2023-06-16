@@ -244,8 +244,8 @@ We are creating the best type safety tool chains for Firebase, and your support 
 
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/AcidCoder)
 
-✅ - Tested and production ready
-🚧 - Done but not tested
+✅ - Tested and production ready  
+🚧 - Done but not tested  
 📅 - Planning  
 ✍️ - To Rewrite  
 🔨 - To Repurpose (rewrite to do something else)  
