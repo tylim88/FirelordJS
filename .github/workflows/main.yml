@@ -34,6 +34,10 @@ jobs:
       - run: npm publish || true
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - run: npm run build-cjs
+      - run: npm publish --tag cjs || true
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - run: npm run p-i
       - run: npm run p-tsc
       - run: npm run p-test

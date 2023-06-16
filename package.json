@@ -15,6 +15,7 @@
 		"pretty": "pretty-quick --stage --branch main",
 		"rollup": "rm -rf dist && rollup -c",
 		"build": "rm -rf dist && tsc -p tsconfig.prod.json",
+		"build-cjs": "rm -rf dist && tsc -p tsconfig.prod.cjs.json",
 		"link": "npm unlink firelordjs && npm link && npm link firelordjs",
 		"commit": "git commit --no-verify",
 		"kill": "kill-port 8080",
