@@ -153,17 +153,17 @@ Results tested with various build tools:
 
 1. (Default) Non ESM with `import` statements (Pseudo ESM)
 
-- ✅ work with [`create-react-app`](https://github.com/facebook/create-react-app)
-- ✅ work with [`@vitejs/plugin-react-swc`](https://github.com/vitejs/vite-plugin-react-swc)
-- ✅ work with [`@sveltejs/vite-plugin-svelte`](https://github.com/sveltejs/vite-plugin-svelte)
-- ✅ work with [`nextjs`](https://github.com/vercel/next.js) with [`next-transpile-modules`](https://github.com/martpie/next-transpile-modules)
+- ✅ works with [`create-react-app`](https://github.com/facebook/create-react-app)
+- ✅ works with [`@vitejs/plugin-react-swc`](https://github.com/vitejs/vite-plugin-react-swc)
+- ✅ works with [`@sveltejs/vite-plugin-svelte`](https://github.com/sveltejs/vite-plugin-svelte)
+- ✅ works with [`nextjs`](https://github.com/vercel/next.js) with [`next-transpile-modules`](https://github.com/martpie/next-transpile-modules)
 - ❌ does not work with [`@sveltejs/kit/vite`](https://github.com/sveltejs/kit)
 
 2. Real ESM (Not available on NPM)
 
-- ✅ work with `@vitejs/plugin-react-swc`
-- ✅ work with `@sveltejs/vite-plugin-svelte`
-- ✅ work with `nextjs` with `next-transpile-modules`
+- ✅ works with `@vitejs/plugin-react-swc`
+- ✅ works with `@sveltejs/vite-plugin-svelte`
+- ✅ works with `nextjs` with `next-transpile-modules`
 - ❌ does not work with `create-react-app`, see [issue](https://github.com/facebook/create-react-app/issues/11865)
 - ❌ does not work with `@sveltejs/kit/vite` see [issue](https://github.com/sveltejs/kit/issues/612)
 
@@ -172,8 +172,8 @@ Results tested with various build tools:
 - ❌ does not work with `create-react-app`
 - ❌ does not work with `@vitejs/plugin-react-swc`
 - ❌ does not work with `@sveltejs/vite-plugin-svelte`
-- ✅ does not work with `nextjs`.
-- ✅ work with `@sveltejs/kit/vite`
+- ✅ works with `nextjs`.
+- ✅ works with `@sveltejs/kit/vite`
 
 Using CommonJS Firelord with Firebase v9.17.0 and beyond break most of the build tools because of this [Firebase issue](https://github.com/firebase/firebase-js-sdk/issues/7135?notification_referrer_id=NT_kwDOAE_D9bI1OTAzNjg1MTE2OjUyMjc1MDk#issuecomment-1518194548)
 
