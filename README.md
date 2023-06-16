@@ -176,7 +176,11 @@ Results tested with various build tools:
 Using CommonJS Firelord with Firebase v9.17.0 and beyond break most of the build tools because of this [Firebase issue](https://github.com/firebase/firebase-js-sdk/issues/7135?notification_referrer_id=NT_kwDOAE_D9bI1OTAzNjg1MTE2OjUyMjc1MDk#issuecomment-1518194548)
 
 Non ESM has the highest compatibility which is why it is the default package.
-If you see `cannot use import statement outside a module` error, please install the CommonJS version with `npm i firelordjs@cjs`
+If you see `cannot use import statement outside a module` error, please install the CommonJS version with
+
+```bash
+npm i firelordjs@cjs
+```
 
 ## Mapped Type Support
 
@@ -237,13 +241,17 @@ We are creating the best type safety tool chains for Firebase, and your support 
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/AcidCoder)
 
 ✅ - Production Ready  
-🏗️ - Building/Planning/Repurpose/Rewrite
+📅 - Planning
+✍️ - To Rewrite
+🔨 - To Repurpose
+❓ - Not Sure To Continue Or Not
 
 1. [FirelordJS](https://github.com/tylim88/FirelordJS) - Typescript wrapper for Firestore Web. ✅
-2. [Firelord](https://github.com/tylim88/Firelord) - Typescript wrapper for Firestore Admin. ✅
-3. [FireSageJS](https://github.com/tylim88/FireSageJS) - Typescript wrapper for Realtime Database Web ✅
-4. FireSage - Typescript wrapper for Realtime Database Admin. 🏗️
-5. [FireSword](https://github.com/tylim88/Firesword) - Firestore Zod Runtime Validation (Firelord Code First Approach).🏗️
-6. [FireLaw](https://github.com/tylim88/FireLaw) - Firestore Security Rules VS Code Type Linter based on Firelord type.🏗️
-7. ??? - Firelord and Firesage Front End Intergration 🏗️
-8. [FireCall](https://github.com/tylim88/FireCall) - Helper Function to write easier and safer Firebase onCall function.🏗️
+2. [Firelordrn] - Typescript wrapper for Firestore React Native ❓
+3. [Firelord](https://github.com/tylim88/Firelord) - Typescript wrapper for Firestore Admin. ✅
+4. [FireSageJS](https://github.com/tylim88/FireSageJS) - Typescript wrapper for Realtime Database Web ✅❓
+5. FireSage - Typescript wrapper for Realtime Database Admin. ❓
+6. [FireSword](https://github.com/tylim88/Firesword) - Firestore Zod Runtime Validation (Firelord Code First Approach).🔨📅
+7. [FireLaw](https://github.com/tylim88/FireLaw) - Firestore Security Rules VS Code Type Linter based on Firelord type.🔨📅
+8. ??? - Firelord and Firesage Front End Intergration 📅
+9. [FireCall](https://github.com/tylim88/FireCall) - Helper Function to write easier and safer Firebase onCall function.✍️❓
