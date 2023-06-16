@@ -159,7 +159,7 @@ Results tested with various build tools:
 - ✅ work with [`nextjs`](https://github.com/vercel/next.js) with [`next-transpile-modules`](https://github.com/martpie/next-transpile-modules)
 - ❌ does not work with [`@sveltejs/kit/vite`](https://github.com/sveltejs/kit)
 
-2. Real ESM
+2. Real ESM (Not available on NPM)
 
 - ✅ work with `@vitejs/plugin-react-swc`
 - ✅ work with `@sveltejs/vite-plugin-svelte`
@@ -184,9 +184,9 @@ If you see `cannot use import statement outside a module` error, please install 
 npm i firelordjs@cjs
 ```
 
-## Mapped Type Support
+## Record<string, something> Support
 
-By design Firelord banned mapped type (e.g. `Record<string, something>`), this was until version 2.5.10. To understand why mapped was banned in the first place and why it is possible now, see this [issue](https://github.com/tylim88/Firelord/issues/20). In short, querying mapped type requires extra information, make sure you know what you are doing. This is not a limitation, this is simply how things work.
+By design Firelord banned mapped type, this was until version 2.5.10. To understand why mapped was banned in the first place and why it is possible now, see this [issue](https://github.com/tylim88/Firelord/issues/20). In short, querying mapped type requires extra information, make sure you know what you are doing. This is not a limitation, this is simply how things work.
 
 ## Nested Composite Query Rulings
 
@@ -244,13 +244,13 @@ We are creating the best type safety tool chains for Firebase, and your support 
 
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/AcidCoder)
 
-✅ - Production Ready
+✅ - Production Ready  
 📅 - Planning  
 ✍️ - To Rewrite  
 🔨 - To Repurpose  
-🔥 - Maintaining
-🏗️ - Building
-🛑 - On Hold
+🔥 - Maintaining  
+🏗️ - Building  
+🛑 - On Hold  
 ❓ - May Discontinue/Cancel
 
 1. [FirelordJS](https://github.com/tylim88/FirelordJS) - Typescript wrapper for Firestore Web. ✅🔥
