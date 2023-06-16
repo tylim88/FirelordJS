@@ -141,7 +141,7 @@ I am confident Firelord is the best among its kind in terms of best safety and d
 1. find something better: 200 cups
 2. created something better: 2000 cups.
 
-The bounty has been available and keeps increasing since July 14, 2022. If this bounty is claimed, I will stop working on everything and deprecate Firelord forever.
+The bounty has been available and keeps increasing since July 14, 2022.
 
 ## ESM? CommonJS?
 
@@ -157,7 +157,7 @@ Results tested with various build tools:
 - ✅ work with [`nextjs`](https://github.com/vercel/next.js) with [`next-transpile-modules`](https://github.com/martpie/next-transpile-modules)
 - ❌ does not work with [`@sveltejs/kit/vite`](https://github.com/sveltejs/kit)
 
-2. ESM (add "type": "module" in package.json)
+2. ESM (add `"type": "module"` to `package.json`)
 
 - ✅ work with `@vitejs/plugin-react-swc`
 - ✅ work with `@sveltejs/vite-plugin-svelte`
@@ -240,10 +240,10 @@ We are creating the best type safety tool chains for Firebase, and your support 
 
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/AcidCoder)
 
-✅ - Production Ready  
-📅 - Planning
-✍️ - To Rewrite
-🔨 - To Repurpose
+✅ - Production Ready
+📅 - Planning  
+✍️ - To Rewrite  
+🔨 - To Repurpose  
 ❓ - Not Sure To Continue Or Not
 
 1. [FirelordJS](https://github.com/tylim88/FirelordJS) - Typescript wrapper for Firestore Web. ✅
