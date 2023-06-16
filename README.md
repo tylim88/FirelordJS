@@ -149,7 +149,7 @@ FirelordJS built files are a bit complicated. It is not an ESM module(no `"type"
 
 Results tested with various build tools:
 
-1. Non ESM with `import` statements
+1. (Default) Non ESM with `import` statements (Pseudo ESM)
 
 - ✅ work with [`create-react-app`](https://github.com/facebook/create-react-app)
 - ✅ work with [`@vitejs/plugin-react-swc`](https://github.com/vitejs/vite-plugin-react-swc)
@@ -157,7 +157,7 @@ Results tested with various build tools:
 - ✅ work with [`nextjs`](https://github.com/vercel/next.js) with [`next-transpile-modules`](https://github.com/martpie/next-transpile-modules)
 - ❌ does not work with [`@sveltejs/kit/vite`](https://github.com/sveltejs/kit)
 
-2. ESM (add `"type": "module"` to `package.json`)
+2. Real ESM
 
 - ✅ work with `@vitejs/plugin-react-swc`
 - ✅ work with `@sveltejs/vite-plugin-svelte`
@@ -175,7 +175,7 @@ Results tested with various build tools:
 
 Using CommonJS Firelord with Firebase v9.17.0 and beyond break most of the build tools because of this [Firebase issue](https://github.com/firebase/firebase-js-sdk/issues/7135?notification_referrer_id=NT_kwDOAE_D9bI1OTAzNjg1MTE2OjUyMjc1MDk#issuecomment-1518194548)
 
-Non ESM has the highest compatibility which is why it is the default package.
+Pseudo ESM has the highest compatibility which is why it is the default package.
 If you see `cannot use import statement outside a module` error, please install the CommonJS version with
 
 ```bash
