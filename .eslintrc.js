@@ -19,7 +19,7 @@ module.exports = {
 		'codeForDoc/**/*',
 		'dist/**/*', // Ignore built files.
 	],
-	plugins: ['@typescript-eslint', 'import', 'unused-imports'],
+	plugins: ['import', 'unused-imports'],
 	rules: {
 		'no-unused-vars': 'off',
 		'@typescript-eslint/no-unused-vars': 'off',
