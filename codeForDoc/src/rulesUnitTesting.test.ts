@@ -30,6 +30,7 @@ import {
 	compareWriteDataWithDocSnapData,
 } from './utilForTests'
 import crypto from 'crypto'
+import firebaseJson from '../../firebase.json'
 
 let userRef: FirelordRef<User> = undefined!
 let firestore: ReturnType<RulesTestContext['firestore']> = undefined!
@@ -37,7 +38,13 @@ let testEnv: RulesTestEnvironment = undefined!
 
 describe('test whether works with rules-unit-testing', () => {
 	beforeAll(async () => {
-		testEnv = await initializeTestEnvironment({ projectId: 'any' })
+		testEnv = await initializeTestEnvironment({
+			projectId: 'any',
+			firestore: {
+				host: firebaseJson.emulators.firestore.host,
+				port: firebaseJson.emulators.firestore.port,
+			},
+		})
 		await testEnv.clearFirestore()
 		firestore = testEnv
 			.authenticatedContext('alice', {

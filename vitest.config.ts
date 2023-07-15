@@ -6,7 +6,7 @@ export const preset = {
 	globals: true,
 	setupFiles: ['dotenv/config'],
 	include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
-	// include: ['src/refs/or.test.ts'],
+	exclude: ['src/emulator.test.ts', 'src/rulesUnitTesting.test.ts'],
 	watch: false,
 }
 

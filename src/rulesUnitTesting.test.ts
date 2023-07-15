@@ -25,6 +25,7 @@ import {
 	generateRandomData,
 	compareWriteDataWithDocSnapData,
 } from './utilForTests'
+import firebaseJson from '../firebase.json'
 
 let userRef = undefined as unknown as FirelordRef<User>
 let firestore = undefined as unknown as ReturnType<
@@ -34,7 +35,13 @@ let testEnv = undefined as unknown as RulesTestEnvironment
 
 describe('test whether works with rules-unit-testing', () => {
 	beforeAll(async () => {
-		testEnv = await initializeTestEnvironment({})
+		testEnv = await initializeTestEnvironment({
+			projectId: 'any',
+			firestore: {
+				host: firebaseJson.emulators.firestore.host,
+				port: firebaseJson.emulators.firestore.port,
+			},
+		})
 		await testEnv.clearFirestore()
 		firestore = testEnv
 			.authenticatedContext('alice', {

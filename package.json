@@ -20,7 +20,7 @@
 		"link": "npm unlink firelordjs && npm link && npm link firelordjs",
 		"commit": "git commit --no-verify",
 		"kill": "kill-port 8080",
-		"test": "npm run kill && (firebase emulators:exec --only firestore \"vitest\") && npm run kill",
+		"test": "npm run kill && (firebase emulators:exec --only firestore \"vitest --config vitest.emulator.ts\") && npm run kill && vitest",
 		"dev": "---------------------dev------------------------",
 		"d-link": "npm run build && npm run b-un && npm run link",
 		"d-test": "tsc && npm test",
@@ -28,7 +28,7 @@
 		"built": "-------------test built file-----------------------",
 		"b-un": "cd codeForDoc && npm run un",
 		"b-tsc": "tsc -p tsconfig.doc.json",
-		"b-test": "npm run kill && (firebase emulators:exec --only firestore \"vitest --config=vitest.config.doc.ts\") && npm run kill",
+		"b-test": "npm run kill && (firebase emulators:exec --only firestore \"vitest --config=vitest.emulator.doc.ts\") && npm run kill && vitest --config vitest.config.doc.ts",
 		"b-q-tsc": "npm run d-link && npm run b-tsc",
 		"b-q-test": "npm run b-q-tsc && npm run b-test",
 		"published": "-------------test published file-----------------------",
@@ -84,7 +84,7 @@
 		"eslint-plugin-prettier": "^4.2.1",
 		"eslint-plugin-unused-imports": "^2.0.0",
 		"eslint-plugin-yml": "^1.5.0",
-		"firebase": "^9.19.1",
+		"firebase": "^10.0.0",
 		"husky": "^8.0.3",
 		"jsdom": "^21.1.1",
 		"kill-port": "^2.0.1",
@@ -100,6 +100,6 @@
 		"vitest": "^0.29.7"
 	},
 	"peerDependencies": {
-		"firebase": "^9.19.0"
+		"firebase": "^10.0.0"
 	}
 }
