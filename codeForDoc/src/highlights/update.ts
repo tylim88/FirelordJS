@@ -27,7 +27,7 @@ updateDoc(
 )
 
 // Accept `undefined` but `undefined` is not a valid Firestore value.
-updateDoc(docRef, { a: undefined, b: undefined }) // bad: does not reject 'undefined'
+updateDoc(docRef, { a: undefined, b: undefined }) // bad: does not reject 'undefined' even with exactOptionalPropertyTypes
 
 type abc2 = DocumentReference<{
 	a: number
