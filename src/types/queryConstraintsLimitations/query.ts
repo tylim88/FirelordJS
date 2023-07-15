@@ -14,7 +14,7 @@ import {
 import { Query } from '../refs'
 import { LimitToLastConstraintLimitation } from './limit'
 import { CursorConstraintLimitation } from './cursor'
-import { OrderByConstraintLimitation, GetFirstOrderBy } from './orderBy'
+import { GetFirstOrderBy } from './orderBy'
 import {
 	GetFirstInequalityWhere,
 	WhereConstraintLimitation,
@@ -58,10 +58,8 @@ export type QueryConstraintLimitation<
 	...infer Rest extends QueryAllConstraints<T>[]
 ]
 	? [
-			Head extends LimitConstraint<'limit'>
+			Head extends LimitConstraint<'limit'> | OrderByConstraint<string>
 				? Head
-				: Head extends OrderByConstraint<string>
-				? OrderByConstraintLimitation<T, Head, AllQCs>
 				: Head extends LimitConstraint<'limitToLast'>
 				? LimitToLastConstraintLimitation<T, Head, AllQCs>
 				: Head extends WhereConstraint<T, string, WhereFilterOp, unknown>
