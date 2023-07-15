@@ -52,18 +52,6 @@ query(
 	where('d', '>=', 2)
 )
 
-// You can't order your query by a field included in an equality (==) or (in) clause
-//
-//
-//
-//
-query(
-	ref,
-	// @ts-expect-error
-	orderBy('d'),
-	where('d', '==', 1)
-)
-
 // You can use at most one in, not-in, or array-contains-any clause per query. You can't combine in , not-in, and array-contains-any in the same query
 query(
 	ref,

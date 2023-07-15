@@ -16,10 +16,9 @@ type abc = DocumentReference<{
 const docRef = doc(getFirestore(), 'abc/efg') as abc
 
 // Accept unknown member from stale value
-// @ts-expect-error
 updateDoc(
 	docRef,
-	{ a: 1, b: 2, c: 3, d: 4 } // good: type error!
+	{ a: 1, b: 2, c: 3, d: 4 } // bad: no type error
 )
 
 updateDoc(
@@ -28,8 +27,7 @@ updateDoc(
 )
 
 // Accept `undefined` but `undefined` is not a valid Firestore value.
-// @ts-expect-error
-updateDoc(docRef, { a: undefined, b: undefined }) // bad: does not reject 'undefined', runtime exception! NOTE: this is not an issue if tsconfig exactOptionalPropertyTypes is ON
+updateDoc(docRef, { a: undefined, b: undefined }) // bad: does not reject 'undefined'
 
 type abc2 = DocumentReference<{
 	a: number
