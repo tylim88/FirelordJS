@@ -94,6 +94,8 @@ export type ErrorColRefOrderByDocumentIDCursorNoSlash<T extends string> =
 	`Error: When querying a collection and ordering by documentId(), the value passed to endAt() must be a plain document ID, but ${T} contains a slash.`
 export type ErrorNonTopLevelDeleteField =
 	`Error: In non-flatten operations, deleteField() must appear at top level`
+export type ErrorDocIdIncorrectType =
+	'Error: DocId must be single/multiple argument of string or CollectionReference'
 
 export type ErrorMsgs =
 	| ErrorUndefined
@@ -138,6 +140,7 @@ export type ErrorMsgs =
 	| ErrorEmptyCompositeFilter
 	| ErrorColRefOrderByDocumentIDCursorNoSlash<string>
 	| ErrorNonTopLevelDeleteField
+	| ErrorDocIdIncorrectType
 
 // unused
 export type ReplaceErrorMsgsWithNever<T> = T extends ErrorMsgs ? never : T

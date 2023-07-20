@@ -12,10 +12,17 @@ export const docCreator: DocCreator =
 				fStore,
 				buildPathFromColIDsAndDocIDs({
 					collectionIDs,
-					documentIDs: [collectionReferenceOrDocumentId, ...documentIDs],
+					documentIDs: [
+						collectionReferenceOrDocumentId,
+						// @ts-expect-error
+						...documentIDs,
+					],
 				})
 			)
 		} else {
-			return doc(collectionReferenceOrDocumentId)
+			return doc(
+				// @ts-expect-error
+				collectionReferenceOrDocumentId
+			)
 		}
 	}

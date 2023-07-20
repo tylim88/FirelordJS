@@ -12,13 +12,6 @@ import { Firestore } from './alias'
 import { And, Or, AndCreator, OrCreator } from './queryConstraints'
 
 type Doc_<T extends MetaType> = {
-	/**
-	 * Gets a `DocumentReference` instance that refers to the document at the
-	 * specified absolute path.
-	 *
-	 * @param documentIds - all the docID(s) needed to build this document path.
-	 * @returns The `DocumentReference` instance.
-	 */
 	doc: Doc<T>
 }
 
@@ -94,7 +87,7 @@ export type GetFirelord<H extends Partial<Creators>> = <T extends MetaType>(
 	...collectionIDs: GetOddOrEvenSegments<T['collectionPath'], 'Odd'>
 ) => FirelordRef<T, H>
 
-// ! this will error even though they are the exact same code
+// ! this will error even though they are doing the same code
 // export type GetFirelordShakable = <H extends Partial<Creators>>(
 // 	creators: H
 // ) => <T extends MetaType>(

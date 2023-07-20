@@ -3,7 +3,10 @@ import { MetaType } from '../metaTypeCreator'
 import { Firestore, Firestore_ } from '../alias'
 import { GetOddOrEvenSegments } from '../utils'
 import { IsValidDocIDLoop } from '../validID'
-import { ErrorAutoIdTypeMustBeWideString } from '../error'
+import {
+	ErrorAutoIdTypeMustBeWideString,
+	ErrorDocIdIncorrectType,
+} from '../error'
 
 /**
  * A `DocumentReference` refers to a document location in a Firestore database
@@ -43,16 +46,35 @@ export type Doc<T extends MetaType> = {
 	 * Gets a `DocumentReference` instance that refers to the document at the
 	 * specified absolute path.
 	 *
-	 * @param documentIds - all the docID(s) needed to build this document path.
+	 * @param documentIds_or_CollectionReference
+	 * Option 1: all the docID(s) needed to build this document path, eg
+	 *  - for top-collection: example.doc(SelfDocId)
+	 *  - for sub-collection: example.doc(GrandParentDocId, ParentsDocId, SelfDocId).
+	 *
+	 * Option 2: CollectionReference (to create auto id doc ref), eg
+	 *  - for top-collection: example.doc(example.collection())
+	 *  - for sub-collection: example.doc(example.collection(GrandParentCollectionID, ParenCollectionID))
+	 *
+	 *
+	 *  documentation:
+	 *  {@link https://firelordjs.com/guides/metatype child meta type}
+	 *  {@link https://firelordjs.com/quick_start#operations operation}
 	 * @returns The `DocumentReference` instance.
 	 */
-	<D extends GetOddOrEvenSegments<T['docPath'], 'Even'>>(
-		...documentIDs: D extends never ? D : IsValidDocIDLoop<D>
-	): DocumentReference<T>
-	(
-		CollectionReference: string extends T['docID']
-			? CollectionReference<T>
-			: ErrorAutoIdTypeMustBeWideString<T['docID']>
+	<
+		D extends
+			| IsValidDocIDLoop<GetOddOrEvenSegments<T['docPath'], 'Even'>>
+			| CollectionReference<T>
+	>(
+		...documentIds_or_CollectionReference: D extends never
+			? D
+			: D extends CollectionReference<T>
+			? string extends T['docID']
+				? [D]
+				: [ErrorAutoIdTypeMustBeWideString<T['docID']>]
+			: D extends string[]
+			? IsValidDocIDLoop<D>
+			: ErrorDocIdIncorrectType
 	): DocumentReference<T>
 }
 

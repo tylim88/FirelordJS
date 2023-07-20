@@ -94,6 +94,8 @@
 </div>
 <br/>
 
+v2.6 will focus on improving JSDoc
+
 # FirelordJS
 
 FirelordJS is the only library capable of providing truly generic type safety while exposing almost all the API of the official Firestore SDK. The goal is to end Firestore typing madness.
@@ -143,6 +145,48 @@ I am confident Firelord is the best among its kind in terms of best safety and d
 
 The bounty has been available and keeps increasing since July 14, 2022.
 
+## Nested Composite Query Rulings
+
+(Web version's issue only, admin can skip this section)
+
+Rulings for `or` & `and` composite query are ready, rulings works with nested query, example:
+
+Official SDK runtime error:
+
+<p align="center">				
+	<img
+		src="https://github.com/tylim88/FirelordJS/blob/main/img/composite2.png?raw=true"
+		alt="Example of how Firelord handles `ServerTimestamp` type in different operations"
+	/>
+</p>
+
+Firelord compile time error:
+
+<p align="center">				
+	<img
+		src="https://github.com/tylim88/FirelordJS/blob/main/img/composite1.png?raw=true"
+		alt="Example of how Firelord handles `ServerTimestamp` type in different operations"
+	/>
+</p>
+
+It has all the regular rulings plus new composite rulings. See also [peeling composite query error messages](https://firelordjs.com/guides/understanding_error#peeling-composite-query-error-messages)
+
+## Eslint False Errors
+
+Below ESLint rules give false error, please turn them off.
+
+```json
+{
+	"rules": {
+		"@typescript-eslint/no-unsafe-assignment": "off",
+		"@typescript-eslint/no-unsafe-call": "off",
+		"@typescript-eslint/no-redundant-type-constituents": "off",
+		"@typescript-eslint/no-unsafe-return": "off",
+		"@typescript-eslint/no-unsafe-member-access": "off"
+	}
+}
+```
+
 ## ESM? CommonJS?
 
 (Web version's issue only, admin can skip this section)
@@ -183,36 +227,6 @@ If you see `cannot use import statement outside a module` error, please install 
 ```bash
 npm i firelordjs@cjs
 ```
-
-## Record<string, something> Support
-
-By design Firelord banned mapped type, this was until version 2.5.10. To understand why mapped was banned in the first place and why it is possible now, see this [issue](https://github.com/tylim88/Firelord/issues/20). In short, querying mapped type requires extra information, make sure you know what you are doing. This is not a limitation, this is simply how things work.
-
-## Nested Composite Query Rulings
-
-(Web version's issue only, admin can skip this section)
-
-Rulings for `or` & `and` composite query are ready, rulings works with nested query, example:
-
-Official SDK runtime error:
-
-<p align="center">				
-	<img
-		src="https://github.com/tylim88/FirelordJS/blob/main/img/composite2.png?raw=true"
-		alt="Example of how Firelord handles `ServerTimestamp` type in different operations"
-	/>
-</p>
-
-Firelord compile time error:
-
-<p align="center">				
-	<img
-		src="https://github.com/tylim88/FirelordJS/blob/main/img/composite1.png?raw=true"
-		alt="Example of how Firelord handles `ServerTimestamp` type in different operations"
-	/>
-</p>
-
-It has all the regular rulings plus new composite rulings. See also [peeling composite query error messages](https://firelordjs.com/guides/understanding_error#peeling-composite-query-error-messages)
 
 ## TO DO
 
