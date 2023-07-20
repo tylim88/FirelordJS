@@ -9,8 +9,6 @@ export type ErrorFieldValueInArray =
 	`Error: Field Value is not a valid data type in array, directly or indirectly`
 export type ErrorUnassignedAbleFieldValue =
 	`Error: Please do not directly assign Increment, Array Remove and Array Union Field Value`
-export type ErrorUnionInvolveObjectType =
-	`Error: Please check your type declaration, do not union object literal type with other type except PossiblyReadAsUndefined and Delete`
 export type ErrorDeleteFieldMerge =
 	`Error: To use deleteField, please set 'merge' to 'true' or set 'mergeFields with an array, empty array also fine' in the options parameter.`
 export type ErrorDeleteFieldUnion<T extends string> =
@@ -105,7 +103,6 @@ export type ErrorMsgs =
 	| ErrorFieldValueInArray
 	| ErrorEmptyDocumentOrCollectionID<'Document' | 'Collection'>
 	| ErrorUnassignedAbleFieldValue
-	| ErrorUnionInvolveObjectType
 	| ErrorDeleteFieldMerge
 	| ErrorDeleteFieldUnion<string>
 	| ErrorNumberOfForwardSlashIsNotEqual<string, string>
