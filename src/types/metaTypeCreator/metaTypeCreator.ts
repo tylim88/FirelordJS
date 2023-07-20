@@ -1,7 +1,6 @@
 import { NoUndefinedAndBannedTypes, ErrorCollectionIDString } from '../error'
 import { IsValidID } from '../validID'
 import { ObjectFlatten } from '../objectFlatten'
-import { NoObjectUnion } from '../noObjectUnion'
 import { __name__Record } from '../fieldPath'
 import { MetaType } from './metaType'
 import { ReadConverter } from './read'
@@ -17,46 +16,44 @@ export type MetaTypeCreator<
 		allFieldsPossiblyReadAsUndefined?: boolean
 		banNull?: boolean
 	} = { allFieldsPossiblyReadAsUndefined: false; banNull: false }
-> = NoObjectUnion<Base> extends infer Q
-	? ObjectFlatten<Q> extends infer R
-		? (Settings['banNull'] extends true ? null : never) extends infer S
-			? {
-					base: Base
-					read: Exclude<
-						ReadConverter<
-							Q,
-							Settings['allFieldsPossiblyReadAsUndefined'] extends true
-								? undefined
-								: never,
-							S
-						>,
-						undefined
-					>
-					write: WriteConverter<Q, S>
-					writeMerge: WriteUpdateConverter<Q, S>
-					writeFlatten: WriteUpdateConverter<R, S>
-					compare: CompareConverter<R, S> & __name__Record
-					collectionID: NoUndefinedAndBannedTypes<
-						string extends CollectionID
-							? ErrorCollectionIDString
-							: IsValidID<CollectionID, 'Collection', 'ID'>,
-						never
-					>
-					collectionPath: Parent extends MetaType
-						? `${Parent['collectionPath']}/${Parent['docID']}/${CollectionID}`
-						: CollectionID
-					docID: IsValidID<DocID, 'Document', 'ID'>
-					docPath: Parent extends MetaType
-						? `${Parent['collectionPath']}/${Parent['docID']}/${CollectionID}/${DocID}`
-						: `${CollectionID}/${DocID}`
-					parent: Parent
-					ancestors: Parent extends MetaType
-						? [
-								...Parent['ancestors'],
-								MetaTypeCreator<Base, CollectionID, DocID, Parent, Settings>
-						  ]
-						: [MetaTypeCreator<Base, CollectionID, DocID, Parent, Settings>]
-			  }
-			: never
+> = ObjectFlatten<Base> extends infer R
+	? (Settings['banNull'] extends true ? null : never) extends infer S
+		? {
+				base: Base
+				read: Exclude<
+					ReadConverter<
+						Base,
+						Settings['allFieldsPossiblyReadAsUndefined'] extends true
+							? undefined
+							: never,
+						S
+					>,
+					undefined
+				>
+				write: WriteConverter<Base, S>
+				writeMerge: WriteUpdateConverter<Base, S>
+				writeFlatten: WriteUpdateConverter<R, S>
+				compare: CompareConverter<R, S> & __name__Record
+				collectionID: NoUndefinedAndBannedTypes<
+					string extends CollectionID
+						? ErrorCollectionIDString
+						: IsValidID<CollectionID, 'Collection', 'ID'>,
+					never
+				>
+				collectionPath: Parent extends MetaType
+					? `${Parent['collectionPath']}/${Parent['docID']}/${CollectionID}`
+					: CollectionID
+				docID: IsValidID<DocID, 'Document', 'ID'>
+				docPath: Parent extends MetaType
+					? `${Parent['collectionPath']}/${Parent['docID']}/${CollectionID}/${DocID}`
+					: `${CollectionID}/${DocID}`
+				parent: Parent
+				ancestors: Parent extends MetaType
+					? [
+							...Parent['ancestors'],
+							MetaTypeCreator<Base, CollectionID, DocID, Parent, Settings>
+					  ]
+					: [MetaTypeCreator<Base, CollectionID, DocID, Parent, Settings>]
+		  }
 		: never
 	: never

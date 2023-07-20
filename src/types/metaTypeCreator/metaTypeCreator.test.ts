@@ -1,11 +1,7 @@
 import { MetaTypeCreator } from './metaTypeCreator'
 import { MetaType } from './metaType'
 import { Timestamp, Bytes, GeoPoint } from '../alias'
-import {
-	ErrorNullBanned,
-	ErrorUnionInvolveObjectType,
-	ErrorDirectNested,
-} from '../error'
+import { ErrorNullBanned, ErrorDirectNested } from '../error'
 import {
 	ArrayUnionOrRemove,
 	Increment,
@@ -60,7 +56,7 @@ describe('test Firelord type', () => {
 				| undefined
 			h: string | undefined
 			i: number | null | undefined
-			l: ErrorUnionInvolveObjectType | undefined
+			l: { a: 1 | undefined } | { b: 2 | undefined } | undefined
 		}
 
 		type ExpectedWrite = {
@@ -84,7 +80,7 @@ describe('test Firelord type', () => {
 			}
 			h: string
 			i: number | null | Increment
-			l: ErrorUnionInvolveObjectType
+			l: { a: 1 } | { b: 2 }
 		}
 
 		type ExpectedWriteFlatten = {
@@ -109,7 +105,9 @@ describe('test Firelord type', () => {
 			}
 			h: string
 			i: number | null | Increment
-			l: ErrorUnionInvolveObjectType
+			l: { a: 1 } | { b: 2 }
+			'l.a': 1
+			'l.b': 2
 			'b.c': 'a'
 			'b.d': {
 				e: false
@@ -146,7 +144,9 @@ describe('test Firelord type', () => {
 			}
 			h: string
 			i: number | null
-			l: ErrorUnionInvolveObjectType
+			l: { a: 1 } | { b: 2 }
+			'l.a': 1
+			'l.b': 2
 			'b.c': 'a'
 			'b.d': {
 				e: false
@@ -162,6 +162,7 @@ describe('test Firelord type', () => {
 		} & __name__Record
 
 		type Read = A['read']
+		//   ^?
 		type Write = A['write']
 		type WriteFlatten = A['writeFlatten']
 		type Compare = A['compare']

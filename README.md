@@ -228,6 +228,18 @@ If you see `cannot use import statement outside a module` error, please install 
 npm i firelordjs@cjs
 ```
 
+## Types That You Need To Pay Attention To
+
+These are types that are supported but be careful when using them. They are not limitations, but how things work.
+
+### Record<string, something> Support
+
+By design Firelord banned mapped type, this was until version 2.5.10. To understand why mapped was banned in the first place and why it is possible now, see this [issue](https://github.com/tylim88/Firelord/issues/20). In short, querying mapped type requires extra information, make sure you know what you are doing.
+
+### Object Unions Type
+
+Object unions type was banned before v2.6.2 because it brings uncertainty that cannot be handled reasonably. For example, with `{a:number}|{b:string}`, you can set `{a:1}` then update `{b:"x"}`, in this case the type is no longer unions type but an intersection type: `{a:number} & {b:string}`. The reason I decided to lift the limitation is that I believe we should value functionalities over less practical strict typing. Plus in future update operation Mandatory Field could mitigate this problem.
+
 ## TO DO
 
 - Mandatory field update. Example, for field like `updatedAt`, it is mandatory to includes it every time you update the document. There are two ways to implement these feature: via Meta Type and via abstraction. With Meta Type(using special field value), it is less flexible because we no longer able to exclude it from all update operations. With abstraction, it is more flexible but require more works from user. I prefer via abstraction due to it does not shut down other use cases despite having lower user experience.
@@ -239,8 +251,6 @@ npm i firelordjs@cjs
 - More in code documentation and tests.
 
 ## Dropped TO DO
-
-- Support for object unions type. Objects unions type seem to be a good type to have in NoSQL database because of how ever-changing NoSQL schema is. However, this is not the case because it brings uncertainty that cannot be handled reasonably. For example, with `{a:number}|{b:string}`, you can set `{a:1}` then update `{b:"x"}`, in this case the type is no longer unions type but an intersection type: `{a:number} & {b:string}`. So I will not implement this feature and will remove it from [FireSageJS](https://github.com/tylim88/FireSageJS) too. A better way to solve this is to use [`PossiblyReadAsUndefined`](https://firelordjs.com/guides/possibly_read_as_undefined) label on newly add field instead(you can also label abandoned fields as `PossiblyReadAsUndefined`, but an easier way is to totally ignore them).
 
 - Support for optional (`?` modifier). Optional is a highly requested feature because of how common it is, however because of how Firestore works: it is impossible to query a missing field. Example: it is impossible to query user that has no phone number if phone number field does not exist. Because of this, it is important to make sure every field exists. You may not need the field now, but you may need it later plus adding default value is simple, especially with such powerful typing library like Firelord. So in order to not accidentally cripple your query in the future, I will not implement this feature. Yes, set merge basically lead to the same problem, hence I encourage you to use `upset` instead (will be available in the future).
 

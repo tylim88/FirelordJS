@@ -55,10 +55,9 @@ export type Doc<T extends MetaType> = {
 	 *  - for top-collection: example.doc(example.collection())
 	 *  - for sub-collection: example.doc(example.collection(GrandParentCollectionID, ParenCollectionID))
 	 *
-	 *
-	 *  documentation:
-	 *  {@link https://firelordjs.com/guides/metatype child meta type}
-	 *  {@link https://firelordjs.com/quick_start#operations operation}
+	 *  related documentations:
+	 *  - {@link https://firelordjs.com/guides/metatype child meta type}
+	 *  - {@link https://firelordjs.com/quick_start#operations operation}
 	 * @returns The `DocumentReference` instance.
 	 */
 	<
