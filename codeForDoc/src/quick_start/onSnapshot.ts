@@ -1,7 +1,7 @@
 import { example } from './init'
 import { query, where, orderBy, onSnapshot, startAfter } from 'firelordjs'
 
-// filter and listen to documents
+// listen to filtered collection
 const unsub = onSnapshot(
 	query(
 		example.collection(), // or example.collectionGroup()
