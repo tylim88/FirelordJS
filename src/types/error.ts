@@ -94,6 +94,8 @@ export type ErrorNonTopLevelDeleteField =
 	`Error: In non-flatten operations, deleteField() must appear at top level`
 export type ErrorDocIdIncorrectType =
 	'Error: DocId must be single/multiple argument of string or CollectionReference'
+export type ErrorOnSnapshotLastArg =
+	'Error onSnapshot 4th argument must be empty if 3rd argument is { includeMetadataChanges: boolean }'
 
 export type ErrorMsgs =
 	| ErrorUndefined
@@ -138,6 +140,7 @@ export type ErrorMsgs =
 	| ErrorColRefOrderByDocumentIDCursorNoSlash<string>
 	| ErrorNonTopLevelDeleteField
 	| ErrorDocIdIncorrectType
+	| ErrorOnSnapshotLastArg
 
 // unused
 export type ReplaceErrorMsgsWithNever<T> = T extends ErrorMsgs ? never : T

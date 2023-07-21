@@ -143,4 +143,37 @@ describe('test onSnapshot', () => {
 				)
 			})
 		}))
+
+	it('test listen to entire collection', () =>
+		new Promise(done => {
+			const docRef = userRefCreator().doc('FirelordTest', docId3)
+			const data = generateRandomData()
+			expect.hasAssertions()
+			setDoc(docRef, data).then(() => {
+				const unsub = onSnapshot(
+					userRefCreator().collection('FirelordTest'),
+					async querySnapshot => {
+						type A = typeof querySnapshot
+						type B = QuerySnapshot<User>
+						IsTrue<IsSame<B, A>>()
+						const queryDocumentSnapshot = querySnapshot.docs.filter(
+							doc => doc.id === docId3
+						)[0]
+						expect(queryDocumentSnapshot).not.toBe(undefined)
+						if (queryDocumentSnapshot) {
+							type C = typeof queryDocumentSnapshot
+							type D = QueryDocumentSnapshot<User>
+							IsTrue<IsSame<C, D>>()
+							compareWriteDataWithDocSnapData(data, queryDocumentSnapshot)
+						}
+						unsub()
+						done(1)
+					},
+					() => {
+						//
+					},
+					{ includeMetadataChanges: true }
+				)
+			})
+		}))
 })

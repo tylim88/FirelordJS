@@ -9,7 +9,7 @@ import {
 } from '../error'
 
 /**
- * A `DocumentReference` refers to a document location in a Firestore database
+ * A {@link DocumentReference} refers to a document location in a Firestore database
  * and can be used to write, read, or listen to the location. The document at
  * the referenced location may or may not exist.
  */
@@ -31,7 +31,7 @@ export interface DocumentReference<T extends MetaType> {
 	 */
 	get path(): T['docPath']
 	/**
-	 * The collection this `DocumentReference` belongs to.
+	 * The collection this {@link DocumentReference} belongs to.
 	 */
 	get parent(): CollectionReference<T>
 }
@@ -43,22 +43,22 @@ export type DocCreator = <T extends MetaType>(
 
 export type Doc<T extends MetaType> = {
 	/**
-	 * Gets a `DocumentReference` instance that refers to the document at the
+	 * Gets a {@link DocumentReference} instance that refers to the document at the
 	 * specified absolute path.
-	 *
-	 * @param documentIds_or_CollectionReference
-	 * Option 1: all the docID(s) needed to build this document path, eg
-	 *  - for top-collection: example.doc(SelfDocId)
-	 *  - for sub-collection: example.doc(GrandParentDocId, ParentsDocId, SelfDocId).
-	 *
-	 * Option 2: CollectionReference (to create auto id doc ref), eg
-	 *  - for top-collection: example.doc(example.collection())
-	 *  - for sub-collection: example.doc(example.collection(GrandParentCollectionID, ParenCollectionID))
 	 *
 	 *  related documentations:
 	 *  - {@link https://firelordjs.com/guides/metatype child meta type}
 	 *  - {@link https://firelordjs.com/quick_start#operations operation}
-	 * @returns The `DocumentReference` instance.
+	 * @param documentIds_or_CollectionReference
+	 * Type 1: all the docID(s) needed to build this document path, eg
+	 *  - for top-collection: example.doc(SelfDocId)
+	 *  - for sub-collection: example.doc(GrandParentDocId, ParentsDocId, SelfDocId).
+	 *
+	 * Type 2: CollectionReference (to create auto id doc ref), eg
+	 *  - for top-collection: example.doc(example.collection())
+	 *  - for sub-collection: example.doc(example.collection(GrandParentCollectionID, ParenCollectionID))
+	 *
+	 * @returns The {@link DocumentReference} instance.
 	 */
 	<
 		D extends
