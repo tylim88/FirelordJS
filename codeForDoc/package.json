@@ -28,6 +28,7 @@
 		"jsdom": "^21.1.1",
 		"kill-port": "^2.0.1",
 		"shelljs": "^0.8.5",
+		"ts-node": "^10.9.1",
 		"typescript": "^5.0.2",
 		"vitest": "^0.29.7"
 	}
