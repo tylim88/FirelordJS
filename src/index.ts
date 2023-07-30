@@ -84,4 +84,6 @@ export type {
 	Transaction,
 	GetCollectionIds,
 	FirelordRef,
+	OnSnapshot,
+	Unsubscribe,
 } from './types'
