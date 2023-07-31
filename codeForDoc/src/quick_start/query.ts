@@ -4,7 +4,7 @@ import { getDocs, query, where, orderBy, limit } from 'firelordjs'
 // filter documents
 getDocs(
 	query(
-		example.collection(),
+		example.collection(), // or example.collectionGroup()
 		where('f.h', '>', 1010),
 		orderBy('f.h'),
 		limit(10)
@@ -25,3 +25,8 @@ getDocs(
 		// similar to docSnapshot of getDoc
 	})
 })
+
+// get all collection documents
+getDocs(
+	example.collection() // or example.collectionGroup()
+)
