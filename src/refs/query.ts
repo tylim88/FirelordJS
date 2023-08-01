@@ -1,5 +1,5 @@
 import { query as query_ } from 'firebase/firestore'
-import { QueryRef } from '../types'
+import { QueryFunction } from '../types'
 import { queryBuilder } from './utils'
 
 /**
@@ -11,7 +11,7 @@ import { queryBuilder } from './utils'
  * @throws if any of the provided query constraints cannot be combined with the
  * existing or new constraints.
  */
-export const query: QueryRef = (query, ...queryConstraints) => {
+export const query: QueryFunction = (query, ...queryConstraints) => {
 	return query_(
 		// @ts-expect-error
 		query,

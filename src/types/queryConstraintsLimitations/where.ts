@@ -10,7 +10,7 @@ import {
 	ErrorWhereInOrNotInValueIsNotArray,
 } from '../error'
 import { QueryConstraints, WhereConstraint } from '../queryConstraints'
-import { Query } from '../refs'
+import { GeneralQuery } from '../refs'
 import { GetCorrectDocumentIdBasedOnRef } from '../fieldPath'
 import {
 	In,
@@ -154,7 +154,7 @@ type GetAllWhereConstraintOpStr<
 
 export type WhereConstraintLimitation<
 	T extends MetaType,
-	Q extends Query<T>,
+	Q extends GeneralQuery<T>,
 	U extends WhereConstraint<T, string, WhereFilterOp, unknown>,
 	PreviousQCs extends readonly QueryConstraints<T>[]
 > = ValidateWhereNotIn<T, U, PreviousQCs> extends infer R extends string

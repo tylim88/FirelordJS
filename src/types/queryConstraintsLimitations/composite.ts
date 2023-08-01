@@ -11,7 +11,7 @@ import {
 	CursorType,
 	QueryCompositeFilterConstraint,
 } from '../queryConstraints'
-import { Query } from '../refs'
+import { GeneralQuery } from '../refs'
 import { WhereConstraintLimitation } from './where'
 import {
 	ErrorOrAndInvalidConstraints,
@@ -105,7 +105,7 @@ export type FlattenQueryCompositeFilterConstraint<
 
 export type QueryFilterConstraintLimitation<
 	T extends MetaType,
-	Q extends Query<T>,
+	Q extends GeneralQuery<T>,
 	RestQQCs extends readonly QueryAllConstraints<T>[],
 	PreviousQCs extends readonly QueryConstraints<T>[],
 	ParentConstraint extends QueryCompositeFilterConstraint<

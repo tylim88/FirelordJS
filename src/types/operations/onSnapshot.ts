@@ -1,6 +1,11 @@
 import { DocumentSnapshot, QuerySnapshot } from '../snapshot'
 import { MetaType } from '../metaTypeCreator'
-import { Query, DocumentReference, CollectionReference } from '../refs'
+import {
+	Query,
+	DocumentReference,
+	CollectionReference,
+	CollectionGroup,
+} from '../refs'
 import { Unsubscribe, SnapshotListenOptions, FirestoreError } from '../alias'
 import { ErrorOnSnapshotLastArg } from '../error'
 
@@ -26,18 +31,18 @@ export type OnSnapshot = {
 	 *
 	 * Type 1: {@link Query} eg: query(example.collection(...), ...) listen to filtered collection
 	 *
-	 * Type 2: CollectionGroup({@link Query}) eg: query(example.collectionGroup(...), ...) listen to filtered {@link Query}
+	 * Type 2: {@link CollectionGroup} eg: query(example.collectionGroup(...), ...) listen to filtered {@link Query}
 	 *
 	 * Type 3: {@link CollectionReference} eg: example.collection(...) listen to entire collection
 	 *
-	 * Type 4: CollectionGroup({@link Query}) reference eg: example.collectionGroup(...) listen to entire {@link Query}
+	 * Type 4: {@link CollectionGroup} reference eg: example.collectionGroup(...) listen to entire {@link Query}
 	 *
 	 * Type 5: {@link DocumentReference} eg: example.doc(...) listen to a single document
 	 * @param onNext - A callback to be called every time a new {@link DocumentSnapshot} or {@link QuerySnapshot} is available.
 	 *
 	 * Type 1: receive {@link DocumentSnapshot} if {@link reference} is {@link DocumentReference} eg: (value: {@link DocumentSnapshot}) => { handle data here }
 	 *
-	 * Type 2: receive {@link QuerySnapshot} if {@link reference} is CollectionGroup or {@link Query} or {@link CollectionReference} eg: (value: {@link QuerySnapshot}) => { handle data here }
+	 * Type 2: receive {@link QuerySnapshot} if {@link reference} is {@link CollectionGroup} or {@link Query} or {@link CollectionReference} eg: (value: {@link QuerySnapshot}) => { handle data here }
 	 *
 	 * @param onError - optional parameter.
 	 *
@@ -54,10 +59,12 @@ export type OnSnapshot = {
 			snapshot: Ref extends DocumentReference<T>
 				? DocumentSnapshot<T>
 				: QuerySnapshot<T>
-		) => void,
+		) => void | Promise<void>,
 		onError?: Err extends never ? Err : ThirdArg,
-		options?: Err extends (error: FirestoreError) => void
+		options?: Err extends (error: FirestoreError) => void | Promise<void>
 			? SnapshotListenOptions
 			: ErrorOnSnapshotLastArg
 	): Unsubscribe
 }
+
+export type DummyOnSnapshot = CollectionGroup<MetaType>

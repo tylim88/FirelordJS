@@ -1,7 +1,7 @@
 import { MetaType } from '../metaTypeCreator'
 import { QueryFilterConstraints } from '../queryConstraints'
 import { QueryFilterConstraintLimitation } from '../queryConstraintsLimitations'
-import { Query, CollectionReference } from '../refs'
+import { GeneralQuery } from '../refs'
 import { ErrorEmptyCompositeFilter } from '../error'
 import { OriQueryCompositeFilterConstraint } from '../alias'
 
@@ -16,7 +16,7 @@ export type QueryCompositeFilterConstraint<
 }
 
 type QueryCompositeFilter<T extends MetaType, Type extends 'and' | 'or'> = <
-	Q extends Query<T> | CollectionReference<T>,
+	Q extends GeneralQuery<T>,
 	QFCs extends QueryFilterConstraints<T>[]
 >(
 	...queryFilterConstraints: QFCs extends never

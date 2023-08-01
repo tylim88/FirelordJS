@@ -9,13 +9,13 @@ import {
 import { __name__, GetCorrectDocumentIdBasedOnRef } from '../fieldPath'
 import { QueryDocumentSnapshot, DocumentSnapshot } from '../snapshot'
 import { GetAllOrderBy } from './orderBy'
-import { Query } from '../refs'
+import { GeneralQuery } from '../refs'
 import { DeepValue } from '../objectFlatten'
 
 // Too many arguments provided to startAt(). The number of arguments must be less than or equal to the number of orderBy() clauses
 type ValidateCursorOrderBy<
 	T extends MetaType,
-	Q extends Query<T>,
+	Q extends GeneralQuery<T>,
 	Values extends unknown[],
 	AllOrderBy extends OrderByConstraint<string>[]
 > = Values extends [infer Head, ...infer Rest]
@@ -46,7 +46,7 @@ type ValidateCursorOrderBy<
 
 export type CursorConstraintLimitation<
 	T extends MetaType,
-	Q extends Query<T>,
+	Q extends GeneralQuery<T>,
 	U extends CursorConstraint<CursorType, unknown[]>,
 	PreviousQCs extends readonly QueryConstraints<T>[]
 > = CursorConstraint<

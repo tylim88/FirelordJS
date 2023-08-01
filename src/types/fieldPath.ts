@@ -1,6 +1,12 @@
 import { MetaType } from './metaTypeCreator'
 import { IsEqual } from './utils'
-import { DocumentReference, Query, CollectionReference } from './refs'
+import {
+	DocumentReference,
+	Query,
+	CollectionReference,
+	GeneralQuery,
+	CollectionGroup,
+} from './refs'
 import { IsValidID, GetNumberOfPathSlash } from './validID'
 import {
 	ErrorNumberOfForwardSlashIsNotEqual,
@@ -12,7 +18,7 @@ export type __name__Record = Record<__name__, unknown>
 
 export type GetCorrectDocumentIdBasedOnRef<
 	T extends MetaType,
-	Q extends Query<T>,
+	Q extends GeneralQuery<T>,
 	FieldPath extends keyof T['compare'],
 	Value
 > = FieldPath extends __name__
@@ -25,7 +31,7 @@ export type GetCorrectDocumentIdBasedOnRef<
 				: Value extends T['docID']
 				? IsValidID<Value, 'Document', 'ID'>
 				: T['docID']
-			: true extends IsEqual<Query<T>, Q>
+			: true extends IsEqual<Query<T>, Q> | IsEqual<CollectionGroup<T>, Q>
 			? string extends Value
 				? ErrorPleaseDoConstAssertion
 				: GetNumberOfPathSlash<Value> extends GetNumberOfPathSlash<T['docPath']> // checking number of slash is a must, because the docID type most likely is string, and will accept any string

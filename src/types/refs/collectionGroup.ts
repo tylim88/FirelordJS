@@ -11,9 +11,17 @@ export interface CollectionGroup<T extends MetaType> extends Query<T> {
 	readonly type: 'query'
 }
 
+export type CollectionGroupFunction<T extends MetaType> = {
+	/**
+	 *  related documentations:
+	 *  - {@link https://firelordjs.com/quick_start/#query query}
+	 *  - {@link https://firelordjs.com/quick_start/#onsnapshot onSnapshot}
+	 * @returns — The created {@link CollectionGroup}.
+	 */
+	(): CollectionGroup<T>
+}
+
 export type CollectionGroupCreator = <T extends MetaType>(
 	fStore: Firestore,
 	collectionID: T['collectionID']
-) => {
-	(): CollectionGroup<T>
-}
+) => CollectionGroupFunction<T>

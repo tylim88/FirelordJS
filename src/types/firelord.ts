@@ -1,12 +1,12 @@
 import { GetOddOrEvenSegments, EmptyObject } from './utils'
 import { MetaType } from './metaTypeCreator'
 import {
-	Query,
 	Doc,
 	Collection,
 	DocCreator,
 	CollectionCreator,
 	CollectionGroupCreator,
+	CollectionGroupFunction,
 } from './refs'
 import { Firestore } from './alias'
 import { And, Or, AndCreator, OrCreator } from './queryConstraints'
@@ -20,13 +20,7 @@ type Collection_<T extends MetaType> = {
 }
 
 type CollectionGroup_<T extends MetaType> = {
-	/**
-	 *  related documentations:
-	 *  - {@link https://firelordjs.com/quick_start/#query query}
-	 *  - {@link https://firelordjs.com/quick_start/#onsnapshot onSnapshot}
-	 * @returns — The created {@link Query}.
-	 */
-	collectionGroup: () => Query<T>
+	collectionGroup: CollectionGroupFunction<T>
 }
 type Or_<T extends MetaType> = {
 	/**

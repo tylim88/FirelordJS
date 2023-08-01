@@ -23,7 +23,7 @@ export type ErrorInvalidDocumentOrCollectionID<
 	Type extends 'ID' | 'Path'
 > = `Error: ${T} ${Type} cannot contains ${Type extends 'ID'
 	? `forward slash '/', `
-	: ``}double dots '..' and double underscore '__'`
+	: ``}double dots '..' and double underscore '__' (except "__name__")`
 export type ErrorInvalidDocumentOrCollectionIDStart<
 	T extends 'Document' | 'Collection'
 > = `Error: ${T} ID cannot start with a dot '.'`

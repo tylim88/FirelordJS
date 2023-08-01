@@ -11,7 +11,7 @@ import {
 	CursorType,
 	QueryCompositeFilterConstraint,
 } from '../queryConstraints'
-import { Query } from '../refs'
+import { GeneralQuery } from '../refs'
 import { LimitToLastConstraintLimitation } from './limit'
 import { CursorConstraintLimitation } from './cursor'
 import { GetFirstOrderBy } from './orderBy'
@@ -49,7 +49,7 @@ export type ValidateOrderByAndInequalityWhere<
 
 export type QueryConstraintLimitation<
 	T extends MetaType,
-	Q extends Query<T>,
+	Q extends GeneralQuery<T>,
 	RestQQCs extends readonly QueryAllConstraints<T>[],
 	PreviousQCs extends readonly QueryConstraints<T>[],
 	AllQCs extends readonly QueryConstraints<T>[]

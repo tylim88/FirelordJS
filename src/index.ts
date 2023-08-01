@@ -39,7 +39,7 @@ export const getFirelordShakable: GetFirelordShakable =
  * Gets a FirelordReference instance that refers to the doc, collection, and collectionGroup at the specified absolute path.
  * @param firestore - A reference to the root `Firestore` instance.
  * @param collectionIDs - all the collectionID(s) needed to build this collection path.
- * @returns Creator function of DocumentReference, CollectionReference, CollectionGroupReference and composite queries.
+ * @returns function of DocumentReference, CollectionReference, CollectionGroup and composite queries.
  */
 export const getFirelord = getFirelordShakable({
 	docCreator,

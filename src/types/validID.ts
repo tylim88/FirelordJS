@@ -39,7 +39,7 @@ export type IsValidID<
 					Type extends 'ID' ? never : Type extends 'Path' ? '/' : never // impossible route
 				>
 		  > extends 0
-		? ID extends `__${string}__`
+		? ID extends `${string}__${string}`
 			? ErrorInvalidDocumentOrCollectionID<Mode, Type>
 			: ID
 		: ErrorInvalidDocumentOrCollectionID<Mode, Type>

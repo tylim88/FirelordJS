@@ -1,5 +1,15 @@
 import { MetaType } from '../metaTypeCreator'
 import { Firestore_ } from '../alias'
+import { QueryAllConstraints, QueryConstraints } from '../queryConstraints'
+import {
+	QueryConstraintLimitation,
+	FlattenQueryCompositeFilterConstraint,
+	ValidateTopLevelQueryCompositeFilterPartOne,
+	ValidateTopLevelQueryCompositeFilterPartTwo,
+	ValidateOrderByAndInequalityWhere,
+} from '../queryConstraintsLimitations'
+import { CollectionReference } from './collection'
+import { CollectionGroup } from './collectionGroup'
 
 /**
  * A `Query` refers to a query which you can read or listen to. You can also
@@ -17,45 +27,40 @@ export interface Query<T extends MetaType> {
 	readonly firestore: Firestore_
 }
 
-import { QueryAllConstraints, QueryConstraints } from '../queryConstraints'
-import {
-	QueryConstraintLimitation,
-	FlattenQueryCompositeFilterConstraint,
-	ValidateTopLevelQueryCompositeFilterPartOne,
-	ValidateTopLevelQueryCompositeFilterPartTwo,
-	ValidateOrderByAndInequalityWhere,
-} from '../queryConstraintsLimitations'
-import { CollectionReference } from './collection'
+export type GeneralQuery<T extends MetaType> =
+	| Query<T>
+	| CollectionReference<T>
+	| CollectionGroup<T>
 
-export type QueryRef = <
-	Z extends MetaType,
-	Q extends Query<Z> | CollectionReference<Z>,
-	const QQCs extends readonly QueryAllConstraints<Z>[]
+export type QueryFunction = <
+	T extends MetaType,
+	Q extends GeneralQuery<T>,
+	const QQCs extends readonly QueryAllConstraints<T>[]
 >(
-	query: Q extends never ? Q : Query<Z> | CollectionReference<Z>,
+	query: Q extends never ? Q : GeneralQuery<T>,
 	...queryConstraints: QQCs extends never
 		? QQCs
-		: Z extends infer T extends MetaType
+		: T extends infer V extends MetaType
 		? ValidateTopLevelQueryCompositeFilterPartOne<
-				T,
+				V,
 				QQCs
 		  > extends infer B extends string
 			? B
 			: ValidateTopLevelQueryCompositeFilterPartTwo<
-					T,
+					V,
 					QQCs
 			  > extends infer C extends string
 			? C
 			: FlattenQueryCompositeFilterConstraint<
-					T,
+					V,
 					QQCs
-			  > extends infer AllFlattenQCs extends QueryConstraints<Z>[]
+			  > extends infer AllFlattenQCs extends QueryConstraints<T>[]
 			? ValidateOrderByAndInequalityWhere<
-					T,
+					V,
 					AllFlattenQCs
 			  > extends infer K extends string
 				? K
-				: QueryConstraintLimitation<T, Q, QQCs, [], AllFlattenQCs>
+				: QueryConstraintLimitation<V, Q, QQCs, [], AllFlattenQCs>
 			: never
 		: never
-) => Query<Z>
+) => Query<T>

@@ -103,7 +103,7 @@ export interface QuerySnapshot<T extends MetaType> {
 	 * @param thisArg - The `this` binding for the callback.
 	 */
 	forEach(
-		callback: (result: QueryDocumentSnapshot<T>) => void,
+		callback: (result: QueryDocumentSnapshot<T>) => void | Promise<void>,
 		thisArg?: unknown
 	): void
 	/**
@@ -172,6 +172,7 @@ export interface DocumentChange<T extends MetaType> {
 	readonly newIndex: number
 }
 
+// ! need more variants of this type
 export interface AggregateQuerySnapshot<T extends MetaType> {
 	/** A type string to uniquely identify instances of this class. */
 	readonly type: 'AggregateQuerySnapshot'
