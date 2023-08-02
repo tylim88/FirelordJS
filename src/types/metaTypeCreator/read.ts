@@ -15,50 +15,66 @@ import {
 } from '../fieldValues'
 import { DocumentReference } from '../refs'
 import { MetaType } from './metaType'
+import {
+	SerialDate,
+	SerialGeoPoint,
+	SerialServerTimestamp,
+	SerialDocumentReference,
+	SerialTimestamp,
+} from '../serial'
 
 type ReadConverterArray<
 	T,
 	allFieldsPossiblyReadAsUndefined,
 	BannedTypes,
 	InArray extends boolean
-> = NoDirectNestedArray<
-	T,
-	T extends (infer A)[]
-		?
-				| ReadConverterArray<
-						A,
-						allFieldsPossiblyReadAsUndefined,
-						BannedTypes,
-						true
-				  >[]
-				| (InArray extends true ? never : allFieldsPossiblyReadAsUndefined)
-		: T extends FieldValues
-		? ErrorFieldValueInArray
-		: T extends Date | Timestamp
-		?
-				| Timestamp
-				| (InArray extends true ? never : allFieldsPossiblyReadAsUndefined)
-		: T extends DocumentReference<MetaType> | Bytes | GeoPoint
-		? T | (InArray extends true ? never : allFieldsPossiblyReadAsUndefined)
-		: T extends Record<string, unknown>
-		?
-				| {
-						[K in keyof T]-?: ReadConverterArray<
-							T[K],
-							allFieldsPossiblyReadAsUndefined,
-							BannedTypes,
-							false
-						>
-				  }
-				| (InArray extends true ? never : allFieldsPossiblyReadAsUndefined)
-		: T extends PossiblyReadAsUndefined
-		? InArray extends true
-			? ErrorPossiblyUndefinedAsArrayElement
-			: undefined
-		:
-				| NoUndefinedAndBannedTypes<T, BannedTypes>
-				| allFieldsPossiblyReadAsUndefined
->
+> = (
+	InArray extends true ? never : allFieldsPossiblyReadAsUndefined
+) extends infer U
+	? NoDirectNestedArray<
+			T,
+			T extends (infer A)[]
+				?
+						| ReadConverterArray<
+								A,
+								allFieldsPossiblyReadAsUndefined,
+								BannedTypes,
+								true
+						  >[]
+						| U
+				: T extends FieldValues
+				? ErrorFieldValueInArray
+				: T extends Date | Timestamp
+				? Timestamp | U
+				: T extends SerialDate | SerialTimestamp
+				? SerialTimestamp | U
+				: T extends
+						| DocumentReference<MetaType>
+						| Bytes
+						| GeoPoint
+						| SerialGeoPoint
+						| SerialDocumentReference<MetaType>
+				? T | U
+				: T extends Record<string, unknown>
+				?
+						| {
+								[K in keyof T]-?: ReadConverterArray<
+									T[K],
+									allFieldsPossiblyReadAsUndefined,
+									BannedTypes,
+									false
+								>
+						  }
+						| U
+				: T extends PossiblyReadAsUndefined
+				? InArray extends true
+					? ErrorPossiblyUndefinedAsArrayElement
+					: undefined
+				:
+						| NoUndefinedAndBannedTypes<T, BannedTypes>
+						| allFieldsPossiblyReadAsUndefined
+	  >
+	: never
 
 export type ReadConverter<T, allFieldsPossiblyReadAsUndefined, BannedTypes> =
 	NoDirectNestedArray<
@@ -74,7 +90,16 @@ export type ReadConverter<T, allFieldsPossiblyReadAsUndefined, BannedTypes> =
 					| allFieldsPossiblyReadAsUndefined
 			: T extends ServerTimestamp | Date | Timestamp
 			? Timestamp | allFieldsPossiblyReadAsUndefined
-			: T extends DocumentReference<MetaType> | Bytes | GeoPoint
+			: T extends SerialDate | SerialTimestamp | SerialServerTimestamp
+			? SerialTimestamp
+			: T extends
+					| DocumentReference<MetaType>
+					| Bytes
+					| GeoPoint
+					| SerialGeoPoint
+					| SerialDocumentReference<MetaType>
+					| SerialDate
+					| SerialTimestamp
 			? T | allFieldsPossiblyReadAsUndefined
 			: T extends Record<string, unknown>
 			?

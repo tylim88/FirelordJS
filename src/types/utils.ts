@@ -1,5 +1,7 @@
 export type StrictOmit<T, Key extends keyof T> = Omit<T, Key>
 
+export type StrictPick<T, Key extends keyof T> = Pick<T, Key>
+
 export type StrictExclude<T, U extends T> = Exclude<T, U>
 
 export type StrictExtract<T, U extends T> = Extract<T, U>

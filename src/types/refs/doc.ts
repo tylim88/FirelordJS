@@ -29,11 +29,11 @@ export interface DocumentReference<T extends MetaType> {
 	 * A string representing the path of the referenced document (relative
 	 * to the root of the database).
 	 */
-	get path(): T['docPath']
+	path: T['docPath']
 	/**
 	 * The collection this {@link DocumentReference} belongs to.
 	 */
-	get parent(): CollectionReference<T>
+	parent: CollectionReference<T>
 }
 
 export type DocCreator = <T extends MetaType>(

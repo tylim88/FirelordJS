@@ -86,4 +86,9 @@ export type {
 	FirelordRef,
 	OnSnapshot,
 	Unsubscribe,
+	SerialDate as DateSerial,
+	SerialServerTimestamp as ServerTimestampPersist,
+	SerialTimestamp as TimestampPersist,
+	SerialGeoPoint as GeoPointPersist,
+	SerialDocumentReference as DocumentReferencePersist,
 } from './types'

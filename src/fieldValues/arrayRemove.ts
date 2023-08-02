@@ -12,4 +12,5 @@ import { ArrayRemoveOrUnionFunction } from '../types'
  * @returns The `FieldValue` sentinel for use in a call to `setDoc()` or
  * `updateDoc()`
  */
+// @ts-expect-error
 export const arrayRemove: ArrayRemoveOrUnionFunction = arrayRemove_

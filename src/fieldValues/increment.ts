@@ -20,4 +20,5 @@ import { Increment } from '../types'
  * @returns The `FieldValue` sentinel for use in a call to `setDoc()` or
  * `updateDoc()`
  */
+// @ts-expect-error
 export const increment: (n: number) => Increment = increment_

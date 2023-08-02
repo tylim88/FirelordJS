@@ -17,6 +17,13 @@ import {
 import { DeepValue } from '../objectFlatten'
 import { DocumentReference } from '../refs'
 import { MetaType } from './metaType'
+import {
+	SerialDate,
+	SerialGeoPoint,
+	SerialServerTimestamp,
+	SerialDocumentReference,
+	SerialTimestamp,
+} from '../serial'
 
 type ArrayWriteConverter<T, BannedTypes> = NoDirectNestedArray<
 	T,
@@ -24,10 +31,14 @@ type ArrayWriteConverter<T, BannedTypes> = NoDirectNestedArray<
 		? readonly ArrayWriteConverter<A, BannedTypes>[]
 		: T extends FieldValues
 		? ErrorFieldValueInArray
-		: T extends Timestamp | Date
+		: T extends Timestamp | Date | SerialDate | SerialTimestamp
 		? Timestamp | Date
 		: T extends DocumentReference<MetaType> | Bytes | GeoPoint
 		? T
+		: T extends SerialDocumentReference<infer R>
+		? DocumentReference<R>
+		: T extends SerialGeoPoint
+		? GeoPoint
 		: T extends Record<string, unknown>
 		? {
 				[K in keyof T]-?: ArrayWriteConverter<T[K], BannedTypes>
@@ -45,11 +56,17 @@ export type WriteConverter<T, BannedTypes> = NoDirectNestedArray<
 				| ArrayUnionOrRemove<ArrayWriteConverter<A, BannedTypes>>
 		: T extends DocumentReference<MetaType> | ServerTimestamp | GeoPoint
 		? T
+		: T extends SerialServerTimestamp
+		? ServerTimestamp
+		: T extends SerialDocumentReference<infer R>
+		? DocumentReference<R>
+		: T extends SerialGeoPoint
+		? GeoPoint
 		: T extends number
 		? number extends T
 			? T | Increment
 			: T
-		: T extends Timestamp | Date
+		: T extends Timestamp | Date | SerialDate | SerialTimestamp
 		? Timestamp | Date
 		: T extends Record<string, unknown>
 		? {
@@ -74,11 +91,17 @@ export type WriteUpdateConverter<T, BannedTypes> = NoDirectNestedArray<
 				| Delete
 				| GeoPoint
 		? T
+		: T extends SerialServerTimestamp
+		? ServerTimestamp
+		: T extends SerialDocumentReference<infer R>
+		? DocumentReference<R>
+		: T extends SerialGeoPoint
+		? GeoPoint
 		: T extends number
 		? number extends T
 			? T | Increment
 			: T
-		: T extends Timestamp | Date
+		: T extends Timestamp | Date | SerialDate | SerialTimestamp
 		? Timestamp | Date
 		: T extends Record<string, unknown>
 		? {

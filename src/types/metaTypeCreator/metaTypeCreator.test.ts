@@ -1,7 +1,11 @@
 import { MetaTypeCreator } from './metaTypeCreator'
 import { MetaType } from './metaType'
 import { Timestamp, Bytes, GeoPoint } from '../alias'
-import { ErrorNullBanned, ErrorDirectNested } from '../error'
+import {
+	ErrorNullBanned,
+	ErrorDirectNested,
+	ErrorFieldValueInArray,
+} from '../error'
 import {
 	ArrayUnionOrRemove,
 	Increment,
@@ -13,6 +17,13 @@ import { DocumentReference } from '../refs'
 import { IsTrue, IsSame, IsEqual } from '../utils'
 import { Parent, User } from '../../utilForTests'
 import { __name__Record } from '../fieldPath'
+import {
+	SerialDate,
+	SerialGeoPoint,
+	SerialServerTimestamp,
+	SerialDocumentReference,
+	SerialTimestamp,
+} from '../serial'
 
 describe('test Firelord type', () => {
 	it('test parents equal', () => {
@@ -824,6 +835,81 @@ describe('test Firelord type', () => {
 		IsTrue<IsSame<ExpectWrite, Write>>
 		IsTrue<IsSame<ExpectWriteFlatten, WriteFlatten>>
 		IsTrue<IsSame<ExpectWriteMerge, Write>>
+		IsTrue<IsSame<ExpectCompare, Compare>>
+	})
+	it('test persistent type', () => {
+		type A = MetaTypeCreator<
+			{
+				a: SerialTimestamp
+				b: SerialDate
+				c: SerialServerTimestamp
+				d: SerialDocumentReference<MetaType>
+				e: SerialGeoPoint
+				f: SerialTimestamp[]
+				g: SerialDate[]
+				h: SerialServerTimestamp[]
+				i: SerialDocumentReference<MetaType>[]
+				j: SerialGeoPoint[]
+			},
+			'Persist'
+		>
+
+		type ExpectRead = A['read']
+		type ExpectWrite = A['write']
+		type ExpectWriteFlatten = A['writeFlatten']
+		type ExpectWriteMerge = A['writeMerge']
+		type ExpectCompare = A['compare']
+
+		type Read = {
+			a: SerialTimestamp
+			b: SerialTimestamp
+			c: SerialTimestamp
+			d: SerialDocumentReference<MetaType>
+			e: SerialGeoPoint
+			f: SerialTimestamp[]
+			g: SerialTimestamp[]
+			h: ErrorFieldValueInArray[]
+			i: SerialDocumentReference<MetaType>[]
+			j: SerialGeoPoint[]
+		}
+
+		type Write = {
+			a: Timestamp | Date
+			b: Timestamp | Date
+			c: ServerTimestamp
+			d: DocumentReference<MetaType>
+			e: GeoPoint
+			f: readonly (Timestamp | Date)[] | ArrayUnionOrRemove<Timestamp | Date>
+			g: readonly (Timestamp | Date)[] | ArrayUnionOrRemove<Timestamp | Date>
+			h:
+				| readonly ErrorFieldValueInArray[]
+				| ArrayUnionOrRemove<ErrorFieldValueInArray>
+			i:
+				| readonly DocumentReference<MetaType>[]
+				| ArrayUnionOrRemove<DocumentReference<MetaType>>
+			j: readonly GeoPoint[] | ArrayUnionOrRemove<GeoPoint>
+		}
+
+		// TODO need better tests
+		type WriteFlatten = Write
+		type WriteMerge = Write
+		type Compare = {
+			a: Timestamp | Date
+			b: Timestamp | Date
+			c: Timestamp | Date
+			d: DocumentReference<MetaType>
+			e: GeoPoint
+			f: readonly (Timestamp | Date)[]
+			g: readonly (Timestamp | Date)[]
+			h: readonly ErrorFieldValueInArray[]
+			i: readonly DocumentReference<MetaType>[]
+			j: readonly GeoPoint[]
+		} & __name__Record
+
+		IsTrue<IsSame<ExpectRead, Read>>
+		IsTrue<IsSame<ExpectWrite, Write>>
+		IsTrue<IsSame<ExpectWriteFlatten, WriteFlatten>>
+		IsTrue<IsSame<ExpectWriteMerge, WriteMerge>>
 		IsTrue<IsSame<ExpectCompare, Compare>>
 	})
 })

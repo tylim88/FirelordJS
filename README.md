@@ -238,7 +238,7 @@ By design Firelord banned mapped type, this was until version 2.5.10. To underst
 
 ### Object Unions Type
 
-Object unions type was banned before v2.6.2 because it brings uncertainty that cannot be handled reasonably. For example, with `{a:number}|{b:string}`, you can set `{a:1}` then update `{b:"x"}`, in this case the type is no longer unions type but an intersection type: `{a:number} & {b:string}`. The reason I decided to lift the limitation is that I believe we should value functionalities over less practical strict typing. Plus in future update operation Mandatory Field could mitigate this problem.
+Object unions type was banned before v2.6.2 because it brings uncertainty that cannot be handled reasonably. For example, with `{a:number}|{b:string}`, you can set `{a:1}` then update `{b:"x"}`, in this case the type is no longer unions type but an intersection type: `{a:number} & {b:string}`. This limitation is lifted to allow users to fully utilize discriminated unions. Plus in future update operation Mandatory Field could mitigate this problem.
 
 ## TO DO
 
@@ -256,11 +256,18 @@ Object unions type was banned before v2.6.2 because it brings uncertainty that c
 
 - Narrow read type base on query constraint. For example `where('a', '==', true)` will narrow the read type of field `a` to `true`, it should be able to narrow down complex case like `where('a.b.c', '==', { d:[{e:1}] })`. Expected to support `==` comparator for all types and _possibly_ `!=` comparator for literal type(type filtering for`!=` comparator poses great complexity hence I may not work on it). Update: I decided to give this up because with the introduction of composite query, it will be extremely difficult to implement this. Plus unlike narrowing down write type, narrowing down the read type does not contribute to type safety, it just makes thing slightly simpler(skip exhaustive check).
 
+## TO FIX
+
+1. Bytes type is not working correctly and is unusable.
+2. The rule `You can use at most one array-contains or array-contains-any clause per query. You can't combine array-contains with array-contains-any` is not enabled, see https://github.com/tylim88/FirelordJS/releases/tag/2.5.9
+3. The type check of composite query clauses value is wrong if the field is `__name__`, example: `query(collectionRef,or(where("__name__","==","something")))` result in false negative as the Firelord will ask for full path but we only need full path if the reference is group collection.
+
 ## Trivial
 
 - The name Firelord is a reference to the [Firelord](https://avatar.fandom.com/wiki/Fire_Lord) of Avatar.
 - Undocumented releases are README updates.
 - [Contributing](https://firelordjs.com/contributing).
+- Documentation [Github](https://github.com/tylim88/FirelordJSDoc)
 
 ## Related Projects
 
