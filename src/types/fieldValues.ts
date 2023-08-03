@@ -1,6 +1,6 @@
 import { OriFieldValue } from './alias'
 import { ErrorArrayFieldValueEmpty } from './error'
-import { SerialServerTimestamp } from './serial'
+import { JSONServerTimestamp } from './serial'
 
 declare const serverTimestampSymbol: unique symbol
 declare const deleteFieldSymbol: unique symbol
@@ -48,4 +48,4 @@ export type FieldValues =
 	| ServerTimestamp
 	| UnassignedAbleFieldValue
 	| Delete
-	| SerialServerTimestamp
+	| JSONServerTimestamp

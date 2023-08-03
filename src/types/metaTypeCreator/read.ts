@@ -16,11 +16,11 @@ import {
 import { DocumentReference } from '../refs'
 import { MetaType } from './metaType'
 import {
-	SerialDate,
-	SerialGeoPoint,
-	SerialServerTimestamp,
-	SerialDocumentReference,
-	SerialTimestamp,
+	JSONDate,
+	JSONGeoPoint,
+	JSONServerTimestamp,
+	JSONDocumentReference,
+	JSONTimestamp,
 } from '../serial'
 
 type ReadConverterArray<
@@ -46,14 +46,14 @@ type ReadConverterArray<
 				? ErrorFieldValueInArray
 				: T extends Date | Timestamp
 				? Timestamp | U
-				: T extends SerialDate | SerialTimestamp
-				? SerialTimestamp | U
+				: T extends JSONDate | JSONTimestamp
+				? JSONTimestamp | U
 				: T extends
 						| DocumentReference<MetaType>
 						| Bytes
 						| GeoPoint
-						| SerialGeoPoint
-						| SerialDocumentReference<MetaType>
+						| JSONGeoPoint
+						| JSONDocumentReference<MetaType>
 				? T | U
 				: T extends Record<string, unknown>
 				?
@@ -90,16 +90,16 @@ export type ReadConverter<T, allFieldsPossiblyReadAsUndefined, BannedTypes> =
 					| allFieldsPossiblyReadAsUndefined
 			: T extends ServerTimestamp | Date | Timestamp
 			? Timestamp | allFieldsPossiblyReadAsUndefined
-			: T extends SerialDate | SerialTimestamp | SerialServerTimestamp
-			? SerialTimestamp
+			: T extends JSONDate | JSONTimestamp | JSONServerTimestamp
+			? JSONTimestamp
 			: T extends
 					| DocumentReference<MetaType>
 					| Bytes
 					| GeoPoint
-					| SerialGeoPoint
-					| SerialDocumentReference<MetaType>
-					| SerialDate
-					| SerialTimestamp
+					| JSONGeoPoint
+					| JSONDocumentReference<MetaType>
+					| JSONDate
+					| JSONTimestamp
 			? T | allFieldsPossiblyReadAsUndefined
 			: T extends Record<string, unknown>
 			?

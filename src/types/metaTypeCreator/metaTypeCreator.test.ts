@@ -18,11 +18,11 @@ import { IsTrue, IsSame, IsEqual } from '../utils'
 import { Parent, User } from '../../utilForTests'
 import { __name__Record } from '../fieldPath'
 import {
-	SerialDate,
-	SerialGeoPoint,
-	SerialServerTimestamp,
-	SerialDocumentReference,
-	SerialTimestamp,
+	JSONDate,
+	JSONGeoPoint,
+	JSONServerTimestamp,
+	JSONDocumentReference,
+	JSONTimestamp,
 } from '../serial'
 
 describe('test Firelord type', () => {
@@ -840,16 +840,16 @@ describe('test Firelord type', () => {
 	it('test persistent type', () => {
 		type A = MetaTypeCreator<
 			{
-				a: SerialTimestamp
-				b: SerialDate
-				c: SerialServerTimestamp
-				d: SerialDocumentReference<MetaType>
-				e: SerialGeoPoint
-				f: SerialTimestamp[]
-				g: SerialDate[]
-				h: SerialServerTimestamp[]
-				i: SerialDocumentReference<MetaType>[]
-				j: SerialGeoPoint[]
+				a: JSONTimestamp
+				b: JSONDate
+				c: JSONServerTimestamp
+				d: JSONDocumentReference<MetaType>
+				e: JSONGeoPoint
+				f: JSONTimestamp[]
+				g: JSONDate[]
+				h: JSONServerTimestamp[]
+				i: JSONDocumentReference<MetaType>[]
+				j: JSONGeoPoint[]
 			},
 			'Persist'
 		>
@@ -861,16 +861,16 @@ describe('test Firelord type', () => {
 		type ExpectCompare = A['compare']
 
 		type Read = {
-			a: SerialTimestamp
-			b: SerialTimestamp
-			c: SerialTimestamp
-			d: SerialDocumentReference<MetaType>
-			e: SerialGeoPoint
-			f: SerialTimestamp[]
-			g: SerialTimestamp[]
+			a: JSONTimestamp
+			b: JSONTimestamp
+			c: JSONTimestamp
+			d: JSONDocumentReference<MetaType>
+			e: JSONGeoPoint
+			f: JSONTimestamp[]
+			g: JSONTimestamp[]
 			h: ErrorFieldValueInArray[]
-			i: SerialDocumentReference<MetaType>[]
-			j: SerialGeoPoint[]
+			i: JSONDocumentReference<MetaType>[]
+			j: JSONGeoPoint[]
 		}
 
 		type Write = {

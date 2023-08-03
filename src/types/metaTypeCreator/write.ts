@@ -18,11 +18,11 @@ import { DeepValue } from '../objectFlatten'
 import { DocumentReference } from '../refs'
 import { MetaType } from './metaType'
 import {
-	SerialDate,
-	SerialGeoPoint,
-	SerialServerTimestamp,
-	SerialDocumentReference,
-	SerialTimestamp,
+	JSONDate,
+	JSONGeoPoint,
+	JSONServerTimestamp,
+	JSONDocumentReference,
+	JSONTimestamp,
 } from '../serial'
 
 type ArrayWriteConverter<T, BannedTypes> = NoDirectNestedArray<
@@ -31,13 +31,13 @@ type ArrayWriteConverter<T, BannedTypes> = NoDirectNestedArray<
 		? readonly ArrayWriteConverter<A, BannedTypes>[]
 		: T extends FieldValues
 		? ErrorFieldValueInArray
-		: T extends Timestamp | Date | SerialDate | SerialTimestamp
+		: T extends Timestamp | Date | JSONDate | JSONTimestamp
 		? Timestamp | Date
 		: T extends DocumentReference<MetaType> | Bytes | GeoPoint
 		? T
-		: T extends SerialDocumentReference<infer R>
+		: T extends JSONDocumentReference<infer R>
 		? DocumentReference<R>
-		: T extends SerialGeoPoint
+		: T extends JSONGeoPoint
 		? GeoPoint
 		: T extends Record<string, unknown>
 		? {
@@ -56,17 +56,17 @@ export type WriteConverter<T, BannedTypes> = NoDirectNestedArray<
 				| ArrayUnionOrRemove<ArrayWriteConverter<A, BannedTypes>>
 		: T extends DocumentReference<MetaType> | ServerTimestamp | GeoPoint
 		? T
-		: T extends SerialServerTimestamp
+		: T extends JSONServerTimestamp
 		? ServerTimestamp
-		: T extends SerialDocumentReference<infer R>
+		: T extends JSONDocumentReference<infer R>
 		? DocumentReference<R>
-		: T extends SerialGeoPoint
+		: T extends JSONGeoPoint
 		? GeoPoint
 		: T extends number
 		? number extends T
 			? T | Increment
 			: T
-		: T extends Timestamp | Date | SerialDate | SerialTimestamp
+		: T extends Timestamp | Date | JSONDate | JSONTimestamp
 		? Timestamp | Date
 		: T extends Record<string, unknown>
 		? {
@@ -91,17 +91,17 @@ export type WriteUpdateConverter<T, BannedTypes> = NoDirectNestedArray<
 				| Delete
 				| GeoPoint
 		? T
-		: T extends SerialServerTimestamp
+		: T extends JSONServerTimestamp
 		? ServerTimestamp
-		: T extends SerialDocumentReference<infer R>
+		: T extends JSONDocumentReference<infer R>
 		? DocumentReference<R>
-		: T extends SerialGeoPoint
+		: T extends JSONGeoPoint
 		? GeoPoint
 		: T extends number
 		? number extends T
 			? T | Increment
 			: T
-		: T extends Timestamp | Date | SerialDate | SerialTimestamp
+		: T extends Timestamp | Date | JSONDate | JSONTimestamp
 		? Timestamp | Date
 		: T extends Record<string, unknown>
 		? {

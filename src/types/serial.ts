@@ -3,36 +3,35 @@ import { DocumentReference } from './refs'
 import { MetaType } from './metaTypeCreator'
 import { StrictPick } from './utils'
 
-declare const SerialServerTimestampSymbol: unique symbol
-declare const SerialTimestampSymbol: unique symbol
-declare const SerialDateSymbol: unique symbol
-declare const SerialGeoPointSymbol: unique symbol
-declare const SerialDocumentReferenceSymbol: unique symbol
+declare const JSONServerTimestampSymbol: unique symbol
+declare const JSONTimestampSymbol: unique symbol
+declare const JSONDateSymbol: unique symbol
+declare const JSONGeoPointSymbol: unique symbol
+declare const JSONDocumentReferenceSymbol: unique symbol
 
-type SerialServerTimestampSymbol = typeof SerialServerTimestampSymbol
-type SerialTimestampSymbol = typeof SerialTimestampSymbol
-type SerialDateSymbol = typeof SerialDateSymbol
-type SerialGeoPointSymbol = typeof SerialGeoPointSymbol
-type SerialDocumentReferenceSymbol = typeof SerialDocumentReferenceSymbol
+type JSONServerTimestampSymbol = typeof JSONServerTimestampSymbol
+type JSONTimestampSymbol = typeof JSONTimestampSymbol
+type JSONDateSymbol = typeof JSONDateSymbol
+type JSONGeoPointSymbol = typeof JSONGeoPointSymbol
+type JSONDocumentReferenceSymbol = typeof JSONDocumentReferenceSymbol
 
-declare class Serial<T> {
-	Firelord_Serial: T
+declare class JSON<T> {
+	Firelord_JSON: T
 }
 
-export interface SerialServerTimestamp
-	extends Serial<SerialServerTimestampSymbol> {}
+export interface JSONServerTimestamp extends JSON<JSONServerTimestampSymbol> {}
 
-export interface SerialDate extends Serial<SerialDateSymbol> {}
+export interface JSONDate extends JSON<JSONDateSymbol> {}
 
-export interface SerialTimestamp
+export interface JSONTimestamp
 	extends StrictPick<Timestamp, 'nanoseconds' | 'seconds'>,
-		Serial<SerialTimestampSymbol> {}
+		JSON<JSONTimestampSymbol> {}
 
-export interface SerialGeoPoint extends Serial<SerialGeoPointSymbol> {
+export interface JSONGeoPoint extends JSON<JSONGeoPointSymbol> {
 	latitude: number
 	longitude: number
 }
 
-export interface SerialDocumentReference<T extends MetaType>
+export interface JSONDocumentReference<T extends MetaType>
 	extends StrictPick<DocumentReference<T>, 'type'>,
-		Serial<SerialDocumentReferenceSymbol> {}
+		JSON<JSONDocumentReferenceSymbol> {}
