@@ -15,7 +15,7 @@ type JSONDateSymbol = typeof JSONDateSymbol
 type JSONGeoPointSymbol = typeof JSONGeoPointSymbol
 type JSONDocumentReferenceSymbol = typeof JSONDocumentReferenceSymbol
 
-declare class JSON<T> {
+export declare class JSON<T> {
 	protected Firelord_JSON: T
 }
 

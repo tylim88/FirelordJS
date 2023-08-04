@@ -21,7 +21,10 @@ import {
 	JSONServerTimestamp,
 	JSONDocumentReference,
 	JSONTimestamp,
+	JSON,
 } from '../json'
+
+export type OmitSymbol<T extends JSON<unknown>> = Omit<T, ''>
 
 type ReadConverterArray<
 	T,
@@ -46,15 +49,12 @@ type ReadConverterArray<
 				? ErrorFieldValueInArray
 				: T extends Date | Timestamp
 				? Timestamp | U
-				: T extends JSONDate | JSONTimestamp
-				? JSONTimestamp | U
-				: T extends
-						| DocumentReference<MetaType>
-						| Bytes
-						| GeoPoint
-						| JSONGeoPoint
-						| JSONDocumentReference<MetaType>
+				: T extends DocumentReference<MetaType> | Bytes | GeoPoint
 				? T | U
+				: T extends JSONDate | JSONTimestamp
+				? OmitSymbol<JSONTimestamp> | U
+				: T extends JSONGeoPoint | JSONDocumentReference<MetaType>
+				? OmitSymbol<T> | U
 				: T extends Record<string, unknown>
 				?
 						| {
@@ -90,17 +90,12 @@ export type ReadConverter<T, allFieldsPossiblyReadAsUndefined, BannedTypes> =
 					| allFieldsPossiblyReadAsUndefined
 			: T extends ServerTimestamp | Date | Timestamp
 			? Timestamp | allFieldsPossiblyReadAsUndefined
-			: T extends JSONDate | JSONTimestamp | JSONServerTimestamp
-			? JSONTimestamp
-			: T extends
-					| DocumentReference<MetaType>
-					| Bytes
-					| GeoPoint
-					| JSONGeoPoint
-					| JSONDocumentReference<MetaType>
-					| JSONDate
-					| JSONTimestamp
+			: T extends DocumentReference<MetaType> | Bytes | GeoPoint
 			? T | allFieldsPossiblyReadAsUndefined
+			: T extends JSONDate | JSONTimestamp | JSONServerTimestamp
+			? OmitSymbol<JSONTimestamp>
+			: T extends JSONGeoPoint | JSONDocumentReference<MetaType>
+			? OmitSymbol<T>
 			: T extends Record<string, unknown>
 			?
 					| {

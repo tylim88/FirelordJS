@@ -24,6 +24,7 @@ import {
 	JSONDocumentReference,
 	JSONTimestamp,
 } from '../json'
+import { OmitSymbol } from './read'
 
 describe('test Firelord type', () => {
 	it('test parents equal', () => {
@@ -861,16 +862,16 @@ describe('test Firelord type', () => {
 		type ExpectCompare = A['compare']
 
 		type Read = {
-			a: JSONTimestamp
-			b: JSONTimestamp
-			c: JSONTimestamp
-			d: JSONDocumentReference<MetaType>
-			e: JSONGeoPoint
-			f: JSONTimestamp[]
-			g: JSONTimestamp[]
+			a: OmitSymbol<JSONTimestamp>
+			b: OmitSymbol<JSONTimestamp>
+			c: OmitSymbol<JSONTimestamp>
+			d: OmitSymbol<JSONDocumentReference<MetaType>>
+			e: OmitSymbol<JSONGeoPoint>
+			f: OmitSymbol<JSONTimestamp>[]
+			g: OmitSymbol<JSONTimestamp>[]
 			h: ErrorFieldValueInArray[]
-			i: JSONDocumentReference<MetaType>[]
-			j: JSONGeoPoint[]
+			i: OmitSymbol<JSONDocumentReference<MetaType>>[]
+			j: OmitSymbol<JSONGeoPoint>[]
 		}
 
 		type Write = {
