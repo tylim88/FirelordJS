@@ -21,7 +21,7 @@ import {
 	JSONServerTimestamp,
 	JSONDocumentReference,
 	JSONTimestamp,
-} from '../serial'
+} from '../json'
 
 type CompareConverterArray<T, BannedTypes> = NoDirectNestedArray<
 	T,

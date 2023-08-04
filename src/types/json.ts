@@ -16,7 +16,7 @@ type JSONGeoPointSymbol = typeof JSONGeoPointSymbol
 type JSONDocumentReferenceSymbol = typeof JSONDocumentReferenceSymbol
 
 declare class JSON<T> {
-	Firelord_JSON: T
+	protected Firelord_JSON: T
 }
 
 export interface JSONServerTimestamp extends JSON<JSONServerTimestampSymbol> {}

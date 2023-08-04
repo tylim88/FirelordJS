@@ -23,7 +23,7 @@ import {
 	JSONServerTimestamp,
 	JSONDocumentReference,
 	JSONTimestamp,
-} from '../serial'
+} from '../json'
 
 type ArrayWriteConverter<T, BannedTypes> = NoDirectNestedArray<
 	T,

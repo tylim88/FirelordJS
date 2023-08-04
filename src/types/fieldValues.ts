@@ -1,6 +1,6 @@
 import { OriFieldValue } from './alias'
 import { ErrorArrayFieldValueEmpty } from './error'
-import { JSONServerTimestamp } from './serial'
+import { JSONServerTimestamp } from './json'
 
 declare const serverTimestampSymbol: unique symbol
 declare const deleteFieldSymbol: unique symbol

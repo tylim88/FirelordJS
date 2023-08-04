@@ -23,7 +23,7 @@ import {
 	JSONServerTimestamp,
 	JSONDocumentReference,
 	JSONTimestamp,
-} from '../serial'
+} from '../json'
 
 describe('test Firelord type', () => {
 	it('test parents equal', () => {
