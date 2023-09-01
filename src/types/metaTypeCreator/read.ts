@@ -23,8 +23,9 @@ import {
 	JSONTimestamp,
 	JSON,
 } from '../json'
+import { ReMap } from '../utils'
 
-export type OmitSymbol<T extends JSON<unknown>> = Omit<T, ''>
+export type OmitSymbol<T extends JSON<unknown>> = ReMap<Omit<T, ''>>
 
 type ReadConverterArray<
 	T,
