@@ -250,6 +250,8 @@ Object unions type was banned before v2.6.2 because it brings uncertainty that c
 
 - More in code documentation and tests.
 
+- Add support for V2 Firestore function triggers(for Firelord admin version only).
+
 ## Dropped TO DO
 
 - Support for optional (`?` modifier). Optional is a highly requested feature because of how common it is, however because of how Firestore works: it is impossible to query a missing field. Example: it is impossible to query user that has no phone number if phone number field does not exist. Because of this, it is important to make sure every field exists. You may not need the field now, but you may need it later plus adding default value is simple, especially with such powerful typing library like Firelord. So in order to not accidentally cripple your query in the future, I will not implement this feature. Yes, set merge basically lead to the same problem, hence I encourage you to use `upset` instead (will be available in the future).
@@ -259,8 +261,12 @@ Object unions type was banned before v2.6.2 because it brings uncertainty that c
 ## TO FIX
 
 1. Bytes type is not working correctly and is unusable.
-2. The rule `You can use at most one array-contains or array-contains-any clause per query. You can't combine array-contains with array-contains-any` is not enabled, see https://github.com/tylim88/FirelordJS/releases/tag/2.5.9
-3. The type check of composite query clauses value is wrong if the field is `__name__`, example: `query(collectionRef,or(where("__name__","==","something")))` result in false negative as the Firelord will ask for full path but we only need full path if the reference is group collection.
+2. The rule `You can use at most one array-contains or array-contains-any clause per query. You can't combine array-contains with array-contains-any` is not enabled, see this [release note](https://github.com/tylim88/FirelordJS/releases/tag/2.5.9)
+3. The type check of composite query (`or()` / `and()`) value is wrong if the field is `__name__` of collection reference, example: `query(collectionRef, or(where("__name__", "==", "id_only_not_full_path")))` result in false negative because Firelord will ask for full path but we only need full path if the reference is group collection.
+4. Significant lag when trying to import anything from the library.
+<!-- 5. DeleteField(field value which work only on top level property)is a valid value for all nested properties(except array because array reject field value) on `updateDoc` because `updateDoc` flatten data internally. This is not the same case with `updateDocNoFlatten` but it is using the same type logic as `updateDoc`.
+
+Background: `updateDocNoFlatten` [delete data implicitly](https://firelordjs.com/highlights/update#implicit-data-deletion) while `updateDoc` does not. This behavior is undesirable in most cases unless it is your intention to delete those keys. `updateDocNoFlatten` only work with mapped type e.g: Record<string, unknown> because Firelord requires all properties of object literal e.g: {a:1,b:2} to have default value. -->
 
 ## Trivial
 

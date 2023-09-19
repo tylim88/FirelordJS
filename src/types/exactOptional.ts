@@ -71,7 +71,15 @@ export type ExactOptional<
 	: keyof Data extends keyof T
 	? {
 			[K in keyof T & keyof Data]?: DeepValue<T, K & string> extends infer S
-				? S[] extends Record<string, unknown>[]
+				? S[] extends (infer BaseKeyElement)[][] | ArrayUnionOrRemove<unknown>[]
+					? Data[K] extends (infer DataKeyElement)[]
+						? Data[K] extends never[] // https://stackoverflow.com/questions/71193522/typescript-inferred-never-is-not-never
+							? S
+							: DataKeyElement extends BaseKeyElement
+							? ExactOptionalArray<BaseKeyElement, DataKeyElement>[]
+							: BaseKeyElement[]
+						: IsSetDeleteAbleFieldValueValid<S, Data[K], K & string, Merge>
+					: S extends Record<string, unknown>
 					? Data[K] extends infer R
 						? R extends Record<string, unknown>
 							? ExactOptional<
@@ -83,16 +91,6 @@ export type ExactOptional<
 							  >
 							: S
 						: never
-					: S[] extends
-							| (infer BaseKeyElement)[][]
-							| ArrayUnionOrRemove<unknown>[]
-					? Data[K] extends (infer DataKeyElement)[]
-						? Data[K] extends never[] // https://stackoverflow.com/questions/71193522/typescript-inferred-never-is-not-never
-							? S
-							: DataKeyElement extends BaseKeyElement
-							? ExactOptionalArray<BaseKeyElement, DataKeyElement>[]
-							: BaseKeyElement[]
-						: IsSetDeleteAbleFieldValueValid<S, Data[K], K & string, Merge>
 					: Data[K] extends Delete
 					? NoFlatten extends true
 						? TopLevel extends false
