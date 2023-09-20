@@ -4,6 +4,7 @@ import {
 	ErrorEmptyUpdate,
 	ErrorUnknownMember,
 	ErrorNonTopLevelDeleteField,
+	ErrorKeyNotExist,
 } from './error'
 import { ArrayUnionOrRemove, Delete } from './fieldValues'
 import { DeepValue } from './objectFlatten'
@@ -71,7 +72,11 @@ export type ExactOptional<
 	: keyof Data extends keyof T
 	? {
 			[K in keyof T & keyof Data]?: DeepValue<T, K & string> extends infer S
-				? S[] extends (infer BaseKeyElement)[][] | ArrayUnionOrRemove<unknown>[]
+				? unknown extends S
+					? ErrorKeyNotExist<K & string>
+					: S[] extends
+							| (infer BaseKeyElement)[][]
+							| ArrayUnionOrRemove<unknown>[]
 					? Data[K] extends (infer DataKeyElement)[]
 						? Data[K] extends never[] // https://stackoverflow.com/questions/71193522/typescript-inferred-never-is-not-never
 							? S

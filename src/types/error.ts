@@ -96,6 +96,8 @@ export type ErrorDocIdIncorrectType =
 	'Error: DocId must be single/multiple argument of string or CollectionReference'
 export type ErrorOnSnapshotLastArg =
 	'Error onSnapshot 4th argument must be empty if 3rd argument is { includeMetadataChanges: boolean }'
+export type ErrorKeyNotExist<T extends string> =
+	`Error: The key '${T}' does not exist`
 
 export type ErrorMsgs =
 	| ErrorUndefined
@@ -141,6 +143,7 @@ export type ErrorMsgs =
 	| ErrorNonTopLevelDeleteField
 	| ErrorDocIdIncorrectType
 	| ErrorOnSnapshotLastArg
+	| ErrorKeyNotExist<string>
 
 // unused
 export type ReplaceErrorMsgsWithNever<T> = T extends ErrorMsgs ? never : T
