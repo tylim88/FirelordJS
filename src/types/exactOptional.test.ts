@@ -45,4 +45,20 @@ describe('test exact optional', () => {
 			>
 		>()
 	})
+
+	it('test mapped type', () => {
+		IsTrue<
+			IsSame<
+				ExactOptional<Record<string, number>, { a: 1 }, false, false, true>,
+				{ a?: number }
+			>
+		>()
+
+		IsTrue<
+			IsSame<
+				ExactOptional<Record<string, 1>, { a: 2 }, false, false, true>,
+				{ a?: 1 }
+			>
+		>()
+	})
 })
