@@ -72,4 +72,17 @@ describe('test updateNoFlatten transaction', () => {
 			})
 		}
 	})
+
+	it('test empty object, should pass', async () => {
+		const docRef = userRefCreator().doc(
+			'FirelordTest',
+			'updateTransactionTestCaseEmpty'
+		)
+		await setDoc(docRef, generateRandomData())
+		expect.assertions(1)
+		await runTransaction(async transaction => {
+			const result = transaction.updateNoFlatten(docRef, {})
+			expect(result).toBe(undefined)
+		})
+	})
 })

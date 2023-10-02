@@ -11,7 +11,7 @@ import { WriteBatch } from '../batch'
 type SetCreator<U> = <
 	T extends MetaType,
 	// https://stackoverflow.com/questions/71223634/typescript-interface-causing-type-instantiation-is-excessively-deep-and-possibl
-	Data extends Record<string, unknown>,
+	const Data extends Record<string, unknown>,
 	SetOptions extends
 		| {
 				merge: boolean

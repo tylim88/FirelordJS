@@ -7,7 +7,7 @@ import { MetaType } from '../metaTypeCreator'
 
 export type UpdateCreator<U, NoFlatten extends boolean> = <
 	T extends MetaType,
-	Data extends DocumentData
+	const Data extends DocumentData
 >(
 	reference: DocumentReference<T>,
 	data: Data extends never

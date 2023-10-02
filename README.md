@@ -94,7 +94,7 @@
 </div>
 <br/>
 
-v2.6 will focus on improving JSDoc and removing function overloading
+v2.6 focuses on fixing bugs, improving JSDoc and removing function overloading
 
 # FirelordJS
 

@@ -57,4 +57,12 @@ export type DeepPartial<T> = {
 		: T[K]
 }
 
+export type DeepPartialExceptArray<T> = T extends (infer A)[]
+	? T
+	: {
+			[K in keyof T]?: T[K] extends Record<string, unknown>
+				? DeepPartial<T[K]>
+				: T[K]
+	  }
+
 export type EmptyObject = NonNullable<unknown>

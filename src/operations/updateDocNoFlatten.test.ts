@@ -19,7 +19,7 @@ import {
 	IsTrue,
 	IsSame,
 	ErrorUnknownMember,
-	DeepPartial,
+	DeepPartialExceptArray,
 } from '../types'
 
 initializeApp()
@@ -45,7 +45,7 @@ describe('test updateDocNoFlatten', () => {
 	})
 
 	it('test accept optional type, must turn on exactOptionalPropertyTypes config', () => {
-		const a = {} as unknown as DeepPartial<User['writeFlatten']>
+		const a = {} as unknown as DeepPartialExceptArray<User['writeFlatten']>
 
 		;() => updateDocNoFlatten(userRefCreator().doc('FirelordTest', '123'), a)
 	})
@@ -132,24 +132,21 @@ describe('test updateDocNoFlatten', () => {
 				stale2
 			)
 	})
-	it('test empty object literal data', () => {
+	it('test empty object literal data, should pass', () => {
 		// @ts-expect-error
 		;() => updateDocNoFlatten(userRefCreator().doc('123'), {})
 		;() =>
 			updateDocNoFlatten(userRefCreator().doc('FirelordTest', '123'), {
-				// @ts-expect-error
 				a: {},
 			})
 		;() =>
 			updateDocNoFlatten(userRefCreator().doc('FirelordTest', '123'), {
 				a: {
-					// @ts-expect-error
 					i: {},
 				},
 			})
 		;() =>
 			updateDocNoFlatten(userRefCreator().doc('FirelordTest', '123'), {
-				// @ts-expect-error
 				'a.i': {},
 			})
 	})
@@ -192,7 +189,7 @@ describe('test updateDocNoFlatten', () => {
 			a: { e: arrayUnion(...['1']), 'b.c': 1 },
 			'a.k': serverTimestamp(),
 			unknown: '123',
-		}
+		} as const
 		;() =>
 			updateDocNoFlatten(
 				userRefCreator().doc('FirelordTest', '123'),
@@ -252,11 +249,7 @@ describe('test updateDocNoFlatten', () => {
 		deleteDoc(docRef)
 		expect.assertions(1)
 		try {
-			await updateDocNoFlatten(
-				docRef,
-				// @ts-expect-error
-				{}
-			)
+			await updateDocNoFlatten(docRef, {})
 		} catch (e) {
 			expect(true).toBe(true)
 		}

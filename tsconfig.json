@@ -23,7 +23,8 @@
 		"exactOptionalPropertyTypes": true,
 		"moduleResolution": "node",
 		"types": ["vitest/globals"],
-		"skipLibCheck": true
+		"skipLibCheck": true,
+		"noErrorTruncation": true
 	},
 	"include": ["src"]
 }
