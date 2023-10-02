@@ -81,8 +81,11 @@ describe('test updateNoFlatten transaction', () => {
 		await setDoc(docRef, generateRandomData())
 		expect.assertions(1)
 		await runTransaction(async transaction => {
-			const result = transaction.updateNoFlatten(docRef, {})
-			expect(result).toBe(undefined)
+			transaction.updateNoFlatten(
+				docRef,
+				// @ts-expect-error
+				{}
+			)
 		})
 	})
 })

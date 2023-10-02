@@ -249,7 +249,11 @@ describe('test updateDocNoFlatten', () => {
 		deleteDoc(docRef)
 		expect.assertions(1)
 		try {
-			await updateDocNoFlatten(docRef, {})
+			await updateDocNoFlatten(
+				docRef,
+				// @ts-expect-error
+				{}
+			)
 		} catch (e) {
 			expect(true).toBe(true)
 		}

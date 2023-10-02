@@ -21,14 +21,8 @@ export type UpdateNoFlatten = UpdateCreator<Promise<void>, true>
 
 export type TransactionUpdate = UpdateCreator<Transaction, false>
 
-export type TransactionUpdateNoFlatten = UpdateCreator<
-	Transaction | undefined,
-	true
->
+export type TransactionUpdateNoFlatten = UpdateCreator<Transaction, true>
 
 export type WriteBatchUpdate = UpdateCreator<WriteBatch, false>
 
-export type WriteBatchUpdateNoFlatten = UpdateCreator<
-	WriteBatch | undefined,
-	true
->
+export type WriteBatchUpdateNoFlatten = UpdateCreator<WriteBatch, true>

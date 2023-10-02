@@ -67,7 +67,13 @@ export type ExactOptional<
 	Merge extends boolean | string[], // this is for set merge operation only
 	NoFlatten extends boolean,
 	TopLevel extends boolean
-> = Data extends (NoFlatten extends true ? never : Record<string, never>)
+> = Data extends (
+	NoFlatten extends true
+		? TopLevel extends true
+			? Record<string, never>
+			: never
+		: Record<string, never>
+)
 	? ErrorEmptyUpdate
 	: keyof Data extends keyof T
 	? {

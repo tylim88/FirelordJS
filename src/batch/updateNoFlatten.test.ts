@@ -70,7 +70,10 @@ describe('test updateNoFlatten batch', () => {
 			'FirelordTest',
 			'updateBatchTestCaseEmpty'
 		)
-		const result = batch.updateNoFlatten(docRef, {})
-		expect(result).toBe(undefined)
+		batch.updateNoFlatten(
+			docRef,
+			// @ts-expect-error
+			{}
+		)
 	})
 })
