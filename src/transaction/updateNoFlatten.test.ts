@@ -74,6 +74,7 @@ describe('test updateNoFlatten transaction', () => {
 	})
 
 	it('test empty object, should pass', async () => {
+		// ! client transaction update can accept top level empty object, inconsistency behavior
 		const docRef = userRefCreator().doc(
 			'FirelordTest',
 			'updateTransactionTestCaseEmpty'
@@ -87,5 +88,6 @@ describe('test updateNoFlatten transaction', () => {
 				{}
 			)
 		})
+		expect(true).toBe(true)
 	})
 })
