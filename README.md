@@ -264,7 +264,6 @@ Object unions type was banned before v2.6.2 because it brings uncertainty that c
 2. The rule `You can use at most one array-contains or array-contains-any clause per query. You can't combine array-contains with array-contains-any` is not enabled, see this [release note](https://github.com/tylim88/FirelordJS/releases/tag/2.5.9)
 3. The type check of composite query (`or()` / `and()`) value is wrong if the field is `__name__` of collection reference, example: `query(collectionRef, or(where("__name__", "==", "id_only_not_full_path")))` result in false negative because Firelord will ask for full path but we only need full path if the reference is group collection.
 4. Significant lag when trying to import anything from the library.
-5. The type of dynamic object key is not working properly if the type is mapped type, e.g. `updateDoc(ref, { a:{ [b]:1 } })` where the type is `{ a:Record<string,number> }`.
 
 ## Trivial
 
