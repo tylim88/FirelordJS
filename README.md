@@ -285,7 +285,7 @@ We are creating the best type safety tool chains for Firebase, and your support 
 🔥 - Maintaining  
 🏗️ - Building  
 🛑 - On Hold  
-❓ - May Discontinue/Cancel
+❓ - May Discontinue/Cancel  
 ❌ - Cancelled
 
 1. [FirelordJS](https://github.com/tylim88/FirelordJS) - Typescript wrapper for Firestore Web. ✅🔥
