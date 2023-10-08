@@ -94,8 +94,6 @@
 </div>
 <br/>
 
-v2.6 focuses on fixing bugs, improving JSDoc and removing function overloading
-
 # FirelordJS
 
 FirelordJS is the only library capable of providing truly generic type safety while exposing almost all the API of the official Firestore SDK. The goal is to end Firestore typing madness.
@@ -111,30 +109,28 @@ Example of how Firelord transforms `ServerTimestamp` type in different operation
 
 FirelordJS:
 
-- Learning curve is the lowest (API is nearly identical to the original API).
+- Lowest learning curve. API is nearly identical to the original API and simpler: Eliminates the repetitive tasks of writing collections ID and assigning the Firestore instance.
 - Technical debt is the lowest (easy to revert to the official API).
 - Minimum types creation and no type assertion.
-- Offers truly generic type safe solutions, declare any data shape.
+- Offers truly generic type safe solutions, declare any data shape and unions.
 - Supports deeply nested object type: `Record<string,Record<string,Record<string,...>>>`, max 1000 levels.
 - Supports deeply [nested sub collection](https://firelordjs.com/guides/metatype), all children can [track back](https://firelordjs.com/guides/metatype/#know-your-ancestors) all their ancestors type, max 100 generations.
 - Generates all possible flatten paths combinations based on your declared type(e.g.: `a`, `a.b`, `a.b.c`, `a.b.d`, `a.x`, `a.x.y`, `a.x.z`) with type safety.
 - Generates different types for different operations, see [Transformative Types](https://firelordjs.com/highlights/transformative_types) for complete list of type transformations.
 - Package size is the [smallest](https://firelordjs.com/minified_size).
-- Doesn't need code generation and schema language, just pure Typescript.
+- Don't need code generation and domain specific language, just pure Typescript all the way.
 - Supports [@firebase/rules-unit-testing and emulator](https://firelordjs.com/guides/tests), no extra API is needed!
-- Is tested beyond source code, we also test built files and published package. (test source code -> build -> test built files -> publish -> test published)
+- Beyond source code testing, we also test built files and published package. (test source code -> build -> test built files -> publish -> test published files)
 - No mock test, all 250 tests test against live database to ensure the highest certainty.
-- Takes care pesky runtime errors like empty array errors([filter](https://firelordjs.com/highlights/where#dealing-with-empty-array-%EF%B8%8F) & [cursors](https://firelordjs.com/highlights/cursor#empty-rest-parameter)) and [implicit data deletion in update operation](https://firelordjs.com/highlights/update#implicit-data-deletion).
-- Eliminates the repetitive tasks of writing collections ID and assigning the Firestore instance.
-- Blocks undocumented errors and provides over [30 custom error messages](https://github.com/tylim88/FirelordJS/blob/main/src/types/error.ts) to assist you in writing proper Firestore code! Here is an example:
+
+Firelord is the only library capable of **[typing against](https://firelordjs.com/highlights/query_rule_typing)** Firestore limitations. It also blocks undocumented errors and prevent pesky runtime errors like empty array errors([filter](https://firelordjs.com/highlights/where#dealing-with-empty-array-%EF%B8%8F) & [cursors](https://firelordjs.com/highlights/cursor#empty-rest-parameter)) and [implicit data deletion in update operation](https://firelordjs.com/highlights/update#implicit-data-deletion). Firelord provides over [30 custom error messages](https://github.com/tylim88/FirelordJS/blob/main/src/types/error.ts) to assist you in writing proper Firestore code! Here is an example:
+
 <p align="center">				
 	<img
 		src="https://github.com/tylim88/FirelordJS/blob/main/img/custom.png?raw=true"
 		alt="Example of how Firelord handles `ServerTimestamp` type in different operations"
 	/>
 </p>
-
-FirelordJS is the only library capable of **[typing against](https://firelordjs.com/highlights/query_rule_typing)** Firestore limitations.
 
 ## Bounty
 

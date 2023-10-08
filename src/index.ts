@@ -6,6 +6,7 @@ import {
 	andCreator,
 	orCreator,
 } from './refs'
+import { Timestamp } from 'firebase/firestore'
 
 export const getFirelordShakable: GetFirelordShakable =
 	({
@@ -48,6 +49,16 @@ export const getFirelord = getFirelordShakable({
 	andCreator,
 	orCreator,
 })
+
+export const toTimestamp = ({
+	seconds,
+	nanoseconds,
+}: {
+	seconds: number
+	nanoseconds: number
+}) => {
+	return new Timestamp(seconds, nanoseconds)
+}
 
 export {
 	getFirestore,
