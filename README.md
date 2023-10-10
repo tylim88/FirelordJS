@@ -143,7 +143,7 @@ The bounty has been available and keeps increasing since July 14, 2022.
 
 ## Nested Composite Query Rulings
 
-(Web version's issue only, admin can skip this section)
+(Web feature only, admin can skip this section)
 
 Rulings for `or` & `and` composite query are ready, rulings works with nested query, example:
 
