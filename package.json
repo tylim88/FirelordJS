@@ -1,7 +1,9 @@
 {
 	"name": "firelordjs",
-	"version": "2.6.21",
+	"version": "2.6.22",
 	"description": "🔥 High Precision Typescript Wrapper for Firestore Web, Providing Unparalleled Type Safe and Dev Experience",
+	"author": "tylim",
+	"license": "MIT",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"files": [
@@ -49,7 +51,6 @@
 		"type": "git",
 		"url": "git+https://github.com/tylim88/firelordjs.git"
 	},
-	"license": "MIT",
 	"bugs": {
 		"url": "https://github.com/tylim88/firelordjs/issues"
 	},
@@ -100,5 +101,8 @@
 	},
 	"peerDependencies": {
 		"firebase": "^10.0.0"
+	},
+	"dependencies": {
+		"firelord-core": "^1.0.1"
 	}
 }

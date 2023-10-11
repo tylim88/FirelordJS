@@ -1,12 +1,13 @@
 import { OriFieldValue } from './alias'
 import { ErrorArrayFieldValueEmpty } from './error'
 import { JSONServerTimestamp } from './json'
-
-declare const serverTimestampSymbol: unique symbol
-declare const deleteFieldSymbol: unique symbol
-declare const incrementSymbol: unique symbol
-declare const possiblyReadAsUndefinedSymbol: unique symbol
-declare const arraySymbol: unique symbol
+import type {
+	serverTimestampSymbol,
+	deleteFieldSymbol,
+	incrementSymbol,
+	possiblyReadAsUndefinedSymbol,
+	arraySymbol,
+} from 'firelord-core'
 
 type ServerTimestampSymbol = typeof serverTimestampSymbol
 type DeleteSymbol = typeof deleteFieldSymbol

@@ -174,7 +174,6 @@ describe('test Firelord type', () => {
 		} & __name__Record
 
 		type Read = A['read']
-		//   ^?
 		type Write = A['write']
 		type WriteFlatten = A['writeFlatten']
 		type Compare = A['compare']
