@@ -1,6 +1,6 @@
 {
 	"name": "firelordjs",
-	"version": "2.6.22",
+	"version": "2.6.23",
 	"description": "🔥 High Precision Typescript Wrapper for Firestore Web, Providing Unparalleled Type Safe and Dev Experience",
 	"author": "tylim",
 	"license": "MIT",
@@ -101,8 +101,5 @@
 	},
 	"peerDependencies": {
 		"firebase": "^10.0.0"
-	},
-	"dependencies": {
-		"firelord-core": "^1.0.1"
 	}
 }

@@ -74,7 +74,7 @@ export type ExactOptional<
 			: never
 		: Record<string, never>
 )
-	? ErrorEmptyUpdate
+	? ErrorEmptyUpdate | T
 	: keyof Data extends keyof T
 	? {
 			[K in keyof T]?: K extends keyof Data
