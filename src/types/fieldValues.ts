@@ -2,11 +2,17 @@ import { OriFieldValue } from './alias'
 import { ErrorArrayFieldValueEmpty } from './error'
 import { JSONServerTimestamp } from './json'
 
-type ServerTimestampSymbol = 'Y$9aL#3pGvRiWt1*7cXzQ2h4OuPn0BdLxIe5mFy8'
-type DeleteSymbol = '6Ks@MfVtRjDqYw7HlXvN2n1UgEzIx4bZo8yT3eCmA'
-type IncrementSymbol = 'W#x7Lm5TzFhPdQr0JpS2OuGvY8c3A6XeNkVbIaRlE'
-type PossiblyReadAsUndefinedSymbol = 'b#9RyFgA2KpWt7CzVn6D3UjOqLxPm5eH1s4IiYvXw'
-type ArraySymbol = 'Z5TgNf$2O7mW9lLxIeS3KvQcXzPdJyRb0uA8h1VrY'
+declare const serverTimestampSymbol: unique symbol
+declare const deleteFieldSymbol: unique symbol
+declare const incrementSymbol: unique symbol
+declare const possiblyReadAsUndefinedSymbol: unique symbol
+declare const arraySymbol: unique symbol
+
+type ServerTimestampSymbol = typeof serverTimestampSymbol
+type DeleteSymbol = typeof deleteFieldSymbol
+type IncrementSymbol = typeof incrementSymbol
+type PossiblyReadAsUndefinedSymbol = typeof possiblyReadAsUndefinedSymbol
+type ArraySymbol = typeof arraySymbol
 
 declare class FieldValue<T> {
 	protected 'Firelord_FieldValue_Do_Not_Access': T
