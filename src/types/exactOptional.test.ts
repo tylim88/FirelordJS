@@ -80,6 +80,40 @@ describe('test exact optional', () => {
 
 		IsTrue<
 			IsSame<
+				ExactOptional<
+					Record<string, number>,
+					{ [x: string]: 1 },
+					false,
+					false,
+					true
+				>,
+				{ [x: string]: number | undefined }
+			>
+		>()
+		IsTrue<
+			IsSame<
+				ExactOptional<Record<string, 1>, { a: 2 }, false, false, true>,
+				{ [x: string]: 1 | undefined }
+			>
+		>()
+	})
+
+	it('test nested mapped type', () => {
+		IsTrue<
+			IsSame<
+				ExactOptional<
+					{ a: Record<string, number> },
+					{ a: { [x in string]: number } },
+					false,
+					false,
+					true
+				>,
+				{ a?: { [x: string]: number | undefined } }
+			>
+		>()
+
+		IsTrue<
+			IsSame<
 				ExactOptional<Record<string, 1>, { a: 2 }, false, false, true>,
 				{ [x: string]: 1 | undefined }
 			>
