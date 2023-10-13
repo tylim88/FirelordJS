@@ -114,7 +114,7 @@ export type ExactOptional<
 export type RecursivelyReplaceDeleteFieldWithErrorMsg<T, Data> =
 	T extends Record<string, unknown>
 		? Data extends Record<string, unknown>
-			? keyof Data extends keyof T
+			? keyof Data extends (string extends keyof T ? string | number : keyof T)
 				? {
 						[K in keyof T]: K extends string
 							? K extends keyof Data

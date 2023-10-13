@@ -1,4 +1,8 @@
-import { ExactOptional, HandleUnknownMember } from './exactOptional'
+import {
+	ExactOptional,
+	HandleUnknownMember,
+	RecursivelyReplaceDeleteFieldWithErrorMsg,
+} from './exactOptional'
 import { IsTrue, IsSame } from './utils'
 import { ServerTimestamp } from './fieldValues'
 
@@ -131,6 +135,114 @@ describe('test exact optional', () => {
 			IsSame<
 				ExactOptional<Record<string, 1>, { a: 2 }, false, false, true>,
 				{ [x: string]: 1 | undefined }
+			>
+		>()
+	})
+})
+
+describe('test RecursivelyReplaceDeleteFieldWithErrorMsg', () => {
+	it('test union of primitive type with oject literal', () => {
+		IsTrue<
+			IsSame<
+				RecursivelyReplaceDeleteFieldWithErrorMsg<
+					{ a: false | { b: 1; c: 2 } },
+					{ a: false | { b: 1; c: 2 } }
+				>,
+				{ a: false | { b: 1; c: 2 } }
+			>
+		>()
+
+		IsTrue<
+			IsSame<
+				RecursivelyReplaceDeleteFieldWithErrorMsg<
+					{ a: false | { b: 1; c: 2 } },
+					{ a: false | { b: 1 } }
+				>,
+				{
+					a:
+						| false
+						| {
+								b: 1
+								c: 2
+						  }
+				}
+			>
+		>()
+	})
+
+	it('test nested key unknown member', () => {
+		IsTrue<
+			IsSame<
+				RecursivelyReplaceDeleteFieldWithErrorMsg<
+					{ a: false | { b: 1; c: 2 } },
+					{ a: false | { b: 1; d: 3 } }
+				>,
+				{
+					a:
+						| false
+						| {
+								b: 1
+								c: 2
+						  }
+				}
+			>
+		>()
+	})
+
+	it('test mapped type', () => {
+		IsTrue<
+			IsSame<
+				RecursivelyReplaceDeleteFieldWithErrorMsg<
+					Record<string, number>,
+					{ a: 1 }
+				>,
+				{ [x: string]: number }
+			>
+		>()
+
+		IsTrue<
+			IsSame<
+				RecursivelyReplaceDeleteFieldWithErrorMsg<
+					Record<string, number>,
+					{ [x: string]: 1 }
+				>,
+				{ [x: string]: number }
+			>
+		>()
+
+		IsTrue<
+			IsSame<
+				RecursivelyReplaceDeleteFieldWithErrorMsg<Record<string, 1>, { a: 2 }>,
+				{ [x: string]: 1 }
+			>
+		>()
+	})
+
+	it('test nested mapped type', () => {
+		IsTrue<
+			IsSame<
+				RecursivelyReplaceDeleteFieldWithErrorMsg<
+					{ a: Record<string, number> },
+					{ a: { [x in string]: number } }
+				>,
+				{ a: { [x: string]: number } }
+			>
+		>()
+
+		IsTrue<
+			IsSame<
+				RecursivelyReplaceDeleteFieldWithErrorMsg<
+					{ a: Record<string, ServerTimestamp> },
+					{ a: { [x: string]: ServerTimestamp } }
+				>,
+				{ a: { [x: string]: ServerTimestamp } }
+			>
+		>()
+
+		IsTrue<
+			IsSame<
+				RecursivelyReplaceDeleteFieldWithErrorMsg<Record<string, 1>, { a: 2 }>,
+				{ [x: string]: 1 }
 			>
 		>()
 	})
