@@ -4,6 +4,7 @@ import { queryBuilder } from './utils'
 
 export const andCreator: AndCreator =
 	() =>
+	// @ts-expect-error
 	(...queryConstraints) => {
 		const constraints = queryBuilder(queryConstraints)
 		return {
@@ -15,6 +16,7 @@ export const andCreator: AndCreator =
 
 export const orCreator: OrCreator =
 	() =>
+	// @ts-expect-error
 	(...queryConstraints) => {
 		const constraints = queryBuilder(queryConstraints)
 		return {

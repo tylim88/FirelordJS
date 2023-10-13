@@ -75,7 +75,7 @@ export type ExactOptional<
 		: Record<string, never>
 )
 	? ErrorEmptyUpdate | T
-	: keyof Data extends keyof T
+	: keyof Data extends (string extends keyof T ? string | number : keyof T)
 	? {
 			[K in keyof T]?: K extends keyof Data
 				? DeepValue<T, K & string> extends infer S
@@ -107,24 +107,6 @@ export type ExactOptional<
 					: T[K]
 				: T[K]
 	  }
-	: string extends keyof T
-	? string | number extends keyof Data
-		? {
-				[J in string]?: T[string] extends Record<string, unknown>
-					? Data[string] extends Record<string, unknown>
-						? {
-								[K in string]?: ExactOptional<
-									T[string],
-									Data[string],
-									Merge,
-									NoFlatten,
-									false
-								>
-						  }
-						: T[string]
-					: T[string]
-		  }
-		: HandleUnknownMember<T, Data>
 	: HandleUnknownMember<T, Data>
 
 // dont need recursive as deleteField only work on top level, but this is more future proof

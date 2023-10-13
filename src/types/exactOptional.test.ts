@@ -1,5 +1,6 @@
 import { ExactOptional, HandleUnknownMember } from './exactOptional'
 import { IsTrue, IsSame } from './utils'
+import { ServerTimestamp } from './fieldValues'
 
 describe('test exact optional', () => {
 	it('test union of primitive type with oject literal', () => {
@@ -90,6 +91,7 @@ describe('test exact optional', () => {
 				{ [x: string]: number | undefined }
 			>
 		>()
+
 		IsTrue<
 			IsSame<
 				ExactOptional<Record<string, 1>, { a: 2 }, false, false, true>,
@@ -109,6 +111,19 @@ describe('test exact optional', () => {
 					true
 				>,
 				{ a?: { [x: string]: number | undefined } }
+			>
+		>()
+
+		IsTrue<
+			IsSame<
+				ExactOptional<
+					{ a: Record<string, ServerTimestamp> },
+					{ a: { [x: string]: ServerTimestamp } },
+					false,
+					false,
+					true
+				>,
+				{ a?: { [x: string]: ServerTimestamp | undefined } | undefined }
 			>
 		>()
 

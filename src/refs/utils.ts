@@ -18,12 +18,13 @@ export const queryBuilder = (
 		| QueryAllConstraints<MetaType>[]
 		| QueryFilterConstraints<MetaType>[]
 ) =>
-	// @ts-expect-error
 	queryConstraints.reduce((acc, qc) => {
 		const type = qc.type
 		;(['startAt', 'startAfter', 'endAt', 'endBefore'].includes(type)
-			? qc.values.length > 0
-			: true) && acc.push(qc.ref)
+			? // @ts-expect-error
+			  qc.values.length > 0
+			: // @ts-expect-error
+			  true) && acc.push(qc.ref)
 
 		return acc
 	}, [])
