@@ -7,6 +7,35 @@ import { IsTrue, IsSame } from './utils'
 import { ServerTimestamp } from './fieldValues'
 
 describe('test exact optional', () => {
+	it('test discriminated union', () => {
+		IsTrue<
+			IsSame<
+				ExactOptional<
+					{ a: { b: 0; d: 1 } | { b: 1; c: 2 } },
+					{ a: { b: 0; d: 1 } },
+					false,
+					false,
+					true
+				>,
+				{
+					a?:
+						| { b?: 0; d?: 1 }
+						| HandleUnknownMember<
+								// TODO remove this extra type
+								{
+									b: 1
+									c: 2
+								},
+								{
+									b: 0
+									d: 1
+								}
+						  >
+				}
+			>
+		>()
+	})
+
 	it('test union of primitive type with oject literal', () => {
 		IsTrue<
 			IsSame<
@@ -141,6 +170,30 @@ describe('test exact optional', () => {
 })
 
 describe('test RecursivelyReplaceDeleteFieldWithErrorMsg', () => {
+	it('test discriminated union', () => {
+		IsTrue<
+			IsSame<
+				RecursivelyReplaceDeleteFieldWithErrorMsg<
+					{ a: { b: 0; d: 1 } | { b: 1; c: 2 } },
+					{ a: { b: 0; d: 1 } }
+				>,
+				{
+					a:
+						| { b: 0; d: 1 }
+						| HandleUnknownMember<
+								{
+									b: 1
+									c: 2
+								},
+								{
+									b: 0
+									d: 1
+								}
+						  >
+				}
+			>
+		>()
+	})
 	it('test union of primitive type with oject literal', () => {
 		IsTrue<
 			IsSame<
