@@ -11,6 +11,30 @@ describe('test exact optional', () => {
 		IsTrue<
 			IsSame<
 				ExactOptional<
+					{ b: 0; d: 1 } | { b: 1; c: 2 },
+					{ b: 0; d: 1 },
+					false,
+					false,
+					true
+				>,
+				| { b?: 0; d?: 1 }
+				| HandleUnknownMember<
+						// TODO remove this extra type
+						{
+							b: 1
+							c: 2
+						},
+						{
+							b: 0
+							d: 1
+						}
+				  >
+			>
+		>()
+
+		IsTrue<
+			IsSame<
+				ExactOptional<
 					{ a: { b: 0; d: 1 } | { b: 1; c: 2 } },
 					{ a: { b: 0; d: 1 } },
 					false,
@@ -171,6 +195,26 @@ describe('test exact optional', () => {
 
 describe('test RecursivelyReplaceDeleteFieldWithErrorMsg', () => {
 	it('test discriminated union', () => {
+		IsTrue<
+			IsSame<
+				RecursivelyReplaceDeleteFieldWithErrorMsg<
+					{ b: 0; d: 1 } | { b: 1; c: 2 },
+					{ b: 0; d: 1 }
+				>,
+				| { b: 0; d: 1 }
+				| HandleUnknownMember<
+						{
+							b: 1
+							c: 2
+						},
+						{
+							b: 0
+							d: 1
+						}
+				  >
+			>
+		>()
+
 		IsTrue<
 			IsSame<
 				RecursivelyReplaceDeleteFieldWithErrorMsg<
