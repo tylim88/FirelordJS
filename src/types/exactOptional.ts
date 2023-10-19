@@ -8,15 +8,18 @@ import {
 } from './error'
 import { ArrayUnionOrRemove, Delete } from './fieldValues'
 import { DeepValue } from './objectFlatten'
+import { DeepPartialExceptArray, ReMap, RemoveOptionalNever } from './utils'
 
-export type HandleUnknownMember<T extends Record<string, unknown>, Data> = Omit<
-	Data,
-	Exclude<keyof Data, keyof T>
-> & {
-	[K in Exclude<keyof Data, keyof T>]: ErrorUnknownMember<K> extends Data[K]
-		? never
-		: ErrorUnknownMember<K>
-}
+export type HandleUnknownMember<
+	T extends Record<string, unknown>,
+	Data
+> = ReMap<
+	Omit<Data, Exclude<keyof Data, keyof T>> & {
+		[K in Exclude<keyof Data, keyof T>]: ErrorUnknownMember<K> extends Data[K]
+			? never
+			: ErrorUnknownMember<K>
+	}
+>
 
 type IsSetDeleteAbleFieldValueValid<
 	T,
@@ -63,53 +66,60 @@ type ExactOptionalArray<T, Data> = T extends (infer ElementOfBase)[]
 // type checking for non-array in update operation
 export type ExactOptional<
 	T extends Record<string, unknown>,
-	Data extends Record<string, unknown>,
+	Data_ extends Record<string, unknown>,
 	Merge extends boolean | string[], // this is for set merge operation only
 	NoFlatten extends boolean,
 	TopLevel extends boolean
 > = T extends never
 	? T
-	: Data extends (
+	: RemoveOptionalNever<Data_> extends infer Data
+	? Data extends (
 			NoFlatten extends true
 				? TopLevel extends true
 					? Record<string, never>
 					: never
 				: Record<string, never>
 	  )
-	? ErrorEmptyUpdate | T
-	: keyof Data extends (string extends keyof T ? string | number : keyof T)
-	? {
-			[K in keyof T]?: K extends keyof Data
-				? DeepValue<T, K & string> extends infer S
-					? unknown extends S
-						? ErrorKeyNotExist<K & string>
-						: S[] extends
-								| (infer BaseKeyElement)[][]
-								| ArrayUnionOrRemove<unknown>[]
-						? Data[K] extends (infer DataKeyElement)[]
-							? Data[K] extends never[] // https://stackoverflow.com/questions/71193522/typescript-inferred-never-is-not-never
-								? S
-								: DataKeyElement extends BaseKeyElement
-								? ExactOptionalArray<BaseKeyElement, DataKeyElement>[]
-								: BaseKeyElement[]
-							: IsSetDeleteAbleFieldValueValid<S, Data[K], K & string, Merge>
-						: S extends Record<string, unknown>
-						? Data[K] extends infer R
-							? R extends Record<string, unknown>
-								? ExactOptional<S, R, Merge, NoFlatten, false>
-								: S
-							: never
-						: Data[K] extends Delete
-						? NoFlatten extends true
-							? TopLevel extends false
-								? ErrorNonTopLevelDeleteField
+		? ErrorEmptyUpdate | T
+		: keyof Data extends (string extends keyof T ? string | number : keyof T)
+		? {
+				[K in keyof T]?: K extends keyof Data
+					? DeepValue<T, K & string> extends infer S
+						? unknown extends S
+							? ErrorKeyNotExist<K & string>
+							: S[] extends
+									| (infer BaseKeyElement)[][]
+									| ArrayUnionOrRemove<unknown>[]
+							? Data[K] extends (infer DataKeyElement)[]
+								? Data[K] extends never[] // https://stackoverflow.com/questions/71193522/typescript-inferred-never-is-not-never
+									? DeepPartialExceptArray<S>
+									: DataKeyElement extends BaseKeyElement
+									? ExactOptionalArray<BaseKeyElement, DataKeyElement>[]
+									: BaseKeyElement[]
+								: IsSetDeleteAbleFieldValueValid<S, Data[K], K & string, Merge>
+							: S extends Record<string, unknown>
+							? Data[K] extends infer R
+								? R extends Record<string, unknown>
+									? ExactOptional<S, R, Merge, NoFlatten, false>
+									: DeepPartialExceptArray<S>
+								: never
+							: Data[K] extends Delete
+							? NoFlatten extends true
+								? TopLevel extends false
+									? ErrorNonTopLevelDeleteField
+									: IsSetDeleteAbleFieldValueValid<
+											S,
+											Data[K],
+											K & string,
+											Merge
+									  >
 								: IsSetDeleteAbleFieldValueValid<S, Data[K], K & string, Merge>
 							: IsSetDeleteAbleFieldValueValid<S, Data[K], K & string, Merge>
-						: IsSetDeleteAbleFieldValueValid<S, Data[K], K & string, Merge>
+						: T[K]
 					: T[K]
-				: T[K]
-	  }
-	: HandleUnknownMember<T, Data>
+		  }
+		: HandleUnknownMember<DeepPartialExceptArray<T>, Data>
+	: never
 
 // dont need recursive as deleteField only work on top level, but this is more future proof
 // for non merge field set only

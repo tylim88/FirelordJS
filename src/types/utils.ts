@@ -66,3 +66,11 @@ export type DeepPartialExceptArray<T> = T extends (infer A)[]
 	  }
 
 export type EmptyObject = NonNullable<unknown>
+
+export type RemoveOptionalNever<T> = {
+	[K in keyof T as Partial<T>[K] extends T[K]
+		? Required<T>[K][] extends never[]
+			? never
+			: K
+		: K]: T[K]
+}

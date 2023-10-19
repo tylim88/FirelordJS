@@ -70,7 +70,7 @@ describe('test exact optional', () => {
 					false,
 					true
 				>,
-				{ a?: false | { b: 1; c: 2 } | { b?: 1; c?: 2 } }
+				{ a?: false | { b?: 1; c?: 2 } }
 			>
 		>()
 
@@ -86,10 +86,6 @@ describe('test exact optional', () => {
 				{
 					a?:
 						| false
-						| {
-								b: 1
-								c: 2
-						  }
 						| {
 								b?: 1
 								c?: 2
@@ -122,7 +118,7 @@ describe('test exact optional', () => {
 									d: 3
 								}
 						  >
-						| { b: 1; c: 2 }
+						| { b?: 1; c?: 2 }
 				}
 			>
 		>()
