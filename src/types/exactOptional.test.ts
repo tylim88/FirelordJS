@@ -176,7 +176,23 @@ describe('test exact optional', () => {
 					false,
 					true
 				>,
-				{ a?: { [x: string]: ServerTimestamp | undefined } | undefined }
+				{ a?: { [x: string]: ServerTimestamp | undefined } }
+			>
+		>()
+
+		IsTrue<
+			IsSame<
+				ExactOptional<
+					{ a: Record<string, { a: ServerTimestamp; b: number }>; b: string },
+					{ a: { [x: string]: { b: number } } },
+					false,
+					false,
+					true
+				>,
+				{
+					a?: { [x: string]: { a?: ServerTimestamp; b?: number } | undefined }
+					b?: string
+				}
 			>
 		>()
 
