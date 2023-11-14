@@ -60,7 +60,7 @@ export interface DocumentSnapshot<T extends MetaType> {
 	get<FieldPath extends keyof T['writeFlatten'] & string>(
 		fieldPath: FieldPath,
 		options?: SnapshotOptions
-	): DeepValue<ObjectFlatten<T['read']>, FieldPath> | undefined
+	): DeepValue<ObjectFlatten<T['read'], never>, FieldPath> | undefined
 	/**
 	 * Property of the `DocumentSnapshot` that provides the document's ID.
 	 */

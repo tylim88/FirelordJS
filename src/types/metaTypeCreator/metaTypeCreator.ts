@@ -16,44 +16,42 @@ export type MetaTypeCreator<
 		allFieldsPossiblyReadAsUndefined?: boolean
 		banNull?: boolean
 	} = { allFieldsPossiblyReadAsUndefined: false; banNull: false }
-> = ObjectFlatten<Base> extends infer R
-	? (Settings['banNull'] extends true ? null : never) extends infer S
-		? {
-				base: Base
-				read: Exclude<
-					ReadConverter<
-						Base,
-						Settings['allFieldsPossiblyReadAsUndefined'] extends true
-							? undefined
-							: never,
-						S
-					>,
-					undefined
-				>
-				write: WriteConverter<Base, S>
-				writeMerge: WriteUpdateConverter<Base, S>
-				writeFlatten: WriteUpdateConverter<R, S>
-				compare: CompareConverter<R, S> & __name__Record
-				collectionID: NoUndefinedAndBannedTypes<
-					string extends CollectionID
-						? ErrorCollectionIDString
-						: IsValidID<CollectionID, 'Collection', 'ID'>,
-					never
-				>
-				collectionPath: Parent extends MetaType
-					? `${Parent['collectionPath']}/${Parent['docID']}/${CollectionID}`
-					: CollectionID
-				docID: IsValidID<DocID, 'Document', 'ID'>
-				docPath: Parent extends MetaType
-					? `${Parent['collectionPath']}/${Parent['docID']}/${CollectionID}/${DocID}`
-					: `${CollectionID}/${DocID}`
-				parent: Parent
-				ancestors: Parent extends MetaType
-					? [
-							...Parent['ancestors'],
-							MetaTypeCreator<Base, CollectionID, DocID, Parent, Settings>
-					  ]
-					: [MetaTypeCreator<Base, CollectionID, DocID, Parent, Settings>]
-		  }
-		: never
+> = (Settings['banNull'] extends true ? null : never) extends infer S
+	? {
+			base: Base
+			read: Exclude<
+				ReadConverter<
+					Base,
+					Settings['allFieldsPossiblyReadAsUndefined'] extends true
+						? undefined
+						: never,
+					S
+				>,
+				undefined
+			>
+			write: WriteConverter<Base, S>
+			writeMerge: WriteUpdateConverter<Base, S>
+			writeFlatten: WriteUpdateConverter<ObjectFlatten<Base, string>, S>
+			compare: CompareConverter<ObjectFlatten<Base, never>, S> & __name__Record
+			collectionID: NoUndefinedAndBannedTypes<
+				string extends CollectionID
+					? ErrorCollectionIDString
+					: IsValidID<CollectionID, 'Collection', 'ID'>,
+				never
+			>
+			collectionPath: Parent extends MetaType
+				? `${Parent['collectionPath']}/${Parent['docID']}/${CollectionID}`
+				: CollectionID
+			docID: IsValidID<DocID, 'Document', 'ID'>
+			docPath: Parent extends MetaType
+				? `${Parent['collectionPath']}/${Parent['docID']}/${CollectionID}/${DocID}`
+				: `${CollectionID}/${DocID}`
+			parent: Parent
+			ancestors: Parent extends MetaType
+				? [
+						...Parent['ancestors'],
+						MetaTypeCreator<Base, CollectionID, DocID, Parent, Settings>
+				  ]
+				: [MetaTypeCreator<Base, CollectionID, DocID, Parent, Settings>]
+	  }
 	: never

@@ -774,61 +774,29 @@ describe('test Firelord type', () => {
 		}
 
 		type WriteFlatten = {
-			[x: `a.${string}`]: string
-			a: Record<string, string>
+			a: {
+				[x: string]: string
+			}
 			b: {
-				// @ts-expect-error
 				[x: string]: {
-					[x: `c.${string}`]: number | Increment
-					c: Record<string, number | Increment>
+					c: {
+						[x: string]: number | Increment
+					}
 				}
-				// @ts-expect-error
-				[x: `${string}`]: {
-					c: Record<string, number | Increment>
-					[x: `c.${string}`]: number | Increment
-				}
-				// @ts-expect-error
-				[x: `${string}.c`]: Record<string, number | Increment>
-				// @ts-expect-error
-				[x: `${string}.c.${string}`]: number | Increment
 			}
-			[x: `b.${string}`]: {
-				c: Record<string, number | Increment>
-				[x: `c.${string}`]: number | Increment
-			}
-			// @ts-expect-error
-			[x: `b.${string}.c`]: Record<string, number | Increment>
-			// @ts-expect-error
-			[x: `b.${string}.c.${string}`]: number | Increment
 		}
 
 		type Compare = {
-			[x: `a.${string}`]: string
-			a: Record<string, string>
+			a: {
+				[x: string]: string
+			}
 			b: {
-				// @ts-expect-error
 				[x: string]: {
-					[x: `c.${string}`]: number
-					c: Record<string, number>
+					c: {
+						[x: string]: number
+					}
 				}
-				// @ts-expect-error
-				[x: `${string}`]: {
-					c: Record<string, number>
-					[x: `c.${string}`]: number
-				}
-				// @ts-expect-error
-				[x: `${string}.c`]: Record<string, number>
-				// @ts-expect-error
-				[x: `${string}.c.${string}`]: number
 			}
-			[x: `b.${string}`]: {
-				c: Record<string, number>
-				[x: `c.${string}`]: number
-			}
-			// @ts-expect-error
-			[x: `b.${string}.c`]: Record<string, number>
-			// @ts-expect-error
-			[x: `b.${string}.c.${string}`]: number
 		} & __name__Record
 
 		IsTrue<IsSame<ExpectRead, Read>>

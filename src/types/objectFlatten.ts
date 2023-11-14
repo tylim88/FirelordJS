@@ -1,10 +1,14 @@
 export type RemoveLastDot<T extends string> = T extends `${infer R}.` ? R : T
 
-export type DeepKey<T, K extends keyof T = keyof T> = K extends string
-	? T[K] extends infer R
-		? R extends Record<string, unknown>
-			? `${K}.` | `${K}.${DeepKey<R>}`
-			: `${K}.`
+export type DeepKey<T, DontFlatMap extends string> = keyof T extends infer K
+	? string extends K & DontFlatMap
+		? never
+		: K extends string
+		? T[K & keyof T] extends infer R
+			? R extends Record<string, unknown>
+				? `${K}.` | `${K}.${DeepKey<R, DontFlatMap>}`
+				: `${K}.`
+			: never // impossible route
 		: never // impossible route
 	: never // impossible route
 
@@ -19,10 +23,18 @@ export type DeepValue<
 		: never // impossible route
 	: T[P & keyof T]
 
-export type ObjectFlatten<Data> = Data extends Record<string, unknown>
-	? {
-			[K in DeepKey<Data> as RemoveLastDot<K>]-?: ObjectFlatten<
-				DeepValue<Data, RemoveLastDot<K>>
-			>
-	  }
+export type ObjectFlatten<
+	Data,
+	DontFlatMap extends string
+> = Data extends Record<string, unknown>
+	? string extends keyof Data
+		? Data extends Record<string, unknown>
+			? Record<string, ObjectFlatten<Data[string], DontFlatMap>>
+			: Data[string]
+		: {
+				[K in DeepKey<Data, string> as RemoveLastDot<K>]-?: ObjectFlatten<
+					DeepValue<Data, RemoveLastDot<K>>,
+					DontFlatMap
+				>
+		  }
 	: Data
