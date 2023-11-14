@@ -1,6 +1,5 @@
 import { OriFieldValue } from './alias'
 import { ErrorArrayFieldValueEmpty } from './error'
-import { JSONServerTimestamp } from './json'
 
 declare const serverTimestampSymbol: unique symbol
 declare const deleteFieldSymbol: unique symbol
@@ -44,8 +43,4 @@ export type ArrayRemoveOrUnionFunction = <Elements extends unknown[]>(
 
 export type UnassignedAbleFieldValue = Increment | ArrayUnionOrRemove<unknown>
 
-export type FieldValues =
-	| ServerTimestamp
-	| UnassignedAbleFieldValue
-	| Delete
-	| JSONServerTimestamp
+export type FieldValues = ServerTimestamp | UnassignedAbleFieldValue | Delete

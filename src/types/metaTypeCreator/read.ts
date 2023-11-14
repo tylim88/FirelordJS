@@ -15,67 +15,51 @@ import {
 } from '../fieldValues'
 import { DocumentReference } from '../refs'
 import { MetaType } from './metaType'
-import {
-	JSONDate,
-	JSONGeoPoint,
-	JSONServerTimestamp,
-	JSONDocumentReference,
-	JSONTimestamp,
-	JSON,
-} from '../json'
-import { ReMap } from '../utils'
-
-export type OmitSymbol<T extends JSON<unknown>> = ReMap<Omit<T, ''>>
+import { JSONGeoPoint, JSONDocumentReference, JSONTimestamp } from '../json'
 
 type ReadConverterArray<
 	T,
 	allFieldsPossiblyReadAsUndefined,
 	BannedTypes,
 	InArray extends boolean
-> = (
-	InArray extends true ? never : allFieldsPossiblyReadAsUndefined
-) extends infer U
-	? NoDirectNestedArray<
-			T,
-			T extends (infer A)[]
-				?
-						| ReadConverterArray<
-								A,
-								allFieldsPossiblyReadAsUndefined,
-								BannedTypes,
-								true
-						  >[]
-						| U
-				: T extends FieldValues
-				? ErrorFieldValueInArray
-				: T extends Date | Timestamp
-				? Timestamp | U
-				: T extends DocumentReference<MetaType> | Bytes | GeoPoint
-				? T | U
-				: T extends JSONDate | JSONTimestamp
-				? OmitSymbol<JSONTimestamp> | U
-				: T extends JSONGeoPoint | JSONDocumentReference<MetaType>
-				? OmitSymbol<T> | U
-				: T extends Record<string, unknown>
-				?
-						| {
-								[K in keyof T]-?: ReadConverterArray<
-									T[K],
-									allFieldsPossiblyReadAsUndefined,
-									BannedTypes,
-									false
-								>
-						  }
-						| U
-				: T extends PossiblyReadAsUndefined
-				? InArray extends true
-					? ErrorPossiblyUndefinedAsArrayElement
-					: undefined
-				:
-						| NoUndefinedAndBannedTypes<T, BannedTypes>
-						| allFieldsPossiblyReadAsUndefined
-	  >
-	: never
+> = NoDirectNestedArray<
+	T,
+	T extends (infer A)[]
+		?
+				| ReadConverterArray<
+						A,
+						allFieldsPossiblyReadAsUndefined,
+						BannedTypes,
+						true
+				  >[]
+				| (InArray extends true ? never : allFieldsPossiblyReadAsUndefined)
+		: T extends FieldValues
+		? ErrorFieldValueInArray
+		: T extends Date | Timestamp
+		?
+				| Timestamp
+				| (InArray extends true ? never : allFieldsPossiblyReadAsUndefined)
+		: T extends DocumentReference<MetaType> | Bytes | GeoPoint
+		? T | (InArray extends true ? never : allFieldsPossiblyReadAsUndefined)
+		: T extends Record<string, unknown>
+		?
+				| {
+						[K in keyof T]-?: ReadConverterArray<
+							T[K],
+							allFieldsPossiblyReadAsUndefined,
+							BannedTypes,
+							false
+						>
+				  }
+				| (InArray extends true ? never : allFieldsPossiblyReadAsUndefined)
+		: T extends PossiblyReadAsUndefined
+		? InArray extends true
+			? ErrorPossiblyUndefinedAsArrayElement
+			: undefined
+		:
+				| NoUndefinedAndBannedTypes<T, BannedTypes>
+				| allFieldsPossiblyReadAsUndefined
+>
 
 export type ReadConverter<T, allFieldsPossiblyReadAsUndefined, BannedTypes> =
 	NoDirectNestedArray<
@@ -93,10 +77,6 @@ export type ReadConverter<T, allFieldsPossiblyReadAsUndefined, BannedTypes> =
 			? Timestamp | allFieldsPossiblyReadAsUndefined
 			: T extends DocumentReference<MetaType> | Bytes | GeoPoint
 			? T | allFieldsPossiblyReadAsUndefined
-			: T extends JSONDate | JSONTimestamp | JSONServerTimestamp
-			? OmitSymbol<JSONTimestamp>
-			: T extends JSONGeoPoint | JSONDocumentReference<MetaType>
-			? OmitSymbol<T>
 			: T extends Record<string, unknown>
 			?
 					| {
@@ -115,3 +95,97 @@ export type ReadConverter<T, allFieldsPossiblyReadAsUndefined, BannedTypes> =
 					| NoUndefinedAndBannedTypes<T, BannedTypes>
 					| allFieldsPossiblyReadAsUndefined
 	>
+
+type ReadJSONConverterArray<
+	T,
+	allFieldsPossiblyReadAsUndefined,
+	BannedTypes,
+	InArray extends boolean
+> = NoDirectNestedArray<
+	T,
+	T extends (infer A)[]
+		?
+				| ReadJSONConverterArray<
+						A,
+						allFieldsPossiblyReadAsUndefined,
+						BannedTypes,
+						true
+				  >[]
+				| (InArray extends true ? never : allFieldsPossiblyReadAsUndefined)
+		: T extends FieldValues
+		? ErrorFieldValueInArray
+		: T extends Date | Timestamp
+		?
+				| JSONTimestamp
+				| (InArray extends true ? never : allFieldsPossiblyReadAsUndefined)
+		: T extends DocumentReference<infer R>
+		?
+				| JSONDocumentReference<R>
+				| (InArray extends true ? never : allFieldsPossiblyReadAsUndefined)
+		: T extends GeoPoint
+		?
+				| JSONGeoPoint
+				| (InArray extends true ? never : allFieldsPossiblyReadAsUndefined)
+		: T extends Bytes
+		? T | (InArray extends true ? never : allFieldsPossiblyReadAsUndefined)
+		: T extends Record<string, unknown>
+		?
+				| {
+						[K in keyof T]-?: ReadJSONConverterArray<
+							T[K],
+							allFieldsPossiblyReadAsUndefined,
+							BannedTypes,
+							false
+						>
+				  }
+				| (InArray extends true ? never : allFieldsPossiblyReadAsUndefined)
+		: T extends PossiblyReadAsUndefined
+		? InArray extends true
+			? ErrorPossiblyUndefinedAsArrayElement
+			: undefined
+		:
+				| NoUndefinedAndBannedTypes<T, BannedTypes>
+				| allFieldsPossiblyReadAsUndefined
+>
+
+export type ReadJSONConverter<
+	T,
+	allFieldsPossiblyReadAsUndefined,
+	BannedTypes
+> = NoDirectNestedArray<
+	T,
+	T extends (infer A)[]
+		?
+				| ReadJSONConverterArray<
+						A,
+						allFieldsPossiblyReadAsUndefined,
+						BannedTypes,
+						true
+				  >[]
+				| allFieldsPossiblyReadAsUndefined
+		: T extends ServerTimestamp | Date | Timestamp
+		? JSONTimestamp | allFieldsPossiblyReadAsUndefined
+		: T extends DocumentReference<infer R>
+		? JSONDocumentReference<R> | allFieldsPossiblyReadAsUndefined
+		: T extends GeoPoint
+		? JSONGeoPoint | allFieldsPossiblyReadAsUndefined
+		: T extends Bytes
+		? T | allFieldsPossiblyReadAsUndefined
+		: T extends Record<string, unknown>
+		?
+				| {
+						[K in keyof T]-?: ReadJSONConverter<
+							T[K],
+							allFieldsPossiblyReadAsUndefined,
+							BannedTypes
+						>
+				  }
+				| allFieldsPossiblyReadAsUndefined
+		: T extends Delete | PossiblyReadAsUndefined
+		? undefined
+		: T extends UnassignedAbleFieldValue
+		? ErrorUnassignedAbleFieldValue
+		:
+				| NoUndefinedAndBannedTypes<T, BannedTypes>
+				| allFieldsPossiblyReadAsUndefined
+>

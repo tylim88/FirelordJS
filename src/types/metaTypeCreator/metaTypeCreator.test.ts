@@ -1,11 +1,7 @@
 import { MetaTypeCreator } from './metaTypeCreator'
 import { MetaType } from './metaType'
 import { Timestamp, Bytes, GeoPoint } from '../alias'
-import {
-	ErrorNullBanned,
-	ErrorDirectNested,
-	ErrorFieldValueInArray,
-} from '../error'
+import { ErrorNullBanned, ErrorDirectNested } from '../error'
 import {
 	ArrayUnionOrRemove,
 	Increment,
@@ -17,14 +13,7 @@ import { DocumentReference } from '../refs'
 import { IsTrue, IsSame, IsEqual } from '../utils'
 import { Parent, User } from '../../utilForTests'
 import { __name__Record } from '../fieldPath'
-import {
-	JSONDate,
-	JSONGeoPoint,
-	JSONServerTimestamp,
-	JSONDocumentReference,
-	JSONTimestamp,
-} from '../json'
-import { OmitSymbol } from './read'
+import { JSONDocumentReference, JSONTimestamp } from '../json'
 
 describe('test Firelord type', () => {
 	it('test parents equal', () => {
@@ -64,6 +53,26 @@ describe('test Firelord type', () => {
 							| undefined
 						j: Timestamp | null | undefined
 						k: DocumentReference<MetaType> | null | undefined
+				  }
+				| undefined
+			h: string | undefined
+			i: number | null | undefined
+			l: { a: 1 | undefined } | { b: 2 | undefined } | undefined
+		}
+		type ExpectedJSON = {
+			a: 1 | null | undefined
+			b:
+				| {
+						c: 'a' | undefined
+						d: { e: false | undefined } | undefined
+						f:
+							| {
+									g: JSONTimestamp | null | undefined
+									h: 2 | undefined
+							  }[]
+							| undefined
+						j: JSONTimestamp | null | undefined
+						k: JSONDocumentReference<MetaType> | null | undefined
 				  }
 				| undefined
 			h: string | undefined
@@ -177,11 +186,13 @@ describe('test Firelord type', () => {
 		type Write = A['write']
 		type WriteFlatten = A['writeFlatten']
 		type Compare = A['compare']
+		type JSON = A['readJSON']
 
 		IsTrue<IsSame<ExpectedRead, Read>>()
 		IsTrue<IsSame<ExpectedWrite, Write>>()
 		IsTrue<IsEqual<ExpectedWriteFlatten, WriteFlatten>>()
 		IsTrue<IsEqual<ExpectedCompare, Compare>>()
+		IsTrue<IsEqual<ExpectedJSON, JSON>>()
 	})
 
 	it('test possibly read undefined', () => {
@@ -803,81 +814,6 @@ describe('test Firelord type', () => {
 		IsTrue<IsSame<ExpectWrite, Write>>
 		IsTrue<IsSame<ExpectWriteFlatten, WriteFlatten>>
 		IsTrue<IsSame<ExpectWriteMerge, Write>>
-		IsTrue<IsSame<ExpectCompare, Compare>>
-	})
-	it('test persistent type', () => {
-		type A = MetaTypeCreator<
-			{
-				a: JSONTimestamp
-				b: JSONDate
-				c: JSONServerTimestamp
-				d: JSONDocumentReference<MetaType>
-				e: JSONGeoPoint
-				f: JSONTimestamp[]
-				g: JSONDate[]
-				h: JSONServerTimestamp[]
-				i: JSONDocumentReference<MetaType>[]
-				j: JSONGeoPoint[]
-			},
-			'Persist'
-		>
-
-		type ExpectRead = A['read']
-		type ExpectWrite = A['write']
-		type ExpectWriteFlatten = A['writeFlatten']
-		type ExpectWriteMerge = A['writeMerge']
-		type ExpectCompare = A['compare']
-
-		type Read = {
-			a: OmitSymbol<JSONTimestamp>
-			b: OmitSymbol<JSONTimestamp>
-			c: OmitSymbol<JSONTimestamp>
-			d: OmitSymbol<JSONDocumentReference<MetaType>>
-			e: OmitSymbol<JSONGeoPoint>
-			f: OmitSymbol<JSONTimestamp>[]
-			g: OmitSymbol<JSONTimestamp>[]
-			h: ErrorFieldValueInArray[]
-			i: OmitSymbol<JSONDocumentReference<MetaType>>[]
-			j: OmitSymbol<JSONGeoPoint>[]
-		}
-
-		type Write = {
-			a: Timestamp | Date
-			b: Timestamp | Date
-			c: ServerTimestamp
-			d: DocumentReference<MetaType>
-			e: GeoPoint
-			f: readonly (Timestamp | Date)[] | ArrayUnionOrRemove<Timestamp | Date>
-			g: readonly (Timestamp | Date)[] | ArrayUnionOrRemove<Timestamp | Date>
-			h:
-				| readonly ErrorFieldValueInArray[]
-				| ArrayUnionOrRemove<ErrorFieldValueInArray>
-			i:
-				| readonly DocumentReference<MetaType>[]
-				| ArrayUnionOrRemove<DocumentReference<MetaType>>
-			j: readonly GeoPoint[] | ArrayUnionOrRemove<GeoPoint>
-		}
-
-		// TODO need better tests
-		type WriteFlatten = Write
-		type WriteMerge = Write
-		type Compare = {
-			a: Timestamp | Date
-			b: Timestamp | Date
-			c: Timestamp | Date
-			d: DocumentReference<MetaType>
-			e: GeoPoint
-			f: readonly (Timestamp | Date)[]
-			g: readonly (Timestamp | Date)[]
-			h: readonly ErrorFieldValueInArray[]
-			i: readonly DocumentReference<MetaType>[]
-			j: readonly GeoPoint[]
-		} & __name__Record
-
-		IsTrue<IsSame<ExpectRead, Read>>
-		IsTrue<IsSame<ExpectWrite, Write>>
-		IsTrue<IsSame<ExpectWriteFlatten, WriteFlatten>>
-		IsTrue<IsSame<ExpectWriteMerge, WriteMerge>>
 		IsTrue<IsSame<ExpectCompare, Compare>>
 	})
 })

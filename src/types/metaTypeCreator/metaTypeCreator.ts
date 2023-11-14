@@ -3,7 +3,7 @@ import { IsValidID } from '../validID'
 import { ObjectFlatten } from '../objectFlatten'
 import { __name__Record } from '../fieldPath'
 import { MetaType } from './metaType'
-import { ReadConverter } from './read'
+import { ReadConverter, ReadJSONConverter } from './read'
 import { WriteConverter, WriteUpdateConverter } from './write'
 import { CompareConverter } from './compare'
 
@@ -21,6 +21,16 @@ export type MetaTypeCreator<
 			base: Base
 			read: Exclude<
 				ReadConverter<
+					Base,
+					Settings['allFieldsPossiblyReadAsUndefined'] extends true
+						? undefined
+						: never,
+					S
+				>,
+				undefined
+			>
+			readJSON: Exclude<
+				ReadJSONConverter<
 					Base,
 					Settings['allFieldsPossiblyReadAsUndefined'] extends true
 						? undefined
