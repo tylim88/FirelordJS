@@ -12,7 +12,7 @@ type JSONGeoPointSymbol = typeof JSONGeoPointSymbol
 type JSONDocumentReferenceSymbol = typeof JSONDocumentReferenceSymbol
 
 export declare class JSON<T> {
-	protected Firelord_JSON: T
+	protected Firelord_JSON_Do_Not_Access?: T
 }
 
 export interface JSONTimestamp
