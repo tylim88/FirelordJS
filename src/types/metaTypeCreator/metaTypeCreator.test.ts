@@ -763,7 +763,7 @@ describe('test Firelord type', () => {
 		type A = MetaTypeCreator<
 			{
 				a: Record<string, string>
-				b: Record<string, { c: Record<string, number> }>
+				b: Record<string, { c: Record<string, number>; d: { e: string } }>
 			},
 			'test'
 		>
@@ -776,12 +776,15 @@ describe('test Firelord type', () => {
 
 		type Read = {
 			a: Record<string, string>
-			b: Record<string, { c: Record<string, number> }>
+			b: Record<string, { c: Record<string, number>; d: { e: string } }>
 		}
 
 		type Write = {
 			a: Record<string, string>
-			b: Record<string, { c: Record<string, number | Increment> }>
+			b: Record<
+				string,
+				{ c: Record<string, number | Increment>; d: { e: string } }
+			>
 		}
 
 		type WriteFlatten = {
@@ -793,6 +796,8 @@ describe('test Firelord type', () => {
 					c: {
 						[x: string]: number | Increment
 					}
+					d: { e: string }
+					'd.e': string
 				}
 			}
 		}
@@ -806,6 +811,8 @@ describe('test Firelord type', () => {
 					c: {
 						[x: string]: number
 					}
+					d: { e: string }
+					'd.e': string
 				}
 			}
 		} & __name__Record

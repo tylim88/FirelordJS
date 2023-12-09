@@ -84,6 +84,10 @@
 </div>
 <br/>
 
+# Note
+
+We will revamp documentation to make it cleaner and straight to the points
+
 # FirelordJS
 
 FirelordJS is the only library capable of providing truly generic type safety while exposing almost all the API of the official Firestore SDK. The goal is to end Firestore typing madness.

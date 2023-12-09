@@ -74,7 +74,7 @@ describe('test set transaction and overloading', () => {
 	it('test delete functionality, with db and options', async () => {
 		const docRef = userRefCreator().doc(
 			'FirelordTest',
-			'setTransactionTestCaseRead'
+			'setTransactionTestCaseDelete'
 		)
 		const data = generateRandomData()
 		await setDoc(docRef, data)
