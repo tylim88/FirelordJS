@@ -69,7 +69,8 @@ export type ErrorWhereNoNeverEmptyArray =
 export type ErrorCursorTooManyArguments =
 	`Error: Too many arguments provided to 'startAt/startAfter/endAt/endBefore'. The number of arguments must be less than or equal to the number of 'orderBy()' clauses than come before it`
 export type ErrorUnknownMember<T> =
-	`Error: Please remove the unknown member '${T & string}'`
+	`Error: The value might be incorrect or '${T &
+		string}' is an unknown property`
 export type ErrorWhereDocumentFieldPath =
 	`If field path is document ID, then value must be string`
 export type ErrorArrayFieldValueEmpty =

@@ -1,6 +1,6 @@
 {
 	"name": "firelordjs",
-	"version": "2.7.1",
+	"version": "2.7.2",
 	"description": "🔥 High Precision Typescript Wrapper for Firestore Web, Providing Unparalleled Type Safe and Dev Experience",
 	"author": "tylim",
 	"license": "MIT",
