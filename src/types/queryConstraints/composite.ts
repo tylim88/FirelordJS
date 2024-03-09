@@ -22,7 +22,7 @@ type QueryCompositeFilter<T extends MetaType, Type extends 'and' | 'or'> = <
 	...queryFilterConstraints: QFCs extends never
 		? QFCs
 		: QFCs extends never[]
-		? ErrorEmptyCompositeFilter
+		? [ErrorEmptyCompositeFilter]
 		: QueryFilterConstraintLimitation<
 				T,
 				Q,

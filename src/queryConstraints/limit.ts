@@ -5,7 +5,11 @@ import {
 import { LimitCreator } from '../types'
 
 export const limitCreator: LimitCreator = (type, clause) => limit => {
-	return { type, ref: clause(limit) }
+	return {
+		type,
+		// @ts-expect-error
+		ref: clause(limit),
+	}
 }
 
 /**
