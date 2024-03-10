@@ -247,7 +247,7 @@ Object unions type was banned before v2.6.2 because it brings uncertainty that c
 1. Bytes type is not working correctly and is unusable.
 2. The rule `You can use at most one array-contains or array-contains-any clause per query. You can't combine array-contains with array-contains-any` is not enabled, see this [release note](https://github.com/tylim88/FirelordJS/releases/tag/2.5.9)
 3. The type check of composite query (`or()` / `and()`) value is wrong if the field is `__name__` of collection reference, example: `query(collectionRef, or(where("__name__", "==", "id_only_not_full_path")))` result in false negative because Firelord will ask for full path but we only need full path if the reference is group collection.
-4. Significant lag when trying to import anything from the library.
+4. Significant lag when trying to import anything from the library. (turn out this is due to [Import Cost](https://github.com/wix/import-cost/issues/323) VS Code extension. This extension is no longer maintained, please uninstall it.)
 
 ## Trivial
 
