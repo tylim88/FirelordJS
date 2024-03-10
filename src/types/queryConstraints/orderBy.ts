@@ -1,5 +1,5 @@
 import { OrderByDirection, QueryOrderByConstraint } from '../alias'
-import { MetaType } from '../metaTypeCreator'
+import { MetaType, GetAllCompareKeys } from '../metaTypeCreator'
 import { __name__ } from '../fieldPath'
 
 export type OrderByConstraint<FieldPath extends string> = {
@@ -10,7 +10,7 @@ export type OrderByConstraint<FieldPath extends string> = {
 
 export type OrderBy = <
 	T extends MetaType,
-	FieldPath extends (keyof T['compare'] & string) | __name__,
+	FieldPath extends GetAllCompareKeys<T> | __name__,
 	DirectionStr extends OrderByDirection | undefined = undefined
 >(
 	fieldPath: FieldPath,
