@@ -12,12 +12,12 @@ type DU = MetaTypeCreator<
 	| { x: { y: 1; z: 2; u: 3 } | { y: 'a'; w: 'b'; v: 'c' } | false },
 	'abc'
 >
-const du = getFirelord<DU>(getFirestore(), 'abc')
 
-const docRef = du.doc('123')
 describe('test discrimination unions', () => {
 	it('test update', () => {
 		;() => {
+			const du = getFirelord<DU>(getFirestore(), 'abc')
+			const docRef = du.doc('123')
 			updateDoc(docRef, { a: { b: 1 } })
 			// @ts-expect-error
 			updateDoc(docRef, { a: { b: 2 } })
@@ -75,6 +75,7 @@ describe('test discrimination unions', () => {
 
 	it('test query', () => {
 		;() => {
+			const du = getFirelord<DU>(getFirestore(), 'abc')
 			query(du.collection(), where('a.b', '==', 1))
 			// @ts-expect-error
 			query(du.collection(), where('a.b', '==', 2))
