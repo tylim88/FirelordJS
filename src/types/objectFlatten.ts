@@ -12,18 +12,15 @@ export type DeepKey<T, DontFlatMap extends string> = keyof T extends infer K
 		: never // impossible route
 	: never // impossible route
 
-export type DeepValue<
-	T,
-	P extends string
-> = P extends `${infer K}.${infer Rest}`
-	? T extends T
+export type DeepValue<T, P extends string> = T extends T
+	? P extends `${infer K}.${infer Rest}`
 		? T[K & keyof T] extends infer S
 			? S extends S
 				? DeepValue<S, Rest>
 				: never // impossible route
 			: never // impossible route
-		: never // impossible route
-	: T[P & keyof T]
+		: T[P & keyof T]
+	: never // impossible route
 
 export type ObjectFlatten<
 	Data,

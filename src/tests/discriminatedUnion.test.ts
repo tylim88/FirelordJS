@@ -9,7 +9,9 @@ import {
 
 type DU = MetaTypeCreator<
 	| { a: { b: 1; c: 2 } | { b: 'a'; d: 'b' } }
-	| { x: { y: 1; z: 2; u: 3 } | { y: 'a'; w: 'b'; v: 'c' } | false },
+	| { x: { y: 1; z: 2; u: 3 } | { y: 'a'; w: 'b'; v: 'c' } | false }
+	| { c: false }
+	| { c: true; v: 0 },
 	'abc'
 >
 
@@ -25,6 +27,10 @@ describe('test discrimination unions', () => {
 			updateDoc(docRef, { 'a.b': 1 })
 			// @ts-expect-error
 			updateDoc(docRef, { 'a.b': 2 })
+
+			updateDoc(docRef, { v: 0 })
+			// @ts-expect-error
+			updateDoc(docRef, { v: 1 })
 
 			const v = false as boolean
 
@@ -79,6 +85,10 @@ describe('test discrimination unions', () => {
 			query(du.collection(), where('a.b', '==', 1))
 			// @ts-expect-error
 			query(du.collection(), where('a.b', '==', 2))
+
+			query(du.collection(), where('v', '==', 0))
+			// @ts-expect-error
+			query(du.collection(), where('v', '==', 1))
 		}
 	})
 })
