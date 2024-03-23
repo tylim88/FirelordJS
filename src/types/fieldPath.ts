@@ -12,6 +12,7 @@ import {
 	ErrorNumberOfForwardSlashIsNotEqual,
 	ErrorPleaseDoConstAssertion,
 } from './error'
+import { DeepValue } from './objectFlatten'
 
 export type __name__ = '__name__'
 export type __name__Record = Record<__name__, unknown>
@@ -42,5 +43,5 @@ export type GetCorrectDocumentIdBasedOnRef<
 			: never // impossible route
 		: DocumentReference<T>
 	: FieldPath extends string
-	? T['compare'][FieldPath]
+	? DeepValue<T['compare'], FieldPath>
 	: never // impossible route

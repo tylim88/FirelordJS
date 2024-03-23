@@ -90,7 +90,7 @@ export type ErrorCannotUseNotInOrQuery = // ! only throw at runtime if 'or' has 
 	"Error: You cannot use 'not-in' in 'or' query, nested or not. But can be neighbor in 'and' query , eg: and(where('a','not-in',[1]), or(where('b','>',2), where('c','<',1)))"
 export type ErrorEmptyCompositeFilter = 'Error: Your filter is empty'
 export type ErrorColRefOrderByDocumentIDCursorNoSlash<T extends string> =
-	`Error: When querying a collection and ordering by documentId(), the value passed to endAt() must be a plain document ID, but ${T} contains a slash.`
+	`Error: When querying a collection and ordering by documentId(), the value passed to 'startAt/startAfter/endAt/endBefore' must be a plain document ID, but ${T} contains a slash.`
 export type ErrorNonTopLevelDeleteField =
 	`Error: In non-flatten operations, deleteField() must appear at top level`
 export type ErrorDocIdIncorrectType =

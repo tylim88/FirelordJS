@@ -16,9 +16,11 @@ export type DeepValue<
 	T,
 	P extends string
 > = P extends `${infer K}.${infer Rest}`
-	? T[K & keyof T] extends infer S
-		? S extends S
-			? DeepValue<S, Rest>
+	? T extends T
+		? T[K & keyof T] extends infer S
+			? S extends S
+				? DeepValue<S, Rest>
+				: never // impossible route
 			: never // impossible route
 		: never // impossible route
 	: T[P & keyof T]

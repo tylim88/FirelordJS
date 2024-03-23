@@ -1,19 +1,32 @@
-import { MetaTypeCreator, getFirelord, getFirestore, updateDoc } from '../index'
+import {
+	MetaTypeCreator,
+	getFirelord,
+	getFirestore,
+	updateDoc,
+	query,
+	where,
+} from '../index'
 
+type DU = MetaTypeCreator<
+	| { a: { b: 1; c: 2 } | { b: 'a'; d: 'b' } }
+	| { x: { y: 1; z: 2; u: 3 } | { y: 'a'; w: 'b'; v: 'c' } | false },
+	'abc'
+>
+const du = getFirelord<DU>(getFirestore(), 'abc')
+
+type C = DU['compare']
+
+const docRef = du.doc('123')
 describe('test discrimination unions', () => {
 	it('test update', () => {
 		;() => {
-			type DU = MetaTypeCreator<
-				| { a: { b: 1; c: 2 } | { b: 'a'; d: 'b' } }
-				| { x: { y: 1; z: 2; u: 3 } | { y: 'a'; w: 'b'; v: 'c' } | false },
-				'abc'
-			>
-
-			const du = getFirelord<DU>(getFirestore(), 'abc')
-
-			const docRef = du.doc('123')
-
 			updateDoc(docRef, { a: { b: 1 } })
+			// @ts-expect-error
+			updateDoc(docRef, { a: { b: 2 } })
+
+			updateDoc(docRef, { 'a.b': 1 })
+			// @ts-expect-error
+			updateDoc(docRef, { 'a.b': 2 })
 
 			const v = false as boolean
 
@@ -30,8 +43,7 @@ describe('test discrimination unions', () => {
 				x,
 			})
 
-			// should be ok but error
-			// this error is unrelated to const assertion because of const modifier on type parameters
+			// ok as expected
 			updateDoc(docRef, {
 				x: v
 					? {
@@ -61,5 +73,11 @@ describe('test discrimination unions', () => {
 			// @ts-expect-error
 			updateDoc(docRef, data)
 		}
+	})
+
+	it('test query', () => {
+		query(du.collection(), where('a.b', '==', 1))
+		// @ts-expect-error
+		query(du.collection(), where('a.b', '==', 2))
 	})
 })
