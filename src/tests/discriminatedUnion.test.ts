@@ -14,8 +14,6 @@ type DU = MetaTypeCreator<
 >
 const du = getFirelord<DU>(getFirestore(), 'abc')
 
-type C = DU['compare']
-
 const docRef = du.doc('123')
 describe('test discrimination unions', () => {
 	it('test update', () => {
@@ -76,8 +74,10 @@ describe('test discrimination unions', () => {
 	})
 
 	it('test query', () => {
-		query(du.collection(), where('a.b', '==', 1))
-		// @ts-expect-error
-		query(du.collection(), where('a.b', '==', 2))
+		;() => {
+			query(du.collection(), where('a.b', '==', 1))
+			// @ts-expect-error
+			query(du.collection(), where('a.b', '==', 2))
+		}
 	})
 })
