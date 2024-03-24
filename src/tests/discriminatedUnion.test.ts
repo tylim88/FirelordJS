@@ -12,7 +12,8 @@ type DU = MetaTypeCreator<
 	| { x: { y: 1; z: 2; u: 3 } | { y: 'a'; w: 'b'; v: 'c' } | false }
 	| { c: false }
 	| { c: true; v: 0 }
-	| Record<string, { k: Record<`${1 | 2 | 3}`, number> }>,
+	| Record<string, { k: Record<`${1 | 2 | 3}`, number> }>
+	| { k: Record<`${1 | 2 | 3}`, number> },
 	'abc'
 >
 
@@ -80,16 +81,19 @@ describe('test discrimination unions', () => {
 
 			updateDoc(docRef, { x: { k: { '1': 1, '2': 2 } } })
 
-			const a = { m: '1' as '1' | '2' | '3' }
-
-			const b = a.m
+			const b = 1 as const
 
 			const c = {
-				x: { k: { [b]: 1 as const } as const } as const,
+				k: { [b]: 1 as const } as const,
 			} as const
+
 			// ! should not error but this seem like TS fault
 			// @ts-expect-error
 			updateDoc(docRef, c)
+
+			updateDoc(docRef, {
+				k: { '1': 1 },
+			})
 		}
 	})
 
