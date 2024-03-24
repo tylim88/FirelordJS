@@ -63,6 +63,54 @@ type ExactOptionalArray<T, Data> = T extends (infer ElementOfBase)[]
 		: HandleUnknownMember<T, Data>
 	: T
 
+type ExceptOptionalSub<
+	T extends Record<string, unknown>,
+	K,
+	Data,
+	Merge extends boolean | string[], // this is for set merge operation only
+	NoFlatten extends boolean,
+	TopLevel extends boolean
+> = DeepValue<T, K & string> extends infer S
+	? unknown extends S
+		? ErrorKeyNotExist<K & string>
+		: S[] extends (infer BaseKeyElement)[][] | ArrayUnionOrRemove<unknown>[]
+		? Data[K & keyof Data] extends (infer DataKeyElement)[]
+			? Data[K & keyof Data] extends never[] // https://stackoverflow.com/questions/71193522/typescript-inferred-never-is-not-never
+				? DeepPartialExceptArray<S>
+				: DataKeyElement extends BaseKeyElement
+				? ExactOptionalArray<BaseKeyElement, DataKeyElement>[]
+				: BaseKeyElement[]
+			: IsSetDeleteAbleFieldValueValid<
+					S,
+					Data[K & keyof Data],
+					K & string,
+					Merge
+			  >
+		: S extends Record<string, unknown>
+		? Data[K & keyof Data] extends infer R
+			? R extends Record<string, unknown>
+				? ExactOptional<S, R, Merge, NoFlatten, false>
+				: DeepPartialExceptArray<S>
+			: never
+		: Data[K & keyof Data] extends Delete
+		? NoFlatten extends true
+			? TopLevel extends false
+				? ErrorNonTopLevelDeleteField
+				: IsSetDeleteAbleFieldValueValid<
+						S,
+						Data[K & keyof Data],
+						K & string,
+						Merge
+				  >
+			: IsSetDeleteAbleFieldValueValid<
+					S,
+					Data[K & keyof Data],
+					K & string,
+					Merge
+			  >
+		: IsSetDeleteAbleFieldValueValid<S, Data[K & keyof Data], K & string, Merge>
+	: T[K & keyof T]
+
 // type checking for non-array in update operation
 export type ExactOptional<
 	T extends Record<string, unknown>,
@@ -84,38 +132,9 @@ export type ExactOptional<
 		: keyof Data extends (string extends keyof T ? string | number : keyof T)
 		? {
 				[K in keyof T]?: K extends keyof Data
-					? DeepValue<T, K & string> extends infer S
-						? unknown extends S
-							? ErrorKeyNotExist<K & string>
-							: S[] extends
-									| (infer BaseKeyElement)[][]
-									| ArrayUnionOrRemove<unknown>[]
-							? Data[K] extends (infer DataKeyElement)[]
-								? Data[K] extends never[] // https://stackoverflow.com/questions/71193522/typescript-inferred-never-is-not-never
-									? DeepPartialExceptArray<S>
-									: DataKeyElement extends BaseKeyElement
-									? ExactOptionalArray<BaseKeyElement, DataKeyElement>[]
-									: BaseKeyElement[]
-								: IsSetDeleteAbleFieldValueValid<S, Data[K], K & string, Merge>
-							: S extends Record<string, unknown>
-							? Data[K] extends infer R
-								? R extends Record<string, unknown>
-									? ExactOptional<S, R, Merge, NoFlatten, false>
-									: DeepPartialExceptArray<S>
-								: never
-							: Data[K] extends Delete
-							? NoFlatten extends true
-								? TopLevel extends false
-									? ErrorNonTopLevelDeleteField
-									: IsSetDeleteAbleFieldValueValid<
-											S,
-											Data[K],
-											K & string,
-											Merge
-									  >
-								: IsSetDeleteAbleFieldValueValid<S, Data[K], K & string, Merge>
-							: IsSetDeleteAbleFieldValueValid<S, Data[K], K & string, Merge>
-						: T[K]
+					? ExceptOptionalSub<T, K, Data, Merge, NoFlatten, TopLevel>
+					: string extends K
+					? ExceptOptionalSub<T, K, Data, Merge, NoFlatten, TopLevel>
 					: T[K]
 		  }
 		: HandleUnknownMember<DeepPartialExceptArray<T>, Data>

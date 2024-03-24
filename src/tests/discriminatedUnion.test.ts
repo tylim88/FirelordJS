@@ -11,7 +11,8 @@ type DU = MetaTypeCreator<
 	| { a: { b: 1; c: 2 } | { b: 'a'; d: 'b' } }
 	| { x: { y: 1; z: 2; u: 3 } | { y: 'a'; w: 'b'; v: 'c' } | false }
 	| { c: false }
-	| { c: true; v: 0 },
+	| { c: true; v: 0 }
+	| Record<string, { k: Record<`${1 | 2 | 3}`, number> }>,
 	'abc'
 >
 
@@ -73,9 +74,17 @@ describe('test discrimination unions', () => {
 							v: 'c',
 					  },
 			}
-			// should be error because no const assertion but ok
+			// should be error because no const assertion, not an ok behavior but expected
 			// @ts-expect-error
 			updateDoc(docRef, data)
+
+			updateDoc(docRef, { random: { k: { '1': 1, '2': 2 } } })
+
+			const a = { m: '1' as '1' | '2' | '3' }
+
+			const b = a.m
+
+			updateDoc(docRef, { random: { k: { [b]: 1 } } })
 		}
 	})
 
