@@ -80,13 +80,9 @@
 </div>
 <br>
 <div align="center">
-<a href="https://firelordjs.com/quick_start" target="_blank" style="color:blue"><strong>Doc</strong></a>
+<a href="https://firelordjs.com" target="_blank" style="color:blue"><strong>Doc</strong></a>
 </div>
 <br/>
-
-# Note
-
-We will revamp documentation to make it cleaner and straight to the points
 
 # FirelordJS
 
@@ -259,14 +255,9 @@ Object unions type was banned before v2.6.2 because it brings uncertainty that c
 
 - The name Firelord is a reference to the [Firelord](https://avatar.fandom.com/wiki/Fire_Lord) of Avatar.
 - Undocumented releases are README updates.
-- [Contributing](https://firelordjs.com/contributing).
 - Documentation [Github](https://github.com/tylim88/FirelordJSDoc)
 
 ## Related Projects
-
-We are creating the best type safety tool chains for Firebase, and your support helps us make them possible:
-
-[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/AcidCoder)
 
 ✅ - Tested and production ready  
 📅 - Planning  
