@@ -78,13 +78,18 @@ describe('test discrimination unions', () => {
 			// @ts-expect-error
 			updateDoc(docRef, data)
 
-			updateDoc(docRef, { random: { k: { '1': 1, '2': 2 } } })
+			updateDoc(docRef, { x: { k: { '1': 1, '2': 2 } } })
 
 			const a = { m: '1' as '1' | '2' | '3' }
 
 			const b = a.m
 
-			updateDoc(docRef, { random: { k: { [b]: 1 } } })
+			const c = {
+				x: { k: { [b]: 1 as const } as const } as const,
+			} as const
+			// ! should not error but this seem like TS fault
+			// @ts-expect-error
+			updateDoc(docRef, c)
 		}
 	})
 
