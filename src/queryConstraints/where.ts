@@ -12,7 +12,6 @@ import { Where } from '../types'
  * @param value - The value for comparison
  * @returns The created Query.
  */
-// @ts-expect-error
 export const where: Where = (fieldPath, opStr, value) => {
 	let newValue = value
 	if (
@@ -27,6 +26,7 @@ export const where: Where = (fieldPath, opStr, value) => {
 	}
 
 	return {
+		type: 'where',
 		fieldPath,
 		opStr,
 		value,
