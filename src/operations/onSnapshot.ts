@@ -17,12 +17,7 @@ export const isOptions = (
 	return v?.includeMetadataChanges !== undefined // includeMetadataChanges is boolean, so check for undefined
 }
 
-export const onSnapshot: OnSnapshot = (
-	reference,
-	onNext,
-	onError?,
-	options?
-) => {
+export const onSnapshot: OnSnapshot = (reference, onNext, onError, options) => {
 	const newOnError = isOptions(onError) ? undefined : onError
 	const newOptions = isOptions(onError) ? onError : options || {}
 

@@ -12,7 +12,7 @@ import { setDoc as setDoc_ } from 'firebase/firestore'
  * @returns A Promise resolved once the data has been successfully written
  * to the backend (note that it won't resolve while you're offline).
  */
-export const setDoc: Set = (reference, data, options?) => {
+export const setDoc: Set = (reference, data, options) => {
 	return setDoc_(
 		// @ts-expect-error
 		reference,
