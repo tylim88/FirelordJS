@@ -8,6 +8,6 @@ export const updateCreator =
 		return transaction.update(
 			// @ts-expect-error
 			reference,
-			flatten(data) as Record<string, undefined>
+			flatten(data)
 		)
 	}

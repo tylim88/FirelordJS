@@ -7,6 +7,6 @@ export const updateNoFlattenCreator =
 		return transaction.update(
 			// @ts-expect-error
 			reference,
-			data as Record<string, undefined>
+			data
 		)
 	}
