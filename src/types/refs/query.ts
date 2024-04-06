@@ -35,7 +35,7 @@ export type GeneralQuery<T extends MetaType> =
 export type QueryFunction = <
 	T extends MetaType,
 	Q extends GeneralQuery<T>,
-	const QQCs extends readonly QueryAllConstraints<T>[]
+	const QQCs extends readonly QueryAllConstraints[]
 >(
 	query: Q extends never ? Q : GeneralQuery<T>,
 	...queryConstraints: QQCs extends never
@@ -54,7 +54,7 @@ export type QueryFunction = <
 			: FlattenQueryCompositeFilterConstraint<
 					V,
 					QQCs
-			  > extends infer AllFlattenQCs extends QueryConstraints<T>[]
+			  > extends infer AllFlattenQCs extends QueryConstraints[]
 			? ValidateOrderByAndInequalityWhere<
 					V,
 					AllFlattenQCs

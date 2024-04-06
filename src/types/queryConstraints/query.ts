@@ -1,4 +1,3 @@
-import { MetaType } from '../metaTypeCreator'
 import { WhereFilterOp } from '../alias'
 import { CursorType, CursorConstraint } from './cursor'
 import { WhereConstraint } from './where'
@@ -6,19 +5,19 @@ import { LimitConstraint } from './limit'
 import { OrderByConstraint } from './orderBy'
 import { QueryCompositeFilterConstraint } from './composite'
 
-type QueryNonFilterConstraints<T extends MetaType> =
+type QueryNonFilterConstraints =
 	| LimitConstraint<'limit' | 'limitToLast'>
 	| CursorConstraint<CursorType, unknown[]>
 	| OrderByConstraint<string>
 
-export type QueryConstraints<T extends MetaType> =
+export type QueryConstraints =
 	| WhereConstraint<string, WhereFilterOp, unknown>
-	| QueryNonFilterConstraints<T>
+	| QueryNonFilterConstraints
 
-export type QueryFilterConstraints<T extends MetaType> =
+export type QueryFilterConstraints =
 	| WhereConstraint<string, WhereFilterOp, unknown>
-	| QueryCompositeFilterConstraint<T, 'and' | 'or', QueryFilterConstraints<T>[]>
+	| QueryCompositeFilterConstraint<'and' | 'or', QueryFilterConstraints[]>
 
-export type QueryAllConstraints<T extends MetaType> =
-	| QueryConstraints<T>
-	| QueryCompositeFilterConstraint<T, 'and' | 'or', QueryFilterConstraints<T>[]>
+export type QueryAllConstraints =
+	| QueryConstraints
+	| QueryCompositeFilterConstraint<'and' | 'or', QueryFilterConstraints[]>

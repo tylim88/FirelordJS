@@ -6,9 +6,8 @@ import { ErrorEmptyCompositeFilter } from '../error'
 import { OriQueryCompositeFilterConstraint } from '../alias'
 
 export type QueryCompositeFilterConstraint<
-	T extends MetaType,
 	Y extends 'and' | 'or',
-	X extends QueryFilterConstraints<T>[]
+	X extends QueryFilterConstraints[]
 > = {
 	type: Y
 	constraints: X
@@ -17,7 +16,7 @@ export type QueryCompositeFilterConstraint<
 
 type QueryCompositeFilter<T extends MetaType, Type extends 'and' | 'or'> = <
 	Q extends GeneralQuery<T>,
-	QFCs extends QueryFilterConstraints<T>[]
+	QFCs extends QueryFilterConstraints[]
 >(
 	...queryFilterConstraints: QFCs extends never
 		? QFCs
@@ -28,9 +27,9 @@ type QueryCompositeFilter<T extends MetaType, Type extends 'and' | 'or'> = <
 				Q,
 				QFCs,
 				[],
-				QueryCompositeFilterConstraint<T, Type, QFCs>
+				QueryCompositeFilterConstraint<Type, QFCs>
 		  >
-) => QueryCompositeFilterConstraint<T, Type, QFCs>
+) => QueryCompositeFilterConstraint<Type, QFCs>
 
 /**
  * Creates a new {@link QueryCompositeFilterConstraint} that is a conjunction of

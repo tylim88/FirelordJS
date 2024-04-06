@@ -31,7 +31,7 @@ import {
 // If you include a filter with a range comparison (<, <=, >, >=), your first ordering must be on the same field
 export type ValidateOrderByAndInequalityWhere<
 	T extends MetaType,
-	AllQCs extends readonly QueryConstraints<T>[]
+	AllQCs extends readonly QueryConstraints[]
 > = GetFirstInequalityWhere<T, AllQCs> extends infer W extends WhereConstraint<
 	string,
 	InequalityOpStr,
@@ -49,12 +49,12 @@ export type ValidateOrderByAndInequalityWhere<
 export type QueryConstraintLimitation<
 	T extends MetaType,
 	Q extends GeneralQuery<T>,
-	RestQQCs extends readonly QueryAllConstraints<T>[],
-	PreviousQCs extends readonly QueryConstraints<T>[],
-	AllQCs extends readonly QueryConstraints<T>[]
+	RestQQCs extends readonly QueryAllConstraints[],
+	PreviousQCs extends readonly QueryConstraints[],
+	AllQCs extends readonly QueryConstraints[]
 > = RestQQCs extends [
-	infer Head extends QueryAllConstraints<T>,
-	...infer Rest extends QueryAllConstraints<T>[]
+	infer Head extends QueryAllConstraints,
+	...infer Rest extends QueryAllConstraints[]
 ]
 	? [
 			Head extends LimitConstraint<'limit'> | OrderByConstraint<string>
@@ -72,9 +72,8 @@ export type QueryConstraintLimitation<
 				: Head extends CursorConstraint<CursorType, unknown[]>
 				? CursorConstraintLimitation<T, Q, Head, PreviousQCs>
 				: Head extends QueryCompositeFilterConstraint<
-						T,
 						'and' | 'or',
-						QueryFilterConstraints<T>[]
+						QueryFilterConstraints[]
 				  >
 				? QueryFilterConstraintLimitation<
 						T,

@@ -6,8 +6,10 @@ export const andCreator: AndCreator =
 	() =>
 	// @ts-expect-error
 	(...queryConstraints) => {
-		// @ts-expect-error
-		const constraints = queryBuilder(queryConstraints)
+		const constraints = queryBuilder(
+			// @ts-expect-error
+			queryConstraints
+		)
 		return {
 			type: 'and',
 			constraints,
@@ -19,8 +21,10 @@ export const orCreator: OrCreator =
 	() =>
 	// @ts-expect-error
 	(...queryConstraints) => {
-		// @ts-expect-error
-		const constraints = queryBuilder(queryConstraints)
+		const constraints = queryBuilder(
+			// @ts-expect-error
+			queryConstraints
+		)
 		return {
 			type: 'or',
 			constraints,

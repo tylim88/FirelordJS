@@ -1,4 +1,4 @@
-import { QueryAllConstraints, MetaType, QueryFilterConstraints } from '../types'
+import { QueryAllConstraints, QueryFilterConstraints } from '../types'
 
 export const buildPathFromColIDsAndDocIDs = ({
 	collectionIDs,
@@ -14,9 +14,7 @@ export const buildPathFromColIDsAndDocIDs = ({
 }
 
 export const queryBuilder = (
-	queryConstraints:
-		| QueryAllConstraints<MetaType>[]
-		| QueryFilterConstraints<MetaType>[]
+	queryConstraints: QueryAllConstraints[] | QueryFilterConstraints[]
 ) =>
 	queryConstraints.reduce((acc, qc) => {
 		const type = qc.type

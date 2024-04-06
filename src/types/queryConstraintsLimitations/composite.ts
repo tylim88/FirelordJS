@@ -22,22 +22,20 @@ import { NotIn } from './utils'
 
 type GetAllQueryFilterCompositeConstraint<
 	T extends MetaType,
-	QQCs extends readonly QueryAllConstraints<T>[],
+	QQCs extends readonly QueryAllConstraints[],
 	QueryCompositeConstraintAcc extends QueryCompositeFilterConstraint<
-		T,
 		'and' | 'or',
-		QueryFilterConstraints<T>[]
+		QueryFilterConstraints[]
 	>
-> = QQCs extends [infer H, ...infer R extends QueryAllConstraints<T>[]]
+> = QQCs extends [infer H, ...infer R extends QueryAllConstraints[]]
 	?
 			| QueryCompositeConstraintAcc
 			| GetAllQueryFilterCompositeConstraint<
 					T,
 					R,
 					| (H extends QueryCompositeFilterConstraint<
-							T,
 							'and' | 'or',
-							QueryFilterConstraints<T>[]
+							QueryFilterConstraints[]
 					  >
 							? H
 							: never)
@@ -49,7 +47,7 @@ type GetAllQueryFilterCompositeConstraint<
 // check where + or/and
 export type ValidateTopLevelQueryCompositeFilterPartOne<
 	T extends MetaType,
-	AllQQCs extends readonly QueryAllConstraints<T>[]
+	AllQQCs extends readonly QueryAllConstraints[]
 > = AllQQCs extends (infer P)[]
 	? Extract<P, WhereConstraint<string, WhereFilterOp, unknown>> extends never
 		? true
@@ -62,13 +60,12 @@ export type ValidateTopLevelQueryCompositeFilterPartOne<
 // check or/and + or/and
 export type ValidateTopLevelQueryCompositeFilterPartTwo<
 	T extends MetaType,
-	AllQQCs extends readonly QueryAllConstraints<T>[],
+	AllQQCs extends readonly QueryAllConstraints[],
 	AlreadyExist extends boolean = false
-> = AllQQCs extends [infer Head, ...infer Rest extends QueryAllConstraints<T>[]]
+> = AllQQCs extends [infer Head, ...infer Rest extends QueryAllConstraints[]]
 	? Head extends QueryCompositeFilterConstraint<
-			T,
 			'and' | 'or',
-			QueryFilterConstraints<T>[]
+			QueryFilterConstraints[]
 	  >
 		? AlreadyExist extends false
 			? ValidateTopLevelQueryCompositeFilterPartTwo<T, Rest, true>
@@ -78,18 +75,17 @@ export type ValidateTopLevelQueryCompositeFilterPartTwo<
 
 export type FlattenQueryCompositeFilterConstraint<
 	T extends MetaType,
-	QQCs extends readonly QueryAllConstraints<T>[],
-	ACC extends QueryConstraints<T>[] = []
-> = QQCs extends [infer Head, ...infer Rest extends QueryAllConstraints<T>[]]
+	QQCs extends readonly QueryAllConstraints[],
+	ACC extends QueryConstraints[] = []
+> = QQCs extends [infer Head, ...infer Rest extends QueryAllConstraints[]]
 	? FlattenQueryCompositeFilterConstraint<
 			T,
 			Rest,
-			Head extends QueryConstraints<T>
+			Head extends QueryConstraints
 				? [...ACC, Head]
 				: Head extends QueryCompositeFilterConstraint<
-						T,
 						'and' | 'or',
-						QueryFilterConstraints<T>[]
+						QueryFilterConstraints[]
 				  >
 				? [
 						...ACC,
@@ -106,22 +102,17 @@ export type FlattenQueryCompositeFilterConstraint<
 export type QueryFilterConstraintLimitation<
 	T extends MetaType,
 	Q extends GeneralQuery<T>,
-	RestQQCs extends readonly QueryAllConstraints<T>[],
-	PreviousQCs extends readonly QueryConstraints<T>[],
+	RestQQCs extends readonly QueryAllConstraints[],
+	PreviousQCs extends readonly QueryConstraints[],
 	ParentConstraint extends QueryCompositeFilterConstraint<
-		T,
 		'and' | 'or',
-		QueryFilterConstraints<T>[]
+		QueryFilterConstraints[]
 	>
 > = RestQQCs extends [
 	infer Head extends
-		| QueryConstraints<T>
-		| QueryCompositeFilterConstraint<
-				T,
-				'and' | 'or',
-				QueryFilterConstraints<T>[]
-		  >,
-	...infer Rest extends QueryAllConstraints<T>[]
+		| QueryConstraints
+		| QueryCompositeFilterConstraint<'and' | 'or', QueryFilterConstraints[]>,
+	...infer Rest extends QueryAllConstraints[]
 ]
 	? [
 			Head extends
@@ -138,12 +129,10 @@ export type QueryFilterConstraintLimitation<
 						: WhereConstraintLimitation<T, Q, Head, PreviousQCs>
 					: WhereConstraintLimitation<T, Q, Head, PreviousQCs>
 				: Head extends QueryCompositeFilterConstraint<
-						T,
 						'and' | 'or',
-						QueryFilterConstraints<T>[]
+						QueryFilterConstraints[]
 				  >
 				? QueryCompositeFilterConstraint<
-						T,
 						Head['type'],
 						QueryFilterConstraintLimitation<
 							T,
