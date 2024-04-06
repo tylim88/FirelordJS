@@ -33,8 +33,7 @@ export type ValidateOrderByAndInequalityWhere<
 	T extends MetaType,
 	AllQCs extends readonly QueryConstraints<T>[]
 > = GetFirstInequalityWhere<T, AllQCs> extends infer W extends WhereConstraint<
-	T,
-	any,
+	string,
 	InequalityOpStr,
 	unknown
 >
@@ -62,7 +61,7 @@ export type QueryConstraintLimitation<
 				? Head
 				: Head extends LimitConstraint<'limitToLast'>
 				? LimitToLastConstraintLimitation<T, Head, AllQCs>
-				: Head extends WhereConstraint<T, any, WhereFilterOp, unknown>
+				: Head extends WhereConstraint<string, WhereFilterOp, unknown>
 				? ValidateWhereArrayContainsArrayContainsAny<
 						T,
 						Head,

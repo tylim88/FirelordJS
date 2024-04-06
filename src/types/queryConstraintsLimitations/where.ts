@@ -30,7 +30,7 @@ import { DeepValue } from '../objectFlatten'
 // You can't combine 'not-in' with 'or', 'in', 'array-contains-any', or '!=' in the same query.
 type ValidateWhereNotIn<
 	T extends MetaType,
-	U extends WhereConstraint<T, any, WhereFilterOp, unknown>,
+	U extends WhereConstraint<string, WhereFilterOp, unknown>,
 	PreviousQCs extends readonly QueryConstraints<T>[]
 > = U['opStr'] extends NotIn
 	? Extract<
@@ -51,7 +51,7 @@ type ValidateWhereNotIn<
 // You cannot use more than one '!=' filter. (undocumented)
 type ValidateWhereNotEqual<
 	T extends MetaType,
-	U extends WhereConstraint<T, any, WhereFilterOp, unknown>,
+	U extends WhereConstraint<string, WhereFilterOp, unknown>,
 	PreviousQCs extends readonly QueryConstraints<T>[]
 > = U['opStr'] extends NotEqual
 	? Extract<
@@ -65,7 +65,7 @@ type ValidateWhereNotEqual<
 // You can use at most one array-contains or array-contains-any clause per query. You can't combine array-contains with array-contains-any.
 export type ValidateWhereArrayContainsArrayContainsAny<
 	T extends MetaType,
-	U extends WhereConstraint<T, any, WhereFilterOp, unknown>,
+	U extends WhereConstraint<string, WhereFilterOp, unknown>,
 	PreviousQCs extends readonly QueryConstraints<T>[]
 > = U['opStr'] extends ArrayContains
 	? Extract<
@@ -86,20 +86,20 @@ export type ValidateWhereArrayContainsArrayContainsAny<
 // In a compound query, range (<, <=, >, >=) and not equals (!=, not-in) comparisons must all filter on the same field.
 type ValidateWhereInequalityOpStrSameField<
 	T extends MetaType,
-	U extends WhereConstraint<T, any, WhereFilterOp, unknown>,
+	U extends WhereConstraint<string, WhereFilterOp, unknown>,
 	PreviousQCs extends readonly QueryConstraints<T>[]
 > = U['opStr'] extends InequalityOpStr
 	? Extract<
 			GetAllWhereConstraint<T, PreviousQCs, never>,
-			WhereConstraint<T, any, InequalityOpStr, unknown>
+			WhereConstraint<string, InequalityOpStr, unknown>
 	  > extends never
 		? true
 		: Exclude<
 				Extract<
 					GetAllWhereConstraint<T, PreviousQCs, never>,
-					WhereConstraint<T, any, InequalityOpStr, unknown>
+					WhereConstraint<string, InequalityOpStr, unknown>
 				>,
-				WhereConstraint<T, U['fieldPath'], InequalityOpStr, unknown>
+				WhereConstraint<U['fieldPath'], InequalityOpStr, unknown>
 		  > extends never
 		? true
 		: ErrorWhereInequalityOpStrSameField
@@ -109,7 +109,7 @@ export type GetFirstInequalityWhere<
 	T extends MetaType,
 	QCs extends readonly QueryConstraints<T>[]
 > = QCs extends [infer H, ...infer Rest extends readonly QueryConstraints<T>[]]
-	? H extends WhereConstraint<T, any, InequalityOpStr, unknown>
+	? H extends WhereConstraint<string, InequalityOpStr, unknown>
 		? H
 		: GetFirstInequalityWhere<T, Rest>
 	: true // not found, no check needed
@@ -117,7 +117,7 @@ export type GetFirstInequalityWhere<
 export type GetAllWhereConstraint<
 	T extends MetaType,
 	AllQCs extends readonly QueryConstraints<T>[],
-	WhereConstraintsAcc extends WhereConstraint<T, any, WhereFilterOp, unknown>
+	WhereConstraintsAcc extends WhereConstraint<string, WhereFilterOp, unknown>
 > = AllQCs extends [infer H, ...infer R]
 	? R extends readonly QueryConstraints<T>[]
 		?
@@ -125,7 +125,7 @@ export type GetAllWhereConstraint<
 				| GetAllWhereConstraint<
 						T,
 						R,
-						| (H extends WhereConstraint<T, any, WhereFilterOp, unknown>
+						| (H extends WhereConstraint<string, WhereFilterOp, unknown>
 								? H
 								: never)
 						| WhereConstraintsAcc
@@ -144,7 +144,7 @@ type GetAllWhereConstraintOpStr<
 				| GetAllWhereConstraintOpStr<
 						T,
 						R,
-						| (H extends WhereConstraint<T, any, WhereFilterOp, unknown>
+						| (H extends WhereConstraint<string, WhereFilterOp, unknown>
 								? H['opStr']
 								: never)
 						| OpStrAcc
@@ -155,7 +155,7 @@ type GetAllWhereConstraintOpStr<
 export type WhereConstraintLimitation<
 	T extends MetaType,
 	Q extends GeneralQuery<T>,
-	U extends WhereConstraint<T, any, WhereFilterOp, unknown>,
+	U extends WhereConstraint<string, WhereFilterOp, unknown>,
 	PreviousQCs extends readonly QueryConstraints<T>[]
 > = ValidateWhereNotIn<T, U, PreviousQCs> extends infer R extends string
 	? R
@@ -169,14 +169,12 @@ export type WhereConstraintLimitation<
 	? K
 	: U['opStr'] extends ValueOfOptStr
 	? WhereConstraint<
-			T,
 			U['fieldPath'],
 			U['opStr'],
 			GetCorrectDocumentIdBasedOnRef<T, Q, U['fieldPath'], U['value']>
 	  >
 	: U['opStr'] extends ArrayOfOptStr
 	? WhereConstraint<
-			T,
 			U['fieldPath'],
 			U['opStr'],
 			U['value'] extends readonly never[]
@@ -187,7 +185,6 @@ export type WhereConstraintLimitation<
 	  >
 	: U['opStr'] extends ValueOfOnlyArrayOptStr
 	? WhereConstraint<
-			T,
 			U['fieldPath'],
 			U['opStr'],
 			U['value'] extends readonly never[]
@@ -198,7 +195,6 @@ export type WhereConstraintLimitation<
 	  >
 	: U['opStr'] extends ElementOfOptStr
 	? WhereConstraint<
-			T,
 			U['fieldPath'],
 			U['opStr'],
 			DeepValue<T['compare'], U['fieldPath']> extends readonly (infer R)[]

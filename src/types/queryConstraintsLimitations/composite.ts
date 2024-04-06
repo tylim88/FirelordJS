@@ -51,7 +51,7 @@ export type ValidateTopLevelQueryCompositeFilterPartOne<
 	T extends MetaType,
 	AllQQCs extends readonly QueryAllConstraints<T>[]
 > = AllQQCs extends (infer P)[]
-	? Extract<P, WhereConstraint<T, any, WhereFilterOp, unknown>> extends never
+	? Extract<P, WhereConstraint<string, WhereFilterOp, unknown>> extends never
 		? true
 		: GetAllQueryFilterCompositeConstraint<T, AllQQCs, never> extends never
 		? true
@@ -129,7 +129,7 @@ export type QueryFilterConstraintLimitation<
 				| OrderByConstraint<string>
 				| CursorConstraint<CursorType, unknown[]>
 				? ErrorOrAndInvalidConstraints
-				: Head extends WhereConstraint<T, any, WhereFilterOp, unknown>
+				: Head extends WhereConstraint<string, WhereFilterOp, unknown>
 				? Head['opStr'] extends NotIn
 					? 'or' extends ParentConstraint['type']
 						? ParentConstraint['constraints']['length'] extends 1
