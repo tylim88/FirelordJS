@@ -259,22 +259,8 @@ Object unions type was banned before v2.6.2 because it brings uncertainty that c
 
 ## Related Projects
 
-✅ - Tested and production ready  
-📅 - Planning  
-✍️ - To Rewrite  
-🔨 - To Repurpose (rewrite to do something else)  
-🔥 - Maintaining  
-🏗️ - Building  
-🛑 - On Hold  
-❓ - May Discontinue/Cancel  
-❌ - Cancelled
-
-1. [FirelordJS](https://github.com/tylim88/FirelordJS) - Typescript wrapper for Firestore Web. ✅🔥
-2. [Firelord](https://github.com/tylim88/Firelord) - Typescript wrapper for Firestore Admin. ✅🔥
-3. [FireSageJS](https://github.com/tylim88/FireSageJS) - Typescript wrapper for Realtime Database Web ✅
-4. FireSage - Typescript wrapper for Realtime Database Admin. 📅❓
-5. [FireSword](https://github.com/tylim88/Firesword) - (new purpose) Firestore Zod Runtime Validation (Firelord Code First Approach).✅📅🔨
-6. [FireLaw](https://github.com/tylim88/FireLaw) - (new purpose) Firestore Security Rules VS Code extension type linter based on Firelord type.🛑📅🔨
-7. ??? - Firelord and Firesage Front End Intergration 📅
-8. [FireCall](https://github.com/tylim88/FireCall) - Helper Function to write easier and safer Firebase onCall function.✅✍️❓
-9. [Firelordrn](https://github.com/tylim88/FirelordRN) - Typescript wrapper for Firestore React Native ❌([Expo support Firebase JS SDK](https://docs.expo.dev/guides/using-firebase/), which mean you can use Firelord Web version)
+1. [FirelordJS](https://github.com/tylim88/FirelordJS) - Typescript wrapper for Firestore Web.
+2. [Firelord](https://github.com/tylim88/Firelord) - Typescript wrapper for Firestore Admin.
+3. [FireSageJS](https://github.com/tylim88/FireSageJS) - Typescript wrapper for Realtime Database Web
+4. [Firelordrn](https://github.com/tylim88/FirelordRN) - Typescript wrapper for Firestore React Native
+5. FireSage - Typescript wrapper for Realtime Database Admin.
