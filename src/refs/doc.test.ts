@@ -37,7 +37,6 @@ describe('simple collection type test', () => {
 		const id = 'abc'
 		const id2 = 'xyz'
 		const ref = grandChildRefCreator().doc('FirelordTest', id, id2)
-		const parentRef = grandChildRefCreator().collection('FirelordTest', id)
 
 		expect(ref.id).toBe('xyz')
 		expect(ref.path).toBe(`topLevel/FirelordTest/Users/${id}/GrandChild/${id2}`)

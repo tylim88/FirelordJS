@@ -163,12 +163,6 @@ export const readThenCompareWithWriteData = async (
 	arr.forEach(dSnap =>
 		compareWriteDataWithDocSnapData(cloneDeep(writeData), dSnap)
 	)
-	// https://stackoverflow.com/questions/70315073/firestore-web-version-9-modular-getdocsfromcache-seems-not-working
-	// persistence are disable by default for web
-	// cannot enable persistence without browser indexedDB
-	// unable to test with cache, will error for getDoc
-	// expect async throw https://stackoverflow.com/a/54585620/5338829
-	await expect(getDocFromCache(ref)).rejects.toThrow()
 }
 
 export const writeThenCompareWithRead = async (

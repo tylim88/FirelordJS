@@ -1,9 +1,4 @@
-import {
-	initializeApp,
-	grandChildRefCreator,
-	userRefCreator,
-	User,
-} from '../utilForTests'
+import { initializeApp, grandChildRefCreator, User } from '../utilForTests'
 import { IsSame, IsTrue, DocumentReference } from '../types'
 
 initializeApp()
@@ -50,7 +45,6 @@ describe('simple collection type test', () => {
 	it('test props value and type', () => {
 		const id = 'abc'
 		const ref = grandChildRef.collection('FirelordTest', id)
-		const parentRef = userRefCreator().doc('FirelordTest', id)
 		expect(ref.id).toBe('GrandChild')
 		expect(ref.path).toBe(`topLevel/FirelordTest/Users/${id}/GrandChild`)
 
