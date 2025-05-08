@@ -4,7 +4,6 @@ import {
 	userRefCreator,
 	User,
 } from '../utilForTests'
-import { refEqual } from '../equal'
 import { IsSame, IsTrue, DocumentReference } from '../types'
 
 initializeApp()
@@ -55,7 +54,6 @@ describe('simple collection type test', () => {
 		expect(ref.id).toBe('GrandChild')
 		expect(ref.path).toBe(`topLevel/FirelordTest/Users/${id}/GrandChild`)
 
-		expect(refEqual(ref.parent, parentRef)).toBe(true)
 		expect(ref.type).toBe('collection')
 
 		IsTrue<IsSame<typeof ref.id, 'GrandChild'>>()

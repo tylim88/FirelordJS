@@ -74,7 +74,6 @@ export * from './fieldValues'
 export * from './operations'
 export * from './queryConstraints'
 export * from './refs'
-export * from './equal'
 
 export type {
 	MetaType,

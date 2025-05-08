@@ -17,7 +17,6 @@ import {
 } from '../types'
 import { query } from '../refs'
 import { where } from '../queryConstraints'
-import { snapshotEqual, queryEqual, refEqual } from '../equal'
 
 initializeApp()
 const queryTest = async (
@@ -76,41 +75,6 @@ const queryTest = async (
 		await compareWriteDataWithDocSnapData(data, queryDocumentSnapshotServer)
 	}
 	// ====================== server
-
-	// snapshotEqual =====================
-	expect(snapshotEqual(querySnapshotCache, querySnapshotCache)).toBe(true)
-	expect(snapshotEqual(querySnapshotServer, querySnapshotServer)).toBe(true)
-	expect(snapshotEqual(querySnapshot, querySnapshot)).toBe(true)
-	// expect(snapshotEqual(querySnapshot, querySnapshotServer)).toBe(true) // ! sometime true sometime false, why?
-	expect(snapshotEqual(querySnapshotCache, querySnapshotServer)).toBe(false)
-	expect(snapshotEqual(querySnapshotCache, querySnapshot)).toBe(false)
-	// =====================snapshotEqual
-
-	const incorrectDocRef = userRefCreator().doc('FirelordTest', 'abc')
-
-	// refEqual =====================
-	expect(refEqual(queryDocumentSnapshot!.ref, docRef)).toBe(true)
-	expect(refEqual(queryDocumentSnapshotServer!.ref, docRef)).toBe(true)
-	expect(refEqual(queryDocumentSnapshot!.ref, incorrectDocRef)).toBe(false)
-	expect(refEqual(queryDocumentSnapshotServer!.ref, incorrectDocRef)).toBe(
-		false
-	)
-	// ===================== refEqual
-
-	// queryEqual =====================
-	expect(queryEqual(queryDocumentSnapshot!.ref.parent, docRef.parent)).toBe(
-		true
-	)
-	expect(
-		queryEqual(queryDocumentSnapshotServer!.ref.parent, docRef.parent)
-	).toBe(true)
-	expect(
-		queryEqual(queryDocumentSnapshot!.ref.parent, incorrectDocRef.parent)
-	).toBe(true)
-	expect(
-		queryEqual(queryDocumentSnapshotServer!.ref.parent, incorrectDocRef.parent)
-	).toBe(true)
-	// ===================== queryEqual
 }
 
 describe('test getDocs', () => {

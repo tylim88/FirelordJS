@@ -13,7 +13,6 @@ import betwin from 'betwin'
 import { getDoc, getDocFromCache, getDocFromServer } from './operations'
 import { flatten } from './utils'
 import { cloneDeep } from 'lodash'
-import { snapshotEqual } from './equal'
 import { arrayUnion, increment, serverTimestamp } from './fieldValues'
 
 export const initializeApp = () => {
@@ -159,8 +158,6 @@ export const readThenCompareWithWriteData = async (
 ) => {
 	const docSnap = await getDoc(ref)
 	const docSnapServer = await getDocFromServer(ref)
-
-	expect(snapshotEqual(docSnapServer, docSnap)).toBe(true)
 
 	const arr = [docSnap, docSnapServer]
 	arr.forEach(dSnap =>
