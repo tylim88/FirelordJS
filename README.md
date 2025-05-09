@@ -84,6 +84,16 @@
 </div>
 <br/>
 
+# V3
+
+V3 will be a complete rewrite. Given Firebase’s ever-changing nature, I’m planning to remove rules-safety and focus solely on type-safety. Honestly, nobody cares about rules-safety — removing it will greatly simplify the library and make it much easier to maintain.
+
+I’ll also drop the enforced best practices, taking a more liberal approach that lets users decide what works best for them.
+
+The new API will follow a code-first approach, unlike the current type-first design — inspired by [ElectroDB](https://github.com/tywalch/electrodb).
+
+Due to limited manpower, there’s no ETA yet, but I’m aiming to finish it before 2026.
+
 # FirelordJS
 
 FirelordJS is the only library capable of providing truly generic type safety while exposing almost all the API of the official Firestore SDK. The goal is to end Firestore typing madness.

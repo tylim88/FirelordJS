@@ -10,7 +10,7 @@ import {
 import { initializeApp as initializeApp_ } from 'firebase/app'
 import pick from 'pick-random'
 import betwin from 'betwin'
-import { getDoc, getDocFromCache, getDocFromServer } from './operations'
+import { getDoc, getDocFromServer } from './operations'
 import { flatten } from './utils'
 import { cloneDeep } from 'lodash'
 import { arrayUnion, increment, serverTimestamp } from './fieldValues'

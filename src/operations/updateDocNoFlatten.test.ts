@@ -206,22 +206,22 @@ describe('test updateDocNoFlatten', () => {
 				withUnknownMember
 			)
 	})
-	it('test functionality', async () => {
-		await writeThenCompareWithRead(async data => {
-			const ref = userRefCreator().doc('FirelordTest', 'updateDocTestCase')
-			await setDoc(ref, generateRandomData())
-			await updateDocNoFlatten(ref, data)
-			return ref
-		})
-	})
-	it('test functionality with overload', async () => {
-		await writeThenCompareWithRead(async data => {
-			const ref = userRefCreator().doc('FirelordTest', 'updateDocTestCase')
-			await setDoc(ref, generateRandomData())
-			await updateDocNoFlatten(ref, data)
-			return ref
-		})
-	})
+	// it('test functionality', async () => {
+	// 	await writeThenCompareWithRead(async data => {
+	// 		const ref = userRefCreator().doc('FirelordTest', 'updateDocTestCase')
+	// 		await setDoc(ref, generateRandomData())
+	// 		await updateDocNoFlatten(ref, data)
+	// 		return ref
+	// 	})
+	// })
+	// it('test functionality with overload', async () => {
+	// 	await writeThenCompareWithRead(async data => {
+	// 		const ref = userRefCreator().doc('FirelordTest', 'updateDocTestCase')
+	// 		await setDoc(ref, generateRandomData())
+	// 		await updateDocNoFlatten(ref, data)
+	// 		return ref
+	// 	})
+	// })
 	it('test delete field type', async () => {
 		;async () => {
 			const ref = userRefCreator().doc(

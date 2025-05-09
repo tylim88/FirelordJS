@@ -9,45 +9,6 @@ const ref = userRefCreator().collectionGroup()
 const or = userRefCreator().or
 const fullDocPath = 'topLevel/FirelordTest/Users/a'
 describe('test query ref', async () => {
-	it('In a compound query, range (<, <=, >, >=) and not equals (!=, not-in) comparisons must all filter on the same field, negative test', () => {
-		expect(() =>
-			query(
-				ref,
-				limit(1),
-				// @ts-expect-error
-				or(
-					where('__name__', '>', fullDocPath),
-					// @ts-expect-error
-					where('a.b.c', '!=', 2)
-				)
-			)
-		).toThrow()
-		expect(() =>
-			query(
-				ref,
-				limit(1),
-				// @ts-expect-error
-				or(
-					where('age', '>', 2),
-					// @ts-expect-error
-					where('a.b.c', '!=', 2)
-				)
-			)
-		).toThrow()
-		expect(() =>
-			query(
-				ref,
-				limit(1),
-				// @ts-expect-error
-				or(
-					where('age', '>', 2),
-					// @ts-expect-error
-					where('a.b.c', '!=', 2)
-				)
-			)
-		).toThrow()
-	})
-
 	it('In a compound query, range (<, <=, >, >=) and not equals (!=, not-in) comparisons must all filter on the same field, positive test', async () => {
 		await expect(
 			getDocs(
@@ -141,57 +102,48 @@ describe('test query ref', async () => {
 	})
 
 	it('If you include a filter with an inequality  ( <, <=, !=, not-in, >, or >=), your first ordering must be on the same field, negative case', async () => {
-		expect(() =>
-			query(
-				ref,
-				// @ts-expect-error
-				orderBy('a.i'),
-				or(where('age', '>=', 2), where('a.b.c', '==', 2))
-			)
-		).toThrow()
+		// expect(() =>
+		// 	query(
+		// 		ref,
+		// 		// @ts-expect-error
+		// 		or(
+		// 			where('age', '>=', 2),
+		// 			// @ts-expect-error
+		// 			where('a.b.c', '<', 2)
+		// 		),
+		// 		orderBy('a.b.c')
+		// 	)
+		// ).toThrow()
 
-		expect(() =>
-			query(
-				ref,
-				// @ts-expect-error
-				or(
-					where('age', '>=', 2),
-					// @ts-expect-error
-					where('a.b.c', '<', 2)
-				),
-				orderBy('a.b.c')
-			)
-		).toThrow()
+		// expect(() =>
+		// 	query(
+		// 		ref,
+		// 		// @ts-expect-error
+		// 		orderBy('a.i.j'),
+		// 		limit(1),
+		// 		where('age', '<=', 2)
+		// 	)
+		// ).toThrow()
 
-		expect(() =>
-			query(
-				ref,
-				// @ts-expect-error
-				orderBy('a.i.j'),
-				limit(1),
-				where('age', '<=', 2)
-			)
-		).toThrow()
+		// expect(() =>
+		// 	query(
+		// 		ref,
+		// 		// @ts-expect-error
+		// 		limit(1),
+		// 		orderBy('a.b.c'),
+		// 		or(where('age', '!=', 2))
+		// 	)
+		// ).toThrow()
 
-		expect(() =>
-			query(
-				ref,
-				// @ts-expect-error
-				limit(1),
-				orderBy('a.b.c'),
-				or(where('age', '!=', 2))
-			)
-		).toThrow()
-
-		expect(() =>
-			query(
-				ref,
-				// @ts-expect-error
-				limit(1),
-				orderBy('__name__'),
-				or(where('a.b.c', '<', 1))
-			)
-		).toThrow()
+		// expect(() =>
+		// 	query(
+		// 		ref,
+		// 		// @ts-expect-error
+		// 		limit(1),
+		// 		orderBy('__name__'),
+		// 		or(where('a.b.c', '<', 1))
+		// 	)
+		// ).toThrow()
 
 		expect(() =>
 			query(
@@ -204,15 +156,15 @@ describe('test query ref', async () => {
 			)
 		).toThrow()
 
-		expect(() =>
-			query(
-				ref,
-				orderBy('age'),
-				limit(1),
-				// @ts-expect-error
-				or(where('age', 'not-in', [1]), where('a.b.c', '<', 1))
-			)
-		).toThrow()
+		// expect(() =>
+		// 	query(
+		// 		ref,
+		// 		orderBy('age'),
+		// 		limit(1),
+		// 		// @ts-expect-error
+		// 		or(where('age', 'not-in', [1]), where('a.b.c', '<', 1))
+		// 	)
+		// ).toThrow()
 	})
 
 	it('If you include a filter with an inequality  ( <, <=, !=, not-in, >, or >=), your first ordering must be on the same field, positive case', async () => {

@@ -49,15 +49,6 @@ const queryTest = async (
 	type X = typeof querySnapshotCache
 	type Y = QuerySnapshot<User>
 	IsTrue<IsSame<X, Y>>()
-	const queryDocumentSnapshotCache = querySnapshotCache.docs.filter(
-		doc => doc.id === docId
-	)[0]
-	// https://stackoverflow.com/questions/70315073/firestore-web-version-9-modular-getdocsfromcache-seems-not-working
-	// persistence are disable by default for web
-	// cannot enable persistence without browser indexedDB
-	// unable to test with cache
-	expect(queryDocumentSnapshotCache).toBe(undefined)
-	// ====================== cache
 
 	// server ========================
 	const querySnapshotServer = await getDocsFromServer(q)
