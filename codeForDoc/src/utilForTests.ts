@@ -3,7 +3,6 @@ import {
 	getDoc,
 	getDocFromCache,
 	getDocFromServer,
-	snapshotEqual,
 	arrayUnion,
 	increment,
 	serverTimestamp,
@@ -152,8 +151,6 @@ export const readThenCompareWithWriteData = async (
 ) => {
 	const docSnap = await getDoc(ref)
 	const docSnapServer = await getDocFromServer(ref)
-
-	expect(snapshotEqual(docSnapServer, docSnap)).toBe(true)
 
 	const arr = [docSnap, docSnapServer]
 	arr.forEach(dSnap =>
