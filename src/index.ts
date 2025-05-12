@@ -1,2 +1,2 @@
-export * from '@/isOdd' // absolute path
-export * from './isEven' // relative path
+export * from "@/isOdd"; // absolute path
+export * from "./isEven"; // relative path

@@ -1,1 +1,1 @@
-export const isEven = (v: number) => !(v & 1)
+export const isEven = (v: number) => !(v & 1);
