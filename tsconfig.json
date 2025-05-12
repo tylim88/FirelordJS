@@ -1,30 +1,22 @@
 {
-	"ts-node": {
-		"compilerOptions": {
-			"module": "commonjs"
-		}
-	},
 	"compilerOptions": {
-		"isolatedModules": true,
-		"module": "es2020",
-		"declaration": true,
-		"esModuleInterop": true,
-		"sourceMap": false,
-		"noImplicitAny": true,
-		"strict": true,
-		"target": "es5",
-		"allowJs": true,
-		"emitDeclarationOnly": false,
-		"outDir": "dist",
-		"noUncheckedIndexedAccess": true,
-		"removeComments": false,
-		"resolveJsonModule": true,
 		"noEmit": true,
-		"exactOptionalPropertyTypes": true,
-		"moduleResolution": "node",
-		"types": ["vitest/globals"],
+		"lib": ["esnext"],
+		"allowJs": false,
 		"skipLibCheck": true,
-		"noErrorTruncation": true
+		"strict": true,
+		"forceConsistentCasingInFileNames": true,
+		"esModuleInterop": true,
+		"moduleResolution": "node",
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"noFallthroughCasesInSwitch": true,
+		"noUncheckedIndexedAccess": true,
+		"exactOptionalPropertyTypes": true,
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["src/*"]
+		}
 	},
 	"include": ["src"]
 }

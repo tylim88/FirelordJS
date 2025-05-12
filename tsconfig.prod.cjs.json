@@ -1,7 +1,0 @@
-{
-	"extends": "./tsconfig.prod.json",
-	"compilerOptions": {
-		"module": "CommonJS"
-	},
-	"include": ["src/index.ts"]
-}
