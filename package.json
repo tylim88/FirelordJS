@@ -6,17 +6,12 @@
 		"prepublishOnly": "npm run build",
 		"build": "pkgroll --clean-dist",
 		"test": "vitest",
-		"lint": "npx @biomejs/biome check --write ./src"
+		"lint": "npx @biomejs/biome check --write"
 	},
 	"lint-staged": {
-		"*.{ts,tsx}": [
-			"npm run lint",
-			"npx tsc"
-		]
+		"*": ["npm run lint", "npx tsc"]
 	},
-	"files": [
-		"dist"
-	],
+	"files": ["dist"],
 	"type": "module",
 	"main": "./dist/index.cjs",
 	"module": "./dist/index.mjs",
@@ -51,13 +46,7 @@
 	"homepage": "https://firelordjs.com",
 	"author": "tylim",
 	"license": "MIT",
-	"keywords": [
-		"firebase",
-		"firestore",
-		"wrapper",
-		"typescript",
-		"type-safe"
-	],
+	"keywords": ["firebase", "firestore", "wrapper", "typescript", "type-safe"],
 	"peerDependencies": {
 		"firebase": "^11.7.1"
 	}
