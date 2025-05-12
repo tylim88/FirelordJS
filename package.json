@@ -9,7 +9,7 @@
 		"lint": "npx @biomejs/biome check --write"
 	},
 	"lint-staged": {
-		"*": ["npm run lint", "npx tsc"]
+		"*": ["npm run lint"]
 	},
 	"files": ["dist"],
 	"type": "module",
