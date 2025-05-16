@@ -4,5 +4,12 @@
 			"quoteStyle": "single",
 			"semicolons": "asNeeded"
 		}
+	},
+	"linter": {
+		"rules": {
+			"complexity": {
+				"noBannedTypes": "off"
+			}
+		}
 	}
 }
