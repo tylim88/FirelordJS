@@ -38,6 +38,8 @@ getDoc(docRef).then(docSnap => {
 	//
 	//
 	//
+	//
+	//
 	const data = docSnap.data()
 })
 
