@@ -6,9 +6,9 @@ type Fields =
 	| 'date'
 	| 'geo-point'
 	| 'reference'
-	| 'array'
 	| 'map'
 	| 'record'
+	| 'boolean'
 
 type ConverterWrite<T> = T extends 'string'
 	? string
@@ -16,15 +16,17 @@ type ConverterWrite<T> = T extends 'string'
 		? number
 		: never
 
-type Model<T extends Fields> = {
+export type Model<
+	T extends Fields,
+	U extends false | 'tuple' | 'array' = false,
+> = {
 	type: T
 	required?: boolean | (() => ConverterWrite<T>)
 	nullable?: boolean
 	deletable?: boolean
-} & (T extends 'array'
-	? {
-			element: Model<Fields>
-		}
+	isArray?: U
+} & (U extends 'array'
+	? {}
 	: T extends number
 		? {
 				increment?: 'allowed' | 'always' | 'never'
